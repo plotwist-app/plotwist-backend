@@ -6,4 +6,5 @@ export default {
   out: 'src/db/migrations',
   dialect: 'postgresql',
   dbCredentials: { url: env.DATABASE_URL },
+  schemaFilter: ['auth', 'public'],
 } satisfies Config
