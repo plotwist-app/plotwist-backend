@@ -13,7 +13,8 @@
     "pretest": "npm run db:migrate:test",
     "test": "dotenv -e .env.test -- vitest",
     "format": "biome check src --write",
-    "mail:dev": "email dev --dir src/mail/templates"
+    "mail:dev": "email dev --dir src/mail/templates",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
