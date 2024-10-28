@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
-
+- improve Docker compose file to create dev and test databases [#5](https://github.com/plotwist-app/plotwist-backend/pull/5)
 - improve Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1) 
 - init Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1)
 
