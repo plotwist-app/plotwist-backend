@@ -5,8 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1730076351995,
-      "tag": "20241028004551_create_followers_table",
+      "when": 1730076858314,
+      "tag": "20241028005418_create_followers_table",
       "breakpoints": true
     }
   ]
