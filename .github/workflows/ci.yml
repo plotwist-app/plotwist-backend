@@ -16,7 +16,7 @@ jobs:
         run: bun install
 
       - name: Start Test Database
-        run: docker-compose up -d
+        run: ls # temp, just to adjust the working directory
         working-directory: ./docker-compose.test.yaml
 
       - name: Wait for Database
