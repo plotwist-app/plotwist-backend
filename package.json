@@ -10,7 +10,7 @@
     "db:migrate": "dotenv -e .env -- drizzle-kit migrate",
     "db:migrate:test": "dotenv -e .env.test -- drizzle-kit migrate",
     "db:studio": "dotenv -e .env -- drizzle-kit studio",
-    "pretest": "npm run db:migrate:test",
+    "pretest": "bun run db:migrate:test",
     "test": "dotenv -e .env.test -- vitest",
     "format": "biome check src --write",
     "mail:dev": "email dev --dir src/mail/templates",
