@@ -1,7 +1,5 @@
 name: CI/CD
-
 on: [pull_request]
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -29,7 +27,7 @@ jobs:
       - name: Test
         run: bun run test
         env:
-          DATABASE_URL: "postgresql://testing:testing@localhost:5432/testing?schema=public"
+          DATABASE_URL: "postgresql://testing:testing@localhost:5432/testing"
 
       - name: Types
         run: bun run typecheck
