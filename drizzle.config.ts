@@ -3,10 +3,10 @@ import type { Config } from 'drizzle-kit'
 
 export default {
   schema: 'src/db/schema/index.ts',
-  out: 'src/db/migrations',
+  out: 'priv/migrations',
   dialect: 'postgresql',
   dbCredentials: { url: env.DATABASE_URL },
-  schemaFilter: ['auth', 'public'],
+  schemaFilter: ['public'],
   migrations: {
     prefix: 'timestamp',
   },

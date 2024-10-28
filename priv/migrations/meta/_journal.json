@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1730076858314,
+      "tag": "20241028005418_create_followers_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1730117727958,
+      "tag": "20241028121527_create_likes_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1730156016332,
+      "tag": "20241028225336_create_likes_table",
+      "breakpoints": true
+    }
+  ]
+}
