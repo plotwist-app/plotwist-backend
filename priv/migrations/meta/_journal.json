@@ -5,22 +5,36 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1730076858314,
-      "tag": "20241028005418_create_followers_table",
+      "when": 1730157288550,
+      "tag": "20241028231448_create_followers_table",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1730117727958,
-      "tag": "20241028121527_create_likes_table",
+      "when": 1730157312214,
+      "tag": "20241028231512_create_likes_table",
       "breakpoints": true
     },
     {
       "idx": 2,
       "version": "7",
-      "when": 1730156016332,
-      "tag": "20241028225336_create_likes_table",
+      "when": 1730157357074,
+      "tag": "20241028231557_create_list_items_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1730157375224,
+      "tag": "20241028231615_create_list_likes_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1730157718622,
+      "tag": "20241028232158_create_lists_table",
       "breakpoints": true
     }
   ]
