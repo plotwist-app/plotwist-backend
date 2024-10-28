@@ -1,4 +1,4 @@
-name: plotwist-test
+version: '3.8'
 
 services:
   pg:
