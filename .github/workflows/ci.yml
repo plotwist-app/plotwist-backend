@@ -5,6 +5,17 @@ on: [pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: bitnami/postgresql
+        ports:
+          - 5432:5432
+        env:
+          POSTGRESQL_USERNAME: testing
+          POSTGRESQL_PASSWORD: testing
+          POSTGRESQL_DATABASE: testing
+
     steps:
       - uses: actions/checkout@v4
 
@@ -12,25 +23,13 @@ jobs:
         with:
           bun-version: 1.1.33
 
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
       - name: Install
         run: bun install
 
-      - name: Start Test Database
-        run: docker-compose -f docker-compose.test.yaml up -d
-
-      - name: Wait for Database
-        run: sleep 15
-
       - name: Test
         run: bun run test
-
-      - name: Stop Test Database
-        run: docker-compose down
+        env:
+          DATABASE_URL: "postgresql://testing:testing@localhost:5432/testing?schema=public"
 
       - name: Types
         run: bun run typecheck
