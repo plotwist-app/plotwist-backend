@@ -16,8 +16,8 @@ jobs:
         run: bun install
 
       - name: Start Test Database
-        run: docker-compose up -d
-        working-directory: docker-compose.test.yaml
+        working-directory: ./docker
+        run: docker-compose -f docker-compose.test.yaml up -d
 
       - name: Wait for Database
         run: sleep 15
@@ -26,8 +26,8 @@ jobs:
         run: bun run test
 
       - name: Stop Test Database
+        working-directory: ./docker
         run: docker-compose down
-        working-directory: docker-compose.test.yaml
 
       - name: Types
         run: bun run typecheck
