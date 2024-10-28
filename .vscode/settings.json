@@ -6,7 +6,9 @@
   "dotenv.enableAutocloaking": false,
   "cSpell.words": [
     "biomejs",
+    "bunx",
     "fastify",
+    "positionals",
     "tsup"
   ]
 }

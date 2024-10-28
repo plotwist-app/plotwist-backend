@@ -7,4 +7,7 @@ export default {
   dialect: 'postgresql',
   dbCredentials: { url: env.DATABASE_URL },
   schemaFilter: ['auth', 'public'],
+  migrations: {
+    prefix: 'timestamp',
+  },
 } satisfies Config
