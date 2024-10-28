@@ -1,9 +1,10 @@
 import { randomUUID } from 'node:crypto'
-import { relations } from 'drizzle-orm'
+
 import {
   PgUUID,
   bigint,
   integer,
+  pgEnum,
   pgTable,
   text,
   time,
@@ -11,6 +12,21 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
+
+export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
+
+export const listVisibilityEnum = pgEnum('list_visibility', [
+  'PUBLIC',
+  'NETWORK',
+  'PRIVATE',
+])
+
+export const subscriptionTypeEnum = pgEnum('subscription_type', [
+  'MEMBER',
+  'PRO',
+])
+
+export const mediaTypeEnum = pgEnum('media_type', ['TV_SHOW', 'MOVIE'])
 
 export const followers = pgTable('followers', {
   id: text('id')
@@ -25,7 +41,7 @@ export const likes = pgTable('likes', {
   id: text('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
-  entityType: varchar('entity_type').notNull(),
+  entityType: likeEntityEnum('entity_type').notNull(),
   reviewId: uuid('review_id'),
   reviewReplyId: uuid('review_reply_id'),
   userId: uuid('user_id').notNull(),

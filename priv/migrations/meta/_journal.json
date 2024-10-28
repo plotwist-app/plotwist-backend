@@ -36,6 +36,34 @@
       "when": 1730157718622,
       "tag": "20241028232158_create_lists_table",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1730159062269,
+      "tag": "20241028234422_create_like_entity_enum",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1730159162925,
+      "tag": "20241028234602_create_list_visibility_enum",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1730159196904,
+      "tag": "20241028234636_create_media_type_enum",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1730159228781,
+      "tag": "20241028234708_create_subscription_type_enum",
+      "breakpoints": true
     }
   ]
 }
