@@ -8,11 +8,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- improve Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1) 
+- improve Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1)
 - init Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1)
 
 ### Added
 
+- add CI/CD workflow [(#2)](https://github.com/plotwist-app/plotwist-backend/pull/2)
 - add changelog File [(#3)](https://github.com/plotwist-app/plotwist-backend/pull/3)
 - remove unused stuffs [(#12e87f0)](https://github.com/plotwist-app/plotwist-backend/commit/12e87f05c6a7f804057535c373bb8788a7520459)
 - add base schema relations for authentication entities [(#b2d5390)](https://github.com/plotwist-app/plotwist-backend/commit/b2d53907af46d5961329966642455f1b37922465)
