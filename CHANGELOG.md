@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- add PR template File [(#4)](https://github.com/plotwist-app/plotwist-backend/pull/4)
 - add changelog File [(#3)](https://github.com/plotwist-app/plotwist-backend/pull/3)
 - remove unused stuffs [(#12e87f0)](https://github.com/plotwist-app/plotwist-backend/commit/12e87f05c6a7f804057535c373bb8788a7520459)
 - add base schema relations for authentication entities [(#b2d5390)](https://github.com/plotwist-app/plotwist-backend/commit/b2d53907af46d5961329966642455f1b37922465)
