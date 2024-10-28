@@ -3,5 +3,12 @@
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "dotenv.enableAutocloaking": false
+  "dotenv.enableAutocloaking": false,
+  "cSpell.words": [
+    "biomejs",
+    "bunx",
+    "fastify",
+    "positionals",
+    "tsup"
+  ]
 }

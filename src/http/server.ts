@@ -7,10 +7,10 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
-import { env } from '../env'
-import { registerReviewRoute } from './routes/register-review'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
+import { env } from '../env'
+import { registerReviewRoute } from './routes/register-review'
 
 const app = fastify()
 app.setValidatorCompiler(validatorCompiler)
