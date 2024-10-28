@@ -1,5 +1,4 @@
 import { client, db } from '.'
-import { schema } from './schema'
 
 async function main() {
   console.log('🌱 Database seeded!')
