@@ -1,20 +1,17 @@
 import { randomUUID } from 'node:crypto'
 
 import {
-  PgUUID,
   boolean,
   index,
   integer,
   pgEnum,
   pgTable,
   primaryKey,
-  time,
   timestamp,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-import { profile } from 'node:console'
 
 export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
 
