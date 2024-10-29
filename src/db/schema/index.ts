@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto'
 import {
   PgUUID,
   boolean,
+  index,
   integer,
   pgEnum,
   pgTable,
@@ -40,22 +41,29 @@ export const languagesEnum = pgEnum('languages', [
 
 export const mediaTypeEnum = pgEnum('media_type', ['TV_SHOW', 'MOVIE'])
 
-export const followers = pgTable('followers', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  followerId: uuid('follower_id')
-    .references(() => profiles.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
-  followedId: uuid('followed_id')
-    .references(() => profiles.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
-  createdAt: timestamp('createdAt').defaultNow().notNull(),
-})
+export const followers = pgTable(
+  'followers',
+  {
+    followerId: uuid('follower_id')
+      .references(() => profiles.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    followedId: uuid('followed_id')
+      .references(() => profiles.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    createdAt: timestamp('createdAt').defaultNow().notNull(),
+  },
+  table => {
+    return {
+      pk: primaryKey({
+        columns: [table.followedId, table.followerId],
+      }),
+    }
+  }
+)
 
 export const followersRelations = relations(followers, ({ one }) => ({
   followerProfile: one(profiles, {
@@ -84,6 +92,7 @@ export const likes = pgTable('likes', {
       onDelete: 'cascade',
     })
     .notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
 export const likesRelations = relations(likes, ({ one, many }) => ({
@@ -160,21 +169,29 @@ export const listLikesRelations = relations(listLikes, ({ one }) => ({
   }),
 }))
 
-export const lists = pgTable('lists', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  name: varchar('name'),
-  profileId: uuid('profile_id')
-    .references(() => profiles.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
-  description: varchar('description'),
-  coverPath: varchar('cover_path'),
-  visibility: listVisibilityEnum('visibility').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-})
+export const lists = pgTable(
+  'lists',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    name: varchar('name'),
+    profileId: uuid('profile_id')
+      .references(() => profiles.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    description: varchar('description'),
+    coverPath: varchar('cover_path'),
+    visibility: listVisibilityEnum('visibility').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => {
+    return {
+      profileId: index('profile_id_idx').on(table.profileId),
+    }
+  }
+)
 
 export const listRelations = relations(lists, ({ one, many }) => ({
   listItems: many(listItems),
@@ -185,17 +202,26 @@ export const listRelations = relations(lists, ({ one, many }) => ({
   }),
 }))
 
-export const profiles = pgTable('profiles', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  email: varchar('email').unique(),
-  username: varchar('username').unique().notNull(),
-  bannerPath: varchar('banner_path'),
-  subscriptionType: subscriptionTypeEnum('subscription_type'),
-  imagePath: varchar('image_path').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-})
+export const profiles = pgTable(
+  'profiles',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    email: varchar('email').unique(),
+    username: varchar('username').unique().notNull(),
+    bannerPath: varchar('banner_path'),
+    subscriptionType: subscriptionTypeEnum('subscription_type'),
+    imagePath: varchar('image_path').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => {
+    return {
+      email: index('email_idx').on(table.email),
+      username: index('username_idx').on(table.username),
+    }
+  }
+)
 
 export const profileRelations = relations(profiles, ({ one, many }) => ({
   subscriptions: many(subscriptions),

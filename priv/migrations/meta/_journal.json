@@ -120,6 +120,34 @@
       "when": 1730199779561,
       "tag": "20241029110259_add_followers_relations",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1730200098833,
+      "tag": "20241029110818_alter_followers_create_multi_value_pk",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1730200190100,
+      "tag": "20241029110950_alter_likes_add_created_at",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1730200405577,
+      "tag": "20241029111325_alter_lists_add_profileId_idx",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1730200460309,
+      "tag": "20241029111420_alter_profiles_add_username_and_email_idx",
+      "breakpoints": true
     }
   ]
 }

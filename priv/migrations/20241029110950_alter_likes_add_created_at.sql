@@ -1,0 +1,1 @@
+ALTER TABLE "likes" ADD COLUMN "created_at" timestamp DEFAULT now() NOT NULL;

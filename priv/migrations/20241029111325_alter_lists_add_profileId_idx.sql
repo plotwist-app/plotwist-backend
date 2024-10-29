@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "profile_id_idx" ON "lists" USING btree ("profile_id");
