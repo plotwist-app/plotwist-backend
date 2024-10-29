@@ -47,5 +47,11 @@
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "2.0.5",
     "zod": "3.23.8"
+  },
+  "buntest": {
+    "coverage": true,
+    "setupFiles": [
+      "./src/test/setup.ts"
+    ]
   }
 }
