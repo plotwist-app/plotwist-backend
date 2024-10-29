@@ -1,19 +1,19 @@
 name: plotwist
 
 services:
-  pg:
+  db:
+    container_name: plotwist_db
     image: bitnami/postgresql:latest
-    ports:
-      - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=plotwist-dev
-  test-pg:
-    image: bitnami/postgresql:latest
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./priv/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=plotwist-test
+      - 5432:5432
+
+volumes:
+  postgres_data:
+
+
