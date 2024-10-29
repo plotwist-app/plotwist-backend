@@ -24,4 +24,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 
-- we've removed an template/unused route"
+- we've removed an template/unused route[(#2)](https://github.com/plotwist-app/plotwist-backend/pull/2)
