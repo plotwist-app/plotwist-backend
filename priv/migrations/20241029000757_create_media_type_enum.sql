@@ -3,3 +3,5 @@ DO $$ BEGIN
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
+--> statement-breakpoint
+ALTER TABLE "list_items" ALTER COLUMN "media_type" SET DATA TYPE media_type;

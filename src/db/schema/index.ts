@@ -6,12 +6,14 @@ import {
   integer,
   pgEnum,
   pgTable,
+  primaryKey,
   text,
   time,
   timestamp,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
+import { table } from 'node:console'
 
 export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
 
@@ -21,10 +23,10 @@ export const listVisibilityEnum = pgEnum('list_visibility', [
   'PRIVATE',
 ])
 
-export const subscriptionTypeEnum = pgEnum('subscription_type', [
-  'MEMBER',
-  'PRO',
-])
+// export const subscriptionTypeEnum = pgEnum('subscription_type', [
+//   'MEMBER',
+//   'PRO',
+// ])
 
 export const mediaTypeEnum = pgEnum('media_type', ['TV_SHOW', 'MOVIE'])
 
@@ -47,19 +49,29 @@ export const likes = pgTable('likes', {
   userId: uuid('user_id').notNull(),
 })
 
-export const listItems = pgTable('list_items', {
-  id: text('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  listId: uuid('list_id').notNull().primaryKey(),
-  title: varchar('title'),
-  overview: varchar('overview'),
-  backdropPath: varchar('backdrop_path'),
-  posterPath: varchar('poster_path'),
-  tmdbId: integer('tmdb_id'),
-  mediaType: varchar('media_type'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-})
+export const listItems = pgTable(
+  'list_items',
+  {
+    id: text('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    listId: uuid('list_id').notNull().primaryKey(),
+    title: varchar('title'),
+    overview: varchar('overview'),
+    backdropPath: varchar('backdrop_path'),
+    posterPath: varchar('poster_path'),
+    tmdbId: integer('tmdb_id'),
+    mediaType: mediaTypeEnum('media_type'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => {
+    return {
+      pk: primaryKey({
+        columns: [table.id, table.listId],
+      }),
+    }
+  }
+)
 
 export const listLikes = pgTable('list_likes', {
   id: text('id')
@@ -78,6 +90,6 @@ export const lists = pgTable('lists', {
   userId: uuid('user_id').notNull(),
   description: varchar('description'),
   coverPath: varchar('cover_path'),
-  visibility: varchar('visibility').notNull(),
+  visibility: listVisibilityEnum('visibility').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

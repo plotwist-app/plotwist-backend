@@ -5,64 +5,43 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1730157288550,
-      "tag": "20241028231448_create_followers_table",
+      "when": 1730160252493,
+      "tag": "20241029000412_create_followers_table",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1730157312214,
-      "tag": "20241028231512_create_likes_table",
+      "when": 1730160374890,
+      "tag": "20241029000614_create_likes_table",
       "breakpoints": true
     },
     {
       "idx": 2,
       "version": "7",
-      "when": 1730157357074,
-      "tag": "20241028231557_create_list_items_table",
+      "when": 1730160394094,
+      "tag": "20241029000634_create_list_items_table",
       "breakpoints": true
     },
     {
       "idx": 3,
       "version": "7",
-      "when": 1730157375224,
-      "tag": "20241028231615_create_list_likes_table",
+      "when": 1730160407689,
+      "tag": "20241029000647_create_list_likes_table",
       "breakpoints": true
     },
     {
       "idx": 4,
       "version": "7",
-      "when": 1730157718622,
-      "tag": "20241028232158_create_lists_table",
+      "when": 1730160453340,
+      "tag": "20241029000733_create_lists_table",
       "breakpoints": true
     },
     {
       "idx": 5,
       "version": "7",
-      "when": 1730159062269,
-      "tag": "20241028234422_create_like_entity_enum",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1730159162925,
-      "tag": "20241028234602_create_list_visibility_enum",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1730159196904,
-      "tag": "20241028234636_create_media_type_enum",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "7",
-      "when": 1730159228781,
-      "tag": "20241028234708_create_subscription_type_enum",
+      "when": 1730160477596,
+      "tag": "20241029000757_create_media_type_enum",
       "breakpoints": true
     }
   ]

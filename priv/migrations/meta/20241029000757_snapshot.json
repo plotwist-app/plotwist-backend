@@ -1,6 +1,6 @@
 {
-  "id": "c6484790-6043-41c5-aa8c-b1ac1a51fc02",
-  "prevId": "69698c3c-b037-4ec8-87a6-e85519c69aa4",
+  "id": "45bb6ac6-7899-46dc-9383-b6c3eaaa54d6",
+  "prevId": "b7ffe68f-680d-47aa-874b-a54785a82795",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -128,7 +128,8 @@
         },
         "media_type": {
           "name": "media_type",
-          "type": "varchar",
+          "type": "media_type",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
         },
@@ -142,7 +143,15 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "list_items_id_list_id_pk": {
+          "name": "list_items_id_list_id_pk",
+          "columns": [
+            "id",
+            "list_id"
+          ]
+        }
+      },
       "uniqueConstraints": {}
     },
     "public.list_likes": {
@@ -216,7 +225,8 @@
         },
         "visibility": {
           "name": "visibility",
-          "type": "varchar",
+          "type": "list_visibility",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },

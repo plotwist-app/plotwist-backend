@@ -1,6 +1,6 @@
 {
-  "id": "613da22c-348a-4d08-be92-28731b2805cb",
-  "prevId": "b8a73603-4d14-4bd8-941c-23406ff73aa0",
+  "id": "9d05b2f4-311c-46ef-b569-32ac08d663ed",
+  "prevId": "2ac1789c-47d0-4fc3-b89f-9c60aba9bf04",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -51,7 +51,8 @@
         },
         "entity_type": {
           "name": "entity_type",
-          "type": "varchar",
+          "type": "like_entity",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -80,7 +81,16 @@
       "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "public.like_entity": {
+      "name": "like_entity",
+      "schema": "public",
+      "values": [
+        "REVIEW",
+        "REPLY"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "_meta": {

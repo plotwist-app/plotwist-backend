@@ -1,6 +1,6 @@
 {
-  "id": "89b73a2e-2a54-41ad-bc4e-b141f5e8abef",
-  "prevId": "209627b9-424b-42d9-825b-00634d225bee",
+  "id": "b7ffe68f-680d-47aa-874b-a54785a82795",
+  "prevId": "40ea2cc2-e1fe-4b0c-a160-88ce0c85e978",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -51,7 +51,8 @@
         },
         "entity_type": {
           "name": "entity_type",
-          "type": "varchar",
+          "type": "like_entity",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -141,7 +142,15 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "list_items_id_list_id_pk": {
+          "name": "list_items_id_list_id_pk",
+          "columns": [
+            "id",
+            "list_id"
+          ]
+        }
+      },
       "uniqueConstraints": {}
     },
     "public.list_likes": {
@@ -215,7 +224,8 @@
         },
         "visibility": {
           "name": "visibility",
-          "type": "varchar",
+          "type": "list_visibility",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -233,7 +243,25 @@
       "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "public.like_entity": {
+      "name": "like_entity",
+      "schema": "public",
+      "values": [
+        "REVIEW",
+        "REPLY"
+      ]
+    },
+    "public.list_visibility": {
+      "name": "list_visibility",
+      "schema": "public",
+      "values": [
+        "PUBLIC",
+        "NETWORK",
+        "PRIVATE"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "_meta": {

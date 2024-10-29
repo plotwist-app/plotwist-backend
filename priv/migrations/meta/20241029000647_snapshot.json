@@ -1,6 +1,6 @@
 {
-  "id": "9338bf39-0737-4e6d-a481-0cf25f48ec57",
-  "prevId": "89b73a2e-2a54-41ad-bc4e-b141f5e8abef",
+  "id": "40ea2cc2-e1fe-4b0c-a160-88ce0c85e978",
+  "prevId": "efbf7fab-d55c-426c-a59d-aa25cc99d7af",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -142,7 +142,15 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "list_items_id_list_id_pk": {
+          "name": "list_items_id_list_id_pk",
+          "columns": [
+            "id",
+            "list_id"
+          ]
+        }
+      },
       "uniqueConstraints": {}
     },
     "public.list_likes": {
@@ -164,59 +172,6 @@
         "user_id": {
           "name": "user_id",
           "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.lists": {
-      "name": "lists",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "cover_path": {
-          "name": "cover_path",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "visibility": {
-          "name": "visibility",
-          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },

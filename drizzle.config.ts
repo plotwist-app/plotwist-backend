@@ -6,7 +6,7 @@ export default {
   out: 'priv/migrations',
   dialect: 'postgresql',
   dbCredentials: { url: env.DATABASE_URL },
-  schemaFilter: ['public'],
+  schemaFilter: ['auth', 'public'],
   migrations: {
     prefix: 'timestamp',
   },

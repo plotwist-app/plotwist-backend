@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS "list_items" (
 	"poster_path" varchar,
 	"tmdb_id" integer,
 	"media_type" varchar,
-	"created_at" timestamp DEFAULT now() NOT NULL
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "list_items_id_list_id_pk" PRIMARY KEY("id","list_id")
 );

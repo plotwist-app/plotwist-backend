@@ -1,6 +1,6 @@
 {
-  "id": "69698c3c-b037-4ec8-87a6-e85519c69aa4",
-  "prevId": "9338bf39-0737-4e6d-a481-0cf25f48ec57",
+  "id": "efbf7fab-d55c-426c-a59d-aa25cc99d7af",
+  "prevId": "9d05b2f4-311c-46ef-b569-32ac08d663ed",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -142,95 +142,15 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.list_likes": {
-      "name": "list_likes",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "list_id": {
-          "name": "list_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
+      "compositePrimaryKeys": {
+        "list_items_id_list_id_pk": {
+          "name": "list_items_id_list_id_pk",
+          "columns": [
+            "id",
+            "list_id"
+          ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.lists": {
-      "name": "lists",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "cover_path": {
-          "name": "cover_path",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "visibility": {
-          "name": "visibility",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }
   },
@@ -241,15 +161,6 @@
       "values": [
         "REVIEW",
         "REPLY"
-      ]
-    },
-    "public.list_visibility": {
-      "name": "list_visibility",
-      "schema": "public",
-      "values": [
-        "PUBLIC",
-        "NETWORK",
-        "PRIVATE"
       ]
     }
   },
