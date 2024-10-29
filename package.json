@@ -5,15 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch --env-file=.env src/http/server.ts",
+    "build": "tsup",
+    "start": "bun run dist/http/server.js",
     "db:seed": "tsx --env-file=.env src/db/seed.ts",
     "db:generate": "dotenv -e .env -- drizzle-kit generate",
     "db:migrate": "dotenv -e .env -- drizzle-kit migrate",
     "db:migrate:test": "dotenv -e .env.test -- drizzle-kit migrate",
     "db:studio": "dotenv -e .env -- drizzle-kit studio",
-    "pretest": "npm run db:migrate:test",
+    "pretest": "bun run db:migrate:test",
     "test": "dotenv -e .env.test -- vitest",
     "format": "biome check src --write",
-    "mail:dev": "email dev --dir src/mail/templates"
+    "mail:dev": "email dev --dir src/mail/templates",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -43,6 +46,7 @@
     "tsup": "8.2.4",
     "tsx": "4.17.0",
     "typescript": "5.5.4",
+    "unplugin-swc": "^1.5.1",
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "2.0.5",
     "zod": "3.23.8"
