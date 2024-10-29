@@ -5,43 +5,36 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1730160252493,
-      "tag": "20241029000412_create_followers_table",
+      "when": 1730160816774,
+      "tag": "20241029001336_create_followers_table",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1730160374890,
-      "tag": "20241029000614_create_likes_table",
+      "when": 1730160836782,
+      "tag": "20241029001356_create_likes_table",
       "breakpoints": true
     },
     {
       "idx": 2,
       "version": "7",
-      "when": 1730160394094,
-      "tag": "20241029000634_create_list_items_table",
+      "when": 1730160860993,
+      "tag": "20241029001420_create_list_items_table",
       "breakpoints": true
     },
     {
       "idx": 3,
       "version": "7",
-      "when": 1730160407689,
-      "tag": "20241029000647_create_list_likes_table",
+      "when": 1730160881918,
+      "tag": "20241029001441_create_list_likes_table",
       "breakpoints": true
     },
     {
       "idx": 4,
       "version": "7",
-      "when": 1730160453340,
-      "tag": "20241029000733_create_lists_table",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1730160477596,
-      "tag": "20241029000757_create_media_type_enum",
+      "when": 1730160917490,
+      "tag": "20241029001517_create_lists_table",
       "breakpoints": true
     }
   ]

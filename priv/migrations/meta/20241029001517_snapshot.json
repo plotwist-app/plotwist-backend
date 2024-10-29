@@ -1,6 +1,6 @@
 {
-  "id": "b7ffe68f-680d-47aa-874b-a54785a82795",
-  "prevId": "40ea2cc2-e1fe-4b0c-a160-88ce0c85e978",
+  "id": "14129e38-f1ee-48cf-adae-eb3325e5d7d9",
+  "prevId": "6246490d-85ec-497a-a84f-578ab2af0200",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -87,13 +87,13 @@
         "id": {
           "name": "id",
           "type": "text",
-          "primaryKey": true,
-          "notNull": true
+          "primaryKey": false,
+          "notNull": false
         },
         "list_id": {
           "name": "list_id",
           "type": "uuid",
-          "primaryKey": true,
+          "primaryKey": false,
           "notNull": true
         },
         "title": {
@@ -128,7 +128,8 @@
         },
         "media_type": {
           "name": "media_type",
-          "type": "varchar",
+          "type": "media_type",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
         },
@@ -259,6 +260,14 @@
         "PUBLIC",
         "NETWORK",
         "PRIVATE"
+      ]
+    },
+    "public.media_type": {
+      "name": "media_type",
+      "schema": "public",
+      "values": [
+        "TV_SHOW",
+        "MOVIE"
       ]
     }
   },

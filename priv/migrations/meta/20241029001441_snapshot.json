@@ -1,6 +1,6 @@
 {
-  "id": "efbf7fab-d55c-426c-a59d-aa25cc99d7af",
-  "prevId": "9d05b2f4-311c-46ef-b569-32ac08d663ed",
+  "id": "6246490d-85ec-497a-a84f-578ab2af0200",
+  "prevId": "15527fb1-f2c5-4065-84d7-787b0bacb342",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -87,13 +87,13 @@
         "id": {
           "name": "id",
           "type": "text",
-          "primaryKey": true,
-          "notNull": true
+          "primaryKey": false,
+          "notNull": false
         },
         "list_id": {
           "name": "list_id",
           "type": "uuid",
-          "primaryKey": true,
+          "primaryKey": false,
           "notNull": true
         },
         "title": {
@@ -128,7 +128,8 @@
         },
         "media_type": {
           "name": "media_type",
-          "type": "varchar",
+          "type": "media_type",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": false
         },
@@ -152,6 +153,41 @@
         }
       },
       "uniqueConstraints": {}
+    },
+    "public.list_likes": {
+      "name": "list_likes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "list_id": {
+          "name": "list_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     }
   },
   "enums": {
@@ -161,6 +197,14 @@
       "values": [
         "REVIEW",
         "REPLY"
+      ]
+    },
+    "public.media_type": {
+      "name": "media_type",
+      "schema": "public",
+      "values": [
+        "TV_SHOW",
+        "MOVIE"
       ]
     }
   },

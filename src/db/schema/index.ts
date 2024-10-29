@@ -52,10 +52,8 @@ export const likes = pgTable('likes', {
 export const listItems = pgTable(
   'list_items',
   {
-    id: text('id')
-      .$defaultFn(() => randomUUID())
-      .primaryKey(),
-    listId: uuid('list_id').notNull().primaryKey(),
+    id: text('id').$defaultFn(() => randomUUID()),
+    listId: uuid('list_id').notNull(),
     title: varchar('title'),
     overview: varchar('overview'),
     backdropPath: varchar('backdrop_path'),
