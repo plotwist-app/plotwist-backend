@@ -36,6 +36,34 @@
       "when": 1730160917490,
       "tag": "20241029001517_create_lists_table",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1730162329957,
+      "tag": "20241029003849_create_profiles_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1730162390174,
+      "tag": "20241029003950_create_review_replies_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1730163275514,
+      "tag": "20241029005435_create_reviews_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1730163357627,
+      "tag": "20241029005557_create_subscription_table",
+      "breakpoints": true
     }
   ]
 }

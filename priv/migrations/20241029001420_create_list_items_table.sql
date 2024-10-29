@@ -5,7 +5,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "list_items" (
-	"id" text,
+	"id" uuid,
 	"list_id" uuid NOT NULL,
 	"title" varchar,
 	"overview" varchar,

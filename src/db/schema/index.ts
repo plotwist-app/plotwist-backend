@@ -2,18 +2,16 @@ import { randomUUID } from 'node:crypto'
 
 import {
   PgUUID,
-  bigint,
+  boolean,
   integer,
   pgEnum,
   pgTable,
   primaryKey,
-  text,
   time,
   timestamp,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
-import { table } from 'node:console'
 
 export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
 
@@ -23,15 +21,25 @@ export const listVisibilityEnum = pgEnum('list_visibility', [
   'PRIVATE',
 ])
 
-// export const subscriptionTypeEnum = pgEnum('subscription_type', [
-//   'MEMBER',
-//   'PRO',
-// ])
+export const subscriptionTypeEnum = pgEnum('subscription_type', [
+  'MEMBER',
+  'PRO',
+])
+
+export const languagesEnum = pgEnum('languages', [
+  'en-US',
+  'es-ES',
+  'fr-FR',
+  'it-IT',
+  'de-DE',
+  'pt-BR',
+  'ja-JP',
+])
 
 export const mediaTypeEnum = pgEnum('media_type', ['TV_SHOW', 'MOVIE'])
 
 export const followers = pgTable('followers', {
-  id: text('id')
+  id: uuid('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   followerId: uuid('follower_id').notNull(),
@@ -40,7 +48,7 @@ export const followers = pgTable('followers', {
 })
 
 export const likes = pgTable('likes', {
-  id: text('id')
+  id: uuid('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   entityType: likeEntityEnum('entity_type').notNull(),
@@ -52,7 +60,7 @@ export const likes = pgTable('likes', {
 export const listItems = pgTable(
   'list_items',
   {
-    id: text('id').$defaultFn(() => randomUUID()),
+    id: uuid('id').$defaultFn(() => randomUUID()),
     listId: uuid('list_id').notNull(),
     title: varchar('title'),
     overview: varchar('overview'),
@@ -72,7 +80,7 @@ export const listItems = pgTable(
 )
 
 export const listLikes = pgTable('list_likes', {
-  id: text('id')
+  id: uuid('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   listId: uuid('list_id').notNull(),
@@ -81,7 +89,7 @@ export const listLikes = pgTable('list_likes', {
 })
 
 export const lists = pgTable('lists', {
-  id: text('id')
+  id: uuid('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   name: varchar('name'),
@@ -89,5 +97,61 @@ export const lists = pgTable('lists', {
   description: varchar('description'),
   coverPath: varchar('cover_path'),
   visibility: listVisibilityEnum('visibility').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+export const profiles = pgTable('profiles', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  email: varchar('email').unique(),
+  username: varchar('username').unique().notNull(),
+  bannerPath: varchar('banner_path'),
+  subscriptionType: subscriptionTypeEnum('subscription_type'),
+  imagePath: varchar('image_path').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+export const reviewReplies = pgTable('review_replies', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  userId: uuid('user_id')
+    .$defaultFn(() => randomUUID())
+    .notNull(),
+  reply: varchar('reply').notNull(),
+  reviewId: uuid('review_id')
+    .$defaultFn(() => randomUUID())
+    .notNull(),
+})
+
+export const reviews = pgTable('reviews', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  userId: uuid('user_id')
+    .$defaultFn(() => randomUUID())
+    .notNull(),
+  tmdbId: integer('tmdb_id'),
+  mediaType: mediaTypeEnum('media_type'),
+  review: varchar('review'),
+  rating: integer('rating'),
+  hasSpoilers: boolean('has_spoilers'),
+  tmdbTitle: varchar('tmdb_title'),
+  tmdbPosterPath: varchar('tmdb_poster_path'),
+  tmdbOverview: varchar('tmdb_overview'),
+  language: languagesEnum('language'),
+})
+
+export const subscriptions = pgTable('subscriptions', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  userId: uuid('user_id')
+    .$defaultFn(() => randomUUID())
+    .notNull(),
+  type: subscriptionTypeEnum('type').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
