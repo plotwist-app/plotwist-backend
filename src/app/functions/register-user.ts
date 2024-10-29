@@ -37,6 +37,7 @@ export async function registerUser({
       .returning()
 
     const { password: removedPassword, ...formattedUser } = user
+
     return makeRight({ user: formattedUser })
   } catch (error) {
     const isEmailOrUsernameAlreadyRegistered =

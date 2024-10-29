@@ -2,6 +2,7 @@ import cors from '@fastify/cors'
 import fastify from 'fastify'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
+import fastifyJwt from '@fastify/jwt'
 
 import {
   jsonSchemaTransform,
@@ -12,6 +13,7 @@ import {
 import { env } from '../env'
 
 import { registerUserRoute } from './routes/register-user'
+import { loginRoute } from './routes/login'
 
 const app = fastify()
 
@@ -60,8 +62,13 @@ app.register(cors, {
   origin: '*',
 })
 
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+})
+
 // Routes
 app.register(registerUserRoute)
+app.register(loginRoute)
 
 // Server
 app
