@@ -7,7 +7,7 @@ END $$;
 CREATE TABLE IF NOT EXISTS "lists" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"name" varchar,
-	"user_id" uuid NOT NULL,
+	"profile_id" uuid NOT NULL,
 	"description" varchar,
 	"cover_path" varchar,
 	"visibility" "list_visibility" NOT NULL,

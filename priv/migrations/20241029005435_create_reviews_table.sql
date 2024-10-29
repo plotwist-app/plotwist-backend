@@ -7,7 +7,7 @@ END $$;
 CREATE TABLE IF NOT EXISTS "reviews" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	"user_id" uuid NOT NULL,
+	"profile_id" uuid NOT NULL,
 	"tmdb_id" integer,
 	"media_type" "media_type",
 	"review" varchar,

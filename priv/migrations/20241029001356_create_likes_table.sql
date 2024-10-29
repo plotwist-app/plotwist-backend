@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS "likes" (
 	"entity_type" "like_entity" NOT NULL,
 	"review_id" uuid,
 	"review_reply_id" uuid,
-	"user_id" uuid NOT NULL
+	"profile_id" uuid NOT NULL
 );

@@ -54,7 +54,7 @@ export const likes = pgTable('likes', {
   entityType: likeEntityEnum('entity_type').notNull(),
   reviewId: uuid('review_id'),
   reviewReplyId: uuid('review_reply_id'),
-  userId: uuid('user_id').notNull(),
+  profileId: uuid('profile_id').notNull(),
 })
 
 export const listItems = pgTable(
@@ -84,7 +84,7 @@ export const listLikes = pgTable('list_likes', {
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   listId: uuid('list_id').notNull(),
-  userId: uuid('user_id').notNull(),
+  profileId: uuid('profile_id').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
@@ -93,7 +93,7 @@ export const lists = pgTable('lists', {
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   name: varchar('name'),
-  userId: uuid('user_id').notNull(),
+  profileId: uuid('profile_id').notNull(),
   description: varchar('description'),
   coverPath: varchar('cover_path'),
   visibility: listVisibilityEnum('visibility').notNull(),
@@ -117,7 +117,7 @@ export const reviewReplies = pgTable('review_replies', {
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  userId: uuid('user_id')
+  profileId: uuid('profile_id')
     .$defaultFn(() => randomUUID())
     .notNull(),
   reply: varchar('reply').notNull(),
@@ -131,7 +131,7 @@ export const reviews = pgTable('reviews', {
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  userId: uuid('user_id')
+  profileId: uuid('profile_id')
     .$defaultFn(() => randomUUID())
     .notNull(),
   tmdbId: integer('tmdb_id'),
@@ -149,7 +149,7 @@ export const subscriptions = pgTable('subscriptions', {
   id: uuid('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
-  userId: uuid('user_id')
+  profileId: uuid('profile_id')
     .$defaultFn(() => randomUUID())
     .notNull(),
   type: subscriptionTypeEnum('type').notNull(),
