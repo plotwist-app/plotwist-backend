@@ -12,7 +12,7 @@ jobs:
         env:
           POSTGRESQL_USERNAME: postgres
           POSTGRESQL_PASSWORD: postgres
-          POSTGRESQL_DATABASE: plotwist-test
+          POSTGRESQL_DATABASE: plotwist_test
 
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
       - name: Test
         run: bun run test
         env:
-          DATABASE_URL: "postgresql://testing:testing@localhost:5432/testing"
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/plotwist_test"
 
       - name: Types
         run: bun run typecheck
