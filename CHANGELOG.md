@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- add schema and migrations [[#6]](https://github.com/plotwist-app/plotwist-backend/pull/6)
 - add .env.example file [[#2]](https://github.com/plotwist-app/plotwist-backend/pull/2)
 - add CI/CD workflow [(#2)](https://github.com/plotwist-app/plotwist-backend/pull/2)
 - add changelog File [(#3)](https://github.com/plotwist-app/plotwist-backend/pull/3)
