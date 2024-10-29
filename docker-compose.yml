@@ -7,6 +7,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: POSTGRES_DB
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./priv/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
@@ -20,7 +21,7 @@ services:
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=event-booster-test
+      - POSTGRES_DB=plotwist-test
 
 volumes:
   postgres_data:

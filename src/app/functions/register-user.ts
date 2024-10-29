@@ -1,11 +1,11 @@
 import { makeLeft, makeRight } from '@/core/either'
-import { hashPassword } from '@/utils/password'
-import { HashPasswordError } from '../errors/hash-password-error'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import postgres from 'postgres'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
+import { hashPassword } from '@/utils/password'
+import postgres from 'postgres'
 import { EmailOrUsernameAlreadyRegisteredError } from '../errors/email-or-username-already-registered-error'
+import { HashPasswordError } from '../errors/hash-password-error'
 
 type RegisterUserInput = {
   username: string
