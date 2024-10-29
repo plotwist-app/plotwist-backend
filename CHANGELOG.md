@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - improve Docker compose file to create dev and test databases [#5](https://github.com/plotwist-app/plotwist-backend/pull/5)
-- improve Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1) 
+- improve Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1)
 - init Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1)
 
 ### Added
@@ -21,3 +21,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - setup initial register review route [(#f31e178)](https://github.com/plotwist-app/plotwist-backend/commit/f31e1781f9dcf3a68b929f3761405c23cf192ffd)
 - change vite file to vitest [(#252fd5f)](https://github.com/plotwist-app/plotwist-backend/commit/252fd5f7e2e02c7cfbe8ab2e14125f2cd8afaa56)
 - init project base structure [(#21f7ae5)](https://github.com/plotwist-app/plotwist-backend/commit/21f7ae544d6057bbc42e8c68df5cfdae9c0273c9)
+
+### Removed
+
+- we've removed an template/unused route[(#2)](https://github.com/plotwist-app/plotwist-backend/pull/2)

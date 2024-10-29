@@ -10,7 +10,6 @@ import {
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import { env } from '../env'
-import { registerReviewRoute } from './routes/register-review'
 
 const app = fastify()
 app.setValidatorCompiler(validatorCompiler)
@@ -59,7 +58,6 @@ app.register(cors, {
 })
 
 // Routes
-app.register(registerReviewRoute)
 
 // Server
 app
