@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from 'vitest'
-import { isLeft, isRight, makeLeft, unwrapEither } from '@/core/either'
 
 import { makeRawUser, makeUser } from '@/test/factories/make-user'
 import { registerUser } from './register-user'
@@ -13,8 +12,8 @@ describe('register user', () => {
     const user = makeRawUser()
     const sut = await registerUser(user)
 
-    expect(isRight(sut)).toBe(true)
-    expect(unwrapEither(sut)).toEqual({
+    expect(sut).toBeTruthy()
+    expect(sut).toEqual({
       user: expect.objectContaining({
         email: user.email,
       }),
@@ -25,31 +24,27 @@ describe('register user', () => {
     const user = await makeUser()
     const sut = await registerUser(user)
 
-    expect(isRight(sut)).toBe(false)
-    expect(unwrapEither(sut)).toBeInstanceOf(
-      EmailOrUsernameAlreadyRegisteredError
-    )
+    expect(sut).toBe(false)
+    expect(sut).toBeInstanceOf(EmailOrUsernameAlreadyRegisteredError)
   })
 
   it('should not be able to register a user with username already registered', async () => {
     const user = await makeUser()
     const sut = await registerUser(user)
 
-    expect(isRight(sut)).toBe(false)
-    expect(unwrapEither(sut)).toBeInstanceOf(
-      EmailOrUsernameAlreadyRegisteredError
-    )
+    expect(sut).toBeFalsy()
+    expect(sut).toBeInstanceOf(EmailOrUsernameAlreadyRegisteredError)
   })
 
   it('should handle hash password error', async () => {
     vi.spyOn(password, 'hashPassword').mockRejectedValueOnce(() => {
-      return makeLeft(new HashPasswordError())
+      return new HashPasswordError()
     })
 
     const user = makeRawUser()
     const sut = await registerUser(user)
 
-    expect(isLeft(sut)).toBe(true)
-    expect(unwrapEither(sut)).toBeInstanceOf(HashPasswordError)
+    expect(sut).toBeFalsy()
+    expect(sut).toBeInstanceOf(HashPasswordError)
   })
 })
