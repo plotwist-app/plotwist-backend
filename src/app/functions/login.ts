@@ -1,14 +1,14 @@
 import { makeLeft, makeRight } from '@/core/either'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import type { loginRouteBodySchema } from '@/http/routes/login'
+import type { loginBodySchema } from '@/http/schemas/login'
+import { comparePassword } from '@/utils/password'
 import { eq } from 'drizzle-orm'
 import type { z } from 'zod'
 import { InvalidEmailError } from '../errors/invalid-email-error'
-import { comparePassword } from '@/utils/password'
 import { InvalidPasswordError } from '../errors/invalid-password-error'
 
-type LoginInput = z.infer<typeof loginRouteBodySchema>
+type LoginInput = z.infer<typeof loginBodySchema>
 
 export async function login({ email, password }: LoginInput) {
   const [user] = await db
