@@ -19,6 +19,11 @@ export async function registerListRoute(app: FastifyInstance) {
         description: 'Register a list',
         tags: ['List'],
         body: registerListBodySchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
       handler: async (request, reply) => {
         const { title, description } = registerListBodySchema.parse(
