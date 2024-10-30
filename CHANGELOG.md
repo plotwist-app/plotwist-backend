@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - setup initial register review route [(#f31e178)](https://github.com/plotwist-app/plotwist-backend/commit/f31e1781f9dcf3a68b929f3761405c23cf192ffd)
 - change vite file to vitest [(#252fd5f)](https://github.com/plotwist-app/plotwist-backend/commit/252fd5f7e2e02c7cfbe8ab2e14125f2cd8afaa56)
 - init project base structure [(#21f7ae5)](https://github.com/plotwist-app/plotwist-backend/commit/21f7ae544d6057bbc42e8c68df5cfdae9c0273c9)
+- setup register user and login route [(fdb6c89)](https://github.com/plotwist-app/plotwist-backend/pull/7)
 
 ### Removed
 

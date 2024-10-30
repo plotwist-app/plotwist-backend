@@ -10,5 +10,5 @@ export async function registerListController(
 
   const result = await registerList({ title, description })
 
-  return reply.status(201).send({ list: result.right.list })
+  return reply.status(201).send({ list: result.list })
 }
