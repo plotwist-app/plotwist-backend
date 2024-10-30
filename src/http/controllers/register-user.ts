@@ -1,5 +1,4 @@
 import { registerUser } from '@/app/functions/register-user'
-import { isLeft } from '@/core/either'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { registerUserBodySchema } from '../schemas/register-user'
 import { EmailOrUsernameAlreadyRegisteredError } from '@/app/errors/email-or-username-already-registered-error'

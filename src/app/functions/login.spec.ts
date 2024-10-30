@@ -28,7 +28,6 @@ describe('login', () => {
     const user = makeRawUser()
     const sut = await login({ email: user.email, password: user.password })
 
-    expect(sut).toBe(true)
     expect(sut).toBeInstanceOf(InvalidEmailError)
   })
 
@@ -36,7 +35,6 @@ describe('login', () => {
     const user = await makeUser()
     const sut = await login({ email: user.email, password: user.password })
 
-    expect(sut).toBe(true)
     expect(sut).toBeInstanceOf(InvalidPasswordError)
   })
 })

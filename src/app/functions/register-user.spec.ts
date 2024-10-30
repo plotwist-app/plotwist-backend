@@ -24,7 +24,6 @@ describe('register user', () => {
     const user = await makeUser()
     const sut = await registerUser(user)
 
-    expect(sut).toBe(false)
     expect(sut).toBeInstanceOf(EmailOrUsernameAlreadyRegisteredError)
   })
 
@@ -32,7 +31,6 @@ describe('register user', () => {
     const user = await makeUser()
     const sut = await registerUser(user)
 
-    expect(sut).toBeFalsy()
     expect(sut).toBeInstanceOf(EmailOrUsernameAlreadyRegisteredError)
   })
 
@@ -44,7 +42,6 @@ describe('register user', () => {
     const user = makeRawUser()
     const sut = await registerUser(user)
 
-    expect(sut).toBeFalsy()
     expect(sut).toBeInstanceOf(HashPasswordError)
   })
 })
