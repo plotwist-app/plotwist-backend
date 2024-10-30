@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - init project base structure [(#21f7ae5)](https://github.com/plotwist-app/plotwist-backend/commit/21f7ae544d6057bbc42e8c68df5cfdae9c0273c9)
 - setup register user and login route [(fdb6c89)](https://github.com/plotwist-app/plotwist-backend/pull/7)
 - remove either and handle errors manually [#8](https://github.com/plotwist-app/plotwist-backend/pull/8)
+- check username and e-mail route [#9](https://github.com/plotwist-app/plotwist-backend/pull/9)
 
 ### Removed
 
