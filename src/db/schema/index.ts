@@ -306,12 +306,12 @@ export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
 }))
 
 export const users = pgTable('users', {
-  id: text('id')
+  id: varchar('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
-  username: text('username').notNull().unique(),
+  username: varchar('username').notNull().unique(),
   email: varchar('email', { length: 255 }).notNull().unique(),
-  password: text('password').notNull(),
+  password: varchar('password').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 })
 

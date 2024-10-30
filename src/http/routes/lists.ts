@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { verifyJwt } from '../hooks/verify-jwt'
+import { verifyJwt } from '../middlewares/verify-jwt'
 import { registerListBodySchema } from '../schemas/register-list'
 import { registerListController } from '../controllers/register-list'
 
