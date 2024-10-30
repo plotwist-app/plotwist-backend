@@ -21,7 +21,7 @@ describe('register user', () => {
     })
   })
 
-  it('should not be able to register a user with e-mail already registered', async () => {
+  it('should not be able to register a user with email already registered', async () => {
     const user = await makeUser()
     const sut = await registerUser(user)
 
