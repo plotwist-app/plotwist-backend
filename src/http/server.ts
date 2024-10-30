@@ -12,7 +12,7 @@ import {
 
 import { env } from '../env'
 
-import { registerUserRoute } from './routes/register-user'
+import { usersRoute } from './routes/users'
 import { loginRoute } from './routes/login'
 import { registerListRoute } from './routes/register-list'
 
@@ -68,7 +68,7 @@ app.register(fastifyJwt, {
 })
 
 // Routes
-app.register(registerUserRoute)
+app.register(usersRoute)
 app.register(registerListRoute)
 app.register(loginRoute)
 
