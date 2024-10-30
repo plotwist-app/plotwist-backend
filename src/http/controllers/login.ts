@@ -1,8 +1,8 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { loginBodySchema } from '../schemas/login'
-import { login } from '@/app/functions/login'
-import { InvalidEmailError } from '@/app/errors/invalid-email-error'
-import { InvalidPasswordError } from '@/app/errors/invalid-password-error'
+import { login } from '@/app/domain/services/login'
+import { InvalidEmailError } from '@/app/domain/errors/invalid-email-error'
+import { InvalidPasswordError } from '@/app/domain/errors/invalid-password-error'
 
 export async function loginController(
   request: FastifyRequest,

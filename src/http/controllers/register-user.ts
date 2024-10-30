@@ -1,7 +1,7 @@
-import { registerUser } from '@/app/functions/register-user'
+import { registerUser } from '@/app/domain/services/register-user'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { EmailOrUsernameAlreadyRegisteredError } from '@/app/errors/email-or-username-already-registered-error'
-import { HashPasswordError } from '@/app/errors/hash-password-error'
+import { EmailOrUsernameAlreadyRegisteredError } from '@/app/domain/errors/email-or-username-already-registered-error'
+import { HashPasswordError } from '@/app/domain/errors/hash-password-error'
 import { registerUserBodySchema } from '../schemas/user'
 
 export async function registerUserController(

@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { checkEmailQuerySchema } from '../schemas/user'
-import { checkEmail } from '@/app/functions/check-email'
-import { EmailAlreadyRegisteredError } from '@/app/errors/email-already-registered'
+import { checkEmail } from '@/app/domain/services/check-email'
+import { EmailAlreadyRegisteredError } from '@/app/domain/errors/email-already-registered'
 
 export async function checkEmailController(
   request: FastifyRequest,

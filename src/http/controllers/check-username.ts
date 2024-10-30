@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { checkUsernameQuerySchema } from '../schemas/user'
-import { checkUsername } from '@/app/functions/check-username'
-import { UsernameAlreadyRegisteredError } from '@/app/errors/username-already-registered'
+import { checkUsername } from '@/app/domain/services/check-username'
+import { UsernameAlreadyRegisteredError } from '@/app/domain/errors/username-already-registered'
 
 export async function checkUsernameController(
   request: FastifyRequest,
