@@ -7,7 +7,10 @@ import { z } from 'zod'
 const bodySchema = z.object({
   username: z.string().min(1, 'Username is required.'),
   email: z.string().email('E-mail is invalid.'),
-  password: z.string().min(1),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters long')
+    .default('password123'),
 })
 
 export async function registerUserRoute(app: FastifyInstance) {
