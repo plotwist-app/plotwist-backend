@@ -1,5 +1,8 @@
 import cors from '@fastify/cors'
 import fastify from 'fastify'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUi from '@fastify/swagger-ui'
+import fastifyJwt from '@fastify/jwt'
 
 import {
   jsonSchemaTransform,
@@ -7,11 +10,14 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
-import fastifySwagger from '@fastify/swagger'
-import fastifySwaggerUi from '@fastify/swagger-ui'
 import { env } from '../env'
 
+import { usersRoute } from './routes/users'
+import { loginRoute } from './routes/login'
+import { listsRoute } from './routes/lists'
+
 const app = fastify()
+
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
@@ -57,7 +63,14 @@ app.register(cors, {
   origin: '*',
 })
 
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+})
+
 // Routes
+app.register(usersRoute)
+app.register(listsRoute)
+app.register(loginRoute)
 
 // Server
 app
@@ -65,5 +78,5 @@ app
     port: env.PORT,
   })
   .then(() => {
-    console.log('HTTP server running!')
+    console.log(`HTTP server running at ${env.BASE_URL}`)
   })

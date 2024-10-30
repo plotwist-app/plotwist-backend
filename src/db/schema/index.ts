@@ -7,6 +7,7 @@ import {
   pgEnum,
   pgTable,
   primaryKey,
+  text,
   timestamp,
   uuid,
   varchar,
@@ -303,3 +304,17 @@ export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
     references: [profiles.id],
   }),
 }))
+
+export const users = pgTable('users', {
+  id: varchar('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  username: varchar('username').notNull().unique(),
+  email: varchar('email', { length: 255 }).notNull().unique(),
+  password: varchar('password').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+})
+
+export const schema = {
+  users,
+}

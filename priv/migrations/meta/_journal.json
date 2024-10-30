@@ -15,6 +15,13 @@
       "when": 1730200977499,
       "tag": "20241029112257_create_likes_and_list_table",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1730296761959,
+      "tag": "20241030135921_create_users_table",
+      "breakpoints": true
     }
   ]
 }
