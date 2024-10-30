@@ -1,4 +1,3 @@
-import { makeLeft, makeRight } from '@/core/either'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { loginBodySchema } from '@/http/schemas/login'
@@ -17,14 +16,14 @@ export async function login({ email, password }: LoginInput) {
     .where(eq(schema.users.email, email))
 
   if (!user) {
-    return makeLeft(new InvalidEmailError())
+    return new InvalidEmailError()
   }
 
   const isValidPassword = await comparePassword(password, user.password)
 
   if (!isValidPassword) {
-    return makeLeft(new InvalidPasswordError())
+    return new InvalidPasswordError()
   }
 
-  return makeRight({ user })
+  return { user }
 }

@@ -1,5 +1,7 @@
-export class HashPasswordError extends Error {
-  constructor() {
-    super('Fail to hash password.')
+import { DomainError } from './domain-error'
+
+export class HashPasswordError extends DomainError {
+  constructor(message?: string) {
+    super(message ?? 'Fail to hash password.', 500) //  Internal Server Error
   }
 }

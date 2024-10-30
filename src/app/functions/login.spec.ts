@@ -1,4 +1,3 @@
-import { isLeft, isRight, unwrapEither } from '@/core/either'
 import { describe, expect, it } from 'vitest'
 
 import { makeRawUser, makeUser } from '@/test/factories/make-user'
@@ -17,8 +16,8 @@ describe('login', () => {
     const user = await makeUser({ password: hashedPassword })
     const sut = await login({ email: user.email, password })
 
-    expect(isRight(sut)).toBe(true)
-    expect(unwrapEither(sut)).toEqual({
+    expect(sut).toBeTruthy()
+    expect(sut).toEqual({
       user: expect.objectContaining({
         email: user.email,
       }),
@@ -29,15 +28,13 @@ describe('login', () => {
     const user = makeRawUser()
     const sut = await login({ email: user.email, password: user.password })
 
-    expect(isLeft(sut)).toBe(true)
-    expect(unwrapEither(sut)).toBeInstanceOf(InvalidEmailError)
+    expect(sut).toBeInstanceOf(InvalidEmailError)
   })
 
   it('should not be able to login with invalid credentials', async () => {
     const user = await makeUser()
     const sut = await login({ email: user.email, password: user.password })
 
-    expect(isLeft(sut)).toBe(true)
-    expect(unwrapEither(sut)).toBeInstanceOf(InvalidPasswordError)
+    expect(sut).toBeInstanceOf(InvalidPasswordError)
   })
 })

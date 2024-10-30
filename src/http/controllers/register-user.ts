@@ -1,7 +1,8 @@
 import { registerUser } from '@/app/functions/register-user'
-import { isLeft } from '@/core/either'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { registerUserBodySchema } from '../schemas/register-user'
+import { EmailOrUsernameAlreadyRegisteredError } from '@/app/errors/email-or-username-already-registered-error'
+import { HashPasswordError } from '@/app/errors/hash-password-error'
 
 export async function registerUserController(
   request: FastifyRequest,
@@ -13,17 +14,13 @@ export async function registerUserController(
 
   const result = await registerUser({ username, email, password })
 
-  if (isLeft(result)) {
-    const error = result.left
-
-    switch (error.constructor.name) {
-      case 'EmailOrUsernameAlreadyRegisteredError':
-        return reply.status(409).send({ message: error.message })
-
-      default:
-        return reply.status(400).send()
-    }
+  if (result instanceof EmailOrUsernameAlreadyRegisteredError) {
+    return reply.status(result.status).send({ message: result.message })
   }
 
-  return reply.status(201).send({ user: result.right.user })
+  if (result instanceof HashPasswordError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(201).send({ user: result.user })
 }

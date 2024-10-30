@@ -1,4 +1,3 @@
-import { makeLeft, makeRight } from '@/core/either'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
@@ -23,7 +22,7 @@ export async function registerUser({
   try {
     hashedPassword = await hashPassword(password)
   } catch {
-    return makeLeft(new HashPasswordError())
+    return new HashPasswordError()
   }
 
   try {
@@ -38,14 +37,14 @@ export async function registerUser({
 
     const { password: removedPassword, ...formattedUser } = user
 
-    return makeRight({ user: formattedUser })
+    return { user: formattedUser }
   } catch (error) {
     const isEmailOrUsernameAlreadyRegistered =
       error instanceof postgres.PostgresError &&
       error.code === PgIntegrityConstraintViolation.UniqueViolation
 
     if (isEmailOrUsernameAlreadyRegistered) {
-      return makeLeft(new EmailOrUsernameAlreadyRegisteredError())
+      return new EmailOrUsernameAlreadyRegisteredError()
     }
 
     throw error
