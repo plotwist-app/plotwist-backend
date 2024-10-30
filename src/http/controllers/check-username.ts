@@ -8,7 +8,6 @@ export async function checkUsernameController(
   reply: FastifyReply
 ) {
   const { username } = checkUsernameQuerySchema.parse(request.query)
-
   const result = await checkUsername({ username })
 
   if (result instanceof UsernameAlreadyRegisteredError) {
