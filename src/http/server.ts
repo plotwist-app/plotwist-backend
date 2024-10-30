@@ -14,7 +14,7 @@ import { env } from '../env'
 
 import { usersRoute } from './routes/users'
 import { loginRoute } from './routes/login'
-import { registerListRoute } from './routes/register-list'
+import { listsRoute } from './routes/lists'
 
 const app = fastify()
 
@@ -69,7 +69,7 @@ app.register(fastifyJwt, {
 
 // Routes
 app.register(usersRoute)
-app.register(registerListRoute)
+app.register(listsRoute)
 app.register(loginRoute)
 
 // Server

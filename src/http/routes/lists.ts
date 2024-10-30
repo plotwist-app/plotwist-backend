@@ -4,7 +4,7 @@ import { verifyJwt } from '../hooks/verify-jwt'
 import { registerListBodySchema } from '../schemas/register-list'
 import { registerListController } from '../controllers/register-list'
 
-export async function registerListRoute(app: FastifyInstance) {
+export async function listsRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',
