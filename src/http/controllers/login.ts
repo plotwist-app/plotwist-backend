@@ -13,11 +13,11 @@ export async function loginController(
   const result = await login({ email, password })
 
   if (result instanceof InvalidEmailError) {
-    return reply.status(401).send({ message: result.message })
+    return reply.status(result.status).send({ message: result.message })
   }
 
   if (result instanceof InvalidPasswordError) {
-    return reply.status(401).send({ message: result.message })
+    return reply.status(result.status).send({ message: result.message })
   }
 
   if (result instanceof Error) {

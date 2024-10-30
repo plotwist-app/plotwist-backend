@@ -15,11 +15,11 @@ export async function registerUserController(
   const result = await registerUser({ username, email, password })
 
   if (result instanceof EmailOrUsernameAlreadyRegisteredError) {
-    return reply.status(409).send({ message: result.message })
+    return reply.status(result.status).send({ message: result.message })
   }
 
   if (result instanceof HashPasswordError) {
-    return reply.status(409).send({ message: result.message })
+    return reply.status(result.status).send({ message: result.message })
   }
 
   return reply.status(201).send({ user: result.user })
