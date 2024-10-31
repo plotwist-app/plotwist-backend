@@ -1,51 +1,55 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { registerUserController } from '../controllers/register-user'
 import {
-  checkEmailQuerySchema,
-  checkUsernameQuerySchema,
-  registerUserBodySchema,
-} from '../schemas/user'
-import { checkUsernameController } from '../controllers/check-username'
-import { checkEmailController } from '../controllers/check-email'
+  isEmailAvailableQuerySchema,
+  checkAvailableUsernameQuerySchema,
+  createUserBodySchema,
+} from '../schemas/users'
+import {
+  isEmailAvailableController,
+  checkAvailableUsernameController,
+  createUserController,
+} from '../controllers/user-controller'
 
 export async function usersRoute(app: FastifyInstance) {
+  const usersTag = 'Users'
+
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',
-      url: '/register-user',
+      url: '/users/create',
       schema: {
-        description: 'Register a user',
-        tags: ['User'],
-        body: registerUserBodySchema,
+        description: 'Create a user',
+        tags: [usersTag],
+        body: createUserBodySchema,
       },
-      handler: registerUserController,
+      handler: createUserController,
     })
   )
 
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
-      url: '/check-username',
+      url: '/users/available-username',
       schema: {
-        description: 'Check username',
-        tags: ['User'],
-        querystring: checkUsernameQuerySchema,
+        description: 'Check if this username is available',
+        tags: [usersTag],
+        querystring: checkAvailableUsernameQuerySchema,
       },
-      handler: checkUsernameController,
+      handler: checkAvailableUsernameController,
     })
   )
 
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
-      url: '/check-email',
+      url: '/users/check-email',
       schema: {
-        description: 'Check email',
-        tags: ['User'],
-        querystring: checkEmailQuerySchema,
+        description: 'Check if this email is available',
+        tags: [usersTag],
+        querystring: isEmailAvailableQuerySchema,
       },
-      handler: checkEmailController,
+      handler: isEmailAvailableController,
     })
   )
 }

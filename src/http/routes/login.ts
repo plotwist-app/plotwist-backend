@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { loginBodySchema } from '../schemas/login'
-import { loginController } from '../controllers/login'
+import { loginController } from '../controllers/login-controller'
 
 export async function loginRoute(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().route({
