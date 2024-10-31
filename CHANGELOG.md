@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- relations to users table and indexes [(#11)](https://github.com/plotwist-app/plotwist-backend/pull/11)
 - add PR template File [(#4)](https://github.com/plotwist-app/plotwist-backend/pull/4)
 - add changelog File [(#3)](https://github.com/plotwist-app/plotwist-backend/pull/3)
 - remove unused stuffs [(#12e87f0)](https://github.com/plotwist-app/plotwist-backend/commit/12e87f05c6a7f804057535c373bb8788a7520459)
@@ -28,4 +29,5 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 
+- email and username from profiles schema [(#11)](https://github.com/plotwist-app/plotwist-backend/pull/11)
 - we've removed an template/unused route[(#2)](https://github.com/plotwist-app/plotwist-backend/pull/2)
