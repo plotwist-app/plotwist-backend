@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { registerListBodySchema } from '../schemas/register-list'
-import { registerList } from '@/app/functions/register-list'
+import { registerList } from '@/app/domain/services/register-list'
 
 export async function registerListController(
   request: FastifyRequest,

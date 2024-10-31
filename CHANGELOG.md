@@ -8,12 +8,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- improve Docker compose file to create dev and test databases [#5](https://github.com/plotwist-app/plotwist-backend/pull/5)
+- refactor service and routes [(#10)](https://github.com/plotwist-app/plotwist-backend/pull/10)
+- split layers and create repositories and services [(#10)](https://github.com/plotwist-app/plotwist-backend/pull/10)
+- improve Docker compose file to create dev and test databases [(#5)](https://github.com/plotwist-app/plotwist-backend/pull/5)
 - improve Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1)
 - init Drizzle migrations [(#1)](https://github.com/plotwist-app/plotwist-backend/pull/1)
 
 ### Added
 
+- check username and email route [(#9)](https://github.com/plotwist-app/plotwist-backend/pull/9)
+- remove either and handle errors manually [(#8)](https://github.com/plotwist-app/plotwist-backend/pull/8)
+- setup register user and login route [(fdb6c89)](https://github.com/plotwist-app/plotwist-backend/pull/7)
 - add PR template File [(#4)](https://github.com/plotwist-app/plotwist-backend/pull/4)
 - add changelog File [(#3)](https://github.com/plotwist-app/plotwist-backend/pull/3)
 - remove unused stuffs [(#12e87f0)](https://github.com/plotwist-app/plotwist-backend/commit/12e87f05c6a7f804057535c373bb8788a7520459)
@@ -21,11 +26,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - setup initial register review route [(#f31e178)](https://github.com/plotwist-app/plotwist-backend/commit/f31e1781f9dcf3a68b929f3761405c23cf192ffd)
 - change vite file to vitest [(#252fd5f)](https://github.com/plotwist-app/plotwist-backend/commit/252fd5f7e2e02c7cfbe8ab2e14125f2cd8afaa56)
 - init project base structure [(#21f7ae5)](https://github.com/plotwist-app/plotwist-backend/commit/21f7ae544d6057bbc42e8c68df5cfdae9c0273c9)
-- setup register user and login route [(fdb6c89)](https://github.com/plotwist-app/plotwist-backend/pull/7)
-- remove either and handle errors manually [#8](https://github.com/plotwist-app/plotwist-backend/pull/8)
-- check username and email route [#9](https://github.com/plotwist-app/plotwist-backend/pull/9)
-
 
 ### Removed
 
-- we've removed an template/unused route[(#2)](https://github.com/plotwist-app/plotwist-backend/pull/2)
+- template/unused route[(#2)](https://github.com/plotwist-app/plotwist-backend/pull/2)
