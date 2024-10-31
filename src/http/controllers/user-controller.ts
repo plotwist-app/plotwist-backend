@@ -1,9 +1,9 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
-  registerUserBodySchema,
+  createUserBodySchema,
   checkEmailQuerySchema,
   checkUsernameQuerySchema,
-} from '../schemas/user'
+} from '../schemas/users'
 
 import { alreadyExitsUsername } from '@/app/domain/services/check-username'
 import { alreadyExistsEmail } from '@/app/domain/services/check-email'
@@ -23,13 +23,11 @@ export async function alreadyExistsEmailController(
   return reply.status(200).send({ available: result.available })
 }
 
-export async function registerUserController(
+export async function createUserController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { username, email, password } = registerUserBodySchema.parse(
-    request.body
-  )
+  const { username, email, password } = createUserBodySchema.parse(request.body)
 
   const result = await createUser({ username, email, password })
 

@@ -1,5 +1,3 @@
-import { db } from '@/db'
-import { schema } from '@/db/schema'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import { hashPassword } from '@/utils/password'
 import postgres from 'postgres'

@@ -3,35 +3,37 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
   checkEmailQuerySchema,
   checkUsernameQuerySchema,
-  registerUserBodySchema,
-} from '../schemas/user'
+  createUserBodySchema,
+} from '../schemas/users'
 import {
   checkUsernameController,
   alreadyExistsEmailController,
-  registerUserController,
+  createUserController,
 } from '../controllers/user-controller'
 
 export async function usersRoute(app: FastifyInstance) {
+  const usersTag = 'Users'
+
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',
-      url: '/register-user',
+      url: '/users/create',
       schema: {
-        description: 'Register a user',
-        tags: ['User'],
-        body: registerUserBodySchema,
+        description: 'Create a user',
+        tags: [usersTag],
+        body: createUserBodySchema,
       },
-      handler: registerUserController,
+      handler: createUserController,
     })
   )
 
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
-      url: '/check-username',
+      url: '/users/check-username',
       schema: {
         description: 'Check username',
-        tags: ['User'],
+        tags: [usersTag],
         querystring: checkUsernameQuerySchema,
       },
       handler: checkUsernameController,
@@ -41,10 +43,10 @@ export async function usersRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
-      url: '/check-email',
+      url: '/users/check-email',
       schema: {
         description: 'Check email',
-        tags: ['User'],
+        tags: [usersTag],
         querystring: checkEmailQuerySchema,
       },
       handler: alreadyExistsEmailController,
