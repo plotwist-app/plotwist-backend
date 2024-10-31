@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - added response schemas in login and users routes [#13](https://github.com/plotwist-app/plotwist-backend/pull/13)
+- relations to users table and indexes [(#11)](https://github.com/plotwist-app/plotwist-backend/pull/11)
 - check username and email route [(#9)](https://github.com/plotwist-app/plotwist-backend/pull/9)
 - remove either and handle errors manually [(#8)](https://github.com/plotwist-app/plotwist-backend/pull/8)
 - setup register user and login route [(fdb6c89)](https://github.com/plotwist-app/plotwist-backend/pull/7)
@@ -30,4 +31,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Removed
 
+- email and username from profiles schema [(#11)](https://github.com/plotwist-app/plotwist-backend/pull/11)
+- we've removed an template/unused route[(#2)](https://github.com/plotwist-app/plotwist-backend/pull/2)
 - template/unused route[(#2)](https://github.com/plotwist-app/plotwist-backend/pull/2)
