@@ -7,7 +7,6 @@ import {
   pgEnum,
   pgTable,
   primaryKey,
-  text,
   timestamp,
   uuid,
   varchar,
@@ -15,6 +14,11 @@ import {
 import { relations } from 'drizzle-orm'
 
 export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
+
+export const profileStatusEnum = pgEnum('profile_status', [
+  'ACTIVE',
+  'INACTIVE',
+])
 
 export const listVisibilityEnum = pgEnum('list_visibility', [
   'PUBLIC',
@@ -200,26 +204,19 @@ export const listRelations = relations(lists, ({ one, many }) => ({
   }),
 }))
 
-export const profiles = pgTable(
-  'profiles',
-  {
-    id: uuid('id')
-      .$defaultFn(() => randomUUID())
-      .primaryKey(),
-    email: varchar('email').unique(),
-    username: varchar('username').unique().notNull(),
-    bannerPath: varchar('banner_path'),
-    subscriptionType: subscriptionTypeEnum('subscription_type'),
-    imagePath: varchar('image_path').notNull(),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
-  },
-  table => {
-    return {
-      email: index('email_idx').on(table.email),
-      username: index('username_idx').on(table.username),
-    }
-  }
-)
+export const profiles = pgTable('profiles', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'no action' }),
+  status: profileStatusEnum('status').default('ACTIVE'),
+  public: boolean('public').default(true),
+  bannerPath: varchar('banner_path'),
+  subscriptionType: subscriptionTypeEnum('subscription_type'),
+  imagePath: varchar('image_path').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
 
 export const profileRelations = relations(profiles, ({ one, many }) => ({
   subscriptions: many(subscriptions),
@@ -229,6 +226,10 @@ export const profileRelations = relations(profiles, ({ one, many }) => ({
   reviewReplies: many(reviewReplies),
   reviews: many(reviews),
   followers: many(followers),
+  users: one(users, {
+    fields: [profiles.userId],
+    references: [users.id],
+  }),
 }))
 
 export const reviewReplies = pgTable('review_replies', {
@@ -305,15 +306,24 @@ export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
   }),
 }))
 
-export const users = pgTable('users', {
-  id: varchar('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  username: varchar('username').notNull().unique(),
-  email: varchar('email', { length: 255 }).notNull().unique(),
-  password: varchar('password').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-})
+export const users = pgTable(
+  'users',
+  {
+    id: varchar('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    username: varchar('username').notNull().unique(),
+    email: varchar('email').notNull().unique(),
+    password: varchar('password').notNull(),
+    createdAt: timestamp('created_at').defaultNow(),
+  },
+  table => {
+    return {
+      email: index('email_idx').on(table.email),
+      username: index('username_idx').on(table.username),
+    }
+  }
+)
 
 export const schema = {
   users,
