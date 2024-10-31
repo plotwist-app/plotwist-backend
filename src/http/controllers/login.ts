@@ -1,8 +1,16 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import { loginBodySchema } from '../schemas/login'
 import { login } from '@/app/functions/login'
 import { InvalidEmailError } from '@/app/errors/invalid-email-error'
 import { InvalidPasswordError } from '@/app/errors/invalid-password-error'
+import { z } from 'zod'
+
+export const loginBodySchema = z.object({
+  email: z.string().email('Invalid email format'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters long')
+    .default('password123'),
+})
 
 export async function loginController(
   request: FastifyRequest,

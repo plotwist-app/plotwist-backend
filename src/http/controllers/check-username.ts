@@ -1,7 +1,11 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { checkUsernameQuerySchema } from '../schemas/user'
 import { checkUsername } from '@/app/functions/check-username'
 import { UsernameAlreadyRegisteredError } from '@/app/errors/username-already-registered'
+import { z } from 'zod'
+
+export const checkUsernameQuerySchema = z.object({
+  username: z.string().min(1, 'Username is required.'),
+})
 
 export async function checkUsernameController(
   request: FastifyRequest,

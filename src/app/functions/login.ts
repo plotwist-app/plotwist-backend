@@ -1,11 +1,11 @@
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import type { loginBodySchema } from '@/http/schemas/login'
 import { comparePassword } from '@/utils/password'
 import { eq } from 'drizzle-orm'
 import type { z } from 'zod'
 import { InvalidEmailError } from '../errors/invalid-email-error'
 import { InvalidPasswordError } from '../errors/invalid-password-error'
+import type { loginBodySchema } from '@/http/controllers/login'
 
 type LoginInput = z.infer<typeof loginBodySchema>
 

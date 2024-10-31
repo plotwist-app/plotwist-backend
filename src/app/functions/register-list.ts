@@ -1,5 +1,4 @@
-import type { registerListBodySchema } from '@/http/schemas/register-list'
-
+import type { registerListBodySchema } from '@/http/controllers/register-list'
 import type { z } from 'zod'
 
 type RegisterListInput = z.infer<typeof registerListBodySchema>

@@ -1,13 +1,19 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { registerUserController } from '../controllers/register-user'
 import {
-  checkEmailQuerySchema,
-  checkUsernameQuerySchema,
   registerUserBodySchema,
-} from '../schemas/user'
-import { checkUsernameController } from '../controllers/check-username'
-import { checkEmailController } from '../controllers/check-email'
+  registerUserController,
+  registerUserResponseSchema,
+} from '../controllers/register-user'
+
+import {
+  checkUsernameController,
+  checkUsernameQuerySchema,
+} from '../controllers/check-username'
+import {
+  checkEmailController,
+  checkEmailQuerySchema,
+} from '../controllers/check-email'
 
 export async function usersRoute(app: FastifyInstance) {
   app.after(() =>
@@ -18,6 +24,7 @@ export async function usersRoute(app: FastifyInstance) {
         description: 'Register a user',
         tags: ['User'],
         body: registerUserBodySchema,
+        response: registerUserResponseSchema,
       },
       handler: registerUserController,
     })

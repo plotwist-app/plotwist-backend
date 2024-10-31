@@ -1,6 +1,11 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { registerListBodySchema } from '../schemas/register-list'
 import { registerList } from '@/app/functions/register-list'
+import { z } from 'zod'
+
+export const registerListBodySchema = z.object({
+  title: z.string().min(1, 'Title is required.'),
+  description: z.string(),
+})
 
 export async function registerListController(
   request: FastifyRequest,

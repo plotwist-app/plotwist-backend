@@ -1,7 +1,11 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { checkEmailQuerySchema } from '../schemas/user'
 import { checkEmail } from '@/app/functions/check-email'
 import { EmailAlreadyRegisteredError } from '@/app/errors/email-already-registered'
+import { z } from 'zod'
+
+export const checkEmailQuerySchema = z.object({
+  email: z.string().email('Email is invalid.'),
+})
 
 export async function checkEmailController(
   request: FastifyRequest,
