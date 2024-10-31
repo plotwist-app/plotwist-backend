@@ -7,6 +7,17 @@ export const checkUsernameQuerySchema = z.object({
   username: z.string().min(1, 'Username is required.'),
 })
 
+export const checkUsernameResponseSchema = {
+  200: z.object({
+    available: z.boolean(),
+  }),
+  409: z
+    .object({
+      message: z.string(),
+    })
+    .describe('Username is already registered.'),
+}
+
 export async function checkUsernameController(
   request: FastifyRequest,
   reply: FastifyReply

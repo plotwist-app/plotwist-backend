@@ -9,10 +9,12 @@ import {
 import {
   checkUsernameController,
   checkUsernameQuerySchema,
+  checkUsernameResponseSchema,
 } from '../controllers/check-username'
 import {
   checkEmailController,
   checkEmailQuerySchema,
+  checkEmailResponseSchema,
 } from '../controllers/check-email'
 
 export async function usersRoute(app: FastifyInstance) {
@@ -38,6 +40,7 @@ export async function usersRoute(app: FastifyInstance) {
         description: 'Check username',
         tags: ['User'],
         querystring: checkUsernameQuerySchema,
+        response: checkUsernameResponseSchema,
       },
       handler: checkUsernameController,
     })
@@ -51,6 +54,7 @@ export async function usersRoute(app: FastifyInstance) {
         description: 'Check email',
         tags: ['User'],
         querystring: checkEmailQuerySchema,
+        response: checkEmailResponseSchema,
       },
       handler: checkEmailController,
     })

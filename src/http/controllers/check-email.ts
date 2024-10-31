@@ -7,6 +7,17 @@ export const checkEmailQuerySchema = z.object({
   email: z.string().email('Email is invalid.'),
 })
 
+export const checkEmailResponseSchema = {
+  200: z.object({
+    available: z.boolean(),
+  }),
+  409: z
+    .object({
+      message: z.string(),
+    })
+    .describe('Email is already registered.'),
+}
+
 export async function checkEmailController(
   request: FastifyRequest,
   reply: FastifyReply
