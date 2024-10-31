@@ -5,18 +5,19 @@ import { hashPassword } from '@/utils/password'
 import postgres from 'postgres'
 import { EmailOrUsernameAlreadyRegisteredError } from '../errors/email-or-username-already-registered-error'
 import { HashPasswordError } from '../errors/hash-password-error'
+import { insertUser } from '@/db/repositories/user-repository'
 
-type RegisterUserInput = {
+export type CreateUserInterface = {
   username: string
   email: string
   password: string
 }
 
-export async function registerUser({
+export async function createUser({
   username,
   email,
   password,
-}: RegisterUserInput) {
+}: CreateUserInterface) {
   let hashedPassword: string
 
   try {
@@ -26,14 +27,11 @@ export async function registerUser({
   }
 
   try {
-    const [user] = await db
-      .insert(schema.users)
-      .values({
-        username,
-        email,
-        password: hashedPassword,
-      })
-      .returning()
+    const [user] = await insertUser({
+      email,
+      password: hashedPassword,
+      username,
+    })
 
     const { password: removedPassword, ...formattedUser } = user
 

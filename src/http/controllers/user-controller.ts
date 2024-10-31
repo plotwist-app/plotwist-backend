@@ -5,9 +5,9 @@ import {
   checkUsernameQuerySchema,
 } from '../schemas/user'
 
-import { checkUsername } from '@/app/domain/services/check-username'
+import { alreadyExitsUsername } from '@/app/domain/services/check-username'
 import { alreadyExistsEmail } from '@/app/domain/services/check-email'
-import { registerUser } from '@/app/domain/services/register-user'
+import { createUser } from '@/app/domain/services/create-user'
 
 export async function alreadyExistsEmailController(
   request: FastifyRequest,
@@ -31,7 +31,7 @@ export async function registerUserController(
     request.body
   )
 
-  const result = await registerUser({ username, email, password })
+  const result = await createUser({ username, email, password })
 
   if (result instanceof Error) {
     return reply.status(result.status).send({ message: result.message })
@@ -45,7 +45,7 @@ export async function checkUsernameController(
   reply: FastifyReply
 ) {
   const { username } = checkUsernameQuerySchema.parse(request.query)
-  const result = await checkUsername({ username })
+  const result = await alreadyExitsUsername({ username })
 
   if (result instanceof Error) {
     return reply.status(result.status).send({ message: result.message })

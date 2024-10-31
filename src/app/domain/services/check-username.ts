@@ -1,17 +1,14 @@
-import { db } from '@/db'
-import { schema } from '@/db/schema'
-import { eq } from 'drizzle-orm'
+import { getUserByUsername } from '@/db/repositories/user-repository'
 import { UsernameAlreadyRegisteredError } from '../errors/username-already-registered'
 
-type CheckUsernameInput = {
+type AlreadyExistsUsername = {
   username: string
 }
 
-export async function checkUsername({ username }: CheckUsernameInput) {
-  const [user] = await db
-    .select()
-    .from(schema.users)
-    .where(eq(schema.users.username, username))
+export async function alreadyExitsUsername({
+  username,
+}: AlreadyExistsUsername) {
+  const [user] = await getUserByUsername(username)
 
   if (user) {
     return new UsernameAlreadyRegisteredError()
