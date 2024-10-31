@@ -1,13 +1,13 @@
 import { getUserByUsername } from '@/db/repositories/user-repository'
 import { UsernameAlreadyRegisteredError } from '../errors/username-already-registered'
 
-type AlreadyExistsUsername = {
+type CheckAvailableUsernameInterface = {
   username: string
 }
 
-export async function alreadyExitsUsername({
+export async function checkAvailableUsername({
   username,
-}: AlreadyExistsUsername) {
+}: CheckAvailableUsernameInterface) {
   const [user] = await getUserByUsername(username)
 
   if (user) {

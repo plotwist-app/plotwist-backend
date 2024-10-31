@@ -1,11 +1,13 @@
 import { getUserByEmail } from '@/db/repositories/user-repository'
 import { EmailAlreadyRegisteredError } from '../errors/email-already-registered'
 
-type AlreadyExistsEmail = {
+type CheckAvailableEmailInterface = {
   email: string
 }
 
-export async function alreadyExistsEmail({ email }: AlreadyExistsEmail) {
+export async function checkAvailableEmail({
+  email,
+}: CheckAvailableEmailInterface) {
   const [user] = await getUserByEmail(email)
 
   if (user) {

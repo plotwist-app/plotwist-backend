@@ -1,27 +1,13 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createUserBodySchema,
-  checkEmailQuerySchema,
-  checkUsernameQuerySchema,
+  checkAvailableEmailQuerySchema,
+  checkAvailableUsernameQuerySchema,
 } from '../schemas/users'
 
-import { alreadyExitsUsername } from '@/app/domain/services/check-username'
-import { alreadyExistsEmail } from '@/app/domain/services/check-email'
+import { checkAvailableUsername } from '@/app/domain/services/check-available-username'
+import { checkAvailableEmail } from '@/app/domain/services/check-available-email'
 import { createUser } from '@/app/domain/services/create-user'
-
-export async function alreadyExistsEmailController(
-  request: FastifyRequest,
-  reply: FastifyReply
-) {
-  const { email } = checkEmailQuerySchema.parse(request.query)
-  const result = await alreadyExistsEmail({ email })
-
-  if (result instanceof Error) {
-    return reply.status(result.status).send({ message: result.message })
-  }
-
-  return reply.status(200).send({ available: result.available })
-}
 
 export async function createUserController(
   request: FastifyRequest,
@@ -38,12 +24,26 @@ export async function createUserController(
   return reply.status(201).send({ user: result.user })
 }
 
-export async function checkUsernameController(
+export async function checkAvailableUsernameController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { username } = checkUsernameQuerySchema.parse(request.query)
-  const result = await alreadyExitsUsername({ username })
+  const { username } = checkAvailableUsernameQuerySchema.parse(request.query)
+  const result = await checkAvailableUsername({ username })
+
+  if (result instanceof Error) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ available: result.available })
+}
+
+export async function checkAvailableEmailController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { email } = checkAvailableEmailQuerySchema.parse(request.query)
+  const result = await checkAvailableEmail({ email })
 
   if (result instanceof Error) {
     return reply.status(result.status).send({ message: result.message })

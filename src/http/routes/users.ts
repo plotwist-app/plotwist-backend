@@ -1,13 +1,13 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
-  checkEmailQuerySchema,
-  checkUsernameQuerySchema,
+  checkAvailableEmailQuerySchema,
+  checkAvailableUsernameQuerySchema,
   createUserBodySchema,
 } from '../schemas/users'
 import {
-  checkUsernameController,
-  alreadyExistsEmailController,
+  checkAvailableEmailController,
+  checkAvailableUsernameController,
   createUserController,
 } from '../controllers/user-controller'
 
@@ -30,13 +30,13 @@ export async function usersRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
-      url: '/users/check-username',
+      url: '/users/available-username',
       schema: {
-        description: 'Check username',
+        description: 'Check if this username is available',
         tags: [usersTag],
-        querystring: checkUsernameQuerySchema,
+        querystring: checkAvailableUsernameQuerySchema,
       },
-      handler: checkUsernameController,
+      handler: checkAvailableUsernameController,
     })
   )
 
@@ -45,11 +45,11 @@ export async function usersRoute(app: FastifyInstance) {
       method: 'GET',
       url: '/users/check-email',
       schema: {
-        description: 'Check email',
+        description: 'check if this email is available',
         tags: [usersTag],
-        querystring: checkEmailQuerySchema,
+        querystring: checkAvailableEmailQuerySchema,
       },
-      handler: alreadyExistsEmailController,
+      handler: checkAvailableEmailController,
     })
   )
 }
