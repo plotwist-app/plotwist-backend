@@ -10,6 +10,6 @@ export const checkAvailableUsernameQuerySchema = z.object({
   username: z.string().min(1, 'Username is required.'),
 })
 
-export const checkAvailableEmailQuerySchema = z.object({
+export const isEmailAvailableQuerySchema = z.object({
   email: z.string().email('Email is invalid.'),
 })

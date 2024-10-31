@@ -1,12 +1,12 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createUserBodySchema,
-  checkAvailableEmailQuerySchema,
+  isEmailAvailableQuerySchema,
   checkAvailableUsernameQuerySchema,
 } from '../schemas/users'
 
-import { checkAvailableUsername } from '@/app/domain/services/check-available-username'
-import { checkAvailableEmail } from '@/app/domain/services/check-available-email'
+import { checkAvailableUsername } from '@/app/domain/services/is-username-available'
+import { isEmailAvailable } from '@/app/domain/services/is-email-available'
 import { createUser } from '@/app/domain/services/create-user'
 
 export async function createUserController(
@@ -38,12 +38,12 @@ export async function checkAvailableUsernameController(
   return reply.status(200).send({ available: result.available })
 }
 
-export async function checkAvailableEmailController(
+export async function isEmailAvailableController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { email } = checkAvailableEmailQuerySchema.parse(request.query)
-  const result = await checkAvailableEmail({ email })
+  const { email } = isEmailAvailableQuerySchema.parse(request.query)
+  const result = await isEmailAvailable({ email })
 
   if (result instanceof Error) {
     return reply.status(result.status).send({ message: result.message })

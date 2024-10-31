@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { faker } from '@faker-js/faker'
 
-import { checkAvailableUsername } from './check-available-username'
+import { checkAvailableUsername } from './is-username-available'
 import { makeUser } from '@/test/factories/make-user'
 import { UsernameAlreadyRegisteredError } from '../errors/username-already-registered'
 
