@@ -45,7 +45,7 @@ export async function usersRoute(app: FastifyInstance) {
       method: 'GET',
       url: '/users/check-email',
       schema: {
-        description: 'check if this email is available',
+        description: 'Check if this email is available',
         tags: [usersTag],
         querystring: checkAvailableEmailQuerySchema,
       },
