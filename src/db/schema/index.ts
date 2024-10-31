@@ -309,7 +309,7 @@ export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
 export const users = pgTable(
   'users',
   {
-    id: varchar('id')
+    id: uuid('id')
       .$defaultFn(() => randomUUID())
       .primaryKey(),
     username: varchar('username').notNull().unique(),

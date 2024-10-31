@@ -26,8 +26,8 @@
     {
       "idx": 3,
       "version": "7",
-      "when": 1730375637624,
-      "tag": "20241031115357_alter_users_table_improve_indexes_and_relations",
+      "when": 1730382068115,
+      "tag": "20241031134108_alter_profiles_add_username_and_email_idx",
       "breakpoints": true
     }
   ]
