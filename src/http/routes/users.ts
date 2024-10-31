@@ -4,6 +4,9 @@ import {
   isEmailAvailableQuerySchema,
   checkAvailableUsernameQuerySchema,
   createUserBodySchema,
+  createUserResponseSchema,
+  checkAvailableUsernameResponseSchema,
+  isEmailAvailableResponseSchema,
 } from '../schemas/users'
 import {
   isEmailAvailableController,
@@ -22,6 +25,7 @@ export async function usersRoute(app: FastifyInstance) {
         description: 'Create a user',
         tags: [usersTag],
         body: createUserBodySchema,
+        response: createUserResponseSchema,
       },
       handler: createUserController,
     })
@@ -35,6 +39,7 @@ export async function usersRoute(app: FastifyInstance) {
         description: 'Check if this username is available',
         tags: [usersTag],
         querystring: checkAvailableUsernameQuerySchema,
+        response: checkAvailableUsernameResponseSchema,
       },
       handler: checkAvailableUsernameController,
     })
@@ -48,6 +53,7 @@ export async function usersRoute(app: FastifyInstance) {
         description: 'Check if this email is available',
         tags: [usersTag],
         querystring: isEmailAvailableQuerySchema,
+        response: isEmailAvailableResponseSchema,
       },
       handler: isEmailAvailableController,
     })

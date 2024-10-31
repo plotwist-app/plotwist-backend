@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { loginBodySchema } from '../schemas/login'
+import { loginBodySchema, loginResponseSchema } from '../schemas/login'
 import { loginController } from '../controllers/login-controller'
 
 export async function loginRoute(app: FastifyInstance) {
@@ -11,6 +11,7 @@ export async function loginRoute(app: FastifyInstance) {
       description: 'User login with email and password',
       tags: ['Auth'],
       body: loginBodySchema,
+      response: loginResponseSchema,
     },
     handler: (request, reply) => loginController(request, reply, app),
   })
