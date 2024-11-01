@@ -1,5 +1,5 @@
 import cors from '@fastify/cors'
-import fastify from 'fastify'
+import fastify, { FastifyInstance } from 'fastify'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import fastifyJwt from '@fastify/jwt'
@@ -15,6 +15,7 @@ import { env } from '../env'
 import { usersRoute } from './routes/users'
 import { loginRoute } from './routes/login'
 import { listsRoute } from './routes/lists'
+import { healthCheck } from './routes/healthcheck'
 
 const app = fastify()
 
@@ -71,6 +72,7 @@ app.register(fastifyJwt, {
 app.register(usersRoute)
 app.register(listsRoute)
 app.register(loginRoute)
+app.register(healthCheck)
 
 // Server
 app
