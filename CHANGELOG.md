@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- health check enpoint [(#16)](https://github.com/plotwist-app/plotwist-backend/pull/16)
+- health check endpoint [(#16)](https://github.com/plotwist-app/plotwist-backend/pull/16)
 
 ### Changed
 
