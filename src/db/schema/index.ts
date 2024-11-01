@@ -15,11 +15,6 @@ import { relations } from 'drizzle-orm'
 
 export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
 
-export const profileStatusEnum = pgEnum('profile_status', [
-  'ACTIVE',
-  'INACTIVE',
-])
-
 export const listVisibilityEnum = pgEnum('list_visibility', [
   'PUBLIC',
   'NETWORK',
@@ -47,12 +42,12 @@ export const followers = pgTable(
   'followers',
   {
     followerId: uuid('follower_id')
-      .references(() => profiles.id, {
+      .references(() => users.id, {
         onDelete: 'cascade',
       })
       .notNull(),
     followedId: uuid('followed_id')
-      .references(() => profiles.id, {
+      .references(() => users.id, {
         onDelete: 'cascade',
       })
       .notNull(),
@@ -68,13 +63,13 @@ export const followers = pgTable(
 )
 
 export const followersRelations = relations(followers, ({ one }) => ({
-  followerProfile: one(profiles, {
+  follower: one(users, {
     fields: [followers.followerId],
-    references: [profiles.id],
+    references: [users.id],
   }),
-  followedProfile: one(profiles, {
+  followed: one(users, {
     fields: [followers.followedId],
-    references: [profiles.id],
+    references: [users.id],
   }),
 }))
 
@@ -89,8 +84,8 @@ export const likes = pgTable('likes', {
   reviewReplyId: uuid('review_reply_id').references(() => reviewReplies.id, {
     onDelete: 'cascade',
   }),
-  profileId: uuid('profile_id')
-    .references(() => profiles.id, {
+  userId: uuid('user_id')
+    .references(() => users.id, {
       onDelete: 'cascade',
     })
     .notNull(),
@@ -106,9 +101,9 @@ export const likesRelations = relations(likes, ({ one, many }) => ({
     fields: [likes.reviewReplyId],
     references: [reviewReplies.id],
   }),
-  profile: one(profiles, {
-    fields: [likes.profileId],
-    references: [profiles.id],
+  user: one(users, {
+    fields: [likes.userId],
+    references: [users.id],
   }),
 }))
 
@@ -152,8 +147,8 @@ export const listLikes = pgTable('list_likes', {
       onDelete: 'cascade',
     })
     .notNull(),
-  profileId: uuid('profile_id')
-    .references(() => profiles.id, {
+  userId: uuid('user_id')
+    .references(() => users.id, {
       onDelete: 'cascade',
     })
     .notNull(),
@@ -165,9 +160,9 @@ export const listLikesRelations = relations(listLikes, ({ one }) => ({
     fields: [listLikes.listId],
     references: [lists.id],
   }),
-  profile: one(profiles, {
-    fields: [listLikes.profileId],
-    references: [profiles.id],
+  user: one(users, {
+    fields: [listLikes.userId],
+    references: [users.id],
   }),
 }))
 
@@ -178,8 +173,8 @@ export const lists = pgTable(
       .$defaultFn(() => randomUUID())
       .primaryKey(),
     name: varchar('name'),
-    profileId: uuid('profile_id')
-      .references(() => profiles.id, {
+    userId: uuid('user_id')
+      .references(() => users.id, {
         onDelete: 'cascade',
       })
       .notNull(),
@@ -190,7 +185,7 @@ export const lists = pgTable(
   },
   table => {
     return {
-      profileId: index('profile_id_idx').on(table.profileId),
+      userId: index('user_id_idx').on(table.userId),
     }
   }
 )
@@ -198,36 +193,8 @@ export const lists = pgTable(
 export const listRelations = relations(lists, ({ one, many }) => ({
   listItems: many(listItems),
   listLikes: many(listLikes),
-  profiles: one(profiles, {
-    fields: [lists.profileId],
-    references: [profiles.id],
-  }),
-}))
-
-export const profiles = pgTable('profiles', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  userId: uuid('user_id').references(() => users.id, { onDelete: 'no action' }),
-  status: profileStatusEnum('status').default('ACTIVE'),
-  public: boolean('public').default(true),
-  subscriptionType: subscriptionTypeEnum('subscription_type'),
-  bannerPath: varchar('banner_path'),
-  imagePath: varchar('image_path').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-})
-
-export const profileRelations = relations(profiles, ({ one, many }) => ({
-  subscriptions: many(subscriptions),
-  likes: many(likes),
-  listLikes: many(listLikes),
-  lists: many(lists),
-  reviewReplies: many(reviewReplies),
-  reviews: many(reviews),
-  followers: many(followers),
   users: one(users, {
-    fields: [profiles.userId],
+    fields: [lists.userId],
     references: [users.id],
   }),
 }))
@@ -237,8 +204,8 @@ export const reviewReplies = pgTable('review_replies', {
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  profileId: uuid('profile_id')
-    .references(() => profiles.id, { onDelete: 'cascade' })
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
     .notNull(),
   reply: varchar('reply').notNull(),
   reviewId: uuid('review_id')
@@ -250,9 +217,9 @@ export const reviewsRepliesRelations = relations(
   reviewReplies,
   ({ one, many }) => ({
     likes: many(likes),
-    profiles: one(profiles, {
-      fields: [reviewReplies.profileId],
-      references: [profiles.id],
+    users: one(users, {
+      fields: [reviewReplies.userId],
+      references: [users.id],
     }),
     reviews: one(reviews, {
       fields: [reviewReplies.reviewId],
@@ -266,8 +233,8 @@ export const reviews = pgTable('reviews', {
     .$defaultFn(() => randomUUID())
     .primaryKey(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  profileId: uuid('profile_id')
-    .references(() => profiles.id, { onDelete: 'cascade' })
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
     .notNull(),
   tmdbId: integer('tmdb_id'),
   mediaType: mediaTypeEnum('media_type'),
@@ -282,9 +249,9 @@ export const reviews = pgTable('reviews', {
 
 export const reviewsRelations = relations(reviews, ({ one, many }) => ({
   likes: many(likes),
-  profiles: one(profiles, {
-    fields: [reviews.profileId],
-    references: [profiles.id],
+  users: one(users, {
+    fields: [reviews.userId],
+    references: [users.id],
   }),
 }))
 
@@ -292,17 +259,17 @@ export const subscriptions = pgTable('subscriptions', {
   id: uuid('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
-  profileId: uuid('profile_id')
-    .references(() => profiles.id, { onDelete: 'cascade' })
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
     .notNull(),
   type: subscriptionTypeEnum('type').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
 export const subscriptionsRelations = relations(subscriptions, ({ one }) => ({
-  profile: one(profiles, {
-    fields: [subscriptions.profileId],
-    references: [profiles.id],
+  user: one(users, {
+    fields: [subscriptions.userId],
+    references: [users.id],
   }),
 }))
 
@@ -316,6 +283,9 @@ export const users = pgTable(
     email: varchar('email').notNull().unique(),
     password: varchar('password').notNull(),
     createdAt: timestamp('created_at').defaultNow(),
+    subscriptionType: subscriptionTypeEnum('subscription_type'),
+    bannerPath: varchar('banner_path'),
+    imagePath: varchar('image_path').notNull(),
   },
   table => {
     return {
@@ -324,6 +294,16 @@ export const users = pgTable(
     }
   }
 )
+
+export const usersRelations = relations(users, ({ one, many }) => ({
+  subscriptions: many(subscriptions),
+  likes: many(likes),
+  listLikes: many(listLikes),
+  lists: many(lists),
+  reviewReplies: many(reviewReplies),
+  reviews: many(reviews),
+  followers: many(followers),
+}))
 
 export const schema = {
   users,

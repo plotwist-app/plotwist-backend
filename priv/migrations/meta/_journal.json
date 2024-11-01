@@ -29,6 +29,20 @@
       "when": 1730382068115,
       "tag": "20241031134108_alter_profiles_add_username_and_email_idx",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1730464492698,
+      "tag": "20241101123452_replace_profiles_relations_by_users",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1730464556731,
+      "tag": "20241101123556_drop_profiles_table",
+      "breakpoints": true
     }
   ]
 }
