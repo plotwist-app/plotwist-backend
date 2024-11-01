@@ -78,6 +78,7 @@ app.register(healthCheck)
 app
   .listen({
     port: env.PORT,
+    host: '0.0.0.0',
   })
   .then(() => {
     console.log(`HTTP server running at ${env.BASE_URL}`)
