@@ -285,7 +285,7 @@ export const users = pgTable(
     createdAt: timestamp('created_at').defaultNow(),
     subscriptionType: subscriptionTypeEnum('subscription_type'),
     bannerPath: varchar('banner_path'),
-    imagePath: varchar('image_path').notNull(),
+    imagePath: varchar('image_path'),
   },
   table => {
     return {

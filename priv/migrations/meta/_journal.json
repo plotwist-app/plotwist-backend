@@ -43,6 +43,13 @@
       "when": 1730464556731,
       "tag": "20241101123556_drop_profiles_table",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1730464745942,
+      "tag": "20241101123905_optional_image_path",
+      "breakpoints": true
     }
   ]
 }
