@@ -50,6 +50,13 @@
       "when": 1730464745942,
       "tag": "20241101123905_optional_image_path",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1730502912413,
+      "tag": "20241101231512_rename_lists_table",
+      "breakpoints": true
     }
   ]
 }

@@ -1,6 +1,16 @@
+import { schema } from '@/db/schema'
+import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
-export const registerListBodySchema = z.object({
-  title: z.string().min(1, 'Title is required.'),
-  description: z.string(),
+export const registerListBodySchema = createInsertSchema(schema.lists).omit({
+  id: true,
+  userId: true,
+  createdAt: true,
+  coverPath: true,
 })
+
+export const registerListResponseSchema = {
+  200: z.object({
+    list: createInsertSchema(schema.lists),
+  }),
+}

@@ -6,9 +6,16 @@ export async function registerListController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { title, description } = registerListBodySchema.parse(request.body)
+  const { title, description, visibility } = registerListBodySchema.parse(
+    request.body
+  )
 
-  const result = await registerList({ title, description })
+  const result = await registerList({
+    title,
+    description,
+    userId: request.user.id,
+    visibility,
+  })
 
   return reply.status(201).send({ list: result.list })
 }

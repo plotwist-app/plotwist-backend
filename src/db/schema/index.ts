@@ -172,7 +172,7 @@ export const lists = pgTable(
     id: uuid('id')
       .$defaultFn(() => randomUUID())
       .primaryKey(),
-    name: varchar('name'),
+    title: varchar('title').notNull(),
     userId: uuid('user_id')
       .references(() => users.id, {
         onDelete: 'cascade',
@@ -307,4 +307,5 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 
 export const schema = {
   users,
+  lists,
 }

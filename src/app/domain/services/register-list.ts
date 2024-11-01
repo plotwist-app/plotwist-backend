@@ -1,10 +1,31 @@
-import type { registerListBodySchema } from '@/http/schemas/register-list'
+import { db } from '@/db'
+import { schema } from '@/db/schema'
+import { createInsertSchema } from 'drizzle-zod'
 
-import type { z } from 'zod'
+const registerListInput = createInsertSchema(schema.lists).pick({
+  title: true,
+  description: true,
+  visibility: true,
+  userId: true,
+})._type
 
-type RegisterListInput = z.infer<typeof registerListBodySchema>
+type RegisterListInput = typeof registerListInput
 
-export async function registerList({ title, description }: RegisterListInput) {
-  // TODO: IMPLEMENT FEATURE
-  return { list: { title, description } }
+export async function registerList({
+  title,
+  description,
+  visibility = 'PUBLIC',
+  userId,
+}: RegisterListInput) {
+  const [list] = await db
+    .insert(schema.lists)
+    .values({
+      title,
+      visibility,
+      description,
+      userId,
+    })
+    .returning()
+
+  return { list }
 }
