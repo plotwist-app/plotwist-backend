@@ -8,6 +8,7 @@
     "biomejs",
     "bunx",
     "fastify",
+    "healthcheck",
     "positionals",
     "tmdb",
     "tsup"

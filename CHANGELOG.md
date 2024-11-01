@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## 0.1.0
 
+### Added
+
+- health check enpoint [(#16)](https://github.com/plotwist-app/plotwist-backend/pull/16)
+
 ### Changed
 
 - refactor service and routes [(#10)](https://github.com/plotwist-app/plotwist-backend/pull/10)
