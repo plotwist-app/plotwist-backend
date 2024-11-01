@@ -25,5 +25,6 @@ export async function login({ email, password }: LoginInput) {
     return new InvalidPasswordError()
   }
 
-  return { user }
+  const { password: removedPassword, ...formattedUser } = user
+  return { user: formattedUser }
 }

@@ -19,11 +19,11 @@ export const createUserResponseSchema = {
       message: z.string(),
     })
     .describe('Fail to hash password.'),
-  200: z
+  201: z
     .object({
       user: createInsertSchema(schema.users).omit({ password: true }),
     })
-    .describe('Fail to hash password.'),
+    .describe('User created.'),
 }
 
 export const checkAvailableUsernameQuerySchema = z.object({

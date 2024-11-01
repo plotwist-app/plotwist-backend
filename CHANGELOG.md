@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- remove profiles table and change relations to users table [#14](https://github.com/plotwist-app/plotwist-backend/pull/14)
 - added response schemas in login and users routes [#13](https://github.com/plotwist-app/plotwist-backend/pull/13)
 - relations to users table and indexes [(#11)](https://github.com/plotwist-app/plotwist-backend/pull/11)
 - check username and email route [(#9)](https://github.com/plotwist-app/plotwist-backend/pull/9)
