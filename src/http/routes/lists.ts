@@ -36,7 +36,7 @@ export async function listsRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
-      url: '/get-lists',
+      url: '/lists',
       schema: {
         description: 'Get lists',
         tags: ['List'],
