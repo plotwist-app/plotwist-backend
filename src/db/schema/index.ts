@@ -171,7 +171,8 @@ export const lists = pgTable(
   {
     id: uuid('id')
       .$defaultFn(() => randomUUID())
-      .primaryKey(),
+      .primaryKey()
+      .notNull(),
     title: varchar('title').notNull(),
     userId: uuid('user_id')
       .references(() => users.id, {
