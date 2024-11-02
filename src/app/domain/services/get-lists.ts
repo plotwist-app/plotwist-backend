@@ -27,11 +27,10 @@ export async function getLists({
         ),
       hasLiked: authenticatedUserId
         ? sql`EXISTS (
-            SELECT 1 
-            FROM ${schema.listLikes} AS ll 
-            WHERE ll.listId = ${schema.lists.id} 
-              AND ll.userId = ${authenticatedUserId}
-          )`.as('hasLiked')
+                SELECT 1 FROM ${schema.listLikes} 
+                WHERE ${schema.listLikes.listId} = ${schema.lists.id} 
+                AND ${schema.listLikes.userId} = ${authenticatedUserId}
+              )`.as('hasLiked')
         : sql`false`.as('hasLiked'),
     })
     .from(schema.lists)

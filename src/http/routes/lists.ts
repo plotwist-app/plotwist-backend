@@ -11,12 +11,13 @@ import {
   createListController,
   getListsController,
 } from '../controllers/list-controller'
+import { verifyOptionalJwt } from '../middlewares/verify-optional-jwt'
 
 export async function listsRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',
-      url: '/create-list',
+      url: '/lists/create',
       onRequest: [verifyJwt],
       schema: {
         description: 'Create a list',
@@ -37,11 +38,17 @@ export async function listsRoute(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
       url: '/lists',
+      onRequest: [verifyOptionalJwt],
       schema: {
         description: 'Get lists',
         tags: ['List'],
         querystring: getListsQuerySchema,
         response: getListsResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
       handler: getListsController,
     })
