@@ -34,15 +34,19 @@ export async function createUser({
     const { password: removedPassword, ...formattedUser } = user
 
     return { user: formattedUser }
-  } catch (error) {
-    const isEmailOrUsernameAlreadyRegistered =
-      error instanceof postgres.PostgresError &&
-      error.code === PgIntegrityConstraintViolation.UniqueViolation
-
-    if (isEmailOrUsernameAlreadyRegistered) {
-      return new EmailOrUsernameAlreadyRegisteredError()
-    }
-
-    throw error
+  } catch (error: unknown) {
+    handleError(error)
   }
+}
+
+function handleError(error: unknown) {
+  const isEmailOrUsernameAlreadyRegistered =
+    error instanceof postgres.PostgresError &&
+    error.code === PgIntegrityConstraintViolation.UniqueViolation
+
+  if (isEmailOrUsernameAlreadyRegistered) {
+    return new EmailOrUsernameAlreadyRegisteredError()
+  }
+
+  throw error
 }
