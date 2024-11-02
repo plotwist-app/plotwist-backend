@@ -21,18 +21,17 @@ export const getListsQuerySchema = z.object({
   userId: z.string().optional(),
 })
 
-const user = createSelectSchema(schema.users).pick({
-  id: true,
-  username: true,
-  imagePath: true,
-})
-
 export const getListsResponseSchema = {
   200: z.object({
     lists: z.array(
       createSelectSchema(schema.lists).extend({
         likeCount: z.number(),
-        user: user,
+        hasLiked: z.boolean(),
+        user: createSelectSchema(schema.users).pick({
+          id: true,
+          username: true,
+          imagePath: true,
+        }),
       })
     ),
   }),
