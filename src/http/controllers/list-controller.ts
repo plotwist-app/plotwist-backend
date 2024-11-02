@@ -1,16 +1,16 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { registerListBodySchema } from '../schemas/register-list'
-import { registerList } from '@/app/domain/services/register-list'
+import { createListBodySchema } from '../schemas/lists'
+import { createList } from '@/app/domain/services/create-list'
 
-export async function registerListController(
+export async function createListController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { title, description, visibility } = registerListBodySchema.parse(
+  const { title, description, visibility } = createListBodySchema.parse(
     request.body
   )
 
-  const result = await registerList({
+  const result = await createList({
     title,
     description,
     userId: request.user.id,

@@ -2,21 +2,21 @@ import { db } from '@/db'
 import { schema } from '@/db/schema'
 import { createInsertSchema } from 'drizzle-zod'
 
-const registerListInput = createInsertSchema(schema.lists).pick({
+const createListInput = createInsertSchema(schema.lists).pick({
   title: true,
   description: true,
   visibility: true,
   userId: true,
 })._type
 
-type RegisterListInput = typeof registerListInput
+type CreateListInput = typeof createListInput
 
-export async function registerList({
+export async function createList({
   title,
   description,
   visibility = 'PUBLIC',
   userId,
-}: RegisterListInput) {
+}: CreateListInput) {
   const [list] = await db
     .insert(schema.lists)
     .values({
