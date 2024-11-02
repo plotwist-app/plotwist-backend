@@ -31,7 +31,7 @@ export const getListsResponseSchema = {
   200: z.object({
     lists: z.array(
       createSelectSchema(schema.lists).extend({
-        likes: z.array(user),
+        likeCount: z.number(),
         user: user,
       })
     ),

@@ -5,9 +5,14 @@ import { and, eq, getTableColumns, sql, desc } from 'drizzle-orm'
 type GetListsInput = {
   userId?: string
   limit?: number
+  authenticatedUserId?: string
 }
 
-export async function getLists({ userId, limit = 5 }: GetListsInput) {
+export async function getLists({
+  userId,
+  limit = 5,
+  authenticatedUserId,
+}: GetListsInput) {
   const lists = await db
     .select({
       ...getTableColumns(schema.lists),
@@ -16,27 +21,28 @@ export async function getLists({ userId, limit = 5 }: GetListsInput) {
         username: schema.users.username,
         imagePath: schema.users.imagePath,
       },
-      likes: sql<Array<{ id: string; username: string; imagePath: string }>>`
-        ARRAY(
-          SELECT json_build_object(
-            'id', ${schema.users.id},
-            'username', ${schema.users.username},
-            'imagePath', ${schema.users.imagePath}
-          )
-          FROM ${schema.users}
-          WHERE ${schema.users.id} IN (
-            SELECT ${schema.listLikes.userId}
-            FROM ${schema.listLikes}
-            WHERE ${schema.listLikes.listId} = ${schema.lists.id}
-          )
-        )`,
+      likeCount:
+        sql`(SELECT COUNT(*)::int FROM ${schema.listLikes} WHERE ${schema.listLikes.listId} = ${schema.lists.id})`.as(
+          'likeCount'
+        ),
+      hasLiked: authenticatedUserId
+        ? sql`EXISTS (
+            SELECT 1 
+            FROM ${schema.listLikes} AS ll 
+            WHERE ll.listId = ${schema.lists.id} 
+              AND ll.userId = ${authenticatedUserId}
+          )`.as('hasLiked')
+        : sql`false`.as('hasLiked'),
     })
     .from(schema.lists)
     .where(userId ? and(eq(schema.lists.userId, userId)) : undefined)
-    .leftJoin(schema.listLikes, eq(schema.lists.id, schema.listLikes.listId))
     .leftJoin(schema.users, eq(schema.lists.userId, schema.users.id))
     .groupBy(schema.lists.id, schema.users.id)
-    .orderBy(desc(sql`count(${schema.listLikes.id})`))
+    .orderBy(
+      desc(
+        sql`(SELECT COUNT(*)::int FROM ${schema.listLikes} WHERE ${schema.listLikes.listId} = ${schema.lists.id})`
+      )
+    )
     .limit(limit)
 
   return { lists }

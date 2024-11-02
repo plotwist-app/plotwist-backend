@@ -138,22 +138,34 @@ export const listItemsRelations = relations(listItems, ({ one, many }) => ({
   }),
 }))
 
-export const listLikes = pgTable('list_likes', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  listId: uuid('list_id')
-    .references(() => lists.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
-  userId: uuid('user_id')
-    .references(() => users.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-})
+export const listLikes = pgTable(
+  'list_likes',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    listId: uuid('list_id')
+      .references(() => lists.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    userId: uuid('user_id')
+      .references(() => users.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => {
+    return {
+      listIdIndex: index('list_id_idx').on(table.listId),
+      listUserCompositeIndex: index('list_user_idx').on(
+        table.listId,
+        table.userId
+      ),
+    }
+  }
+)
 
 export const listLikesRelations = relations(listLikes, ({ one }) => ({
   lists: one(lists, {
