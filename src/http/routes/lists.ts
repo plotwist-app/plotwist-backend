@@ -4,8 +4,13 @@ import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createListBodySchema,
   createListResponseSchema,
+  getListsQuerySchema,
+  getListsResponseSchema,
 } from '../schemas/lists'
-import { createListController } from '../controllers/list-controller'
+import {
+  createListController,
+  getListsController,
+} from '../controllers/list-controller'
 
 export async function listsRoute(app: FastifyInstance) {
   app.after(() =>
@@ -14,7 +19,7 @@ export async function listsRoute(app: FastifyInstance) {
       url: '/create-list',
       onRequest: [verifyJwt],
       schema: {
-        description: 'Register a list',
+        description: 'Create a list',
         tags: ['List'],
         body: createListBodySchema,
         response: createListResponseSchema,
@@ -25,6 +30,20 @@ export async function listsRoute(app: FastifyInstance) {
         ],
       },
       handler: createListController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/get-lists',
+      schema: {
+        description: 'Get lists',
+        tags: ['List'],
+        querystring: getListsQuerySchema,
+        response: getListsResponseSchema,
+      },
+      handler: getListsController,
     })
   )
 }

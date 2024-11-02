@@ -16,3 +16,15 @@ export const createListResponseSchema = {
     })
     .describe('List created.'),
 }
+
+export const getListsQuerySchema = z.object({
+  userId: z.string().optional(),
+})
+
+export const getListsResponseSchema = {
+  200: z.object({
+    lists: z.array(
+      createSelectSchema(schema.lists).extend({ likes: z.number() })
+    ),
+  }),
+}

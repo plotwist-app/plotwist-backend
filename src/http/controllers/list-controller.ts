@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { createListBodySchema } from '../schemas/lists'
+import { createListBodySchema, getListsQuerySchema } from '../schemas/lists'
 import { createList } from '@/app/domain/services/create-list'
+import { getLists } from '@/app/domain/services/get-lists'
 
 export async function createListController(
   request: FastifyRequest,
@@ -18,4 +19,14 @@ export async function createListController(
   })
 
   return reply.status(201).send({ list: result.list })
+}
+
+export async function getListsController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { userId } = getListsQuerySchema.parse(request.query)
+  const result = await getLists({ userId })
+
+  return reply.status(200).send({ lists: result.lists })
 }

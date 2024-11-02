@@ -309,4 +309,5 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 export const schema = {
   users,
   lists,
+  listLikes,
 }
