@@ -1,11 +1,10 @@
 import { describe, expect, it, vi } from 'vitest'
 
 import { makeUser } from '@/test/factories/make-user'
-import { createUser } from './create-user'
 import { createList } from './create-list'
 import { makeRawList } from '@/test/factories/make-list'
 import { faker } from '@faker-js/faker'
-import { UserNotFound } from '../errors/user-not-found'
+import { UserNotFoundError } from '../../errors/user-not-found'
 
 describe('create list', () => {
   it('should be able to create a list', async () => {
@@ -24,6 +23,6 @@ describe('create list', () => {
     const list = makeRawList({ userId: faker.string.uuid() })
     const sut = await createList(list)
 
-    expect(sut).toBeInstanceOf(UserNotFound)
+    expect(sut).toBeInstanceOf(UserNotFoundError)
   })
 })

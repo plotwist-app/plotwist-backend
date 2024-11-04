@@ -2,10 +2,10 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { makeRawUser, makeUser } from '@/test/factories/make-user'
 import { createUser } from './create-user'
-import { EmailOrUsernameAlreadyRegisteredError } from '../errors/email-or-username-already-registered-error'
 
 import * as password from '@/utils/password'
-import { HashPasswordError } from '../errors/hash-password-error'
+import { EmailOrUsernameAlreadyRegisteredError } from '../../errors/email-or-username-already-registered-error'
+import { HashPasswordError } from '../../errors/hash-password-error'
 
 describe('create user', () => {
   it('should be able to create a user', async () => {
