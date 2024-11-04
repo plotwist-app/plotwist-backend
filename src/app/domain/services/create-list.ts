@@ -1,8 +1,10 @@
-import { db } from '@/db'
-import { schema } from '@/db/schema'
+import { getUserById } from '@/db/repositories/user-repository'
+import type { schema } from '@/db/schema'
 import type { InferInsertModel } from 'drizzle-orm'
+import { UserNotFound } from '../errors/user-not-found'
+import { insertList } from '@/db/repositories/list-repository'
 
-type CreateListInput = InferInsertModel<typeof schema.lists>
+export type CreateListInput = InferInsertModel<typeof schema.lists>
 
 export async function createList({
   title,
@@ -10,15 +12,11 @@ export async function createList({
   visibility = 'PUBLIC',
   userId,
 }: CreateListInput) {
-  const [list] = await db
-    .insert(schema.lists)
-    .values({
-      title,
-      visibility,
-      description,
-      userId,
-    })
-    .returning()
+  const [user] = await getUserById(userId)
+  if (!user) {
+    return new UserNotFound()
+  }
 
+  const [list] = await insertList({ title, description, visibility, userId })
   return { list }
 }

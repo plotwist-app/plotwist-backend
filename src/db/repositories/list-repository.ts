@@ -2,6 +2,7 @@ import type { GetListsInput } from '@/app/domain/services/get-lists'
 import { db } from '..'
 import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
 import { schema } from '../schema'
+import type { CreateListInput } from '@/app/domain/services/create-list'
 
 export function selectLists({
   userId,
@@ -55,4 +56,11 @@ export function selectLists({
       )
     )
     .limit(limit)
+}
+
+export async function insertList(input: CreateListInput) {
+  return db
+    .insert(schema.lists)
+    .values({ ...input })
+    .returning()
 }
