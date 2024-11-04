@@ -1,18 +1,16 @@
 import { insertReview } from '@/db/repositories/reviews-repository'
-import type { Review, InsertReviewModel } from '../../entities/review'
+import type { InsertReviewModel } from '../../entities/review'
 import { UserNotFoundError } from '../../errors/user-not-found'
 import { getUserById } from '../users/get-by-id'
 
-export async function createReview(
-  params: InsertReviewModel
-): Promise<Review | UserNotFoundError> {
-  const user = await getUserById(params.userId)
+export async function createReview(params: InsertReviewModel) {
+  const result = await getUserById(params.userId)
 
-  if (user instanceof Error) {
+  if (result instanceof Error) {
     return new UserNotFoundError()
   }
 
   const [review] = await insertReview(params)
 
-  return review
+  return { review }
 }

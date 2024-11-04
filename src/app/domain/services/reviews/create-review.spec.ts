@@ -11,11 +11,15 @@ describe('create review', () => {
   it('should be able to create an review', async () => {
     const { id: userId } = await makeUser()
 
-    const review = makeRawReview({ userId })
+    const review = makeRawReview({ userId: userId })
 
     const sut = await createReview(review)
 
-    expect(sut).toBeTruthy()
+    expect(sut).toEqual({
+      review: expect.objectContaining({
+        rating: review.rating,
+      }),
+    })
   })
 
   it('should be able to fail when user id does not exists', async () => {
