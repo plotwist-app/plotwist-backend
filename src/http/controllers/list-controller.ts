@@ -18,6 +18,10 @@ export async function createListController(
     visibility,
   })
 
+  if (result instanceof Error) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
   return reply.status(201).send({ list: result.list })
 }
 
