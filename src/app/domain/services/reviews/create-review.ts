@@ -5,7 +5,7 @@ import { getUserById } from '../users/get-by-id'
 
 export async function createReview(
   params: InsertReviewModel
-): Promise<Review | UserNotFoundError | undefined> {
+): Promise<Review | UserNotFoundError> {
   const user = await getUserById(params.userId)
 
   if (user instanceof Error) {
