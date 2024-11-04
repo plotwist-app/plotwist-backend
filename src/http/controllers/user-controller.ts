@@ -6,10 +6,11 @@ import {
   getUserByUsernameParamsSchema,
 } from '../schemas/users'
 
-import { checkAvailableUsername } from '@/app/domain/services/is-username-available'
-import { isEmailAvailable } from '@/app/domain/services/is-email-available'
-import { createUser } from '@/app/domain/services/create-user'
-import { getUserByUsername } from '@/app/domain/services/get-user-by-username'
+import { checkAvailableUsername } from '@/app/domain/services/users/is-username-available'
+import { isEmailAvailable } from '@/app/domain/services/users/is-email-available'
+import { createUser } from '@/app/domain/services/users/create-user'
+import { getUserByUsername } from '@/app/domain/services/users/get-user-by-username'
+import { DomainError } from '@/app/domain/errors/domain-error'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -19,7 +20,7 @@ export async function createUserController(
 
   const result = await createUser({ username, email, password })
 
-  if (result instanceof Error) {
+  if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
 
@@ -33,7 +34,7 @@ export async function checkAvailableUsernameController(
   const { username } = checkAvailableUsernameQuerySchema.parse(request.query)
   const result = await checkAvailableUsername({ username })
 
-  if (result instanceof Error) {
+  if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
 
@@ -47,7 +48,7 @@ export async function isEmailAvailableController(
   const { email } = isEmailAvailableQuerySchema.parse(request.query)
   const result = await isEmailAvailable({ email })
 
-  if (result instanceof Error) {
+  if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
 
@@ -61,7 +62,7 @@ export async function getUserByUsernameController(
   const { username } = getUserByUsernameParamsSchema.parse(request.params)
   const result = await getUserByUsername({ username })
 
-  if (result instanceof Error) {
+  if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
 

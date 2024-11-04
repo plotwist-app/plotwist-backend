@@ -1,12 +1,10 @@
-import { schema } from '@/db/schema'
-import type { InferInsertModel } from 'drizzle-orm'
 import { faker } from '@faker-js/faker'
-import { db } from '@/db'
+import type { User, InsertUserModel } from '@/app/domain/entities/user'
+import { insertUser } from '@/db/repositories/user-repository'
 
-type User = InferInsertModel<typeof schema.users>
-type Overrides = Partial<User>
+type Overrides = Partial<InsertUserModel>
 
-export function makeRawUser(overrides: Overrides = {}): User {
+export function makeRawUser(overrides: Overrides = {}) {
   return {
     email: faker.internet.email(),
     password: faker.internet.password(),
@@ -15,11 +13,8 @@ export function makeRawUser(overrides: Overrides = {}): User {
   }
 }
 
-export async function makeUser(overrides: Overrides = {}) {
-  const [user] = await db
-    .insert(schema.users)
-    .values(makeRawUser(overrides))
-    .returning()
+export async function makeUser(overrides: Overrides = {}): Promise<User> {
+  const [user] = await insertUser(makeRawUser(overrides))
 
   return user
 }

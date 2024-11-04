@@ -57,6 +57,13 @@
       "when": 1730502912413,
       "tag": "20241101231512_rename_lists_table",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1730732446991,
+      "tag": "20241104150046_alter_reviews_set_non_null_fields",
+      "breakpoints": true
     }
   ]
 }

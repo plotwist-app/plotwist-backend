@@ -251,9 +251,9 @@ export const reviews = pgTable('reviews', {
     .notNull(),
   tmdbId: integer('tmdb_id'),
   mediaType: mediaTypeEnum('media_type'),
-  review: varchar('review'),
-  rating: integer('rating'),
-  hasSpoilers: boolean('has_spoilers'),
+  review: varchar('review').notNull(),
+  rating: integer('rating').notNull(),
+  hasSpoilers: boolean('has_spoilers').default(false),
   tmdbTitle: varchar('tmdb_title'),
   tmdbPosterPath: varchar('tmdb_poster_path'),
   tmdbOverview: varchar('tmdb_overview'),
@@ -320,6 +320,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 
 export const schema = {
   users,
+  reviews,
   lists,
   listLikes,
   listItems,

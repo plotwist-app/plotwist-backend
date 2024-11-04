@@ -4,11 +4,11 @@ import { faker } from '@faker-js/faker'
 
 import { checkAvailableUsername } from './is-username-available'
 import { makeUser } from '@/test/factories/make-user'
-import { UsernameAlreadyRegisteredError } from '../errors/username-already-registered'
+import { UsernameAlreadyRegisteredError } from '../../errors/username-already-registered'
 
 describe('check username', () => {
   it('should be able to check available username', async () => {
-    const username = faker.internet.userName()
+    const username = faker.internet.username()
     const sut = await checkAvailableUsername({ username })
 
     expect(sut).toBeTruthy()
