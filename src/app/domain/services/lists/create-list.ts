@@ -1,8 +1,8 @@
 import { getUserById } from '@/db/repositories/user-repository'
 import type { schema } from '@/db/schema'
 import type { InferInsertModel } from 'drizzle-orm'
-import { UserNotFound } from '../errors/user-not-found'
 import { insertList } from '@/db/repositories/list-repository'
+import { UserNotFoundError } from '../../errors/user-not-found'
 
 export type CreateListInput = InferInsertModel<typeof schema.lists>
 
@@ -13,8 +13,9 @@ export async function createList({
   userId,
 }: CreateListInput) {
   const [user] = await getUserById(userId)
+
   if (!user) {
-    return new UserNotFound()
+    return new UserNotFoundError()
   }
 
   const [list] = await insertList({ title, description, visibility, userId })

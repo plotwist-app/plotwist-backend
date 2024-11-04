@@ -1,4 +1,4 @@
-import type { CreateUserInterface } from '@/app/domain/services/create-user'
+import type { InsertUserModel } from '@/app/domain/entities/user'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import { eq } from 'drizzle-orm'
@@ -22,7 +22,7 @@ export async function insertUser({
   email,
   password,
   username,
-}: CreateUserInterface) {
+}: InsertUserModel) {
   return db
     .insert(schema.users)
     .values({
@@ -31,8 +31,4 @@ export async function insertUser({
       password,
     })
     .returning()
-}
-
-export async function getUserById(id: string) {
-  return db.select().from(schema.users).where(eq(schema.users.id, id))
 }

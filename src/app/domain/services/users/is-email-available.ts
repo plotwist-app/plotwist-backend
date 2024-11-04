@@ -1,5 +1,5 @@
 import { getUserByEmail } from '@/db/repositories/user-repository'
-import { EmailAlreadyRegisteredError } from '../errors/email-already-registered'
+import { EmailAlreadyRegisteredError } from '../../errors/email-already-registered'
 
 type IsEmailAvailableInterface = {
   email: string
