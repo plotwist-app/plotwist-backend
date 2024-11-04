@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import type { Review } from '@/app/domain/entities/review'
 import { insertReview } from '@/db/repositories/reviews-repository'
-import type { InferColumnsDataTypes, InferInsertModel } from 'drizzle-orm'
+import type { InferInsertModel } from 'drizzle-orm'
 import type { schema } from '@/db/schema'
 import { getRandomItem } from '@/utils/random-item'
 import { randomUUID } from 'node:crypto'
@@ -17,21 +17,8 @@ export function makeRawReview(
   const randomTmdbId = Math.floor(Math.random() * 100)
   const randomHasSpoilerState = getRandomItem([true, false])
 
-  // const randomLanguage: InferColumnsDataTypes<typeof schema.reviews.mediaType> =
-  //   getRandomItem([
-  //     'en-US',
-  //     'es-ES',
-  //     'fr-FR',
-  //     'it-IT',
-  //     'de-DE',
-  //     'pt-BR',
-  //     'ja-JP',
-  //   ])
-
-  const randomMediaType = getRandomItem(['TV_SHOW', 'MOVIE'])
-
   return {
-    language: 'en-US',
+    language: 'de-DE',
     mediaType: 'MOVIE',
     rating: randomRating,
     review: faker.lorem.paragraph(2),

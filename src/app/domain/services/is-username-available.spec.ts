@@ -8,7 +8,7 @@ import { UsernameAlreadyRegisteredError } from '../errors/username-already-regis
 
 describe('check username', () => {
   it('should be able to check available username', async () => {
-    const username = faker.internet.userName()
+    const username = faker.internet.username()
     const sut = await checkAvailableUsername({ username })
 
     expect(sut).toBeTruthy()
