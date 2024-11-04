@@ -1,7 +1,8 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { createListBodySchema, getListsQuerySchema } from '../schemas/lists'
-import { createList } from '@/app/domain/services/create-list'
-import { getLists } from '@/app/domain/services/get-lists'
+import { createList } from '@/app/domain/services/lists/create-list'
+import { getLists } from '@/app/domain/services/lists/get-lists'
+import { DomainError } from '@/app/domain/errors/domain-error'
 
 export async function createListController(
   request: FastifyRequest,
@@ -37,7 +38,7 @@ export async function getListsController(
     limit: Number(limit),
   })
 
-  if (result instanceof Error) {
+  if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
 

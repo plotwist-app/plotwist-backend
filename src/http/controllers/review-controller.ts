@@ -2,6 +2,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { createReviewRequestSchema } from '../schemas/reviews'
 
 import { createReview } from '@/app/domain/services/reviews/create-review'
+import { DomainError } from '@/app/domain/errors/domain-error'
 
 export async function createReviewController(
   request: FastifyRequest,
@@ -11,7 +12,7 @@ export async function createReviewController(
 
   const result = await createReview(body)
 
-  if (result instanceof Error) {
+  if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
 
