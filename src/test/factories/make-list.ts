@@ -2,11 +2,11 @@ import { schema } from '@/db/schema'
 import type { InferInsertModel } from 'drizzle-orm'
 import { faker } from '@faker-js/faker'
 import { db } from '@/db'
+import type { InsertListModel, List } from '@/app/domain/entities/lists'
 
-type List = InferInsertModel<typeof schema.lists>
-type Overrides = Partial<List> & { userId: string }
+type Overrides = Partial<InsertListModel> & { userId: string }
 
-export function makeRawList(overrides: Overrides): List {
+export function makeRawList(overrides: Overrides): InsertListModel {
   return {
     title: faker.book.title(),
     visibility: 'PUBLIC',
