@@ -15,6 +15,7 @@ import { env } from '../env'
 import { usersRoute } from './routes/users'
 import { loginRoute } from './routes/login'
 import { listsRoute } from './routes/lists'
+import { reviewsRoute } from './routes/reviews'
 import { healthCheck } from './routes/healthcheck'
 
 const app = fastify()
@@ -73,6 +74,7 @@ app.register(usersRoute)
 app.register(listsRoute)
 app.register(loginRoute)
 app.register(healthCheck)
+app.register(reviewsRoute)
 
 // Server
 app

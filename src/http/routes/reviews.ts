@@ -7,7 +7,7 @@ import {
   createReviewResponseSchema,
 } from '../schemas/reviews'
 
-export async function usersRoute(app: FastifyInstance) {
+export async function reviewsRoute(app: FastifyInstance) {
   const reviewsTag = 'Reviews'
 
   app.after(() =>

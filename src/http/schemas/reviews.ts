@@ -4,14 +4,14 @@ import { z } from 'zod'
 
 export const createReviewRequestSchema = z.object({
   userId: z.string({ message: 'User id is required' }),
-  tmdbId: z.number().nullable(),
+  tmdbId: z.number().optional(),
   mediaType: z.enum(['TV_SHOW', 'MOVIE']),
   review: z.string({ message: 'Review is required' }),
   rating: z.number({ message: 'Rating is required' }),
   hasSpoilers: z.boolean().default(false),
-  tmdbTitle: z.string().nullable(),
-  tmdbPosterPath: z.string().nullable(),
-  tmdbOverview: z.string().nullable(),
+  tmdbTitle: z.string().optional(),
+  tmdbPosterPath: z.string().optional(),
+  tmdbOverview: z.string().optional(),
   language: z.enum([
     'en-US',
     'es-ES',
