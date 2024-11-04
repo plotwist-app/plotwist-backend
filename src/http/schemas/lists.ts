@@ -52,3 +52,13 @@ export const getListsResponseSchema = {
     message: z.string(),
   }),
 }
+
+export const deleteListParamsSchema = z.object({
+  id: z.string().uuid(),
+})
+
+export const deleteListResponseSchema = {
+  204: z.null(),
+  404: z.object({ message: z.string() }).describe('List not found.'),
+  401: z.object({ message: z.string() }).describe('Unauthorized.'),
+}

@@ -64,3 +64,11 @@ export async function insertList(input: InsertListModel) {
     .values({ ...input })
     .returning()
 }
+
+export async function deleteList(id: string) {
+  return db.delete(schema.lists).where(eq(schema.lists.id, id))
+}
+
+export async function getList(id: string) {
+  return db.select().from(schema.lists).where(eq(schema.lists.id, id))
+}

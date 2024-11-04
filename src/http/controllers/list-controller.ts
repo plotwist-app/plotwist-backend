@@ -1,8 +1,13 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { createListBodySchema, getListsQuerySchema } from '../schemas/lists'
+import {
+  createListBodySchema,
+  deleteListParamsSchema,
+  getListsQuerySchema,
+} from '../schemas/lists'
 import { createList } from '@/app/domain/services/lists/create-list'
 import { getLists } from '@/app/domain/services/lists/get-lists'
 import { DomainError } from '@/app/domain/errors/domain-error'
+import { deleteListService } from '@/app/domain/services/lists/delete-list'
 
 export async function createListController(
   request: FastifyRequest,
@@ -43,4 +48,18 @@ export async function getListsController(
   }
 
   return reply.status(200).send({ lists: result.lists })
+}
+
+export async function deleteListController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { id } = deleteListParamsSchema.parse(request.params)
+  const result = await deleteListService({ id, userId: request.user.id })
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(204).send()
 }
