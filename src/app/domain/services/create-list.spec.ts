@@ -22,7 +22,6 @@ describe('create list', () => {
 
   it('should not be able able to create a list with non-invalid user id', async () => {
     const list = makeRawList({ userId: faker.string.uuid() })
-    console.log({ list })
     const sut = await createList(list)
 
     expect(sut).toBeInstanceOf(UserNotFound)
