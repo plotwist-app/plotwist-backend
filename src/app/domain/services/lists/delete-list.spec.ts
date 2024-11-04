@@ -3,7 +3,6 @@ import { describe, expect, it, beforeAll } from 'vitest'
 import { makeUser } from '@/test/factories/make-user'
 import { makeList } from '@/test/factories/make-list'
 import { faker } from '@faker-js/faker'
-import { UserNotFoundError } from '../../errors/user-not-found'
 import { deleteListService } from './delete-list'
 import type { InferSelectModel } from 'drizzle-orm'
 import type { schema } from '@/db/schema'
@@ -12,7 +11,7 @@ import { UnauthorizedError } from '../../errors/unauthorized-error'
 
 let user: InferSelectModel<typeof schema.users>
 
-describe('create list', () => {
+describe('delete list', () => {
   beforeAll(async () => {
     user = await makeUser()
   })
