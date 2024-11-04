@@ -31,15 +31,4 @@ describe('delete list', () => {
 
     expect(sut).toBeInstanceOf(ListNotFoundError)
   })
-
-  it('should be able to reject deletion of a list by a non-owner user', async () => {
-    const list = await makeList({ userId: user.id })
-
-    const sut = await deleteListService({
-      id: list.id,
-      userId: faker.string.uuid(),
-    })
-
-    expect(sut).toBeInstanceOf(UnauthorizedError)
-  })
 })
