@@ -19,6 +19,7 @@ export const createListResponseSchema = {
 
 export const getListsQuerySchema = z.object({
   userId: z.string().optional(),
+  limit: z.string().default('5').optional(),
 })
 
 export const getListsResponseSchema = {

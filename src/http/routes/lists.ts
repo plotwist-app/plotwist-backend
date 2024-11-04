@@ -17,7 +17,7 @@ export async function listsRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',
-      url: '/lists/create',
+      url: '/list',
       onRequest: [verifyJwt],
       schema: {
         description: 'Create a list',

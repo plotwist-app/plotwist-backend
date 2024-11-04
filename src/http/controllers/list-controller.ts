@@ -25,11 +25,12 @@ export async function getListsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { userId } = getListsQuerySchema.parse(request.query)
+  const { userId, limit } = getListsQuerySchema.parse(request.query)
 
   const result = await getLists({
     userId,
     authenticatedUserId: request.user?.id,
+    limit: Number(limit),
   })
 
   return reply.status(200).send({ lists: result.lists })
