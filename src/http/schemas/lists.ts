@@ -79,3 +79,14 @@ export const updateListResponseSchema = {
   }),
   404: z.object({ message: z.string() }).describe('List not found.'),
 }
+
+export const getListParamsSchema = z.object({
+  id: z.string().uuid(),
+})
+
+export const getListResponseSchema = {
+  200: z.object({
+    list: createSelectSchema(schema.lists),
+  }),
+  404: z.object({ message: z.string() }).describe('List not found.'),
+}

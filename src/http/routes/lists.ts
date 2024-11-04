@@ -6,6 +6,8 @@ import {
   createListResponseSchema,
   deleteListParamsSchema,
   deleteListResponseSchema,
+  getListParamsSchema,
+  getListResponseSchema,
   getListsQuerySchema,
   getListsResponseSchema,
   updateListBodySchema,
@@ -15,6 +17,7 @@ import {
 import {
   createListController,
   deleteListController,
+  getListController,
   getListsController,
   updateListController,
 } from '../controllers/list-controller'
@@ -99,6 +102,26 @@ export async function listsRoute(app: FastifyInstance) {
         ],
       },
       handler: updateListController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/list/by/:id',
+      onRequest: [verifyOptionalJwt],
+      schema: {
+        description: 'Get list by ID',
+        tags: ['List'],
+        params: getListParamsSchema,
+        response: getListResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: getListController,
     })
   )
 }
