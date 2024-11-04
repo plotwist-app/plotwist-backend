@@ -1,15 +1,8 @@
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import { createInsertSchema } from 'drizzle-zod'
+import type { InferInsertModel } from 'drizzle-orm'
 
-const createListInput = createInsertSchema(schema.lists).pick({
-  title: true,
-  description: true,
-  visibility: true,
-  userId: true,
-})._type
-
-type CreateListInput = typeof createListInput
+type CreateListInput = InferInsertModel<typeof schema.lists>
 
 export async function createList({
   title,
