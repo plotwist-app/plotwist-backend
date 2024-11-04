@@ -8,11 +8,15 @@ import {
   deleteListResponseSchema,
   getListsQuerySchema,
   getListsResponseSchema,
+  updateListBodySchema,
+  updateListParamsSchema,
+  updateListResponseSchema,
 } from '../schemas/lists'
 import {
   createListController,
   deleteListController,
   getListsController,
+  updateListController,
 } from '../controllers/list-controller'
 import { verifyOptionalJwt } from '../middlewares/verify-optional-jwt'
 
@@ -74,6 +78,27 @@ export async function listsRoute(app: FastifyInstance) {
         ],
       },
       handler: deleteListController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PUT',
+      url: '/list/:id',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Update list',
+        tags: ['List'],
+        params: updateListParamsSchema,
+        body: updateListBodySchema,
+        response: updateListResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: updateListController,
     })
   )
 }

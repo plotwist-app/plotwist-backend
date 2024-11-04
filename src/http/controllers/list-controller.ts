@@ -3,11 +3,14 @@ import {
   createListBodySchema,
   deleteListParamsSchema,
   getListsQuerySchema,
+  updateListBodySchema,
+  updateListParamsSchema,
 } from '../schemas/lists'
 import { createList } from '@/app/domain/services/lists/create-list'
 import { getLists } from '@/app/domain/services/lists/get-lists'
 import { DomainError } from '@/app/domain/errors/domain-error'
 import { deleteListService } from '@/app/domain/services/lists/delete-list'
+import { updateListService } from '@/app/domain/services/lists/update-lis'
 
 export async function createListController(
   request: FastifyRequest,
@@ -62,4 +65,24 @@ export async function deleteListController(
   }
 
   return reply.status(204).send()
+}
+
+export async function updateListController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { id } = updateListParamsSchema.parse(request.params)
+  const values = updateListBodySchema.parse(request.body)
+
+  const result = await updateListService({
+    id: id,
+    userId: request.user.id,
+    values: values,
+  })
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ list: result.list })
 }

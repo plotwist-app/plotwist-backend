@@ -1,5 +1,12 @@
 import { db } from '..'
-import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
+import {
+  and,
+  desc,
+  eq,
+  getTableColumns,
+  type InferInsertModel,
+  sql,
+} from 'drizzle-orm'
 import { schema } from '../schema'
 import type { GetListsInput } from '@/app/domain/services/lists/get-lists'
 import type { InsertListModel } from '@/app/domain/entities/lists'
@@ -74,4 +81,16 @@ export async function getList(id: string, userId: string) {
     .select()
     .from(schema.lists)
     .where(and(eq(schema.lists.id, id), eq(schema.lists.userId, userId)))
+}
+
+export async function updateList(
+  id: string,
+  userId: string,
+  values: Omit<InferInsertModel<typeof schema.lists>, 'userId' | 'createdAt'>
+) {
+  return db
+    .update(schema.lists)
+    .set(values)
+    .where(and(eq(schema.lists.id, id), eq(schema.lists.userId, userId)))
+    .returning()
 }
