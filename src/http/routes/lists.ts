@@ -1,26 +1,56 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
-import { registerListBodySchema } from '../schemas/register-list'
-import { registerListController } from '../controllers/register-list'
+import {
+  createListBodySchema,
+  createListResponseSchema,
+  getListsQuerySchema,
+  getListsResponseSchema,
+} from '../schemas/lists'
+import {
+  createListController,
+  getListsController,
+} from '../controllers/list-controller'
+import { verifyOptionalJwt } from '../middlewares/verify-optional-jwt'
 
 export async function listsRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',
-      url: '/register-list',
+      url: '/list',
       onRequest: [verifyJwt],
       schema: {
-        description: 'Register a list',
+        description: 'Create a list',
         tags: ['List'],
-        body: registerListBodySchema,
+        body: createListBodySchema,
+        response: createListResponseSchema,
         security: [
           {
             bearerAuth: [],
           },
         ],
       },
-      handler: registerListController,
+      handler: createListController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/lists',
+      onRequest: [verifyOptionalJwt],
+      schema: {
+        description: 'Get lists',
+        tags: ['List'],
+        querystring: getListsQuerySchema,
+        // response: getListsResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: getListsController,
     })
   )
 }

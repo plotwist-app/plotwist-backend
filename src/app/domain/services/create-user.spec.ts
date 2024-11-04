@@ -7,8 +7,8 @@ import { EmailOrUsernameAlreadyRegisteredError } from '../errors/email-or-userna
 import * as password from '@/utils/password'
 import { HashPasswordError } from '../errors/hash-password-error'
 
-describe('register user', () => {
-  it('should be able to register a user', async () => {
+describe('create user', () => {
+  it('should be able to create a user', async () => {
     const user = makeRawUser()
     const sut = await createUser(user)
 
@@ -20,14 +20,14 @@ describe('register user', () => {
     })
   })
 
-  it('should not be able to register a user with email already registered', async () => {
+  it('should not be able to create a user with email already registered', async () => {
     const user = await makeUser()
     const sut = await createUser(user)
 
     expect(sut).toBeInstanceOf(EmailOrUsernameAlreadyRegisteredError)
   })
 
-  it('should not be able to register a user with username already registered', async () => {
+  it('should not be able to  a user with username already created', async () => {
     const user = await makeUser()
     const sut = await createUser(user)
 
