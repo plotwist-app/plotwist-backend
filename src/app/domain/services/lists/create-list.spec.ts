@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import { makeUser } from '@/test/factories/make-user'
 import { createList } from './create-list'

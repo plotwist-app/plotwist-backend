@@ -8,12 +8,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Create delete list endpoint [#20](https://github.com/plotwist-app/plotwist-backend/pull/20)
 - Create reviews endpoint [(#19)](https://github.com/plotwist-app/plotwist-backend/pull/19)
 
 ### Changed
 
 - Set some review fields on schema as required [(#19)](https://github.com/plotwist-app/plotwist-backend/pull/19)
- 
+
 ## 0.1.0
 
 ### Added
