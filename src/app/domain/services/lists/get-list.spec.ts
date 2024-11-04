@@ -11,7 +11,7 @@ import { getListService } from './get-list'
 
 let user: InferSelectModel<typeof schema.users>
 
-describe('delete list', () => {
+describe('get list', () => {
   beforeAll(async () => {
     user = await makeUser()
   })

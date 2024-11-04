@@ -11,7 +11,7 @@ import { updateListService } from './update-list'
 let user: InferSelectModel<typeof schema.users>
 let list: InferSelectModel<typeof schema.lists>
 
-describe('delete list', () => {
+describe('update list', () => {
   beforeAll(async () => {
     user = await makeUser()
     list = await makeList({ userId: user.id })
