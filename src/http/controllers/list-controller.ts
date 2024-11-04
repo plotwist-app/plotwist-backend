@@ -10,7 +10,7 @@ import { createList } from '@/app/domain/services/lists/create-list'
 import { getLists } from '@/app/domain/services/lists/get-lists'
 import { DomainError } from '@/app/domain/errors/domain-error'
 import { deleteListService } from '@/app/domain/services/lists/delete-list'
-import { updateListService } from '@/app/domain/services/lists/update-lis'
+import { updateListService } from '@/app/domain/services/lists/update-list'
 
 export async function createListController(
   request: FastifyRequest,

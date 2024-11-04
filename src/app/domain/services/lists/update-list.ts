@@ -3,10 +3,15 @@ import { ListNotFoundError } from '../../errors/list-not-found-error'
 import type { InferInsertModel } from 'drizzle-orm'
 import type { schema } from '@/db/schema'
 
+export type UpdateListValues = Omit<
+  InferInsertModel<typeof schema.lists>,
+  'userId' | 'createdAt' | 'coverPath'
+>
+
 type UpdateListInput = {
   id: string
   userId: string
-  values: Omit<InferInsertModel<typeof schema.lists>, 'userId' | 'createdAt'>
+  values: UpdateListValues
 }
 
 export async function updateListService({

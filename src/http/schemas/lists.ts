@@ -70,6 +70,7 @@ export const updateListBodySchema = createInsertSchema(schema.lists).omit({
   userId: true,
   id: true,
   createdAt: true,
+  coverPath: true,
 })
 
 export const updateListResponseSchema = {

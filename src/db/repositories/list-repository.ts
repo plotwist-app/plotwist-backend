@@ -10,6 +10,7 @@ import {
 import { schema } from '../schema'
 import type { GetListsInput } from '@/app/domain/services/lists/get-lists'
 import type { InsertListModel } from '@/app/domain/entities/lists'
+import type { UpdateListValues } from '@/app/domain/services/lists/update-list'
 
 export function selectLists({
   userId,
@@ -86,7 +87,7 @@ export async function getList(id: string, userId: string) {
 export async function updateList(
   id: string,
   userId: string,
-  values: Omit<InferInsertModel<typeof schema.lists>, 'userId' | 'createdAt'>
+  values: UpdateListValues
 ) {
   return db
     .update(schema.lists)
