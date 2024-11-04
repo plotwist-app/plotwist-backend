@@ -97,10 +97,7 @@ export async function getListController(
 
   const result = await getListService({
     id: id,
-    authenticatedUserId: request.user?.id,
   })
-
-  console.log({ result, id })
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
