@@ -60,5 +60,22 @@ export const deleteListParamsSchema = z.object({
 export const deleteListResponseSchema = {
   204: z.null(),
   404: z.object({ message: z.string() }).describe('List not found.'),
-  401: z.object({ message: z.string() }).describe('Unauthorized.'),
+}
+
+export const updateListParamsSchema = z.object({
+  id: z.string().uuid(),
+})
+
+export const updateListBodySchema = createInsertSchema(schema.lists).omit({
+  userId: true,
+  id: true,
+  createdAt: true,
+  coverPath: true,
+})
+
+export const updateListResponseSchema = {
+  200: z.object({
+    list: createSelectSchema(schema.lists),
+  }),
+  404: z.object({ message: z.string() }).describe('List not found.'),
 }
