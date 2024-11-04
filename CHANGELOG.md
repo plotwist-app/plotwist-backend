@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- Create edit list endpoint [#20](https://github.com/plotwist-app/plotwist-backend/pull/21)
+- Create get list endpoint [#22](https://github.com/plotwist-app/plotwist-backend/pull/22)
+- Create edit list endpoint [#21](https://github.com/plotwist-app/plotwist-backend/pull/21)
 - Create delete list endpoint [#20](https://github.com/plotwist-app/plotwist-backend/pull/20)
 - Create reviews endpoint [(#19)](https://github.com/plotwist-app/plotwist-backend/pull/19)
 
