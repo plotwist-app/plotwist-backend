@@ -15,6 +15,11 @@ export const createListResponseSchema = {
       list: createSelectSchema(schema.lists),
     })
     .describe('List created.'),
+  404: z
+    .object({
+      message: z.string(),
+    })
+    .describe('User not found'),
 }
 
 export const getListsQuerySchema = z.object({
