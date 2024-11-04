@@ -33,5 +33,9 @@ export async function getListsController(
     limit: Number(limit),
   })
 
+  if (result instanceof Error) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
   return reply.status(200).send({ lists: result.lists })
 }

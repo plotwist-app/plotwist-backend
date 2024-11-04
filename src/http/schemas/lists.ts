@@ -43,4 +43,7 @@ export const getListsResponseSchema = {
       })
     ),
   }),
+  404: z.object({
+    message: z.string(),
+  }),
 }

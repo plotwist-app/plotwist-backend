@@ -43,7 +43,7 @@ export async function listsRoute(app: FastifyInstance) {
         description: 'Get lists',
         tags: ['List'],
         querystring: getListsQuerySchema,
-        response: getListsResponseSchema,
+        // response: getListsResponseSchema,
         security: [
           {
             bearerAuth: [],
