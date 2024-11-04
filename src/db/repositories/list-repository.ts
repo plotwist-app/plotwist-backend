@@ -1,12 +1,5 @@
 import { db } from '..'
-import {
-  and,
-  desc,
-  eq,
-  getTableColumns,
-  type InferInsertModel,
-  sql,
-} from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
 import { schema } from '../schema'
 import type { GetListsInput } from '@/app/domain/services/lists/get-lists'
 import type { InsertListModel } from '@/app/domain/entities/lists'
