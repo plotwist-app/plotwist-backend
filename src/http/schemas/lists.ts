@@ -19,7 +19,7 @@ export const createListResponseSchema = {
 
 export const getListsQuerySchema = z.object({
   userId: z.string().optional(),
-  limit: z.string().default('5').optional(),
+  limit: z.coerce.number().default(5).optional(),
 })
 
 export const getListsResponseSchema = {
@@ -28,6 +28,13 @@ export const getListsResponseSchema = {
       createSelectSchema(schema.lists).extend({
         likeCount: z.number(),
         hasLiked: z.boolean(),
+        items: z.array(
+          createSelectSchema(schema.listItems).pick({
+            id: true,
+            mediaType: true,
+            tmdbId: true,
+          })
+        ),
         user: createSelectSchema(schema.users).pick({
           id: true,
           username: true,

@@ -322,4 +322,5 @@ export const schema = {
   users,
   lists,
   listLikes,
+  listItems,
 }
