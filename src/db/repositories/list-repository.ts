@@ -95,3 +95,12 @@ export async function updateList(
     .where(and(eq(schema.lists.id, id), eq(schema.lists.userId, userId)))
     .returning()
 }
+
+export async function getListById(id: string) {
+  return db
+    .select({
+      ...getTableColumns(schema.lists),
+    })
+    .from(schema.lists)
+    .where(eq(schema.lists.id, id))
+}
