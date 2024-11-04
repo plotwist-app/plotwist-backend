@@ -1,6 +1,6 @@
 {
-  "id": "85ee6447-7280-486e-aab5-7710b7645715",
-  "prevId": "2e549b30-7680-4999-826c-6216562a457b",
+  "id": "0f503329-3055-4775-93ab-638f19013193",
+  "prevId": "c77325a2-8f45-45f5-b219-6e69e60fa71a",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -274,7 +274,44 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "list_id_idx": {
+          "name": "list_id_idx",
+          "columns": [
+            {
+              "expression": "list_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "list_user_idx": {
+          "name": "list_user_idx",
+          "columns": [
+            {
+              "expression": "list_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "list_likes_list_id_lists_id_fk": {
           "name": "list_likes_list_id_lists_id_fk",
@@ -316,11 +353,11 @@
           "primaryKey": true,
           "notNull": true
         },
-        "name": {
-          "name": "name",
+        "title": {
+          "name": "title",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "user_id": {
           "name": "user_id",
