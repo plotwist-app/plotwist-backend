@@ -27,7 +27,7 @@ app.register(fastifySwagger, {
   openapi: {
     openapi: '3.0.0',
     info: {
-      title: 'Event booster',
+      title: 'Plotwist',
       version: '0.1.0',
     },
     servers: [

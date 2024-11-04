@@ -32,3 +32,7 @@ export async function insertUser({
     })
     .returning()
 }
+
+export async function getUserById(id: string) {
+  return db.select().from(schema.users).where(eq(schema.users.id, id))
+}

@@ -54,8 +54,8 @@
     {
       "idx": 7,
       "version": "7",
-      "when": 1730720319780,
-      "tag": "20241104113839_alter_reviews_set_non_null_fields",
+      "when": 1730502912413,
+      "tag": "20241101231512_rename_lists_table",
       "breakpoints": true
     }
   ]

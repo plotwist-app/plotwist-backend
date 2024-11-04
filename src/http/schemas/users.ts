@@ -1,5 +1,5 @@
 import { schema } from '@/db/schema'
-import { createInsertSchema } from 'drizzle-zod'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 export const createUserBodySchema = z.object({
@@ -54,4 +54,14 @@ export const isEmailAvailableResponseSchema = {
       message: z.string(),
     })
     .describe('Email is already registered.'),
+}
+
+export const getUserByUsernameParamsSchema = z.object({
+  username: z.string(),
+})
+
+export const getUserByUsernameResponseSchema = {
+  200: z.object({
+    user: createSelectSchema(schema.users).omit({ password: true }),
+  }),
 }
