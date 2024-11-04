@@ -9,12 +9,14 @@ import {
   isEmailAvailableResponseSchema,
   getUserByUsernameParamsSchema,
   getUserByUsernameResponseSchema,
+  getUserByIdParamsSchema,
 } from '../schemas/users'
 import {
   isEmailAvailableController,
   checkAvailableUsernameController,
   createUserController,
   getUserByUsernameController,
+  getUserByIdController,
 } from '../controllers/user-controller'
 
 export async function usersRoute(app: FastifyInstance) {
@@ -73,6 +75,20 @@ export async function usersRoute(app: FastifyInstance) {
         response: getUserByUsernameResponseSchema,
       },
       handler: getUserByUsernameController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/by/:id',
+      schema: {
+        description: 'Get user by',
+        tags: [usersTag],
+        params: getUserByIdParamsSchema,
+        response: createUserResponseSchema,
+      },
+      handler: getUserByIdController,
     })
   )
 }
