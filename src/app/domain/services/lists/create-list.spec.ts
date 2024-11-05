@@ -19,7 +19,7 @@ describe('create list', () => {
     })
   })
 
-  it('should not be able able to create a list with non-invalid user id', async () => {
+  it('should not be able able to create a list with invalid user id', async () => {
     const list = makeRawList({ userId: faker.string.uuid() })
     const sut = await createList(list)
 
