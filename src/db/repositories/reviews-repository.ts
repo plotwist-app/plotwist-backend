@@ -1,4 +1,4 @@
-import type { InsertReviewModel } from '@/app/domain/entities/review'
+import type { InsertReviewModel } from '@/domain/entities/review'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 

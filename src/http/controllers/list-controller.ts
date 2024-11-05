@@ -7,12 +7,12 @@ import {
   updateListBodySchema,
   updateListParamsSchema,
 } from '../schemas/lists'
-import { createList } from '@/app/domain/services/lists/create-list'
-import { getLists } from '@/app/domain/services/lists/get-lists'
-import { DomainError } from '@/app/domain/errors/domain-error'
-import { deleteListService } from '@/app/domain/services/lists/delete-list'
-import { updateListService } from '@/app/domain/services/lists/update-list'
-import { getListService } from '@/app/domain/services/lists/get-list'
+import { createList } from '@/domain/services/lists/create-list'
+import { getLists } from '@/domain/services/lists/get-lists'
+import { DomainError } from '@/domain/errors/domain-error'
+import { deleteListService } from '@/domain/services/lists/delete-list'
+import { updateListService } from '@/domain/services/lists/update-list'
+import { getListService } from '@/domain/services/lists/get-list'
 
 export async function createListController(
   request: FastifyRequest,
