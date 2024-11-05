@@ -1,7 +1,7 @@
 import { schema } from '@/db/schema'
 import { faker } from '@faker-js/faker'
 import { db } from '@/db'
-import type { InsertListItem } from '@/app/domain/entities/list-item'
+import type { InsertListItem } from '@/domain/entities/list-item'
 
 type Overrides = Partial<InsertListItem> & { listId: string }
 
@@ -9,6 +9,7 @@ export function makeRawListItem(overrides: Overrides): InsertListItem {
   return {
     title: faker.lorem.words(3),
     tmdbId: faker.number.int({ min: 0, max: 1_000 }),
+    overview: faker.lorem.words(5),
     ...overrides,
   }
 }
