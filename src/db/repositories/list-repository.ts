@@ -90,10 +90,5 @@ export async function updateList(
 }
 
 export async function getListById(id: string) {
-  return db
-    .select({
-      ...getTableColumns(schema.lists),
-    })
-    .from(schema.lists)
-    .where(eq(schema.lists.id, id))
+  return db.select().from(schema.lists).where(eq(schema.lists.id, id))
 }
