@@ -7,12 +7,12 @@ import {
   getUserByIdParamsSchema,
 } from '../schemas/users'
 
-import { checkAvailableUsername } from '@/app/domain/services/users/is-username-available'
-import { isEmailAvailable } from '@/app/domain/services/users/is-email-available'
-import { createUser } from '@/app/domain/services/users/create-user'
-import { getUserByUsername } from '@/app/domain/services/users/get-user-by-username'
-import { DomainError } from '@/app/domain/errors/domain-error'
-import { getUserById } from '@/app/domain/services/users/get-by-id'
+import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
+import { isEmailAvailable } from '@/domain/services/users/is-email-available'
+import { createUser } from '@/domain/services/users/create-user'
+import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
+import { DomainError } from '@/domain/errors/domain-error'
+import { getUserById } from '@/domain/services/users/get-by-id'
 
 export async function createUserController(
   request: FastifyRequest,

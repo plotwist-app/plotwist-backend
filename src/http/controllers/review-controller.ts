@@ -1,8 +1,8 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { createReviewRequestSchema } from '../schemas/reviews'
 
-import { createReview } from '@/app/domain/services/reviews/create-review'
-import { DomainError } from '@/app/domain/errors/domain-error'
+import { createReview } from '@/domain/services/reviews/create-review'
+import { DomainError } from '@/domain/errors/domain-error'
 
 export async function createReviewController(
   request: FastifyRequest,
