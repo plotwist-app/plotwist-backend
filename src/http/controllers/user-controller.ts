@@ -29,7 +29,7 @@ export async function createUserController(
   return reply.status(201).send({ user: result.user })
 }
 
-export async function checkAvailableUsernameController(
+export async function isUsernameAvailableController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
