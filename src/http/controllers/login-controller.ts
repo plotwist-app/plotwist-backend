@@ -1,6 +1,6 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { loginBodySchema } from '../schemas/login'
-import { login } from '@/app/domain/services/login'
+import { login } from '@/domain/services/login'
 
 export async function loginController(
   request: FastifyRequest,

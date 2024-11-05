@@ -1,4 +1,4 @@
-import type { InsertUserModel } from '@/app/domain/entities/user'
+import type { InsertUserModel } from '@/domain/entities/user'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import { eq } from 'drizzle-orm'
