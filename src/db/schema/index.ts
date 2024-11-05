@@ -110,7 +110,9 @@ export const likesRelations = relations(likes, ({ one, many }) => ({
 export const listItems = pgTable(
   'list_items',
   {
-    id: uuid('id').$defaultFn(() => randomUUID()),
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .notNull(),
     listId: uuid('list_id')
       .references(() => lists.id, { onDelete: 'cascade' })
       .notNull(),

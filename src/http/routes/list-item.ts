@@ -5,14 +5,16 @@ import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createListItemBodySchema,
   createListItemResponseSchema,
+  deleteListItemParamSchema,
   getListItemsParamsSchema,
   getListItemsResponseSchema,
 } from '../schemas/list-item'
+
 import {
   createListItemController,
+  deleteListItemController,
   getListItemsController,
 } from '../controllers/list-item-controller'
-import { getListItemsService } from '@/app/domain/services/list-item/get-list-items'
 
 export async function listItemRoutes(app: FastifyInstance) {
   app.after(() =>
@@ -46,6 +48,26 @@ export async function listItemRoutes(app: FastifyInstance) {
         response: getListItemsResponseSchema,
       },
       handler: getListItemsController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'DELETE',
+      url: '/list-item/:id',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Delete list item',
+        tags: ['List Item'],
+        params: deleteListItemParamSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        response: getListItemsResponseSchema,
+      },
+      handler: deleteListItemController,
     })
   )
 }

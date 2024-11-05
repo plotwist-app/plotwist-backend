@@ -64,6 +64,13 @@
       "when": 1730732446991,
       "tag": "20241104150046_alter_reviews_set_non_null_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1730818600024,
+      "tag": "20241105145640_list_item_id_not_null",
+      "breakpoints": true
     }
   ]
 }

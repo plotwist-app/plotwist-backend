@@ -21,3 +21,21 @@ export const getListItemsResponseSchema = {
     listItems: createSelectSchema(schema.listItems),
   }),
 }
+
+export const deleteListItemParamSchema = z.object({
+  id: z.string().uuid(),
+})
+
+export const deleteListItemResponseSchema = {
+  204: z.null(),
+  404: z
+    .object({
+      message: z.string(),
+    })
+    .describe('List or list item not found.'),
+  401: z
+    .object({
+      message: z.string(),
+    })
+    .describe('Unauthorized.'),
+}
