@@ -18,7 +18,7 @@ export const getListItemsParamsSchema = z.object({
 
 export const getListItemsResponseSchema = {
   200: z.object({
-    listItems: createSelectSchema(schema.listItems),
+    listItems: z.array(createSelectSchema(schema.listItems)),
   }),
 }
 

@@ -116,8 +116,8 @@ export const listItems = pgTable(
     listId: uuid('list_id')
       .references(() => lists.id, { onDelete: 'cascade' })
       .notNull(),
-    title: varchar('title'),
-    overview: varchar('overview'),
+    title: varchar('title').notNull(),
+    overview: varchar('overview').notNull(),
     backdropPath: varchar('backdrop_path'),
     posterPath: varchar('poster_path'),
     tmdbId: integer('tmdb_id'),

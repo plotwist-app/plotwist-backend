@@ -71,6 +71,20 @@
       "when": 1730818600024,
       "tag": "20241105145640_list_item_id_not_null",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1730822300140,
+      "tag": "20241105155820_list_item_title_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1730824538795,
+      "tag": "20241105163538_list_item_backdrop",
+      "breakpoints": true
     }
   ]
 }
