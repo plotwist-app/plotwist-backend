@@ -4,11 +4,10 @@ import { makeUser } from '@/test/factories/make-user'
 import { makeList } from '@/test/factories/make-list'
 import { faker } from '@faker-js/faker'
 import { deleteListService } from './delete-list'
-import type { InferSelectModel } from 'drizzle-orm'
-import type { schema } from '@/db/schema'
 import { ListNotFoundError } from '../../errors/list-not-found-error'
+import type { User } from '@/domain/entities/user'
 
-let user: InferSelectModel<typeof schema.users>
+let user: User
 
 describe('delete list', () => {
   beforeAll(async () => {

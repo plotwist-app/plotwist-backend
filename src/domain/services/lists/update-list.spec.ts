@@ -3,13 +3,15 @@ import { describe, expect, it, beforeAll } from 'vitest'
 import { makeUser } from '@/test/factories/make-user'
 import { makeList } from '@/test/factories/make-list'
 import { faker } from '@faker-js/faker'
-import type { InferSelectModel } from 'drizzle-orm'
-import type { schema } from '@/db/schema'
+
 import { ListNotFoundError } from '../../errors/list-not-found-error'
 import { updateListService } from './update-list'
 
-let user: InferSelectModel<typeof schema.users>
-let list: InferSelectModel<typeof schema.lists>
+import type { List } from '@/domain/entities/lists'
+import type { User } from '@/domain/entities/user'
+
+let user: User
+let list: List
 
 describe('update list', () => {
   beforeAll(async () => {

@@ -2,18 +2,17 @@ import { describe, expect, it, beforeAll } from 'vitest'
 
 import { makeUser } from '@/test/factories/make-user'
 import { makeList } from '@/test/factories/make-list'
-import type { InferSelectModel } from 'drizzle-orm'
-import type { schema } from '@/db/schema'
-import { makeListItem, makeRawListItem } from '@/test/factories/make-list-item'
-import { createListItemService } from './create-list-item'
+import { makeListItem } from '@/test/factories/make-list-item'
 import { faker } from '@faker-js/faker'
-import { ListNotFoundError } from '../../errors/list-not-found-error'
 import { deleteListItemService } from './delete-list-item'
 import { ListItemNotFoundError } from '@/domain/errors/list-item-not-found-error'
 import { UnauthorizedError } from '@/domain/errors/unauthorized-error'
 
-let list: InferSelectModel<typeof schema.lists>
-let user: InferSelectModel<typeof schema.users>
+import type { List } from '@/domain/entities/lists'
+import type { User } from '@/domain/entities/user'
+
+let list: List
+let user: User
 
 describe('delete list item', () => {
   beforeAll(async () => {
