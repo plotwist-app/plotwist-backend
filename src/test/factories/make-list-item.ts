@@ -10,7 +10,6 @@ export function makeRawListItem(overrides: Overrides): InsertListItem {
     title: faker.lorem.words(3),
     tmdbId: faker.number.int({ min: 0, max: 1_000 }),
     overview: faker.lorem.words(5),
-    position: faker.number.int({ min: 0, max: 1_000 }),
     ...overrides,
   }
 }
