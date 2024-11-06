@@ -28,7 +28,6 @@ export async function webhookController(
 
   switch (event.type) {
     case 'checkout.session.completed':
-      console.log({ event })
       await completeSubscription(event.data.object.customer_email)
       break
 
