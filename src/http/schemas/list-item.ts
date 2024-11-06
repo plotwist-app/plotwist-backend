@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 export const createListItemBodySchema = createInsertSchema(
   schema.listItems
-).omit({ id: true, createdAt: true })
+).omit({ id: true, createdAt: true, position: true })
 
 export const createListItemResponseSchema = {
   201: z.object({

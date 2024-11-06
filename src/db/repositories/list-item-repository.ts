@@ -19,5 +19,9 @@ export async function deleteListItem(id: string) {
 }
 
 export async function getListItem(id: string) {
-  return db.select().from(schema.listItems).where(eq(schema.listItems.id, id))
+  return db
+    .select()
+    .from(schema.listItems)
+    .where(eq(schema.listItems.id, id))
+    .orderBy(schema.listItems.position)
 }

@@ -123,6 +123,7 @@ export const listItems = pgTable(
     tmdbId: integer('tmdb_id'),
     mediaType: mediaTypeEnum('media_type'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    position: integer('position').notNull(),
   },
   table => {
     return {
