@@ -91,7 +91,7 @@ export const getListResponseSchema = {
   404: z.object({ message: z.string() }).describe('List not found.'),
 }
 
-export const updateListBannerParamsSchema = z.object({
-  listId: z.string(),
+export const updateListBannerBodySchema = z.object({
   bannerPath: z.string(),
+  listId: z.string(),
 })

@@ -4,7 +4,7 @@ import {
   deleteListParamsSchema,
   getListParamsSchema,
   getListsQuerySchema,
-  updateListBannerParamsSchema,
+  updateListBannerBodySchema,
   updateListBodySchema,
   updateListParamsSchema,
 } from '../schemas/lists'
@@ -111,9 +111,7 @@ export async function updateListBannerController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { listId, bannerPath } = updateListBannerParamsSchema.parse(
-    request.params
-  )
+  const { listId, bannerPath } = updateListBannerBodySchema.parse(request.body)
 
   const result = await updateListBannerService({
     listId,

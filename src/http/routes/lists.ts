@@ -10,7 +10,7 @@ import {
   getListResponseSchema,
   getListsQuerySchema,
   getListsResponseSchema,
-  updateListBannerParamsSchema,
+  updateListBannerBodySchema,
   updateListBodySchema,
   updateListParamsSchema,
   updateListResponseSchema,
@@ -130,12 +130,12 @@ export async function listsRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'PATCH',
-      url: '/list/banner/by/:id',
+      url: '/list/banner',
       onRequest: [verifyOptionalJwt],
       schema: {
         description: 'Update list banner by ID',
         tags: ['List'],
-        params: updateListBannerParamsSchema,
+        body: updateListBannerBodySchema,
         response: getListResponseSchema,
         security: [
           {
