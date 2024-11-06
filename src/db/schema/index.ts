@@ -299,7 +299,9 @@ export const users = pgTable(
     email: varchar('email').notNull().unique(),
     password: varchar('password').notNull(),
     createdAt: timestamp('created_at').defaultNow(),
-    subscriptionType: subscriptionTypeEnum('subscription_type'),
+    subscriptionType: subscriptionTypeEnum('subscription_type')
+      .notNull()
+      .default('MEMBER'),
     bannerPath: varchar('banner_path'),
     imagePath: varchar('image_path'),
   },
@@ -327,4 +329,5 @@ export const schema = {
   lists,
   listLikes,
   listItems,
+  subscriptions,
 }

@@ -18,6 +18,7 @@ import { listsRoute } from './routes/lists'
 import { reviewsRoute } from './routes/reviews'
 import { healthCheck } from './routes/healthcheck'
 import { listItemRoutes } from './routes/list-item'
+import { webhookRoutes } from './routes/webhook'
 
 const app = fastify()
 
@@ -77,6 +78,7 @@ app.register(listItemRoutes)
 app.register(loginRoute)
 app.register(healthCheck)
 app.register(reviewsRoute)
+app.register(webhookRoutes)
 
 // Server
 app

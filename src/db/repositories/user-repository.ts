@@ -32,3 +32,10 @@ export async function insertUser({
     })
     .returning()
 }
+
+export async function updateUserSubscription(userId: string) {
+  return db
+    .update(schema.users)
+    .set({ subscriptionType: 'PRO' })
+    .where(eq(schema.users.id, userId))
+}

@@ -113,6 +113,13 @@
       "when": 1730860820498,
       "tag": "20241106024020_list_item_position_nullable",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1730897798039,
+      "tag": "20241106125638_user_default_subscription_type",
+      "breakpoints": true
     }
   ]
 }
