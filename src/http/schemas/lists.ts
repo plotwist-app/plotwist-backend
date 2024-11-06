@@ -6,7 +6,7 @@ export const createListBodySchema = createInsertSchema(schema.lists).omit({
   id: true,
   userId: true,
   createdAt: true,
-  coverPath: true,
+  bannerPath: true,
 })
 
 export const createListResponseSchema = {
@@ -70,7 +70,7 @@ export const updateListBodySchema = createInsertSchema(schema.lists).omit({
   userId: true,
   id: true,
   createdAt: true,
-  coverPath: true,
+  bannerPath: true,
 })
 
 export const updateListResponseSchema = {
@@ -90,3 +90,8 @@ export const getListResponseSchema = {
   }),
   404: z.object({ message: z.string() }).describe('List not found.'),
 }
+
+export const updateListBannerBodySchema = z.object({
+  bannerPath: z.string(),
+  listId: z.string(),
+})

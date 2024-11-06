@@ -17,6 +17,7 @@ import { loginRoute } from './routes/login'
 import { listsRoute } from './routes/lists'
 import { reviewsRoute } from './routes/reviews'
 import { healthCheck } from './routes/healthcheck'
+import { listItemRoutes } from './routes/list-item'
 
 const app = fastify()
 
@@ -72,6 +73,7 @@ app.register(fastifyJwt, {
 // Routes
 app.register(usersRoute)
 app.register(listsRoute)
+app.register(listItemRoutes)
 app.register(loginRoute)
 app.register(healthCheck)
 app.register(reviewsRoute)
