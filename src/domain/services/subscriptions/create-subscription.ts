@@ -16,6 +16,6 @@ export async function createSubscription(params: InsertSubscriptionModel) {
       }
     }
 
-    console.log({ error })
+    throw error
   }
 }
