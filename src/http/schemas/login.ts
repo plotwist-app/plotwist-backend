@@ -13,7 +13,6 @@ export const loginBodySchema = z.object({
 export const loginResponseSchema = {
   200: z.object({
     token: z.string(),
-    user: createSelectSchema(schema.users).omit({ password: true }),
   }),
   400: z
     .object({

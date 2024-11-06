@@ -10,6 +10,7 @@ import {
   getUserByUsernameParamsSchema,
   getUserByUsernameResponseSchema,
   getUserByIdParamsSchema,
+  getMeResponseSchema,
 } from '../schemas/users'
 import {
   isEmailAvailableController,
@@ -17,7 +18,9 @@ import {
   createUserController,
   getUserByUsernameController,
   getUserByIdController,
+  getMeController,
 } from '../controllers/user-controller'
+import { verifyJwt } from '../middlewares/verify-jwt'
 
 export async function usersRoute(app: FastifyInstance) {
   const usersTag = 'Users'
@@ -89,6 +92,25 @@ export async function usersRoute(app: FastifyInstance) {
         response: createUserResponseSchema,
       },
       handler: getUserByIdController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/me',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get me',
+        tags: [usersTag],
+        response: getMeResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: getMeController,
     })
   )
 }

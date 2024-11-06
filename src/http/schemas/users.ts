@@ -69,3 +69,9 @@ export const getUserByUsernameResponseSchema = {
 export const getUserByIdParamsSchema = z.object({
   id: z.string().uuid(),
 })
+
+export const getMeResponseSchema = {
+  200: z.object({
+    user: createSelectSchema(schema.users).omit({ password: true }),
+  }),
+}

@@ -1,5 +1,5 @@
 import cors from '@fastify/cors'
-import fastify, { FastifyInstance } from 'fastify'
+import fastify from 'fastify'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import fastifyJwt from '@fastify/jwt'
@@ -19,6 +19,7 @@ import { reviewsRoute } from './routes/reviews'
 import { healthCheck } from './routes/healthcheck'
 import { listItemRoutes } from './routes/list-item'
 import { webhookRoutes } from './routes/webhook'
+import { ZodError } from 'zod'
 
 const app = fastify()
 
@@ -79,6 +80,24 @@ app.register(loginRoute)
 app.register(healthCheck)
 app.register(reviewsRoute)
 app.register(webhookRoutes)
+
+app.setErrorHandler((error, _, reply) => {
+  if (error instanceof ZodError) {
+    return reply
+      .status(400)
+      .send({ message: 'Validation error.', issues: error.format() })
+  }
+
+  if (error.statusCode === 429) {
+    return reply
+      .code(429)
+      .send({ message: 'You hit the rate limit! Slow down please!' })
+  }
+
+  console.error(error)
+
+  return reply.status(500).send({ message: 'Internal server error.' })
+})
 
 // Server
 app

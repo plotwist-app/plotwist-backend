@@ -84,3 +84,16 @@ export async function getUserByIdController(
 
   return reply.status(200).send({ user: result.user })
 }
+
+export async function getMeController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const result = await getUserById(request.user.id)
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ user: result.user })
+}
