@@ -38,4 +38,5 @@ export async function updateUserSubscription(userId: string) {
     .update(schema.users)
     .set({ subscriptionType: 'PRO' })
     .where(eq(schema.users.id, userId))
+    .returning()
 }

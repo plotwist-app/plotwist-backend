@@ -1,4 +1,4 @@
-import { checkoutSessionCompleted } from '@/domain/services/checkout/checkout-session-completed'
+import { completeSubscription } from '@/domain/services/subscriptions/complete-subscription'
 
 import { env } from '@/env'
 import { stripe } from '@/services/stripe'
@@ -28,7 +28,7 @@ export async function webhookController(
 
   switch (event.type) {
     case 'checkout.session.completed':
-      await checkoutSessionCompleted(event.data.object.customer_email)
+      await completeSubscription(event.data.object.customer_email)
       break
 
     case 'invoice.payment_succeeded':

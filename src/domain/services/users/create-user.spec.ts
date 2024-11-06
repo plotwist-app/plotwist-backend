@@ -12,7 +12,6 @@ describe('create user', () => {
     const user = makeRawUser()
     const sut = await createUser(user)
 
-    expect(sut).toBeTruthy()
     expect(sut).toEqual({
       user: expect.objectContaining({
         email: user.email,

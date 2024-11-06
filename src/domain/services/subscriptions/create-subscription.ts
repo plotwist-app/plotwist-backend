@@ -1,8 +1,21 @@
 import { insertSubscription } from '@/db/repositories/subscription-repository'
+import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import type { InsertSubscriptionModel } from '@/domain/entities/subscription'
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import postgres from 'postgres'
 
 export async function createSubscription(params: InsertSubscriptionModel) {
-  const [subscription] = await insertSubscription(params)
+  try {
+    const [subscription] = await insertSubscription(params)
 
-  return { subscription }
+    return { subscription }
+  } catch (error) {
+    if (error instanceof postgres.PostgresError) {
+      if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {
+        return new UserNotFoundError()
+      }
+    }
+
+    console.log({ error })
+  }
 }
