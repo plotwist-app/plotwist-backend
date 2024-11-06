@@ -4,7 +4,7 @@ import { schema } from '../schema'
 import type { GetListsInput } from '@/domain/services/lists/get-lists'
 import type { InsertListModel } from '@/domain/entities/lists'
 import type { UpdateListValues } from '@/domain/services/lists/update-list'
-import type { UpdateListBannerInput } from '@/domain/services/lists/update-list-cover'
+import type { UpdateListBannerInput } from '@/domain/services/lists/update-list-banner'
 
 export function selectLists({
   userId,
