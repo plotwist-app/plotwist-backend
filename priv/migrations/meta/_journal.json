@@ -99,6 +99,13 @@
       "when": 1730854660889,
       "tag": "20241106005740_list_item_position_not_null",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1730855820887,
+      "tag": "20241106011700_rename_list_banner",
+      "breakpoints": true
     }
   ]
 }

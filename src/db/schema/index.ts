@@ -195,7 +195,7 @@ export const lists = pgTable(
       })
       .notNull(),
     description: varchar('description'),
-    coverPath: varchar('cover_path'),
+    bannerPath: varchar('banner_path'),
     visibility: listVisibilityEnum('visibility').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },

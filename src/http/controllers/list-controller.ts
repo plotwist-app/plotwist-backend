@@ -4,6 +4,7 @@ import {
   deleteListParamsSchema,
   getListParamsSchema,
   getListsQuerySchema,
+  updateListBannerParamsSchema,
   updateListBodySchema,
   updateListParamsSchema,
 } from '../schemas/lists'
@@ -13,6 +14,7 @@ import { DomainError } from '@/domain/errors/domain-error'
 import { deleteListService } from '@/domain/services/lists/delete-list'
 import { updateListService } from '@/domain/services/lists/update-list'
 import { getListService } from '@/domain/services/lists/get-list'
+import { updateListBannerService } from '@/domain/services/lists/update-list-banner'
 
 export async function createListController(
   request: FastifyRequest,
@@ -94,9 +96,29 @@ export async function getListController(
   reply: FastifyReply
 ) {
   const { id } = getListParamsSchema.parse(request.params)
-
   const result = await getListService({
     id: id,
+  })
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ list: result.list })
+}
+
+export async function updateListBannerController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { listId, bannerPath } = updateListBannerParamsSchema.parse(
+    request.params
+  )
+
+  const result = await updateListBannerService({
+    listId,
+    bannerPath,
+    userId: request.user.id,
   })
 
   if (result instanceof DomainError) {

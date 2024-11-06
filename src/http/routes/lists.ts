@@ -10,6 +10,7 @@ import {
   getListResponseSchema,
   getListsQuerySchema,
   getListsResponseSchema,
+  updateListBannerParamsSchema,
   updateListBodySchema,
   updateListParamsSchema,
   updateListResponseSchema,
@@ -19,6 +20,7 @@ import {
   deleteListController,
   getListController,
   getListsController,
+  updateListBannerController,
   updateListController,
 } from '../controllers/list-controller'
 import { verifyOptionalJwt } from '../middlewares/verify-optional-jwt'
@@ -122,6 +124,26 @@ export async function listsRoute(app: FastifyInstance) {
         ],
       },
       handler: getListController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PATCH',
+      url: '/list/banner/by/:id',
+      onRequest: [verifyOptionalJwt],
+      schema: {
+        description: 'Update list banner by ID',
+        tags: ['List'],
+        params: updateListBannerParamsSchema,
+        response: getListResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: updateListBannerController,
     })
   )
 }

@@ -4,6 +4,7 @@ import { schema } from '../schema'
 import type { GetListsInput } from '@/domain/services/lists/get-lists'
 import type { InsertListModel } from '@/domain/entities/lists'
 import type { UpdateListValues } from '@/domain/services/lists/update-list'
+import type { UpdateListBannerInput } from '@/domain/services/lists/update-list-cover'
 
 export function selectLists({
   userId,
@@ -91,4 +92,16 @@ export async function updateList(
 
 export async function getListById(id: string) {
   return db.select().from(schema.lists).where(eq(schema.lists.id, id))
+}
+
+export async function updateListBanner({
+  listId,
+  userId,
+  bannerPath,
+}: UpdateListBannerInput) {
+  return db
+    .update(schema.lists)
+    .set({ bannerPath })
+    .where(and(eq(schema.lists.id, listId), eq(schema.lists.userId, userId)))
+    .returning()
 }
