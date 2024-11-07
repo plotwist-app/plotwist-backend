@@ -11,7 +11,6 @@ describe('check email', () => {
     const email = faker.internet.email()
     const sut = await isEmailAvailable({ email })
 
-    expect(sut).toBeTruthy()
     expect(sut).toEqual({
       available: true,
     })

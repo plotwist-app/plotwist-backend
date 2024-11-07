@@ -5,6 +5,7 @@ import {
   checkAvailableUsernameQuerySchema,
   getUserByUsernameParamsSchema,
   getUserByIdParamsSchema,
+  updateUserImageParamsSchema,
 } from '../schemas/users'
 
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
@@ -13,6 +14,7 @@ import { createUser } from '@/domain/services/users/create-user'
 import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
 import { DomainError } from '@/domain/errors/domain-error'
 import { getUserById } from '@/domain/services/users/get-by-id'
+import { updateUserImageService } from '@/domain/services/users/update-user-image'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -90,6 +92,24 @@ export async function getMeController(
   reply: FastifyReply
 ) {
   const result = await getUserById(request.user.id)
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ user: result.user })
+}
+
+export async function updateUserImageController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { imagePath } = updateUserImageParamsSchema.parse(request.params)
+
+  const result = await updateUserImageService({
+    userId: request.user.id,
+    imagePath,
+  })
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })

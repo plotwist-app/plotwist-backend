@@ -40,3 +40,11 @@ export async function updateUserSubscription(userId: string) {
     .where(eq(schema.users.id, userId))
     .returning()
 }
+
+export async function updateUserImage(userId: string, imagePath: string) {
+  return db
+    .update(schema.users)
+    .set({ imagePath })
+    .where(eq(schema.users.id, userId))
+    .returning()
+}

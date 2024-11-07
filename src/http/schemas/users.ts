@@ -75,3 +75,7 @@ export const getMeResponseSchema = {
     user: createSelectSchema(schema.users).omit({ password: true }),
   }),
 }
+
+export const updateUserImageParamsSchema = z.object({
+  imagePath: z.string(),
+})

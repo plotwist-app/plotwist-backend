@@ -11,7 +11,6 @@ describe('check username', () => {
     const username = faker.internet.username()
     const sut = await checkAvailableUsername({ username })
 
-    expect(sut).toBeTruthy()
     expect(sut).toEqual({
       available: true,
     })
