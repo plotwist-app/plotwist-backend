@@ -11,7 +11,9 @@ import {
   getUserByUsernameResponseSchema,
   getUserByIdParamsSchema,
   getMeResponseSchema,
-  updateUserImageParamsSchema,
+  updateUserImageBodySchema,
+  updateUserImageResponseSchema,
+  updateUserBannerBodySchema,
 } from '../schemas/users'
 import {
   isEmailAvailableController,
@@ -21,6 +23,7 @@ import {
   getUserByIdController,
   getMeController,
   updateUserImageController,
+  updateUserBannerController,
 } from '../controllers/user-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 
@@ -124,7 +127,8 @@ export async function usersRoute(app: FastifyInstance) {
       schema: {
         description: 'Update user image',
         tags: [usersTag],
-        params: updateUserImageParamsSchema,
+        body: updateUserImageBodySchema,
+        response: updateUserImageResponseSchema,
         security: [
           {
             bearerAuth: [],
@@ -132,6 +136,26 @@ export async function usersRoute(app: FastifyInstance) {
         ],
       },
       handler: updateUserImageController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PATCH',
+      url: '/user/banner',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Update user banner',
+        tags: [usersTag],
+        body: updateUserBannerBodySchema,
+        response: updateUserImageResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: updateUserBannerController,
     })
   )
 }

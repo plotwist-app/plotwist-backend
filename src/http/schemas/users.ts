@@ -76,6 +76,22 @@ export const getMeResponseSchema = {
   }),
 }
 
-export const updateUserImageParamsSchema = z.object({
+export const updateUserImageBodySchema = z.object({
   imagePath: z.string(),
 })
+
+export const updateUserImageResponseSchema = {
+  200: z.object({
+    user: createSelectSchema(schema.users).omit({ password: true }),
+  }),
+}
+
+export const updateUserBannerBodySchema = z.object({
+  bannerPath: z.string(),
+})
+
+export const updateUserBannerResponseSchema = {
+  200: z.object({
+    user: createSelectSchema(schema.users).omit({ password: true }),
+  }),
+}
