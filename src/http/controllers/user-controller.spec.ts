@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import { app } from '../server'
-import { makeRawUser, makeUser } from '@/test/factories/make-user'
+import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
 
 describe('createUserController', () => {
