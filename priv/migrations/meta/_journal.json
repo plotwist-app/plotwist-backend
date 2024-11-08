@@ -64,6 +64,55 @@
       "when": 1730732446991,
       "tag": "20241104150046_alter_reviews_set_non_null_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1730818600024,
+      "tag": "20241105145640_list_item_id_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1730822300140,
+      "tag": "20241105155820_list_item_title_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1730824538795,
+      "tag": "20241105163538_list_item_backdrop",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1730854566757,
+      "tag": "20241106005606_list_items_position",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1730854660889,
+      "tag": "20241106005740_list_item_position_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1730855820887,
+      "tag": "20241106011700_rename_list_banner",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1730860820498,
+      "tag": "20241106024020_list_item_position_nullable",
+      "breakpoints": true
     }
   ]
 }

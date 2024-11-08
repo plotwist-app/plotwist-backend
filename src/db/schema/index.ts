@@ -110,17 +110,20 @@ export const likesRelations = relations(likes, ({ one, many }) => ({
 export const listItems = pgTable(
   'list_items',
   {
-    id: uuid('id').$defaultFn(() => randomUUID()),
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .notNull(),
     listId: uuid('list_id')
       .references(() => lists.id, { onDelete: 'cascade' })
       .notNull(),
-    title: varchar('title'),
-    overview: varchar('overview'),
+    title: varchar('title').notNull(),
+    overview: varchar('overview').notNull(),
     backdropPath: varchar('backdrop_path'),
     posterPath: varchar('poster_path'),
     tmdbId: integer('tmdb_id'),
     mediaType: mediaTypeEnum('media_type'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
+    position: integer('position'),
   },
   table => {
     return {
@@ -192,7 +195,7 @@ export const lists = pgTable(
       })
       .notNull(),
     description: varchar('description'),
-    coverPath: varchar('cover_path'),
+    bannerPath: varchar('banner_path'),
     visibility: listVisibilityEnum('visibility').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
