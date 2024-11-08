@@ -16,7 +16,7 @@ import {
   getListItemsController,
 } from '../controllers/list-item-controller'
 
-export async function listItemRoutes(app: FastifyInstance) {
+export async function listItemRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',

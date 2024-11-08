@@ -1,8 +1,5 @@
-import cors from '@fastify/cors'
-import fastify, { FastifyInstance } from 'fastify'
+import fastify from 'fastify'
 import fastifySwagger from '@fastify/swagger'
-import fastifySwaggerUi from '@fastify/swagger-ui'
-import fastifyJwt from '@fastify/jwt'
 
 import {
   jsonSchemaTransform,
@@ -11,15 +8,9 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { env } from '../env'
+import { routes } from './routes/routes'
 
-import { usersRoute } from './routes/users'
-import { loginRoute } from './routes/login'
-import { listsRoute } from './routes/lists'
-import { reviewsRoute } from './routes/reviews'
-import { healthCheck } from './routes/healthcheck'
-import { listItemRoutes } from './routes/list-item'
-
-const app = fastify()
+export const app = fastify()
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
@@ -58,25 +49,7 @@ app.register(fastifySwagger, {
   },
 })
 
-app.register(fastifySwaggerUi, {
-  routePrefix: '/api-docs',
-})
-
-app.register(cors, {
-  origin: '*',
-})
-
-app.register(fastifyJwt, {
-  secret: env.JWT_SECRET,
-})
-
-// Routes
-app.register(usersRoute)
-app.register(listsRoute)
-app.register(listItemRoutes)
-app.register(loginRoute)
-app.register(healthCheck)
-app.register(reviewsRoute)
+routes(app)
 
 // Server
 app
