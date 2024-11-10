@@ -10,6 +10,10 @@ import {
   getUserByUsernameParamsSchema,
   getUserByUsernameResponseSchema,
   getUserByIdParamsSchema,
+  getMeResponseSchema,
+  updateUserImageBodySchema,
+  updateUserImageResponseSchema,
+  updateUserBannerBodySchema,
 } from '../schemas/users'
 import {
   isEmailAvailableController,
@@ -17,7 +21,11 @@ import {
   createUserController,
   getUserByUsernameController,
   getUserByIdController,
+  getMeController,
+  updateUserImageController,
+  updateUserBannerController,
 } from '../controllers/user-controller'
+import { verifyJwt } from '../middlewares/verify-jwt'
 
 export async function usersRoute(app: FastifyInstance) {
   const usersTag = 'Users'
@@ -89,6 +97,65 @@ export async function usersRoute(app: FastifyInstance) {
         response: createUserResponseSchema,
       },
       handler: getUserByIdController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/me',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get me',
+        tags: [usersTag],
+        response: getMeResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: getMeController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PATCH',
+      url: '/user/image',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Update user image',
+        tags: [usersTag],
+        body: updateUserImageBodySchema,
+        response: updateUserImageResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: updateUserImageController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PATCH',
+      url: '/user/banner',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Update user banner',
+        tags: [usersTag],
+        body: updateUserBannerBodySchema,
+        response: updateUserImageResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: updateUserBannerController,
     })
   )
 }

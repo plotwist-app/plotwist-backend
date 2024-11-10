@@ -5,6 +5,8 @@ import {
   checkAvailableUsernameQuerySchema,
   getUserByUsernameParamsSchema,
   getUserByIdParamsSchema,
+  updateUserImageBodySchema,
+  updateUserBannerBodySchema,
 } from '../schemas/users'
 
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
@@ -13,6 +15,8 @@ import { createUser } from '@/domain/services/users/create-user'
 import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
 import { DomainError } from '@/domain/errors/domain-error'
 import { getUserById } from '@/domain/services/users/get-by-id'
+import { updateUserImageService } from '@/domain/services/users/update-user-image'
+import { updateUserBannerService } from '@/domain/services/users/update-user-banner'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -77,6 +81,55 @@ export async function getUserByIdController(
 ) {
   const { id } = getUserByIdParamsSchema.parse(request.params)
   const result = await getUserById(id)
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ user: result.user })
+}
+
+export async function getMeController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const result = await getUserById(request.user.id)
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ user: result.user })
+}
+
+export async function updateUserImageController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { imagePath } = updateUserImageBodySchema.parse(request.body)
+
+  const result = await updateUserImageService({
+    userId: request.user.id,
+    imagePath,
+  })
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ user: result.user })
+}
+
+export async function updateUserBannerController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { bannerPath } = updateUserBannerBodySchema.parse(request.body)
+
+  const result = await updateUserBannerService({
+    userId: request.user.id,
+    bannerPath,
+  })
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })

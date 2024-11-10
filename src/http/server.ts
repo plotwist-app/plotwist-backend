@@ -9,6 +9,7 @@ import {
 
 import { env } from '../env'
 import { routes } from './routes/routes'
+import { ZodError } from 'zod'
 
 export const app = fastify()
 
@@ -42,11 +43,25 @@ app.register(fastifySwagger, {
     try {
       return jsonSchemaTransform(schema)
     } catch (err) {
-      console.error('Error transforming schema:', err)
-
       return schema
     }
   },
+})
+
+app.setErrorHandler((error, _, reply) => {
+  if (error instanceof ZodError) {
+    return reply
+      .status(400)
+      .send({ message: 'Validation error.', issues: error.format() })
+  }
+
+  if (error.statusCode === 429) {
+    return reply
+      .code(429)
+      .send({ message: 'You hit the rate limit! Slow down please!' })
+  }
+
+  return reply.status(500).send({ message: 'Internal server error.' })
 })
 
 routes(app)

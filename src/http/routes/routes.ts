@@ -11,6 +11,7 @@ import { usersRoute } from './users'
 import fastifyJwt from '@fastify/jwt'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import { listItemRoute } from './list-item'
+import { webhookRoutes } from './webhook'
 
 export function routes(app: FastifyInstance) {
   app.register(fastifySwaggerUi, {
@@ -31,6 +32,7 @@ export function routes(app: FastifyInstance) {
   app.register(healthCheck)
   app.register(reviewsRoute)
   app.register(listItemRoute)
+  app.register(webhookRoutes)
 
   return
 }

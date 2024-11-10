@@ -15,5 +15,5 @@ export async function loginController(
   }
 
   const token = app.jwt.sign({ id: result.user.id })
-  return reply.status(200).send({ token, user: result.user })
+  return reply.status(200).send({ token })
 }

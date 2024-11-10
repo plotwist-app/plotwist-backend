@@ -32,3 +32,30 @@ export async function insertUser({
     })
     .returning()
 }
+
+export async function updateUserSubscription(
+  userId: string,
+  subscriptionType: 'PRO' | 'MEMBER'
+) {
+  return db
+    .update(schema.users)
+    .set({ subscriptionType: subscriptionType })
+    .where(eq(schema.users.id, userId))
+    .returning()
+}
+
+export async function updateUserImage(userId: string, imagePath: string) {
+  return db
+    .update(schema.users)
+    .set({ imagePath })
+    .where(eq(schema.users.id, userId))
+    .returning()
+}
+
+export async function updateUserBanner(userId: string, bannerPath: string) {
+  return db
+    .update(schema.users)
+    .set({ bannerPath })
+    .where(eq(schema.users.id, userId))
+    .returning()
+}
