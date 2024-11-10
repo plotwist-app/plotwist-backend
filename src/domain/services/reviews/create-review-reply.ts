@@ -13,9 +13,9 @@ export async function createReviewReply(params: InsertReviewReplyModel) {
 
   const reviewReply = await insertReviewReply(params)
 
-  if (!reviewReply) {
+  if (!reviewReply || reviewReply.length === 0) {
     return new ReviewNotFoundError()
   }
 
-  return { reviewReply }
+  return { reviewReply: reviewReply[0] }
 }
