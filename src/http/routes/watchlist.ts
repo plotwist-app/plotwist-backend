@@ -10,7 +10,7 @@ export async function watchlistRoutes(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',
-      url: '/watchlist-item',
+      url: '/watchlist/item',
       onRequest: [verifyJwt],
       schema: {
         description: 'Create watchlist item',
