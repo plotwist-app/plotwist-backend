@@ -7,10 +7,27 @@ export async function completeSubscription(email: string | null) {
   if (!email) return
 
   const result = await getUserByEmailService(email)
-  if (result instanceof DomainError) return
+  if (result instanceof DomainError) {
+    return result
+  }
 
-  await createSubscription({ type: 'PRO', userId: result.user.id })
-  const { user } = await updateUserSubscriptionService(result.user.id)
+  const createSubscriptionResult = await createSubscription({
+    type: 'PRO',
+    userId: result.user.id,
+  })
 
-  return { user }
+  if (createSubscriptionResult instanceof DomainError) {
+    return createSubscriptionResult
+  }
+
+  const updateUserSubscriptionResult = await updateUserSubscriptionService({
+    subscriptionType: createSubscriptionResult.subscription.type,
+    userId: result.user.id,
+  })
+
+  if (updateUserSubscriptionResult instanceof DomainError) {
+    return updateUserSubscriptionResult
+  }
+
+  return { user: updateUserSubscriptionResult.user }
 }
