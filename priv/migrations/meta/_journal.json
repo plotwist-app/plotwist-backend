@@ -120,6 +120,13 @@
       "when": 1730897798039,
       "tag": "20241106125638_user_default_subscription_type",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1731261059164,
+      "tag": "20241110175059_watchlist_and_watched_items",
+      "breakpoints": true
     }
   ]
 }

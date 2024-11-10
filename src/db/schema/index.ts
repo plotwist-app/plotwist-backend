@@ -12,6 +12,8 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
+import { watchedItems } from './watched-items'
+import { watchlistItems } from './watchlist-items'
 
 export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
 
@@ -330,4 +332,10 @@ export const schema = {
   listLikes,
   listItems,
   subscriptions,
+  watchlistItems,
+  watchedItems
 }
+
+
+export * from "./watched-items"
+export * from "./watchlist-items"
