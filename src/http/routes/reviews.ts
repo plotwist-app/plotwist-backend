@@ -1,10 +1,12 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 
-import { createReviewController } from '../controllers/review-controller'
+import { createReviewController, createReviewReplyController } from '../controllers/review-controller'
 import {
   createReviewRequestSchema,
   createReviewResponseSchema,
+  createReviewReplyRequestSchema,
+  createReviewReplyResponseSchema,
 } from '../schemas/reviews'
 
 export async function reviewsRoute(app: FastifyInstance) {
@@ -21,6 +23,20 @@ export async function reviewsRoute(app: FastifyInstance) {
         response: createReviewResponseSchema,
       },
       handler: createReviewController,
+    })
+  )
+  
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'POST', 
+      url: '/reviews/reply',
+      schema: {
+        description: 'Create a review reply',
+        tags: [reviewsTag],
+        body: createReviewReplyRequestSchema,
+        response: createReviewReplyResponseSchema,
+      },
+      handler: createReviewReplyController,
     })
   )
 }

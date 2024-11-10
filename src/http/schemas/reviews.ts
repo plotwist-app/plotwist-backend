@@ -35,3 +35,22 @@ export const createReviewResponseSchema = {
     })
     .describe('User not found'),
 }
+
+export const createReviewReplyRequestSchema = z.object({
+  userId: z.string({ message: 'User id is required' }),
+  reviewId: z.string({ message: 'Review id is required' }),
+  reply: z.string({ message: 'Reply is required' }),
+})
+
+export const createReviewReplyResponseSchema = {
+  201: z
+    .object({
+      reviewReply: createInsertSchema(schema.reviewReplies),
+    })
+    .describe('Review reply created.'),
+  404: z
+    .object({
+      message: z.string(),
+    })
+    .describe('Review not found'),
+}
