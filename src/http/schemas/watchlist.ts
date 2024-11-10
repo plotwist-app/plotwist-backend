@@ -3,4 +3,4 @@ import { createInsertSchema } from 'drizzle-zod'
 
 export const createWatchlistItemBodySchema = createInsertSchema(
   schema.watchlistItems
-).pick({ tmdbId: true })
+).pick({ tmdbId: true, mediaType: true })

@@ -61,6 +61,8 @@ app.setErrorHandler((error, _, reply) => {
       .send({ message: 'You hit the rate limit! Slow down please!' })
   }
 
+  console.error({ error })
+
   return reply.status(500).send({ message: 'Internal server error.' })
 })
 

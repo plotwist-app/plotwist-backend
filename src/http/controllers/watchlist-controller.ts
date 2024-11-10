@@ -6,10 +6,13 @@ export async function createWatchlistItemController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { tmdbId } = createWatchlistItemBodySchema.parse(request.body)
+  const { tmdbId, mediaType } = createWatchlistItemBodySchema.parse(
+    request.body
+  )
 
   const { watchlistItem } = await createWatchlistItemService({
     tmdbId,
+    mediaType,
     userId: request.user.id,
   })
 

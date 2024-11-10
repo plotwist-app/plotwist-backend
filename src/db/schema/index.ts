@@ -12,8 +12,6 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-import { watchedItems } from './watched-items'
-import { watchlistItems } from './watchlist-items'
 
 export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
 
@@ -325,6 +323,44 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   followers: many(followers),
 }))
 
+export const watchlistItems = pgTable('watchlist_items', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
+    .notNull(),
+  tmdbId: integer('tmdb_id').notNull(),
+  addedAt: timestamp('added_at').defaultNow().notNull(),
+  position: integer('position'),
+  mediaType: mediaTypeEnum('media_type').notNull(),
+})
+
+export const watchlistItemsRelations = relations(watchlistItems, ({ one }) => ({
+  user: one(users, {
+    fields: [watchlistItems.userId],
+    references: [users.id],
+  }),
+}))
+
+export const watchedItems = pgTable('watched_items', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
+    .notNull(),
+  tmdbId: integer('tmdb_id').notNull(),
+  watchedAt: timestamp('watched_at').defaultNow().notNull(),
+})
+
+export const watchedItemsRelations = relations(watchedItems, ({ one }) => ({
+  user: one(users, {
+    fields: [watchedItems.userId],
+    references: [users.id],
+  }),
+}))
+
 export const schema = {
   users,
   reviews,
@@ -333,9 +369,5 @@ export const schema = {
   listItems,
   subscriptions,
   watchlistItems,
-  watchedItems
+  watchedItems,
 }
-
-
-export * from "./watched-items"
-export * from "./watchlist-items"

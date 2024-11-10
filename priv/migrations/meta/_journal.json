@@ -127,6 +127,13 @@
       "when": 1731261059164,
       "tag": "20241110175059_watchlist_and_watched_items",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1731263897194,
+      "tag": "20241110183817_watchlist_item_media_type",
+      "breakpoints": true
     }
   ]
 }
