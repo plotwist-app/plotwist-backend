@@ -16,7 +16,7 @@ describe('create watchlist item', () => {
     })
 
     expect(sut).toEqual({
-      watchlistIItem: expect.objectContaining({
+      watchlistItem: expect.objectContaining({
         userId: user.id,
         tmdbId: TMDB_ID,
       }),
