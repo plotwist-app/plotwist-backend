@@ -75,3 +75,5 @@ app
   .then(() => {
     console.log(`HTTP server running at ${env.BASE_URL}`)
   })
+
+console.log('teste')
