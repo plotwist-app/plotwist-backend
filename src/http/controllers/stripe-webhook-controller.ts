@@ -1,7 +1,7 @@
+import { stripe } from '@/domain/entities/stripe'
 import { completeSubscription } from '@/domain/services/subscriptions/complete-subscription'
 
 import { env } from '@/env'
-import { stripe } from '@/services/stripe'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import type Stripe from 'stripe'
 
