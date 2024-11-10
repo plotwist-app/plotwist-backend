@@ -1,7 +1,13 @@
-// import type { FastifyInstance } from 'fastify'
-// import { app } from '../server'
-// import { makeUser } from '@/test/factories/make-user'
-// import { faker } from '@faker-js/faker'
+import type { FastifyInstance } from 'fastify'
+import { app } from '../server'
+import { makeUser } from '@/test/factories/make-user'
+import { faker } from '@faker-js/faker'
+
+describe('userController', () => {
+  it('sum', () => {
+    expect(2 + 2).toBe(4)
+  })
+})
 
 // describe('createUserController', () => {
 //   let server: FastifyInstance
