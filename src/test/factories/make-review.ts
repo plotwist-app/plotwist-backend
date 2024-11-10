@@ -19,8 +19,8 @@ export function makeRawReview(overrides: Overrides): InsertReviewModel {
   }
 }
 
-export async function makeReview(reviewParams: Review): Promise<Review> {
-  const [review] = await insertReview(makeRawReview(reviewParams))
+export async function makeReview(overrides: Overrides) {
+  const [review] = await insertReview(makeRawReview(overrides))
 
   return review
 }
