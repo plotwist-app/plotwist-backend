@@ -7,5 +7,10 @@ export type InsertReviewModel = InferInsertModel<typeof schema.reviews>
 
 export type ReviewReply = InferSelectModel<typeof schema.reviewReplies>
 
-export type InsertReviewReplyModel = InferInsertModel<typeof schema.reviewReplies>
-export type DeleteReviewReplyModel = Pick<InferSelectModel<typeof schema.reviewReplies>, 'id' | 'userId'>
+export type InsertReviewReplyModel = InferInsertModel<
+  typeof schema.reviewReplies
+>
+export type DeleteReviewReplyModel = Pick<
+  InferSelectModel<typeof schema.reviewReplies>,
+  'id' | 'userId' | 'reviewId'
+>

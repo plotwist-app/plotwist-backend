@@ -15,6 +15,10 @@ export async function insertReviewReply(params: InsertReviewReplyModel) {
   return db.insert(schema.reviewReplies).values(params).returning()
 }
 
+export async function getReviewById(id: string) {
+  return db.select().from(schema.reviews).where(eq(schema.reviews.id, id))
+}
+
 export async function deleteReviewReply(params: DeleteReviewReplyModel) {
   return db
     .delete(schema.reviewReplies)
