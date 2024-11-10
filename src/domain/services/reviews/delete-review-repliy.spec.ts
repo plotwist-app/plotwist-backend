@@ -12,11 +12,15 @@ describe('delete review reply', () => {
     const { id: userId } = await makeUser()
 
     const review = await makeReview({ userId })
-    const reviewReply = await makeReviewReply({ userId, reviewId: review.id })
+    const reviewReply = await makeReviewReply({
+      userId,
+      reviewId: review.id,
+    })
 
     const sut = await deleteReviewReply({
       id: reviewReply.id,
       userId,
+      reviewId: review.id,
     })
 
     expect(sut).toBeUndefined()
@@ -34,6 +38,7 @@ describe('delete review reply', () => {
     const sut = await deleteReviewReply({
       id: reviewReply.id,
       userId: randomUUID(),
+      reviewId: review.id,
     })
 
     expect(sut).toBeInstanceOf(UserNotFoundError)
