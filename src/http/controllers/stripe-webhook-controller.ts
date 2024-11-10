@@ -5,7 +5,7 @@ import { stripe } from '@/services/stripe'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import type Stripe from 'stripe'
 
-export async function webhookController(
+export async function stripeWebhookController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {

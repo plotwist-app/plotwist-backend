@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { webhookController } from '../controllers/webhook-controller'
+import { stripeWebhookController } from '../controllers/stripe-webhook-controller'
 
 export async function webhookRoutes(app: FastifyInstance) {
   app.addContentTypeParser(
@@ -20,12 +20,12 @@ export async function webhookRoutes(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'POST',
-      url: '/webhook',
+      url: '/complete-stripe-subscription',
       schema: {
         description: 'Webhook route',
         tags: ['Webhook'],
       },
-      handler: webhookController,
+      handler: stripeWebhookController,
     })
   )
 }
