@@ -17,7 +17,7 @@ import {
 } from '../schemas/users'
 import {
   isEmailAvailableController,
-  checkAvailableUsernameController,
+  isUsernameAvailableController,
   createUserController,
   getUserByUsernameController,
   getUserByIdController,
@@ -54,14 +54,14 @@ export async function usersRoute(app: FastifyInstance) {
         querystring: checkAvailableUsernameQuerySchema,
         response: checkAvailableUsernameResponseSchema,
       },
-      handler: checkAvailableUsernameController,
+      handler: isUsernameAvailableController,
     })
   )
 
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
-      url: '/users/check-email',
+      url: '/users/available-email',
       schema: {
         description: 'Check if this email is available',
         tags: [usersTag],

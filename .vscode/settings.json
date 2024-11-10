@@ -9,6 +9,7 @@
     "bunx",
     "fastify",
     "healthcheck",
+    "openapi",
     "positionals",
     "tmdb",
     "tsup"
