@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Changed createdAt field convention name in database only [#30](https://github.com/plotwist-app/plotwist-backend/pull/30)
 - improve folders structure [(#24)](https://github.com/plotwist-app/plotwist-backend/pull/24)
 - Move domain folder to src root [(#23)](https://github.com/plotwist-app/plotwist-backend/pull/23)
 - Set some review fields on schema as required [(#19)](https://github.com/plotwist-app/plotwist-backend/pull/19)
