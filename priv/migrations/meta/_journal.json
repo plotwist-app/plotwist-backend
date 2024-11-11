@@ -125,7 +125,7 @@
       "idx": 17,
       "version": "7",
       "when": 1731279733386,
-      "tag": "20241110230213_update-followers-coloumn-createdAt-to-created_at",
+      "tag": "20241110230213_update_followers_coloumn_createdAt_to_created_at",
       "breakpoints": true
     },
     {
