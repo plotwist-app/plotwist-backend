@@ -120,6 +120,13 @@
       "when": 1730897798039,
       "tag": "20241106125638_user_default_subscription_type",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1731279733386,
+      "tag": "20241110230213_update-followers-coloumn-createdAt-to-created_at",
+      "breakpoints": true
     }
   ]
 }
