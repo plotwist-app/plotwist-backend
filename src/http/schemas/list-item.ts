@@ -17,9 +17,12 @@ export const getListItemsParamsSchema = z.object({
 })
 
 export const getListItemsResponseSchema = {
-  200: z.object({
-    listItems: z.array(createSelectSchema(schema.listItems)),
-  }),
+  200: z.array(
+    createSelectSchema(schema.listItems).extend({
+      title: z.string(),
+      posterPath: z.string(),
+    })
+  ),
 }
 
 export const deleteListItemParamSchema = z.object({

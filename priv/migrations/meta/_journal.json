@@ -141,6 +141,20 @@
       "when": 1731333850403,
       "tag": "20241111140410_list_item_columns",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1731353410499,
+      "tag": "20241111193010_list_item_media_type_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1731353438640,
+      "tag": "20241111193038_list_item_tmdb_id_not_null",
+      "breakpoints": true
     }
   ]
 }

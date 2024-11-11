@@ -1,15 +1,17 @@
+import fastifyJwt from '@fastify/jwt'
+import fastifySwaggerUi from '@fastify/swagger-ui'
+import cors from '@fastify/cors'
+import fastifyRedis from '@fastify/redis'
+
 import type { FastifyInstance } from 'fastify'
 
 import { env } from '../../env'
-import cors from '@fastify/cors'
 
 import { reviewsRoute } from './reviews'
 import { healthCheck } from './healthcheck'
 import { loginRoute } from './login'
 import { listsRoute } from './lists'
 import { usersRoute } from './users'
-import fastifyJwt from '@fastify/jwt'
-import fastifySwaggerUi from '@fastify/swagger-ui'
 import { listItemRoute } from './list-item'
 import { webhookRoutes } from './webhook'
 import { watchlistRoutes } from './watchlist'
@@ -25,6 +27,10 @@ export function routes(app: FastifyInstance) {
 
   app.register(fastifyJwt, {
     secret: env.JWT_SECRET,
+  })
+
+  app.register(fastifyRedis, {
+    url: env.REDIS_URL,
   })
 
   app.register(usersRoute)

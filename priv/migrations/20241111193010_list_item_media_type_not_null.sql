@@ -1,0 +1,1 @@
+ALTER TABLE "list_items" ALTER COLUMN "media_type" SET NOT NULL;

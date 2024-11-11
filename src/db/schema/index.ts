@@ -116,8 +116,8 @@ export const listItems = pgTable(
     listId: uuid('list_id')
       .references(() => lists.id, { onDelete: 'cascade' })
       .notNull(),
-    tmdbId: integer('tmdb_id'),
-    mediaType: mediaTypeEnum('media_type'),
+    tmdbId: integer('tmdb_id').notNull(),
+    mediaType: mediaTypeEnum('media_type').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     position: integer('position'),
   },

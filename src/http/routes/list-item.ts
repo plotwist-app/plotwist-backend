@@ -15,6 +15,7 @@ import {
   deleteListItemController,
   getListItemsController,
 } from '../controllers/list-item-controller'
+import { languageQuerySchema } from '../schemas/common'
 
 export async function listItemRoute(app: FastifyInstance) {
   app.after(() =>
@@ -45,9 +46,10 @@ export async function listItemRoute(app: FastifyInstance) {
         description: 'Create list item',
         tags: ['List Item'],
         params: getListItemsParamsSchema,
+        querystring: languageQuerySchema,
         response: getListItemsResponseSchema,
       },
-      handler: getListItemsController,
+      handler: (req, reply) => getListItemsController(req, reply, app.redis),
     })
   )
 

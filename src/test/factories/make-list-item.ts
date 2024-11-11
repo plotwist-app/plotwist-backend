@@ -7,9 +7,8 @@ type Overrides = Partial<InsertListItem> & { listId: string }
 
 export function makeRawListItem(overrides: Overrides): InsertListItem {
   return {
-    title: faker.lorem.words(3),
+    mediaType: 'MOVIE',
     tmdbId: faker.number.int({ min: 0, max: 1_000 }),
-    overview: faker.lorem.words(5),
     ...overrides,
   }
 }
