@@ -21,5 +21,5 @@ export async function createWatchlistItemController(
     return reply.status(result.status).send({ message: result.message })
   }
 
-  return reply.status(201).send({ result })
+  return reply.status(201).send({ watchlistItem: result.watchlistItem })
 }

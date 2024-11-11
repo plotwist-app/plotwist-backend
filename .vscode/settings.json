@@ -10,8 +10,12 @@
     "fastify",
     "healthcheck",
     "openapi",
+    "plotwist",
     "positionals",
+    "postgres",
     "tmdb",
-    "tsup"
+    "tsup",
+    "watchlist",
+    "Watchlist"
   ]
 }

@@ -134,6 +134,13 @@
       "when": 1731263897194,
       "tag": "20241110183817_watchlist_item_media_type",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1731333850403,
+      "tag": "20241111140410_list_item_columns",
+      "breakpoints": true
     }
   ]
 }

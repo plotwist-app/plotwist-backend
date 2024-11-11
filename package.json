@@ -28,6 +28,7 @@
     "@fastify/jwt": "^9.0.1",
     "@fastify/swagger": "^9.2.0",
     "@fastify/swagger-ui": "^5.1.0",
+    "@plotwist_app/tmdb": "0.0.2",
     "@types/bun": "^1.1.12",
     "bcrypt": "^5.1.1",
     "drizzle-orm": "0.33.0",

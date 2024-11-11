@@ -116,10 +116,6 @@ export const listItems = pgTable(
     listId: uuid('list_id')
       .references(() => lists.id, { onDelete: 'cascade' })
       .notNull(),
-    title: varchar('title').notNull(),
-    overview: varchar('overview').notNull(),
-    backdropPath: varchar('backdrop_path'),
-    posterPath: varchar('poster_path'),
     tmdbId: integer('tmdb_id'),
     mediaType: mediaTypeEnum('media_type'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
