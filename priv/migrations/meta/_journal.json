@@ -132,7 +132,7 @@
       "idx": 18,
       "version": "7",
       "when": 1731361519047,
-      "tag": "20241111214519_add-legacy-flag-to-users",
+      "tag": "20241111214519_add_legacy_flag_to_users.sql",
       "breakpoints": true
     }
   ]
