@@ -306,6 +306,7 @@ export const users = pgTable(
       .default('MEMBER'),
     bannerPath: varchar('banner_path'),
     imagePath: varchar('image_path'),
+    isLegacy: boolean('is_legacy').default(false),
   },
   table => {
     return {

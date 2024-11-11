@@ -125,7 +125,14 @@
       "idx": 17,
       "version": "7",
       "when": 1731279733386,
-      "tag": "20241110230213_update-followers-coloumn-createdAt-to-created_at",
+      "tag": "20241110230213_update_followers_coloumn_createdAt_to_created_at",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1731361519047,
+      "tag": "20241111214519_add_legacy_flag_to_users",
       "breakpoints": true
     }
   ]
