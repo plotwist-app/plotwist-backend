@@ -41,3 +41,7 @@ export const getReviewsResponseSchema = {
     })
   ),
 }
+
+export const deleteReviewByIdParamsSchema = z.object({
+  id: z.string(),
+})

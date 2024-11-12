@@ -24,9 +24,13 @@ export async function selectReviews({
     .from(schema.reviews)
     .where(
       and(
-        eq(schema.reviews.mediaType, mediaType),
-        eq(schema.reviews.tmdbId, tmdbId)
+        eq(schema.reviews.tmdbId, tmdbId),
+        eq(schema.reviews.mediaType, mediaType)
       )
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
+}
+
+export async function deleteReview(id: string) {
+  return db.delete(schema.reviews).where(eq(schema.reviews.id, id))
 }

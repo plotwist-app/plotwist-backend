@@ -1,12 +1,14 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createReviewBodySchema,
+  deleteReviewByIdParamsSchema,
   getReviewsQuerySchema,
 } from '../schemas/reviews'
 
 import { createReview } from '@/domain/services/reviews/create-review'
 import { DomainError } from '@/domain/errors/domain-error'
 import { getReviewsService } from '@/domain/services/reviews/get-reviews'
+import { deleteReviewService } from '@/domain/services/reviews/delete-review'
 
 export async function createReviewController(
   request: FastifyRequest,
@@ -34,4 +36,14 @@ export async function getReviewsController(
   const result = await getReviewsService(query)
 
   return reply.status(200).send(result.reviews)
+}
+
+export async function deleteReviewController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { id } = deleteReviewByIdParamsSchema.parse(request.params)
+  await deleteReviewService(id)
+
+  return reply.status(204).send()
 }
