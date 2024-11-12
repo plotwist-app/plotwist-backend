@@ -38,7 +38,6 @@
     "fastify-type-provider-zod": "2.0.0",
     "postgres": "3.4.4",
     "stripe": "^17.3.1",
-    "ts-to-zod": "^3.13.0",
     "typeid-js": "1.0.0"
   },
   "devDependencies": {

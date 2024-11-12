@@ -15,6 +15,7 @@ import {
 } from '../controllers/user-items-controller'
 
 import { languageQuerySchema } from '../schemas/common'
+import { createListItemResponseSchema } from '../schemas/list-item'
 
 const USER_ITEMS_TAGS = ['User items']
 
@@ -28,7 +29,7 @@ export async function userItemsRoutes(app: FastifyInstance) {
         description: 'Create user item',
         tags: USER_ITEMS_TAGS,
         body: createUserItemBodySchema,
-        // response: createListItemResponseSchema,
+        response: createListItemResponseSchema,
         security: [
           {
             bearerAuth: [],

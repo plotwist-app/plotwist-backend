@@ -8,7 +8,6 @@ import { createUserItemService } from '@/domain/services/user-items/create-user-
 import { DomainError } from '@/domain/errors/domain-error'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import type { FastifyRedis } from '@fastify/redis'
-import { languageQuerySchema } from '../schemas/common'
 import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
 import { deleteUserItemService } from '@/domain/services/user-items/delete-user-item'
 
