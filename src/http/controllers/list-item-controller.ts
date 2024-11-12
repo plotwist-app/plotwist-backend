@@ -8,6 +8,9 @@ import { createListItemService } from '@/domain/services/list-item/create-list-i
 import { getListItemsService } from '@/domain/services/list-item/get-list-items'
 import { DomainError } from '@/domain/errors/domain-error'
 import { deleteListItemService } from '@/domain/services/list-item/delete-list-item'
+import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
+import type { FastifyRedis } from '@fastify/redis'
+import { languageQuerySchema } from '../schemas/common'
 
 export async function createListItemController(
   request: FastifyRequest,
@@ -25,16 +28,31 @@ export async function createListItemController(
 
 export async function getListItemsController(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  redis: FastifyRedis
 ) {
   const { listId } = getListItemsParamsSchema.parse(request.params)
+  const { language } = languageQuerySchema.parse(request.query)
+
   const result = await getListItemsService({ listId })
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
 
-  return reply.status(201).send({ listItems: result.listItems })
+  const listItems = await Promise.all(
+    result.listItems.map(async listItem => {
+      const tmdbData = await getTMDBDataService(redis, {
+        language,
+        mediaType: listItem.mediaType,
+        tmdbId: listItem.tmdbId,
+      })
+
+      return { ...listItem, ...tmdbData }
+    })
+  )
+
+  return reply.status(200).send(listItems)
 }
 
 export async function deleteListItemController(

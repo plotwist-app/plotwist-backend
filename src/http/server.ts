@@ -8,7 +8,7 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { env } from '../env'
-import { routes } from './routes/routes'
+import { routes } from './routes'
 import { ZodError } from 'zod'
 
 export const app = fastify()

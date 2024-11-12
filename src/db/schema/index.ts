@@ -37,6 +37,7 @@ export const languagesEnum = pgEnum('languages', [
 ])
 
 export const mediaTypeEnum = pgEnum('media_type', ['TV_SHOW', 'MOVIE'])
+export const statusEnum = pgEnum('status', ['WATCHLIST', 'WATCHED', 'WATCHING'])
 
 export const followers = pgTable(
   'followers',
@@ -118,12 +119,8 @@ export const listItems = pgTable(
     listId: uuid('list_id')
       .references(() => lists.id, { onDelete: 'cascade' })
       .notNull(),
-    title: varchar('title').notNull(),
-    overview: varchar('overview').notNull(),
-    backdropPath: varchar('backdrop_path'),
-    posterPath: varchar('poster_path'),
-    tmdbId: integer('tmdb_id'),
-    mediaType: mediaTypeEnum('media_type'),
+    tmdbId: integer('tmdb_id').notNull(),
+    mediaType: mediaTypeEnum('media_type').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     position: integer('position'),
   },
@@ -327,8 +324,30 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   following: many(followers, { relationName: 'followedRelation' }),
 }))
 
+export const userItems = pgTable('user_items', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
+    .notNull(),
+  tmdbId: integer('tmdb_id').notNull(),
+  addedAt: timestamp('added_at').defaultNow().notNull(),
+  position: integer('position'),
+  mediaType: mediaTypeEnum('media_type').notNull(),
+  status: statusEnum('status').notNull(),
+})
+
+export const userItemsRelations = relations(userItems, ({ one }) => ({
+  user: one(users, {
+    fields: [userItems.userId],
+    references: [users.id],
+  }),
+}))
+
 export const schema = {
   users,
+  userItems,
   reviews,
   reviewReplies,
   lists,
