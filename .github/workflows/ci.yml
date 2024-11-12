@@ -5,8 +5,8 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: bitnami/postgresql
+      db:
+        image: bitnami/postgresql:latest
         ports:
           - 5432:5432
         env:
@@ -42,7 +42,7 @@ jobs:
       - name: Test
         run: bun run test
         env:
-          DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/plotwist_test
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/plotwist_test"
           REDIS_URL: redis://default:redis@127.0.0.1:6379
 
       - name: Types
