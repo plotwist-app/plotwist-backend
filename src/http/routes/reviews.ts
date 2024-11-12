@@ -5,13 +5,16 @@ import {
   createReviewController,
   deleteReviewController,
   getReviewsController,
+  updateReviewController,
 } from '../controllers/review-controller'
 import {
   createReviewBodySchema,
   createReviewResponseSchema,
-  deleteReviewByIdParamsSchema,
   getReviewsQuerySchema,
   getReviewsResponseSchema,
+  reviewParamsSchema,
+  updateReviewBodySchema,
+  updateReviewResponse,
 } from '../schemas/reviews'
 import { verifyJwt } from '../middlewares/verify-jwt'
 
@@ -59,9 +62,24 @@ export async function reviewsRoute(app: FastifyInstance) {
       schema: {
         description: 'Delete review by id',
         tags: [reviewsTag],
-        params: deleteReviewByIdParamsSchema,
+        params: reviewParamsSchema,
       },
       handler: deleteReviewController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PUT',
+      url: '/review/by/:id',
+      schema: {
+        description: 'Update review by id',
+        tags: [reviewsTag],
+        params: reviewParamsSchema,
+        body: updateReviewBodySchema,
+        response: updateReviewResponse,
+      },
+      handler: updateReviewController,
     })
   )
 }

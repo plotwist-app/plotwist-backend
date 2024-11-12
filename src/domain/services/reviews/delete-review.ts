@@ -1,5 +1,12 @@
 import { deleteReview } from '@/db/repositories/reviews-repository'
+import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 
 export async function deleteReviewService(id: string) {
-  return await deleteReview(id)
+  const [review] = await deleteReview(id)
+
+  if (!review) {
+    return new ReviewNotFoundError()
+  }
+
+  return review
 }

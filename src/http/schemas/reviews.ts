@@ -42,6 +42,16 @@ export const getReviewsResponseSchema = {
   ),
 }
 
-export const deleteReviewByIdParamsSchema = z.object({
+export const reviewParamsSchema = z.object({
   id: z.string(),
 })
+
+export const updateReviewBodySchema = createInsertSchema(schema.reviews).pick({
+  rating: true,
+  review: true,
+  hasSpoilers: true,
+})
+
+export const updateReviewResponse = {
+  200: createSelectSchema(schema.reviews),
+}

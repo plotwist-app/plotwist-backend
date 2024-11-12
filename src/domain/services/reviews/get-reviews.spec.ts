@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import { makeReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
@@ -24,8 +24,9 @@ describe('get reviews', () => {
     })
 
     const sut = await getReviewsService({
-      tmdbId: TMDB_ID,
+      tmdbId: String(TMDB_ID),
       mediaType: MEDIA_TYPE,
+      language: 'en-US',
     })
 
     expect(sut).toEqual({

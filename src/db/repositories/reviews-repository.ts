@@ -2,6 +2,7 @@ import type { InsertReviewModel } from '@/domain/entities/review'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
+import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import { and, eq, getTableColumns } from 'drizzle-orm'
 
 export async function insertReview(params: InsertReviewModel) {
@@ -32,5 +33,13 @@ export async function selectReviews({
 }
 
 export async function deleteReview(id: string) {
-  return db.delete(schema.reviews).where(eq(schema.reviews.id, id))
+  return db.delete(schema.reviews).where(eq(schema.reviews.id, id)).returning()
+}
+
+export async function updateReview({ id, rating, review }: UpdateReviewInput) {
+  return db
+    .update(schema.reviews)
+    .set({ rating, review })
+    .where(eq(schema.reviews.id, id))
+    .returning()
 }
