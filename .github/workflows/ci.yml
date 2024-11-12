@@ -13,7 +13,6 @@ jobs:
           POSTGRESQL_USERNAME: postgres
           POSTGRESQL_PASSWORD: postgres
           POSTGRESQL_DATABASE: plotwist_test
-          POSTGRESQL_REPLICATION_USE_PASSFILE: "no"
 
       redis:
         image: bitnami/redis:latest
@@ -43,7 +42,7 @@ jobs:
       - name: Test
         run: bun run test
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/plotwist_test"
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/plotwist_test
           REDIS_URL: redis://default:redis@127.0.0.1:6379
 
       - name: Types
