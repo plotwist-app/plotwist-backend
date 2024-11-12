@@ -19,7 +19,7 @@ jobs:
         ports:
           - 6379:6379
         env:
-          - REDIS_PASSWORD=redis
+          REDIS_PASSWORD: redis
 
     steps:
       - uses: actions/checkout@v4
