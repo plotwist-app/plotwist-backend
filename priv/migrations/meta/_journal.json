@@ -124,43 +124,15 @@
     {
       "idx": 17,
       "version": "7",
-      "when": 1731261059164,
-      "tag": "20241110175059_watchlist_and_watched_items",
+      "when": 1731279733386,
+      "tag": "20241110230213_update_followers_coloumn_createdAt_to_created_at",
       "breakpoints": true
     },
     {
       "idx": 18,
       "version": "7",
-      "when": 1731263897194,
-      "tag": "20241110183817_watchlist_item_media_type",
-      "breakpoints": true
-    },
-    {
-      "idx": 19,
-      "version": "7",
-      "when": 1731333850403,
-      "tag": "20241111140410_list_item_columns",
-      "breakpoints": true
-    },
-    {
-      "idx": 20,
-      "version": "7",
-      "when": 1731353410499,
-      "tag": "20241111193010_list_item_media_type_not_null",
-      "breakpoints": true
-    },
-    {
-      "idx": 21,
-      "version": "7",
-      "when": 1731353438640,
-      "tag": "20241111193038_list_item_tmdb_id_not_null",
-      "breakpoints": true
-    },
-    {
-      "idx": 22,
-      "version": "7",
-      "when": 1731373070094,
-      "tag": "20241112005750_user_item",
+      "when": 1731361519047,
+      "tag": "20241111214519_add_legacy_flag_to_users",
       "breakpoints": true
     }
   ]

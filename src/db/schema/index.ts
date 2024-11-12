@@ -52,7 +52,7 @@ export const followers = pgTable(
         onDelete: 'cascade',
       })
       .notNull(),
-    createdAt: timestamp('createdAt').defaultNow().notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   table => {
     return {
@@ -67,10 +67,12 @@ export const followersRelations = relations(followers, ({ one }) => ({
   follower: one(users, {
     fields: [followers.followerId],
     references: [users.id],
+    relationName: 'followerRelation',
   }),
   followed: one(users, {
     fields: [followers.followedId],
     references: [users.id],
+    relationName: 'followedRelation',
   }),
 }))
 
@@ -301,6 +303,7 @@ export const users = pgTable(
       .default('MEMBER'),
     bannerPath: varchar('banner_path'),
     imagePath: varchar('image_path'),
+    isLegacy: boolean('is_legacy').default(false),
   },
   table => {
     return {
@@ -317,7 +320,8 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   lists: many(lists),
   reviewReplies: many(reviewReplies),
   reviews: many(reviews),
-  followers: many(followers),
+  followers: many(followers, { relationName: 'followerRelation' }),
+  following: many(followers, { relationName: 'followedRelation' }),
 }))
 
 export const userItems = pgTable('user_items', {
@@ -345,6 +349,7 @@ export const schema = {
   users,
   userItems,
   reviews,
+  reviewReplies,
   lists,
   listLikes,
   listItems,
