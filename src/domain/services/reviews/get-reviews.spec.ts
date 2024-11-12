@@ -24,7 +24,7 @@ describe('get reviews', () => {
     })
 
     const sut = await getReviewsService({
-      tmdbId: String(TMDB_ID),
+      tmdbId: TMDB_ID,
       mediaType: MEDIA_TYPE,
       language: 'en-US',
     })
