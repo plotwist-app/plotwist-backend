@@ -26,7 +26,6 @@ describe('delete user item', () => {
 
   it('should be able to fail with invalid id', async () => {
     const sut = await deleteUserItemService(faker.string.uuid())
-    console.log()
 
     expect(sut).toBeInstanceOf(UserItemNotFoundError)
   })

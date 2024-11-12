@@ -3,6 +3,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createUserItemBodySchema,
+  createUserItemResponseSchema,
   deleteUserItemParamsSchema,
   getUserItemsQuerySchema,
   getUserItemsResponseSchema,
@@ -13,9 +14,6 @@ import {
   deleteUserItemController,
   getUserItemsController,
 } from '../controllers/user-items-controller'
-
-import { languageQuerySchema } from '../schemas/common'
-import { createListItemResponseSchema } from '../schemas/list-item'
 
 const USER_ITEMS_TAGS = ['User items']
 
@@ -29,7 +27,7 @@ export async function userItemsRoutes(app: FastifyInstance) {
         description: 'Create user item',
         tags: USER_ITEMS_TAGS,
         body: createUserItemBodySchema,
-        response: createListItemResponseSchema,
+        response: createUserItemResponseSchema,
         security: [
           {
             bearerAuth: [],

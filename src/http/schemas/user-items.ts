@@ -7,6 +7,12 @@ export const createUserItemBodySchema = createInsertSchema(
   schema.userItems
 ).pick({ tmdbId: true, mediaType: true, status: true })
 
+export const createUserItemResponseSchema = {
+  201: z.object({
+    userItem: createSelectSchema(schema.userItems),
+  }),
+}
+
 export const getUserItemsQuerySchema = createInsertSchema(schema.userItems)
   .pick({ status: true })
   .merge(languageQuerySchema)
