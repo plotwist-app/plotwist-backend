@@ -255,7 +255,7 @@ export const reviews = pgTable('reviews', {
   mediaType: mediaTypeEnum('media_type').notNull(),
   review: varchar('review').notNull(),
   rating: integer('rating').notNull(),
-  hasSpoilers: boolean('has_spoilers').default(false),
+  hasSpoilers: boolean('has_spoilers').notNull().default(false),
   language: languagesEnum('language'),
 })
 

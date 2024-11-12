@@ -155,6 +155,13 @@
       "when": 1731424272183,
       "tag": "20241112151112_tmdb_id_media_type_not_null",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1731429929254,
+      "tag": "20241112164529_has_spoilers_not_null",
+      "breakpoints": true
     }
   ]
 }

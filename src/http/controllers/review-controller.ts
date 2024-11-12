@@ -30,9 +30,8 @@ export async function getReviewsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { mediaType, tmdbId } = getReviewsQuerySchema.parse(request.query)
-
-  const result = await getReviewsService({ mediaType, tmdbId: Number(tmdbId) })
+  const query = getReviewsQuerySchema.parse(request.query)
+  const result = await getReviewsService(query)
 
   return reply.status(200).send(result.reviews)
 }

@@ -24,11 +24,20 @@ export const createReviewResponseSchema = {
 export const getReviewsQuerySchema = createSelectSchema(schema.reviews)
   .pick({
     mediaType: true,
+    language: true,
   })
   .extend({
     tmdbId: z.string(),
   })
 
 export const getReviewsResponseSchema = {
-  200: z.array(createSelectSchema(schema.reviews)),
+  200: z.array(
+    createSelectSchema(schema.reviews).extend({
+      user: createSelectSchema(schema.users).pick({
+        id: true,
+        username: true,
+        imagePath: true,
+      }),
+    })
+  ),
 }
