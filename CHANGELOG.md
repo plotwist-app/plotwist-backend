@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Create reviews POST, GET, PUT and DELETE routes. [#32](https://github.com/plotwist-app/plotwist-backend/pull/32)
 - Create `is_legacy` field in database [#31](https://github.com/plotwist-app/plotwist-backend/pull/31)
 - Create subscription webhook [#27](https://github.com/plotwist-app/plotwist-backend/pull/27)
 - Create list items create, read, update and delete endpoints [#26](https://github.com/plotwist-app/plotwist-backend/pull/26)
