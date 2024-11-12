@@ -13,6 +13,7 @@ jobs:
           POSTGRESQL_USERNAME: postgres
           POSTGRESQL_PASSWORD: postgres
           POSTGRESQL_DATABASE: plotwist_test
+          POSTGRESQL_REPLICATION_USE_PASSFILE: "no"
 
       redis:
         image: bitnami/redis:latest
