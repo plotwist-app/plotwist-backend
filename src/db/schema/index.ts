@@ -37,6 +37,7 @@ export const languagesEnum = pgEnum('languages', [
 ])
 
 export const mediaTypeEnum = pgEnum('media_type', ['TV_SHOW', 'MOVIE'])
+export const statusEnum = pgEnum('status', ['WATCHLIST', 'WATCHED', 'WATCHING'])
 
 export const followers = pgTable(
   'followers',
@@ -319,7 +320,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   followers: many(followers),
 }))
 
-export const watchlistItems = pgTable('watchlist_items', {
+export const userItems = pgTable('user_items', {
   id: uuid('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
@@ -330,40 +331,22 @@ export const watchlistItems = pgTable('watchlist_items', {
   addedAt: timestamp('added_at').defaultNow().notNull(),
   position: integer('position'),
   mediaType: mediaTypeEnum('media_type').notNull(),
+  status: statusEnum('status').notNull(),
 })
 
-export const watchlistItemsRelations = relations(watchlistItems, ({ one }) => ({
+export const userItemsRelations = relations(userItems, ({ one }) => ({
   user: one(users, {
-    fields: [watchlistItems.userId],
-    references: [users.id],
-  }),
-}))
-
-export const watchedItems = pgTable('watched_items', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  userId: uuid('user_id')
-    .references(() => users.id, { onDelete: 'cascade' })
-    .notNull(),
-  tmdbId: integer('tmdb_id').notNull(),
-  watchedAt: timestamp('watched_at').defaultNow().notNull(),
-})
-
-export const watchedItemsRelations = relations(watchedItems, ({ one }) => ({
-  user: one(users, {
-    fields: [watchedItems.userId],
+    fields: [userItems.userId],
     references: [users.id],
   }),
 }))
 
 export const schema = {
   users,
+  userItems,
   reviews,
   lists,
   listLikes,
   listItems,
   subscriptions,
-  watchlistItems,
-  watchedItems,
 }

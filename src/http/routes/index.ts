@@ -14,7 +14,7 @@ import { listsRoute } from './lists'
 import { usersRoute } from './users'
 import { listItemRoute } from './list-item'
 import { webhookRoutes } from './webhook'
-import { watchlistRoutes } from './watchlist'
+import { userItemsRoutes } from './user-items'
 
 export function routes(app: FastifyInstance) {
   app.register(fastifySwaggerUi, {
@@ -39,7 +39,7 @@ export function routes(app: FastifyInstance) {
   app.register(healthCheck)
   app.register(reviewsRoute)
   app.register(listItemRoute)
-  app.register(watchlistRoutes)
+  app.register(userItemsRoutes)
   app.register(webhookRoutes)
 
   return

@@ -14,8 +14,6 @@
     "positionals",
     "postgres",
     "tmdb",
-    "tsup",
-    "watchlist",
-    "Watchlist"
+    "tsup"
   ]
 }

@@ -1,14 +1,14 @@
-import { insertWatchlistItem } from '@/db/repositories/watchlist-item'
+import { insertUserItem } from '@/db/repositories/user-item-repository'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
-import type { InsertWatchlistItem } from '@/domain/entities/watchlist-item'
+import type { InsertUserItem } from '@/domain/entities/user-item'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import postgres from 'postgres'
 
-export async function createWatchlistItemService(values: InsertWatchlistItem) {
+export async function createUserItemService(values: InsertUserItem) {
   try {
-    const [watchlistItem] = await insertWatchlistItem(values)
+    const [userItem] = await insertUserItem(values)
 
-    return { watchlistItem }
+    return { userItem }
   } catch (error) {
     if (error instanceof postgres.PostgresError) {
       if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {
