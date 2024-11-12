@@ -46,12 +46,7 @@ export function selectLists({
     .where(userId ? and(eq(schema.lists.userId, userId)) : undefined)
     .leftJoin(schema.users, eq(schema.lists.userId, schema.users.id))
     .leftJoin(schema.listItems, eq(schema.listItems.listId, schema.lists.id))
-    .groupBy(
-      schema.lists.id,
-      schema.users.id,
-      schema.listItems.id,
-      schema.listItems.listId
-    )
+    .groupBy(schema.lists.id, schema.users.id)
     .orderBy(
       desc(
         sql`(SELECT COUNT(*)::int FROM ${schema.listLikes} WHERE ${schema.listLikes.listId} = ${schema.lists.id})`

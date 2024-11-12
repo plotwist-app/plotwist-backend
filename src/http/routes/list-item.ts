@@ -67,7 +67,6 @@ export async function listItemRoute(app: FastifyInstance) {
             bearerAuth: [],
           },
         ],
-        response: getListItemsResponseSchema,
       },
       handler: deleteListItemController,
     })

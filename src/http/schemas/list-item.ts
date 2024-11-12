@@ -20,7 +20,8 @@ export const getListItemsResponseSchema = {
   200: z.array(
     createSelectSchema(schema.listItems).extend({
       title: z.string(),
-      posterPath: z.string(),
+      posterPath: z.string().nullable(),
+      backdropPath: z.string().nullable(),
     })
   ),
 }

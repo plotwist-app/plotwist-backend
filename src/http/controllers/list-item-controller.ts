@@ -42,7 +42,7 @@ export async function getListItemsController(
 
   const listItems = await Promise.all(
     result.listItems.map(async listItem => {
-      const tmdbData = getTMDBDataService(redis, {
+      const tmdbData = await getTMDBDataService(redis, {
         language,
         mediaType: listItem.mediaType,
         tmdbId: listItem.tmdbId,
@@ -52,7 +52,7 @@ export async function getListItemsController(
     })
   )
 
-  return reply.status(201).send({ listItems })
+  return reply.status(200).send(listItems)
 }
 
 export async function deleteListItemController(

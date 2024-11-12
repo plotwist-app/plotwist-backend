@@ -22,10 +22,9 @@ export async function getTMDBDataService(
       const data = JSON.parse(cachedResult)
 
       return {
-        tmdbData: {
-          title: data.title,
-          posterPath: data.poster_path,
-        },
+        title: data.name,
+        posterPath: data.poster_path,
+        backdropPath: data.backdrop_path,
       }
     }
 
@@ -35,6 +34,7 @@ export async function getTMDBDataService(
     return {
       title: data.name,
       posterPath: data.poster_path,
+      backdropPath: data.backdrop_path,
     }
   }
 
@@ -44,6 +44,7 @@ export async function getTMDBDataService(
     return {
       title: data.title,
       posterPath: data.poster_path,
+      backdropPath: data.backdrop_path,
     }
   }
 
@@ -53,5 +54,6 @@ export async function getTMDBDataService(
   return {
     title: data.title,
     posterPath: data.poster_path,
+    backdropPath: data.backdrop_path,
   }
 }
