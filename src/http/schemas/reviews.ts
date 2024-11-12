@@ -1,26 +1,11 @@
 import { schema } from '@/db/schema'
-import { createInsertSchema } from 'drizzle-zod'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
-export const createReviewRequestSchema = z.object({
-  userId: z.string({ message: 'User id is required' }),
-  tmdbId: z.number().optional(),
-  mediaType: z.enum(['TV_SHOW', 'MOVIE']),
-  review: z.string({ message: 'Review is required' }),
-  rating: z.number({ message: 'Rating is required' }),
-  hasSpoilers: z.boolean().default(false),
-  tmdbTitle: z.string().optional(),
-  tmdbPosterPath: z.string().optional(),
-  tmdbOverview: z.string().optional(),
-  language: z.enum([
-    'en-US',
-    'es-ES',
-    'fr-FR',
-    'it-IT',
-    'de-DE',
-    'pt-BR',
-    'ja-JP',
-  ]),
+export const createReviewBodySchema = createInsertSchema(schema.reviews).omit({
+  userId: true,
+  id: true,
+  createdAt: true,
 })
 
 export const createReviewResponseSchema = {
@@ -34,4 +19,16 @@ export const createReviewResponseSchema = {
       message: z.string(),
     })
     .describe('User not found'),
+}
+
+export const getReviewsQuerySchema = createSelectSchema(schema.reviews)
+  .pick({
+    mediaType: true,
+  })
+  .extend({
+    tmdbId: z.string(),
+  })
+
+export const getReviewsResponseSchema = {
+  200: z.array(createSelectSchema(schema.reviews)),
 }
