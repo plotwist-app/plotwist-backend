@@ -1,4 +1,4 @@
-import { selectReviews } from '@/db/repositories/reviews-repository'
+import { selectReviewsWithUser } from '@/db/repositories/reviews-repository'
 import type { getReviewsQuerySchema } from '@/http/schemas/reviews'
 
 export type GetReviewsServiceInput = Omit<
@@ -13,7 +13,7 @@ export async function getReviewsService({
   mediaType,
   tmdbId,
 }: GetReviewsServiceInput) {
-  const reviews = await selectReviews({
+  const reviews = await selectReviewsWithUser({
     language,
     mediaType,
     tmdbId,

@@ -43,7 +43,7 @@ export async function getListItemsController(
   const listItems = await Promise.all(
     result.listItems.map(async listItem => {
       const tmdbData = await getTMDBDataService(redis, {
-        language,
+        language: language || 'en-US',
         mediaType: listItem.mediaType,
         tmdbId: listItem.tmdbId,
       })
