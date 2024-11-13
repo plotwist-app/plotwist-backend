@@ -141,6 +141,27 @@
       "when": 1731376247086,
       "tag": "20241112015047_user_item",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1731423347377,
+      "tag": "20241112145547_remove_review_tmdb_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1731424272183,
+      "tag": "20241112151112_tmdb_id_media_type_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1731429929254,
+      "tag": "20241112164529_has_spoilers_not_null",
+      "breakpoints": true
     }
   ]
 }

@@ -251,14 +251,11 @@ export const reviews = pgTable('reviews', {
   userId: uuid('user_id')
     .references(() => users.id, { onDelete: 'cascade' })
     .notNull(),
-  tmdbId: integer('tmdb_id'),
-  mediaType: mediaTypeEnum('media_type'),
+  tmdbId: integer('tmdb_id').notNull(),
+  mediaType: mediaTypeEnum('media_type').notNull(),
   review: varchar('review').notNull(),
   rating: integer('rating').notNull(),
-  hasSpoilers: boolean('has_spoilers').default(false),
-  tmdbTitle: varchar('tmdb_title'),
-  tmdbPosterPath: varchar('tmdb_poster_path'),
-  tmdbOverview: varchar('tmdb_overview'),
+  hasSpoilers: boolean('has_spoilers').notNull().default(false),
   language: languagesEnum('language'),
 })
 

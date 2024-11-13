@@ -1,16 +1,20 @@
 import { insertReview } from '@/db/repositories/reviews-repository'
 import type { InsertReviewModel } from '../../entities/review'
-import { UserNotFoundError } from '../../errors/user-not-found'
-import { getUserById } from '../users/get-by-id'
+import postgres from 'postgres'
+import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
 
 export async function createReview(params: InsertReviewModel) {
-  const result = await getUserById(params.userId)
+  try {
+    const [review] = await insertReview(params)
+    return { review }
+  } catch (error) {
+    if (error instanceof postgres.PostgresError) {
+      if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {
+        return new UserNotFoundError()
+      }
+    }
 
-  if (result instanceof Error) {
-    return new UserNotFoundError()
+    throw error
   }
-
-  const [review] = await insertReview(params)
-
-  return { review }
 }

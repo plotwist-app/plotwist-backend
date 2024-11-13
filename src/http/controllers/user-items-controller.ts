@@ -2,7 +2,10 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createUserItemBodySchema,
   deleteUserItemParamsSchema,
+  getUserItemQuerySchema,
   getUserItemsQuerySchema,
+  updateUserItemStatusBodySchema,
+  updateUserItemStatusParamsSchema,
 } from '../schemas/user-items'
 import { createUserItemService } from '@/domain/services/user-items/create-user-item'
 import { DomainError } from '@/domain/errors/domain-error'
@@ -10,6 +13,8 @@ import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import type { FastifyRedis } from '@fastify/redis'
 import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
 import { deleteUserItemService } from '@/domain/services/user-items/delete-user-item'
+import { getUserItemService } from '@/domain/services/user-items/get-user-item'
+import { updateUserItemStatusService } from '@/domain/services/user-items/update-user-item'
 
 export async function createUserItemController(
   request: FastifyRequest,
@@ -69,4 +74,34 @@ export async function deleteUserItemController(
   await deleteUserItemService(id)
 
   return reply.send(204).send()
+}
+
+export async function getUserItemController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { mediaType, tmdbId } = getUserItemQuerySchema.parse(request.query)
+
+  const result = await getUserItemService({
+    mediaType,
+    tmdbId: Number(tmdbId),
+    userId: request.user.id,
+  })
+
+  return reply.status(200).send({ userItem: result.userItem })
+}
+
+export async function updateUserItemStatusController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { id } = updateUserItemStatusParamsSchema.parse(request.params)
+  const { status } = updateUserItemStatusBodySchema.parse(request.body)
+
+  const result = await updateUserItemStatusService({
+    id,
+    status,
+  })
+
+  return reply.status(200).send({ userItem: result.userItem })
 }

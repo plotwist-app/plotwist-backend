@@ -30,3 +30,29 @@ export const getUserItemsResponseSchema = {
 export const deleteUserItemParamsSchema = z.object({
   id: z.string(),
 })
+
+export const getUserItemQuerySchema = createSelectSchema(schema.userItems)
+  .pick({
+    mediaType: true,
+  })
+  .extend({ tmdbId: z.string() })
+
+export const getUserItemResponseSchema = {
+  200: z.object({
+    userItem: createSelectSchema(schema.userItems).optional(),
+  }),
+}
+
+export const updateUserItemStatusParamsSchema = z.object({
+  id: z.string(),
+})
+
+export const updateUserItemStatusBodySchema = createInsertSchema(
+  schema.userItems
+).pick({ status: true })
+
+export const updateUserItemStatusResponseSchema = {
+  200: z.object({
+    userItem: createSelectSchema(schema.userItems),
+  }),
+}

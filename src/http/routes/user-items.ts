@@ -5,14 +5,21 @@ import {
   createUserItemBodySchema,
   createUserItemResponseSchema,
   deleteUserItemParamsSchema,
+  getUserItemQuerySchema,
+  getUserItemResponseSchema,
   getUserItemsQuerySchema,
   getUserItemsResponseSchema,
+  updateUserItemStatusBodySchema,
+  updateUserItemStatusParamsSchema,
+  updateUserItemStatusResponseSchema,
 } from '../schemas/user-items'
 
 import {
   createUserItemController,
   deleteUserItemController,
+  getUserItemController,
   getUserItemsController,
+  updateUserItemStatusController,
 } from '../controllers/user-items-controller'
 
 const USER_ITEMS_TAGS = ['User items']
@@ -75,6 +82,47 @@ export async function userItemsRoutes(app: FastifyInstance) {
         ],
       },
       handler: deleteUserItemController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/item',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get user item',
+        tags: USER_ITEMS_TAGS,
+        querystring: getUserItemQuerySchema,
+        response: getUserItemResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: getUserItemController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PATCH',
+      url: '/user/item/status/by/:id',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get user item',
+        tags: USER_ITEMS_TAGS,
+        params: updateUserItemStatusParamsSchema,
+        body: updateUserItemStatusBodySchema,
+        response: updateUserItemStatusResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: updateUserItemStatusController,
     })
   )
 }
