@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Create legacy user login flow. [#34](https://github.com/plotwist-app/plotwist-backend/pull/34)
 - Create GET detailed reviews route. [#33](https://github.com/plotwist-app/plotwist-backend/pull/33)
 - Create reviews POST, GET, PUT and DELETE routes. [#32](https://github.com/plotwist-app/plotwist-backend/pull/32)
 - Create `is_legacy` field in database [#31](https://github.com/plotwist-app/plotwist-backend/pull/31)
