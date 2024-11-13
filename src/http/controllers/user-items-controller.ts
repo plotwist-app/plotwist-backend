@@ -55,7 +55,7 @@ export async function getUserItemsController(
       const tmdbData = await getTMDBDataService(redis, {
         mediaType: item.mediaType,
         tmdbId: item.tmdbId,
-        language,
+        language: language || 'en-US',
       })
 
       return { ...item, ...tmdbData }

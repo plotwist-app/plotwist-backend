@@ -4,12 +4,15 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
   createReviewController,
   deleteReviewController,
+  getDetailedReviewsController,
   getReviewsController,
   updateReviewController,
 } from '../controllers/review-controller'
 import {
   createReviewBodySchema,
   createReviewResponseSchema,
+  getDetailedReviewsQuerySchema,
+  getDetailedReviewsResponseSchema,
   getReviewsQuerySchema,
   getReviewsResponseSchema,
   reviewParamsSchema,
@@ -80,6 +83,21 @@ export async function reviewsRoute(app: FastifyInstance) {
         response: updateReviewResponse,
       },
       handler: updateReviewController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/detailed/reviews',
+      schema: {
+        description: 'Get detailed reviews',
+        tags: [reviewsTag],
+        query: getDetailedReviewsQuerySchema,
+        response: getDetailedReviewsResponseSchema,
+      },
+      handler: (request, reply) =>
+        getDetailedReviewsController(request, reply, app.redis),
     })
   )
 }
