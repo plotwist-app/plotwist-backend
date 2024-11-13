@@ -21,7 +21,6 @@ export async function selectUserItems({ userId, status }: GetUserItemsInput) {
       )
     )
     .orderBy(desc(schema.userItems.addedAt))
-    .limit(20)
 }
 
 export async function deleteUserItem(id: string) {
