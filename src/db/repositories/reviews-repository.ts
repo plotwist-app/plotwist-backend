@@ -36,10 +36,15 @@ export async function deleteReview(id: string) {
   return db.delete(schema.reviews).where(eq(schema.reviews.id, id)).returning()
 }
 
-export async function updateReview({ id, rating, review }: UpdateReviewInput) {
+export async function updateReview({
+  id,
+  rating,
+  review,
+  hasSpoilers,
+}: UpdateReviewInput) {
   return db
     .update(schema.reviews)
-    .set({ rating, review })
+    .set({ rating, review, hasSpoilers })
     .where(eq(schema.reviews.id, id))
     .returning()
 }
