@@ -1,6 +1,7 @@
 import { schema } from '@/db/schema'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
+import { languageQuerySchema } from './common'
 
 export const createReviewBodySchema = createInsertSchema(schema.reviews).omit({
   userId: true,
@@ -54,4 +55,28 @@ export const updateReviewBodySchema = createInsertSchema(schema.reviews).pick({
 
 export const updateReviewResponse = {
   200: createSelectSchema(schema.reviews),
+}
+
+export const getDetailedReviewsQuerySchema = z
+  .object({
+    userId: z.string().optional(),
+    limit: z.string().optional(),
+  })
+  .merge(languageQuerySchema)
+
+export const getDetailedReviewsResponseSchema = {
+  200: z.object({
+    reviews: z.array(
+      createSelectSchema(schema.reviews).extend({
+        user: createSelectSchema(schema.users).pick({
+          username: true,
+          id: true,
+          imagePath: true,
+        }),
+        title: z.string(),
+        posterPath: z.string().nullable(),
+        backdropPath: z.string().nullable(),
+      })
+    ),
+  }),
 }
