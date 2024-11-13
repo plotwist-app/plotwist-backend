@@ -2,6 +2,7 @@ import type { InsertUserModel } from '@/domain/entities/user'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import { eq } from 'drizzle-orm'
+import type { UpdateUserInput } from '@/domain/services/users/update-user'
 
 export async function getUserByEmail(email: string) {
   return db.select().from(schema.users).where(eq(schema.users.email, email))
@@ -44,18 +45,10 @@ export async function updateUserSubscription(
     .returning()
 }
 
-export async function updateUserImage(userId: string, imagePath: string) {
+export async function updateUser(userId: string, data: UpdateUserInput) {
   return db
     .update(schema.users)
-    .set({ imagePath })
-    .where(eq(schema.users.id, userId))
-    .returning()
-}
-
-export async function updateUserBanner(userId: string, bannerPath: string) {
-  return db
-    .update(schema.users)
-    .set({ bannerPath })
+    .set(data)
     .where(eq(schema.users.id, userId))
     .returning()
 }

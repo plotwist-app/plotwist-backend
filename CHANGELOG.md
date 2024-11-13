@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Added
 
+- Create unique endpoint de update user public information. [#35](https://github.com/plotwist-app/plotwist-backend/pull/35)
 - Create legacy user login flow. [#34](https://github.com/plotwist-app/plotwist-backend/pull/34)
 - Create GET detailed reviews route. [#33](https://github.com/plotwist-app/plotwist-backend/pull/33)
 - Create reviews POST, GET, PUT and DELETE routes. [#32](https://github.com/plotwist-app/plotwist-backend/pull/32)
