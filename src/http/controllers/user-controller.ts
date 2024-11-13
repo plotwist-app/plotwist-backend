@@ -7,6 +7,7 @@ import {
   getUserByIdParamsSchema,
   updateUserImageBodySchema,
   updateUserBannerBodySchema,
+  updateUserPasswordBodySchema,
 } from '../schemas/users'
 
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
@@ -17,6 +18,7 @@ import { DomainError } from '@/domain/errors/domain-error'
 import { getUserById } from '@/domain/services/users/get-by-id'
 import { updateUserImageService } from '@/domain/services/users/update-user-image'
 import { updateUserBannerService } from '@/domain/services/users/update-user-banner'
+import { updatePasswordService } from '@/domain/services/users/update-user-password'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -136,4 +138,14 @@ export async function updateUserBannerController(
   }
 
   return reply.status(200).send({ user: result.user })
+}
+
+export async function updateUserPasswordController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { password, token } = updateUserPasswordBodySchema.parse(request.body)
+  const { status } = await updatePasswordService({ password, token })
+
+  return reply.status(200).send({ status: status })
 }

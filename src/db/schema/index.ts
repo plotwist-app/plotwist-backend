@@ -342,6 +342,35 @@ export const userItemsRelations = relations(userItems, ({ one }) => ({
   }),
 }))
 
+export const magicTokens = pgTable(
+  'magic_tokens',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    token: varchar('token').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    expiresAt: timestamp('expires_at').notNull(),
+    used: boolean('used').default(false).notNull(),
+  },
+  table => {
+    return {
+      userIdIndex: index('token_user_id_idx').on(table.userId),
+      tokenIndex: index('token_idx').on(table.token),
+    }
+  }
+)
+
+export const magicTokensRelations = relations(magicTokens, ({ one }) => ({
+  user: one(users, {
+    fields: [magicTokens.userId],
+    references: [users.id],
+  }),
+}))
+
 export const schema = {
   users,
   userItems,
@@ -351,4 +380,5 @@ export const schema = {
   listLikes,
   listItems,
   subscriptions,
+  magicTokens,
 }

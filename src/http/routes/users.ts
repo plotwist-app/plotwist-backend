@@ -14,6 +14,8 @@ import {
   updateUserImageBodySchema,
   updateUserImageResponseSchema,
   updateUserBannerBodySchema,
+  updateUserPasswordResponseSchema,
+  updateUserPasswordBodySchema,
 } from '../schemas/users'
 import {
   isEmailAvailableController,
@@ -24,6 +26,7 @@ import {
   getMeController,
   updateUserImageController,
   updateUserBannerController,
+  updateUserPasswordController,
 } from '../controllers/user-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 
@@ -156,6 +159,20 @@ export async function usersRoute(app: FastifyInstance) {
         ],
       },
       handler: updateUserBannerController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PATCH',
+      url: '/user/password',
+      schema: {
+        description: 'Update user password',
+        tags: [usersTag],
+        body: updateUserPasswordBodySchema,
+        response: updateUserPasswordResponseSchema,
+      },
+      handler: updateUserPasswordController,
     })
   )
 }
