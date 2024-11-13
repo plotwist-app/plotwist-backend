@@ -8,7 +8,7 @@ export const envSchema = z.object({
   STRIPE_SECRET_KEY: z.string().optional().default(''),
   TMDB_ACCESS_TOKEN: z.string(),
   REDIS_URL: z.string().url(),
-  RESEND_API_KEY: z.string(),
+  RESEND_API_KEY: z.string().optional().default(''),
 })
 
 export const env = envSchema.parse(process.env)
