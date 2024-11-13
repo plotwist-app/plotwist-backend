@@ -59,3 +59,13 @@ export async function updateUserBanner(userId: string, bannerPath: string) {
     .where(eq(schema.users.id, userId))
     .returning()
 }
+
+export async function updateUserPassword(userId: string, password: string) {
+  return db
+    .update(schema.users)
+    .set({
+      password: password,
+      isLegacy: false,
+    })
+    .where(eq(schema.users.id, userId))
+}

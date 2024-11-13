@@ -1,6 +1,4 @@
 import { z } from 'zod'
-import { createSelectSchema } from 'drizzle-zod'
-import { schema } from '@/db/schema'
 
 export const loginBodySchema = z.object({
   email: z.string().email('Invalid email format'),
@@ -8,11 +6,13 @@ export const loginBodySchema = z.object({
     .string()
     .min(8, 'Password must be at least 8 characters long')
     .default('password123'),
+  url: z.string().optional(),
 })
 
 export const loginResponseSchema = {
   200: z.object({
-    token: z.string(),
+    token: z.string().optional(),
+    status: z.string().optional(),
   }),
   400: z
     .object({

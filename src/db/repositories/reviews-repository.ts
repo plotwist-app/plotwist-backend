@@ -38,7 +38,7 @@ export async function selectReviews({
   language,
   limit,
 }: GetDetailedReviewsInput) {
-  const query = db
+  return db
     .select({
       ...getTableColumns(schema.reviews),
       user: {
@@ -50,19 +50,13 @@ export async function selectReviews({
     .from(schema.reviews)
     .orderBy(desc(schema.reviews.createdAt))
     .limit(Number(limit))
-
-  if (userId) {
-    query.where(eq(schema.reviews.userId, userId))
-  }
-
-  if (language) {
-    query.where(eq(schema.reviews.language, language))
-  }
-
-  return query.leftJoin(
-    schema.users,
-    eq(schema.reviews.userId, schema.users.id)
-  )
+    .where(
+      and(
+        userId ? eq(schema.reviews.userId, userId) : undefined,
+        language ? eq(schema.reviews.language, language) : undefined
+      )
+    )
+    .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
 }
 
 export async function deleteReview(id: string) {

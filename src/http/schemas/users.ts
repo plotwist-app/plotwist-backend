@@ -82,7 +82,7 @@ export const updateUserImageBodySchema = z.object({
 
 export const updateUserImageResponseSchema = {
   200: z.object({
-    user: createSelectSchema(schema.users).omit({ password: true }),
+    status: createSelectSchema(schema.users).omit({ password: true }),
   }),
 }
 
@@ -93,5 +93,16 @@ export const updateUserBannerBodySchema = z.object({
 export const updateUserBannerResponseSchema = {
   200: z.object({
     user: createSelectSchema(schema.users).omit({ password: true }),
+  }),
+}
+
+export const updateUserPasswordBodySchema = z.object({
+  password: z.string(),
+  token: z.string(),
+})
+
+export const updateUserPasswordResponseSchema = {
+  200: z.object({
+    status: z.enum(['password_set']),
   }),
 }

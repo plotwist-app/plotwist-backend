@@ -6,10 +6,12 @@ import { eq } from 'drizzle-orm'
 import type { z } from 'zod'
 import { InvalidEmailError } from '../errors/invalid-email-error'
 import { InvalidPasswordError } from '../errors/invalid-password-error'
+import { generateMagicLinkTokenService } from './magic-link/generate-magic-link'
+import { sendMagicLinkEmailService } from './magic-link/send-magic-link-email'
 
 type LoginInput = z.infer<typeof loginBodySchema>
 
-export async function login({ email, password }: LoginInput) {
+export async function loginService({ email, password, url }: LoginInput) {
   const [user] = await db
     .select()
     .from(schema.users)
@@ -19,8 +21,14 @@ export async function login({ email, password }: LoginInput) {
     return new InvalidEmailError()
   }
 
-  const isValidPassword = await comparePassword(password, user.password)
+  if (user.isLegacy) {
+    const { token } = await generateMagicLinkTokenService(user.id)
+    await sendMagicLinkEmailService({ email: user.email, token, url })
 
+    return { status: 'magic_link_sent' }
+  }
+
+  const isValidPassword = await comparePassword(password, user.password)
   if (!isValidPassword) {
     return new InvalidPasswordError()
   }

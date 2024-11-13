@@ -162,6 +162,13 @@
       "when": 1731429929254,
       "tag": "20241112164529_has_spoilers_not_null",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1731511294313,
+      "tag": "20241113152134_magic_tokens_table",
+      "breakpoints": true
     }
   ]
 }
