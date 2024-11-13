@@ -9,6 +9,7 @@ export const envSchema = z.object({
   TMDB_ACCESS_TOKEN: z.string(),
   REDIS_URL: z.string().url(),
   RESEND_API_KEY: z.string().optional().default('re_123'),
+  CLIENT_URL: z.string(),
 })
 
 export const env = envSchema.parse(process.env)

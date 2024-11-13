@@ -1,4 +1,5 @@
 import { resend } from '@/domain/entities/resend'
+import { env } from '@/env'
 
 type SendMagicLinkEmailServiceInput = {
   email: string
@@ -11,9 +12,7 @@ export async function sendMagicLinkEmailService({
   token,
   url,
 }: SendMagicLinkEmailServiceInput) {
-  const link = url?.includes('localhost')
-    ? `${url}:3000/reset-password?token=${token}`
-    : `${url}/reset-password?token=${token}`
+  const link = `${env.CLIENT_URL}/reset-password?token=${token}`
 
   await resend.emails.send({
     from: 'Plotwist <dev@plotwist.app>',
