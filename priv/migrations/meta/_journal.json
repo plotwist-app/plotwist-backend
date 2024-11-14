@@ -120,6 +120,55 @@
       "when": 1730897798039,
       "tag": "20241106125638_user_default_subscription_type",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1731279733386,
+      "tag": "20241110230213_update_followers_coloumn_createdAt_to_created_at",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1731361519047,
+      "tag": "20241111214519_add_legacy_flag_to_users",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1731376247086,
+      "tag": "20241112015047_user_item",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1731423347377,
+      "tag": "20241112145547_remove_review_tmdb_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1731424272183,
+      "tag": "20241112151112_tmdb_id_media_type_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1731429929254,
+      "tag": "20241112164529_has_spoilers_not_null",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1731511294313,
+      "tag": "20241113152134_magic_tokens_table",
+      "breakpoints": true
     }
   ]
 }

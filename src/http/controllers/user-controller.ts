@@ -5,8 +5,8 @@ import {
   checkAvailableUsernameQuerySchema,
   getUserByUsernameParamsSchema,
   getUserByIdParamsSchema,
-  updateUserImageBodySchema,
-  updateUserBannerBodySchema,
+  updateUserPasswordBodySchema,
+  updateUserBodySchema,
 } from '../schemas/users'
 
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
@@ -15,8 +15,8 @@ import { createUser } from '@/domain/services/users/create-user'
 import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
 import { DomainError } from '@/domain/errors/domain-error'
 import { getUserById } from '@/domain/services/users/get-by-id'
-import { updateUserImageService } from '@/domain/services/users/update-user-image'
-import { updateUserBannerService } from '@/domain/services/users/update-user-banner'
+import { updateUserService } from '@/domain/services/users/update-user'
+import { updatePasswordService } from '@/domain/services/users/update-user-password'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -102,15 +102,19 @@ export async function getMeController(
   return reply.status(200).send({ user: result.user })
 }
 
-export async function updateUserImageController(
+export async function updateUserController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { imagePath } = updateUserImageBodySchema.parse(request.body)
+  const { bannerPath, imagePath, username } = updateUserBodySchema.parse(
+    request.body
+  )
 
-  const result = await updateUserImageService({
+  const result = await updateUserService({
     userId: request.user.id,
+    bannerPath,
     imagePath,
+    username,
   })
 
   if (result instanceof DomainError) {
@@ -120,20 +124,12 @@ export async function updateUserImageController(
   return reply.status(200).send({ user: result.user })
 }
 
-export async function updateUserBannerController(
+export async function updateUserPasswordController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { bannerPath } = updateUserBannerBodySchema.parse(request.body)
+  const { password, token } = updateUserPasswordBodySchema.parse(request.body)
+  const { status } = await updatePasswordService({ password, token })
 
-  const result = await updateUserBannerService({
-    userId: request.user.id,
-    bannerPath,
-  })
-
-  if (result instanceof DomainError) {
-    return reply.status(result.status).send({ message: result.message })
-  }
-
-  return reply.status(200).send({ user: result.user })
+  return reply.status(200).send({ status: status })
 }

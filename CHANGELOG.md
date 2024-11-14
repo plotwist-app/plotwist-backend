@@ -1,13 +1,19 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.0.0
+
 ### Added
 
+- Create unique endpoint de update user public information. [#35](https://github.com/plotwist-app/plotwist-backend/pull/35)
+- Create legacy user login flow. [#34](https://github.com/plotwist-app/plotwist-backend/pull/34)
+- Create GET detailed reviews route. [#33](https://github.com/plotwist-app/plotwist-backend/pull/33)
+- Create reviews POST, GET, PUT and DELETE routes. [#32](https://github.com/plotwist-app/plotwist-backend/pull/32)
+- Create `is_legacy` field in database [#31](https://github.com/plotwist-app/plotwist-backend/pull/31)
 - Create subscription webhook [#27](https://github.com/plotwist-app/plotwist-backend/pull/27)
 - Create list items create, read, update and delete endpoints [#26](https://github.com/plotwist-app/plotwist-backend/pull/26)
 - Create get list endpoint [#22](https://github.com/plotwist-app/plotwist-backend/pull/22)
@@ -17,6 +23,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Changed createdAt field convention name in database only [#30](https://github.com/plotwist-app/plotwist-backend/pull/30)
 - improve folders structure [(#24)](https://github.com/plotwist-app/plotwist-backend/pull/24)
 - Move domain folder to src root [(#23)](https://github.com/plotwist-app/plotwist-backend/pull/23)
 - Set some review fields on schema as required [(#19)](https://github.com/plotwist-app/plotwist-backend/pull/19)

@@ -76,22 +76,31 @@ export const getMeResponseSchema = {
   }),
 }
 
-export const updateUserImageBodySchema = z.object({
-  imagePath: z.string(),
-})
-
-export const updateUserImageResponseSchema = {
+export const updateUserResponseSchema = {
   200: z.object({
     user: createSelectSchema(schema.users).omit({ password: true }),
   }),
 }
 
-export const updateUserBannerBodySchema = z.object({
-  bannerPath: z.string(),
+export const updateUserBodySchema = z.object({
+  bannerPath: z.string().optional(),
+  imagePath: z.string().optional(),
+  username: z.string().optional(),
 })
 
-export const updateUserBannerResponseSchema = {
+export const updateUserSchema = {
   200: z.object({
     user: createSelectSchema(schema.users).omit({ password: true }),
+  }),
+}
+
+export const updateUserPasswordBodySchema = z.object({
+  password: z.string(),
+  token: z.string(),
+})
+
+export const updateUserPasswordResponseSchema = {
+  200: z.object({
+    status: z.enum(['password_set']),
   }),
 }

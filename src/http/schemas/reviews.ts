@@ -1,26 +1,12 @@
 import { schema } from '@/db/schema'
-import { createInsertSchema } from 'drizzle-zod'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
+import { languageQuerySchema } from './common'
 
-export const createReviewRequestSchema = z.object({
-  userId: z.string({ message: 'User id is required' }),
-  tmdbId: z.number().optional(),
-  mediaType: z.enum(['TV_SHOW', 'MOVIE']),
-  review: z.string({ message: 'Review is required' }),
-  rating: z.number({ message: 'Rating is required' }),
-  hasSpoilers: z.boolean().default(false),
-  tmdbTitle: z.string().optional(),
-  tmdbPosterPath: z.string().optional(),
-  tmdbOverview: z.string().optional(),
-  language: z.enum([
-    'en-US',
-    'es-ES',
-    'fr-FR',
-    'it-IT',
-    'de-DE',
-    'pt-BR',
-    'ja-JP',
-  ]),
+export const createReviewBodySchema = createInsertSchema(schema.reviews).omit({
+  userId: true,
+  id: true,
+  createdAt: true,
 })
 
 export const createReviewResponseSchema = {
@@ -36,21 +22,61 @@ export const createReviewResponseSchema = {
     .describe('User not found'),
 }
 
-export const createReviewReplyRequestSchema = z.object({
-  userId: z.string({ message: 'User id is required' }),
-  reviewId: z.string({ message: 'Review id is required' }),
-  reply: z.string({ message: 'Reply is required' }),
+export const getReviewsQuerySchema = createSelectSchema(schema.reviews)
+  .pick({
+    mediaType: true,
+    language: true,
+  })
+  .extend({
+    tmdbId: z.string(),
+  })
+
+export const getReviewsResponseSchema = {
+  200: z.array(
+    createSelectSchema(schema.reviews).extend({
+      user: createSelectSchema(schema.users).pick({
+        id: true,
+        username: true,
+        imagePath: true,
+      }),
+    })
+  ),
+}
+
+export const reviewParamsSchema = z.object({
+  id: z.string(),
 })
 
-export const createReviewReplyResponseSchema = {
-  201: z
-    .object({
-      reviewReply: createInsertSchema(schema.reviewReplies),
-    })
-    .describe('Review reply created.'),
-  404: z
-    .object({
-      message: z.string(),
-    })
-    .describe('Review not found'),
+export const updateReviewBodySchema = createInsertSchema(schema.reviews).pick({
+  rating: true,
+  review: true,
+  hasSpoilers: true,
+})
+
+export const updateReviewResponse = {
+  200: createSelectSchema(schema.reviews),
+}
+
+export const getDetailedReviewsQuerySchema = z
+  .object({
+    userId: z.string().optional(),
+    limit: z.string().optional(),
+  })
+  .merge(languageQuerySchema)
+
+export const getDetailedReviewsResponseSchema = {
+  200: z.object({
+    reviews: z.array(
+      createSelectSchema(schema.reviews).extend({
+        user: createSelectSchema(schema.users).pick({
+          username: true,
+          id: true,
+          imagePath: true,
+        }),
+        title: z.string(),
+        posterPath: z.string().nullable(),
+        backdropPath: z.string().nullable(),
+      })
+    ),
+  }),
 }

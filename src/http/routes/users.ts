@@ -11,9 +11,10 @@ import {
   getUserByUsernameResponseSchema,
   getUserByIdParamsSchema,
   getMeResponseSchema,
-  updateUserImageBodySchema,
-  updateUserImageResponseSchema,
-  updateUserBannerBodySchema,
+  updateUserPasswordResponseSchema,
+  updateUserPasswordBodySchema,
+  updateUserBodySchema,
+  updateUserResponseSchema,
 } from '../schemas/users'
 import {
   isEmailAvailableController,
@@ -22,8 +23,8 @@ import {
   getUserByUsernameController,
   getUserByIdController,
   getMeController,
-  updateUserImageController,
-  updateUserBannerController,
+  updateUserPasswordController,
+  updateUserController,
 } from '../controllers/user-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 
@@ -122,40 +123,34 @@ export async function usersRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'PATCH',
-      url: '/user/image',
+      url: '/user',
       onRequest: [verifyJwt],
       schema: {
-        description: 'Update user image',
+        description: 'Update user',
         tags: [usersTag],
-        body: updateUserImageBodySchema,
-        response: updateUserImageResponseSchema,
+        body: updateUserBodySchema,
+        response: updateUserResponseSchema,
         security: [
           {
             bearerAuth: [],
           },
         ],
       },
-      handler: updateUserImageController,
+      handler: updateUserController,
     })
   )
 
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'PATCH',
-      url: '/user/banner',
-      onRequest: [verifyJwt],
+      url: '/user/password',
       schema: {
-        description: 'Update user banner',
+        description: 'Update user password',
         tags: [usersTag],
-        body: updateUserBannerBodySchema,
-        response: updateUserImageResponseSchema,
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
+        body: updateUserPasswordBodySchema,
+        response: updateUserPasswordResponseSchema,
       },
-      handler: updateUserBannerController,
+      handler: updateUserPasswordController,
     })
   )
 }

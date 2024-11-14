@@ -8,7 +8,7 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { env } from '../env'
-import { routes } from './routes/routes'
+import { routes } from './routes'
 import { ZodError } from 'zod'
 
 export const app = fastify()
@@ -61,6 +61,7 @@ app.setErrorHandler((error, _, reply) => {
       .send({ message: 'You hit the rate limit! Slow down please!' })
   }
 
+  console.error({ error })
   return reply.status(500).send({ message: 'Internal server error.' })
 })
 

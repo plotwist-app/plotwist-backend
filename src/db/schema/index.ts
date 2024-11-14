@@ -37,6 +37,7 @@ export const languagesEnum = pgEnum('languages', [
 ])
 
 export const mediaTypeEnum = pgEnum('media_type', ['TV_SHOW', 'MOVIE'])
+export const statusEnum = pgEnum('status', ['WATCHLIST', 'WATCHED', 'WATCHING'])
 
 export const followers = pgTable(
   'followers',
@@ -51,7 +52,7 @@ export const followers = pgTable(
         onDelete: 'cascade',
       })
       .notNull(),
-    createdAt: timestamp('createdAt').defaultNow().notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   table => {
     return {
@@ -66,10 +67,12 @@ export const followersRelations = relations(followers, ({ one }) => ({
   follower: one(users, {
     fields: [followers.followerId],
     references: [users.id],
+    relationName: 'followerRelation',
   }),
   followed: one(users, {
     fields: [followers.followedId],
     references: [users.id],
+    relationName: 'followedRelation',
   }),
 }))
 
@@ -116,12 +119,8 @@ export const listItems = pgTable(
     listId: uuid('list_id')
       .references(() => lists.id, { onDelete: 'cascade' })
       .notNull(),
-    title: varchar('title').notNull(),
-    overview: varchar('overview').notNull(),
-    backdropPath: varchar('backdrop_path'),
-    posterPath: varchar('poster_path'),
-    tmdbId: integer('tmdb_id'),
-    mediaType: mediaTypeEnum('media_type'),
+    tmdbId: integer('tmdb_id').notNull(),
+    mediaType: mediaTypeEnum('media_type').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     position: integer('position'),
   },
@@ -252,14 +251,11 @@ export const reviews = pgTable('reviews', {
   userId: uuid('user_id')
     .references(() => users.id, { onDelete: 'cascade' })
     .notNull(),
-  tmdbId: integer('tmdb_id'),
-  mediaType: mediaTypeEnum('media_type'),
+  tmdbId: integer('tmdb_id').notNull(),
+  mediaType: mediaTypeEnum('media_type').notNull(),
   review: varchar('review').notNull(),
   rating: integer('rating').notNull(),
-  hasSpoilers: boolean('has_spoilers').default(false),
-  tmdbTitle: varchar('tmdb_title'),
-  tmdbPosterPath: varchar('tmdb_poster_path'),
-  tmdbOverview: varchar('tmdb_overview'),
+  hasSpoilers: boolean('has_spoilers').notNull().default(false),
   language: languagesEnum('language'),
 })
 
@@ -304,6 +300,7 @@ export const users = pgTable(
       .default('MEMBER'),
     bannerPath: varchar('banner_path'),
     imagePath: varchar('image_path'),
+    isLegacy: boolean('is_legacy').default(false),
   },
   table => {
     return {
@@ -320,15 +317,68 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   lists: many(lists),
   reviewReplies: many(reviewReplies),
   reviews: many(reviews),
-  followers: many(followers),
+  followers: many(followers, { relationName: 'followerRelation' }),
+  following: many(followers, { relationName: 'followedRelation' }),
+}))
+
+export const userItems = pgTable('user_items', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
+    .notNull(),
+  tmdbId: integer('tmdb_id').notNull(),
+  addedAt: timestamp('added_at').defaultNow().notNull(),
+  position: integer('position'),
+  mediaType: mediaTypeEnum('media_type').notNull(),
+  status: statusEnum('status').notNull(),
+})
+
+export const userItemsRelations = relations(userItems, ({ one }) => ({
+  user: one(users, {
+    fields: [userItems.userId],
+    references: [users.id],
+  }),
+}))
+
+export const magicTokens = pgTable(
+  'magic_tokens',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    token: varchar('token').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    expiresAt: timestamp('expires_at').notNull(),
+    used: boolean('used').default(false).notNull(),
+  },
+  table => {
+    return {
+      userIdIndex: index('token_user_id_idx').on(table.userId),
+      tokenIndex: index('token_idx').on(table.token),
+    }
+  }
+)
+
+export const magicTokensRelations = relations(magicTokens, ({ one }) => ({
+  user: one(users, {
+    fields: [magicTokens.userId],
+    references: [users.id],
+  }),
 }))
 
 export const schema = {
   users,
+  userItems,
   reviews,
   reviewReplies,
   lists,
   listLikes,
   listItems,
   subscriptions,
+  magicTokens,
 }
