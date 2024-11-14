@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.0.0
+
 ### Added
 
 - Create `is_legacy` field in database [#31](https://github.com/plotwist-app/plotwist-backend/pull/31)
