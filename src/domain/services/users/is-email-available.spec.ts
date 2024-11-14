@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest'
 
 import { faker } from '@faker-js/faker'
 
-import { isEmailAvailable } from './is-email-available'
 import { makeUser } from '@/test/factories/make-user'
 import { EmailAlreadyRegisteredError } from '../../errors/email-already-registered'
+import { isEmailAvailable } from './is-email-available'
 
 describe('check email', () => {
   it('should be able to check available email', async () => {

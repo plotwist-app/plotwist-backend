@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { makeReview } from '@/test/factories/make-review'
-import { makeUser } from '@/test/factories/make-user'
-import { deleteReviewReply } from './delete-review-reply'
-import { makeReviewReply } from '@/test/factories/make-review-reply'
 import { randomUUID } from 'node:crypto'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import { makeReview } from '@/test/factories/make-review'
+import { makeReviewReply } from '@/test/factories/make-review-reply'
+import { makeUser } from '@/test/factories/make-user'
+import { deleteReviewReply } from './delete-review-reply'
 
 describe('delete review reply', () => {
   it('should be able to delete a review reply', async () => {

@@ -2,9 +2,9 @@ import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type {
   DeleteReviewReplyModel,
+  FetchReviewRepliesModel,
   InsertReviewReplyModel,
   UpdateReviewReplyModel,
-  FetchReviewRepliesModel,
 } from '@/domain/entities/review-reply'
 import { and, eq } from 'drizzle-orm'
 

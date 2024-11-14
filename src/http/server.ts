@@ -1,5 +1,5 @@
-import fastify from 'fastify'
 import fastifySwagger from '@fastify/swagger'
+import fastify from 'fastify'
 
 import {
   jsonSchemaTransform,
@@ -7,9 +7,9 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 
+import { ZodError } from 'zod'
 import { env } from '../env'
 import { routes } from './routes'
-import { ZodError } from 'zod'
 
 export const app = fastify()
 

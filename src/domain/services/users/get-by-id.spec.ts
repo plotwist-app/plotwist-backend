@@ -2,8 +2,8 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { getUserById } from './get-by-id'
 
-import { makeUser } from '@/test/factories/make-user'
 import { randomUUID } from 'node:crypto'
+import { makeUser } from '@/test/factories/make-user'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 describe('get user by id', () => {

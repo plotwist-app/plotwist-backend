@@ -1,6 +1,6 @@
-import { faker } from '@faker-js/faker'
-import type { User, InsertUserModel } from '@/domain/entities/user'
 import { insertUser } from '@/db/repositories/user-repository'
+import type { InsertUserModel, User } from '@/domain/entities/user'
+import { faker } from '@faker-js/faker'
 
 type Overrides = Partial<InsertUserModel>
 

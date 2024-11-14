@@ -1,32 +1,32 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
-  isEmailAvailableQuerySchema,
-  checkAvailableUsernameQuerySchema,
-  createUserBodySchema,
-  createUserResponseSchema,
-  checkAvailableUsernameResponseSchema,
-  isEmailAvailableResponseSchema,
-  getUserByUsernameParamsSchema,
-  getUserByUsernameResponseSchema,
-  getUserByIdParamsSchema,
-  getMeResponseSchema,
-  updateUserPasswordResponseSchema,
-  updateUserPasswordBodySchema,
-  updateUserBodySchema,
-  updateUserResponseSchema,
-} from '../schemas/users'
-import {
+  createUserController,
+  getMeController,
+  getUserByIdController,
+  getUserByUsernameController,
   isEmailAvailableController,
   isUsernameAvailableController,
-  createUserController,
-  getUserByUsernameController,
-  getUserByIdController,
-  getMeController,
-  updateUserPasswordController,
   updateUserController,
+  updateUserPasswordController,
 } from '../controllers/user-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
+import {
+  checkAvailableUsernameQuerySchema,
+  checkAvailableUsernameResponseSchema,
+  createUserBodySchema,
+  createUserResponseSchema,
+  getMeResponseSchema,
+  getUserByIdParamsSchema,
+  getUserByUsernameParamsSchema,
+  getUserByUsernameResponseSchema,
+  isEmailAvailableQuerySchema,
+  isEmailAvailableResponseSchema,
+  updateUserBodySchema,
+  updateUserPasswordBodySchema,
+  updateUserPasswordResponseSchema,
+  updateUserResponseSchema,
+} from '../schemas/users'
 
 export async function usersRoute(app: FastifyInstance) {
   const usersTag = 'Users'

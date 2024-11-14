@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
+import { randomUUID } from 'node:crypto'
+import { ReviewReplyNotFoundError } from '@/domain/errors/review-reply-not-found-error'
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { makeReview } from '@/test/factories/make-review'
+import { makeReviewReply } from '@/test/factories/make-review-reply'
 import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
 import { createReviewReply } from './create-review-reply'
-import { randomUUID } from 'node:crypto'
-import { UserNotFoundError } from '@/domain/errors/user-not-found'
-import { ReviewReplyNotFoundError } from '@/domain/errors/review-reply-not-found-error'
-import { makeReviewReply } from '@/test/factories/make-review-reply'
 import { updateReviewReply } from './update-review-reply'
 
 describe('update review reply', () => {

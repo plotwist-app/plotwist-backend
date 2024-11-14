@@ -1,8 +1,8 @@
-import type { InsertUserModel } from '@/domain/entities/user'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import { eq } from 'drizzle-orm'
+import type { InsertUserModel } from '@/domain/entities/user'
 import type { UpdateUserInput } from '@/domain/services/users/update-user'
+import { eq } from 'drizzle-orm'
 
 export async function getUserByEmail(email: string) {
   return db.select().from(schema.users).where(eq(schema.users.email, email))

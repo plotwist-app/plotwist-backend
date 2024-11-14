@@ -1,20 +1,20 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
-  createUserBodySchema,
-  isEmailAvailableQuerySchema,
   checkAvailableUsernameQuerySchema,
-  getUserByUsernameParamsSchema,
+  createUserBodySchema,
   getUserByIdParamsSchema,
-  updateUserPasswordBodySchema,
+  getUserByUsernameParamsSchema,
+  isEmailAvailableQuerySchema,
   updateUserBodySchema,
+  updateUserPasswordBodySchema,
 } from '../schemas/users'
 
-import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
-import { isEmailAvailable } from '@/domain/services/users/is-email-available'
-import { createUser } from '@/domain/services/users/create-user'
-import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
 import { DomainError } from '@/domain/errors/domain-error'
+import { createUser } from '@/domain/services/users/create-user'
 import { getUserById } from '@/domain/services/users/get-by-id'
+import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
+import { isEmailAvailable } from '@/domain/services/users/is-email-available'
+import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
 

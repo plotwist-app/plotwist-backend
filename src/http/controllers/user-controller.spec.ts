@@ -1,7 +1,7 @@
-import type { FastifyInstance } from 'fastify'
-import { app } from '../server'
 import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
+import type { FastifyInstance } from 'fastify'
+import { app } from '../server'
 
 describe('userController', () => {
   it('sum', () => {

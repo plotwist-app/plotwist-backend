@@ -1,3 +1,10 @@
+import { DomainError } from '@/domain/errors/domain-error'
+import { createList } from '@/domain/services/lists/create-list'
+import { deleteListService } from '@/domain/services/lists/delete-list'
+import { getListService } from '@/domain/services/lists/get-list'
+import { getLists } from '@/domain/services/lists/get-lists'
+import { updateListService } from '@/domain/services/lists/update-list'
+import { updateListBannerService } from '@/domain/services/lists/update-list-banner'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createListBodySchema,
@@ -8,13 +15,6 @@ import {
   updateListBodySchema,
   updateListParamsSchema,
 } from '../schemas/lists'
-import { createList } from '@/domain/services/lists/create-list'
-import { getLists } from '@/domain/services/lists/get-lists'
-import { DomainError } from '@/domain/errors/domain-error'
-import { deleteListService } from '@/domain/services/lists/delete-list'
-import { updateListService } from '@/domain/services/lists/update-list'
-import { getListService } from '@/domain/services/lists/get-list'
-import { updateListBannerService } from '@/domain/services/lists/update-list-banner'
 
 export async function createListController(
   request: FastifyRequest,

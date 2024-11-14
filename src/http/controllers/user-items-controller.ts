@@ -1,3 +1,11 @@
+import { DomainError } from '@/domain/errors/domain-error'
+import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
+import { createUserItemService } from '@/domain/services/user-items/create-user-item'
+import { deleteUserItemService } from '@/domain/services/user-items/delete-user-item'
+import { getUserItemService } from '@/domain/services/user-items/get-user-item'
+import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
+import { updateUserItemStatusService } from '@/domain/services/user-items/update-user-item'
+import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createUserItemBodySchema,
@@ -7,14 +15,6 @@ import {
   updateUserItemStatusBodySchema,
   updateUserItemStatusParamsSchema,
 } from '../schemas/user-items'
-import { createUserItemService } from '@/domain/services/user-items/create-user-item'
-import { DomainError } from '@/domain/errors/domain-error'
-import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
-import type { FastifyRedis } from '@fastify/redis'
-import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
-import { deleteUserItemService } from '@/domain/services/user-items/delete-user-item'
-import { getUserItemService } from '@/domain/services/user-items/get-user-item'
-import { updateUserItemStatusService } from '@/domain/services/user-items/update-user-item'
 
 export async function createUserItemController(
   request: FastifyRequest,

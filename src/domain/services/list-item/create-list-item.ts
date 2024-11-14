@@ -1,8 +1,8 @@
 import { insertListItem } from '@/db/repositories/list-item-repository'
+import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
+import postgres from 'postgres'
 import type { InsertListItem } from '../../entities/list-item'
 import { ListNotFoundError } from '../../errors/list-not-found-error'
-import postgres from 'postgres'
-import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 
 export async function createListItemService(values: InsertListItem) {
   try {

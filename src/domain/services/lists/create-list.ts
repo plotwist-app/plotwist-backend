@@ -1,7 +1,7 @@
+import { insertList } from '@/db/repositories/list-repository'
 import { getUserById } from '@/db/repositories/user-repository'
 import type { schema } from '@/db/schema'
 import type { InferInsertModel } from 'drizzle-orm'
-import { insertList } from '@/db/repositories/list-repository'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 export type CreateListInput = InferInsertModel<typeof schema.lists>

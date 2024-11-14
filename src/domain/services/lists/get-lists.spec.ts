@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { makeUser } from '@/test/factories/make-user'
 import { makeList } from '@/test/factories/make-list'
+import { makeUser } from '@/test/factories/make-user'
 import { getLists } from './get-lists'
 
 describe('get lists', () => {

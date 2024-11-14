@@ -1,5 +1,5 @@
-import { insertMagicToken } from '@/db/repositories/magic-tokens'
 import { randomBytes } from 'node:crypto'
+import { insertMagicToken } from '@/db/repositories/magic-tokens'
 
 const FIFTEEN_MINUTES = new Date(Date.now() + 15 * 60000)
 

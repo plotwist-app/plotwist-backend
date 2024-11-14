@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { makeUser } from '@/test/factories/make-user'
 import { randomUUID } from 'node:crypto'
-import { UserNotFoundError } from '../../errors/user-not-found'
-import { makeReview } from '@/test/factories/make-review'
-import { getReviewById } from './get-review-by-id'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
+import { makeReview } from '@/test/factories/make-review'
+import { makeUser } from '@/test/factories/make-user'
+import { UserNotFoundError } from '../../errors/user-not-found'
+import { getReviewById } from './get-review-by-id'
 
 describe('get review by id', () => {
   it('should be able to get an review by id', async () => {

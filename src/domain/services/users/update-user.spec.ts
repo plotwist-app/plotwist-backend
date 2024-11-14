@@ -1,9 +1,9 @@
-import { describe, expect, it, beforeAll } from 'vitest'
 import { makeUser } from '@/test/factories/make-user'
+import { beforeAll, describe, expect, it } from 'vitest'
 
-import { updateUserService } from './update-user'
 import type { User } from '@/domain/entities/user'
 import { faker } from '@faker-js/faker'
+import { updateUserService } from './update-user'
 
 let user: User
 

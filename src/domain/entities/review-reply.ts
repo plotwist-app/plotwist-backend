@@ -1,5 +1,5 @@
-import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import type { schema } from '@/db/schema'
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 
 export type ReviewReply = InferSelectModel<typeof schema.reviewReplies>
 

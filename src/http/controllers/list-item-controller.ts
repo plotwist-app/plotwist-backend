@@ -1,16 +1,16 @@
+import { DomainError } from '@/domain/errors/domain-error'
+import { createListItemService } from '@/domain/services/list-item/create-list-item'
+import { deleteListItemService } from '@/domain/services/list-item/delete-list-item'
+import { getListItemsService } from '@/domain/services/list-item/get-list-items'
+import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
+import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+import { languageQuerySchema } from '../schemas/common'
 import {
   createListItemBodySchema,
   deleteListItemParamSchema,
   getListItemsParamsSchema,
 } from '../schemas/list-item'
-import { createListItemService } from '@/domain/services/list-item/create-list-item'
-import { getListItemsService } from '@/domain/services/list-item/get-list-items'
-import { DomainError } from '@/domain/errors/domain-error'
-import { deleteListItemService } from '@/domain/services/list-item/delete-list-item'
-import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
-import type { FastifyRedis } from '@fastify/redis'
-import { languageQuerySchema } from '../schemas/common'
 
 export async function createListItemController(
   request: FastifyRequest,
