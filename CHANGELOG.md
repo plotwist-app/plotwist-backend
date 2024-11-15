@@ -5,11 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Add CRUD operations for Review Replies. [#28](https://github.com/plotwist-app/plotwist-backend/pull/28)
+
+### Changed
+
+- Format files with BiomeJs. [#28](https://github.com/plotwist-app/plotwist-backend/pull/28)
+
 ## 1.0.0
 
 ### Added
 
-- Add CRUD operations for Review Replies. [#28](https://github.com/plotwist-app/plotwist-backend/pull/28)
 - Create unique endpoint de update user public information. [#35](https://github.com/plotwist-app/plotwist-backend/pull/35)
 - Create legacy user login flow. [#34](https://github.com/plotwist-app/plotwist-backend/pull/34)
 - Create GET detailed reviews route. [#33](https://github.com/plotwist-app/plotwist-backend/pull/33)

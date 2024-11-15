@@ -4,11 +4,7 @@ import { z } from 'zod'
 
 export const createReviewReplyBodySchema = createInsertSchema(
   schema.reviewReplies
-).omit({
-  id: true,
-  userId: true,
-  createdAt: true,
-})
+)
 
 export const createReviewReplyResponseSchema = {
   201: z
