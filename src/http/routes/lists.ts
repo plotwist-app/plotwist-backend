@@ -111,17 +111,11 @@ export async function listsRoute(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
       url: '/list/by/:id',
-      onRequest: [verifyOptionalJwt],
       schema: {
         description: 'Get list by ID',
         tags: ['List'],
         params: getListParamsSchema,
         response: getListResponseSchema,
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
       },
       handler: getListController,
     })
