@@ -47,7 +47,7 @@ export async function listItemRoute(app: FastifyInstance) {
         tags: ['List Item'],
         params: getListItemsParamsSchema,
         querystring: languageQuerySchema,
-        // response: getListItemsResponseSchema,
+        response: getListItemsResponseSchema,
       },
       handler: (req, reply) => getListItemsController(req, reply, app.redis),
     })
