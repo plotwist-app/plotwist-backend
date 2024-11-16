@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
 import { makeUser } from '@/test/factories/make-user'
-import { getUserByUsername } from './get-user-by-username'
 import { UserNotFoundError } from '../../errors/user-not-found'
+import { getUserByUsername } from './get-user-by-username'
 
 describe('get user by username email', () => {
   it('should be able to get user by username', async () => {

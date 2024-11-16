@@ -1,7 +1,7 @@
 import { getList, updateList } from '@/db/repositories/list-repository'
-import { ListNotFoundError } from '../../errors/list-not-found-error'
-import type { InferInsertModel } from 'drizzle-orm'
 import type { schema } from '@/db/schema'
+import type { InferInsertModel } from 'drizzle-orm'
+import { ListNotFoundError } from '../../errors/list-not-found-error'
 
 export type UpdateListValues = Omit<
   InferInsertModel<typeof schema.lists>,

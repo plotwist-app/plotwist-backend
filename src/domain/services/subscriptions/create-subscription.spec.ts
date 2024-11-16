@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { createSubscription } from './create-subscription'
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
-import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import { createSubscription } from './create-subscription'
 
 describe('create subscription', () => {
   it('should be able to create subscription', async () => {

@@ -1,20 +1,21 @@
-import fastifyJwt from '@fastify/jwt'
-import fastifySwaggerUi from '@fastify/swagger-ui'
 import cors from '@fastify/cors'
+import fastifyJwt from '@fastify/jwt'
 import fastifyRedis from '@fastify/redis'
+import fastifySwaggerUi from '@fastify/swagger-ui'
 
 import type { FastifyInstance } from 'fastify'
 
 import { env } from '../../env'
 
-import { reviewsRoute } from './reviews'
 import { healthCheck } from './healthcheck'
-import { loginRoute } from './login'
-import { listsRoute } from './lists'
-import { usersRoute } from './users'
 import { listItemRoute } from './list-item'
-import { webhookRoutes } from './webhook'
+import { listsRoute } from './lists'
+import { loginRoute } from './login'
+import { reviewsRoute } from './reviews'
 import { userItemsRoutes } from './user-items'
+import { usersRoute } from './users'
+import { webhookRoutes } from './webhook'
+import { reviewRepliesRoute } from './review-replies'
 
 export function routes(app: FastifyInstance) {
   app.register(fastifySwaggerUi, {
@@ -41,6 +42,7 @@ export function routes(app: FastifyInstance) {
   app.register(listItemRoute)
   app.register(userItemsRoutes)
   app.register(webhookRoutes)
+  app.register(reviewRepliesRoute)
 
   return
 }

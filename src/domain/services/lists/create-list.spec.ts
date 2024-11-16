@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { makeUser } from '@/test/factories/make-user'
-import { createList } from './create-list'
 import { makeRawList } from '@/test/factories/make-list'
+import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
 import { UserNotFoundError } from '../../errors/user-not-found'
+import { createList } from './create-list'
 
 describe('create list', () => {
   it('should be able to create a list', async () => {

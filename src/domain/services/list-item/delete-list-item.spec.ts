@@ -1,12 +1,12 @@
-import { describe, expect, it, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
-import { makeUser } from '@/test/factories/make-user'
-import { makeList } from '@/test/factories/make-list'
-import { makeListItem } from '@/test/factories/make-list-item'
-import { faker } from '@faker-js/faker'
-import { deleteListItemService } from './delete-list-item'
 import { ListItemNotFoundError } from '@/domain/errors/list-item-not-found-error'
 import { UnauthorizedError } from '@/domain/errors/unauthorized-error'
+import { makeList } from '@/test/factories/make-list'
+import { makeListItem } from '@/test/factories/make-list-item'
+import { makeUser } from '@/test/factories/make-user'
+import { faker } from '@faker-js/faker'
+import { deleteListItemService } from './delete-list-item'
 
 import type { List } from '@/domain/entities/lists'
 import type { User } from '@/domain/entities/user'

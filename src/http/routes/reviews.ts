@@ -8,6 +8,7 @@ import {
   getReviewsController,
   updateReviewController,
 } from '../controllers/review-controller'
+import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createReviewBodySchema,
   createReviewResponseSchema,
@@ -19,7 +20,6 @@ import {
   updateReviewBodySchema,
   updateReviewResponse,
 } from '../schemas/reviews'
-import { verifyJwt } from '../middlewares/verify-jwt'
 
 export async function reviewsRoute(app: FastifyInstance) {
   const reviewsTag = 'Reviews'

@@ -1,5 +1,5 @@
-import type { FastifyReply, FastifyRequest } from 'fastify'
 import type { FastifyRedis } from '@fastify/redis'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createReviewBodySchema,
   getDetailedReviewsQuerySchema,
@@ -8,12 +8,12 @@ import {
   updateReviewBodySchema,
 } from '../schemas/reviews'
 
-import { createReview } from '@/domain/services/reviews/create-review'
 import { DomainError } from '@/domain/errors/domain-error'
-import { getReviewsService } from '@/domain/services/reviews/get-reviews'
+import { createReview } from '@/domain/services/reviews/create-review'
 import { deleteReviewService } from '@/domain/services/reviews/delete-review'
-import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getDetailedReviewsService } from '@/domain/services/reviews/get-detailed-reviews'
+import { getReviewsService } from '@/domain/services/reviews/get-reviews'
+import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 
 export async function createReviewController(

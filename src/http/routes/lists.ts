@@ -1,6 +1,15 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+import {
+  createListController,
+  deleteListController,
+  getListController,
+  getListsController,
+  updateListBannerController,
+  updateListController,
+} from '../controllers/list-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
+import { verifyOptionalJwt } from '../middlewares/verify-optional-jwt'
 import {
   createListBodySchema,
   createListResponseSchema,
@@ -15,15 +24,6 @@ import {
   updateListParamsSchema,
   updateListResponseSchema,
 } from '../schemas/lists'
-import {
-  createListController,
-  deleteListController,
-  getListController,
-  getListsController,
-  updateListBannerController,
-  updateListController,
-} from '../controllers/list-controller'
-import { verifyOptionalJwt } from '../middlewares/verify-optional-jwt'
 
 export async function listsRoute(app: FastifyInstance) {
   app.after(() =>

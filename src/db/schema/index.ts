@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
+import { relations } from 'drizzle-orm'
 import {
   boolean,
   index,
@@ -11,7 +12,6 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
-import { relations } from 'drizzle-orm'
 
 export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
 

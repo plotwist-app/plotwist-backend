@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest'
 import { makeUser } from '@/test/factories/make-user'
+import { describe, expect, it } from 'vitest'
 
-import { faker } from '@faker-js/faker'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import { faker } from '@faker-js/faker'
 import { updateUserSubscriptionService } from './update-user-subscription'
 
 describe('update user subscription', () => {

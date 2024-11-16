@@ -1,10 +1,10 @@
-import { db } from '..'
-import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
-import { schema } from '../schema'
-import type { GetListsInput } from '@/domain/services/lists/get-lists'
 import type { InsertListModel } from '@/domain/entities/lists'
+import type { GetListsInput } from '@/domain/services/lists/get-lists'
 import type { UpdateListValues } from '@/domain/services/lists/update-list'
 import type { UpdateListBannerInput } from '@/domain/services/lists/update-list-banner'
+import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
+import { db } from '..'
+import { schema } from '../schema'
 
 export function selectLists({
   userId,

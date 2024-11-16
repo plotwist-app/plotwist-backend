@@ -1,7 +1,7 @@
-import { describe, expect, it, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
-import { makeUser } from '@/test/factories/make-user'
 import { makeList } from '@/test/factories/make-list'
+import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
 import { ListNotFoundError } from '../../errors/list-not-found-error'
 import { getListService } from './get-list'

@@ -1,8 +1,8 @@
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { makeUser } from '@/test/factories/make-user'
+import { faker } from '@faker-js/faker'
 import { describe, expect, it } from 'vitest'
 import { createUserItemService } from './create-user-item'
-import { faker } from '@faker-js/faker'
-import { UserNotFoundError } from '@/domain/errors/user-not-found'
 
 const TMDB_ID = 238 // The Godfather
 

@@ -1,7 +1,7 @@
 import type { InsertListItem } from '@/domain/entities/list-item'
+import { eq } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
-import { eq } from 'drizzle-orm'
 
 export async function insertListItem(input: InsertListItem) {
   return db.insert(schema.listItems).values(input).returning()

@@ -1,8 +1,8 @@
 import { insertReview } from '@/db/repositories/reviews-repository'
-import type { InsertReviewModel } from '../../entities/review'
-import postgres from 'postgres'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import postgres from 'postgres'
+import type { InsertReviewModel } from '../../entities/review'
 
 export async function createReview(params: InsertReviewModel) {
   try {

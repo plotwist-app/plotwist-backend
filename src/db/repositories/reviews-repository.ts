@@ -1,10 +1,10 @@
-import type { InsertReviewModel } from '@/domain/entities/review'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
-import { and, desc, eq, getTableColumns } from 'drizzle-orm'
-import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
+import type { InsertReviewModel } from '@/domain/entities/review'
 import type { GetDetailedReviewsInput } from '@/domain/services/reviews/get-detailed-reviews'
+import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
+import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
+import { and, desc, eq, getTableColumns } from 'drizzle-orm'
 
 export async function insertReview(params: InsertReviewModel) {
   return db.insert(schema.reviews).values(params).returning()
@@ -74,4 +74,8 @@ export async function updateReview({
     .set({ rating, review, hasSpoilers })
     .where(eq(schema.reviews.id, id))
     .returning()
+}
+
+export async function getReviewById(id: string) {
+  return db.select().from(schema.reviews).where(eq(schema.reviews.id, id))
 }
