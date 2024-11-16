@@ -50,11 +50,15 @@ export async function getListItemsController(
         })
 
         return { ...listItem, ...tmdbData }
-      } catch {}
+      } catch {
+        return undefined
+      }
     })
   )
 
-  return reply.status(200).send(listItems)
+  const validListItems = listItems.filter(item => item !== undefined)
+
+  return reply.status(200).send(validListItems)
 }
 
 export async function deleteListItemController(
