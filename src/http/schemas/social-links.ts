@@ -7,7 +7,7 @@ export const socialLinksBodySchema = z.record(
   z.string().url('Enter a valid URL').or(z.literal('')).optional()
 )
 
-export const updateSocialLinksResponseSchema = {
+export const upsertSocialLinksResponseSchema = {
   204: z.undefined(),
 }
 
