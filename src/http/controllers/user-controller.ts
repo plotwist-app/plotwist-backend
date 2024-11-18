@@ -106,15 +106,11 @@ export async function updateUserController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { bannerPath, imagePath, username } = updateUserBodySchema.parse(
-    request.body
-  )
+  const values = updateUserBodySchema.parse(request.body)
 
   const result = await updateUserService({
     userId: request.user.id,
-    bannerPath,
-    imagePath,
-    username,
+    ...values,
   })
 
   if (result instanceof DomainError) {
