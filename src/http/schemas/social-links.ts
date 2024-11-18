@@ -11,7 +11,7 @@ export const updateSocialLinksResponseSchema = {
   204: z.undefined(),
 }
 
-export const getSocialLinksParamsSchema = z.object({
+export const getSocialLinksQuerySchema = z.object({
   userId: z.string(),
 })
 

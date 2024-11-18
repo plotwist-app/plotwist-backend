@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
-  getSocialLinksParamsSchema,
+  getSocialLinksQuerySchema,
   socialLinksBodySchema,
 } from '../schemas/social-links'
 import { updateSocialLinksService } from '@/domain/services/social-links/update-social-links'
@@ -24,7 +24,7 @@ export async function getSocialLinksController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { userId } = getSocialLinksParamsSchema.parse(request.params)
+  const { userId } = getSocialLinksQuerySchema.parse(request.query)
 
   const result = await getSocialLinksService({ userId })
 

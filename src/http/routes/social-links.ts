@@ -7,7 +7,7 @@ import {
   updateSocialLinksController,
 } from '../controllers/social-links'
 import {
-  getSocialLinksParamsSchema,
+  getSocialLinksQuerySchema,
   getSocialLinksResponseSchema,
   socialLinksBodySchema,
   updateSocialLinksResponseSchema,
@@ -39,11 +39,11 @@ export async function socialLinksRoute(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
-      url: '/social-links/by/:userId',
+      url: '/social-links',
       schema: {
         description: 'Get social links by userId',
         tags: SOCIAL_LINKS_TAGS,
-        params: getSocialLinksParamsSchema,
+        querystring: getSocialLinksQuerySchema,
         response: getSocialLinksResponseSchema,
       },
       handler: getSocialLinksController,
