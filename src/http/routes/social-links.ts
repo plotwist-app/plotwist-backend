@@ -4,13 +4,13 @@ import { verifyJwt } from '../middlewares/verify-jwt'
 
 import {
   getSocialLinksController,
-  updateSocialLinksController,
+  upsertSocialLinksController,
 } from '../controllers/social-links'
 import {
   getSocialLinksParamsSchema,
   getSocialLinksResponseSchema,
   socialLinksBodySchema,
-  updateSocialLinksResponseSchema,
+  upsertSocialLinksResponseSchema,
 } from '../schemas/social-links'
 
 const SOCIAL_LINKS_TAGS = ['Social links']
@@ -25,14 +25,14 @@ export async function socialLinksRoute(app: FastifyInstance) {
         description: 'Update social links',
         tags: SOCIAL_LINKS_TAGS,
         body: socialLinksBodySchema,
-        response: updateSocialLinksResponseSchema,
+        response: upsertSocialLinksResponseSchema,
         security: [
           {
             bearerAuth: [],
           },
         ],
       },
-      handler: updateSocialLinksController,
+      handler: upsertSocialLinksController,
     })
   )
 

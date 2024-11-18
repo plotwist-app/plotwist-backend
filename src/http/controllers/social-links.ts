@@ -3,16 +3,16 @@ import {
   getSocialLinksParamsSchema,
   socialLinksBodySchema,
 } from '../schemas/social-links'
-import { updateSocialLinksService } from '@/domain/services/social-links/update-social-links'
+import { upsertSocialLinksService } from '@/domain/services/social-links/upsert-social-links'
 import { getSocialLinksService } from '@/domain/services/social-links/get-social-links'
 
-export async function updateSocialLinksController(
+export async function upsertSocialLinksController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
   const socialLinks = socialLinksBodySchema.parse(request.body)
 
-  await updateSocialLinksService({
+  await upsertSocialLinksService({
     values: socialLinks,
     userId: request.user.id,
   })
