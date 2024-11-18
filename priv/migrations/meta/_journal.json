@@ -169,6 +169,13 @@
       "when": 1731511294313,
       "tag": "20241113152134_magic_tokens_table",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1731936104831,
+      "tag": "20241118132144_socials_links_and_user_bio",
+      "breakpoints": true
     }
   ]
 }

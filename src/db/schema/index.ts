@@ -9,6 +9,7 @@ import {
   pgTable,
   primaryKey,
   timestamp,
+  unique,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
@@ -294,13 +295,14 @@ export const users = pgTable(
     username: varchar('username').notNull().unique(),
     email: varchar('email').notNull().unique(),
     password: varchar('password').notNull(),
-    createdAt: timestamp('created_at').defaultNow(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
     subscriptionType: subscriptionTypeEnum('subscription_type')
       .notNull()
       .default('MEMBER'),
     bannerPath: varchar('banner_path'),
     imagePath: varchar('image_path'),
     isLegacy: boolean('is_legacy').default(false),
+    biography: varchar('biography'),
   },
   table => {
     return {
@@ -371,6 +373,43 @@ export const magicTokensRelations = relations(magicTokens, ({ one }) => ({
   }),
 }))
 
+export const socialPlatformsEnum = pgEnum('social_platforms', [
+  'INSTAGRAM',
+  'TIKTOK',
+  'YOUTUBE',
+  'X', // Twitter/X
+])
+
+export const socialLinks = pgTable(
+  'social_links',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    platform: socialPlatformsEnum('platform').notNull(),
+    url: varchar('url').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => {
+    return {
+      userPlatformUniqueConstraint: unique('user_platform_unique').on(
+        table.userId,
+        table.platform
+      ),
+    }
+  }
+)
+
+export const socialLinksRelations = relations(socialLinks, ({ one }) => ({
+  user: one(users, {
+    fields: [socialLinks.userId],
+    references: [users.id],
+  }),
+}))
+
 export const schema = {
   users,
   userItems,
@@ -381,4 +420,5 @@ export const schema = {
   listItems,
   subscriptions,
   magicTokens,
+  socialLinks,
 }

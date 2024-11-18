@@ -43,11 +43,13 @@ export async function getUserItemsController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { language, status } = getUserItemsQuerySchema.parse(request.query)
+  const { language, status, userId } = getUserItemsQuerySchema.parse(
+    request.query
+  )
 
   const result = await getUserItemsService({
-    userId: request.user.id,
     status,
+    userId,
   })
 
   const formatted = await Promise.all(
