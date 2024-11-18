@@ -2,10 +2,7 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
 
-import {
-  getSocialLinksController,
-  upsertSocialLinksController,
-} from '../controllers/social-links'
+import { upsertSocialLinksController } from '../controllers/social-links'
 
 import {
   getSocialLinksParamsSchema,

@@ -10,7 +10,7 @@ type Input = {
   userId: string
 }
 
-export async function updateSocialLinksService({ userId, values }: Input) {
+export async function upsertSocialLinksService({ userId, values }: Input) {
   const updates = Object.entries(values).map(async ([platform, url]) => {
     if (url) {
       const teste = await insertSocialLink({
