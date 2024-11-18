@@ -2,7 +2,10 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
 
-import { upsertSocialLinksController } from '../controllers/social-links'
+import {
+  getSocialLinksController,
+  upsertSocialLinksController,
+} from '../controllers/social-links'
 
 import {
   getSocialLinksQuerySchema,
@@ -44,7 +47,7 @@ export async function socialLinksRoute(app: FastifyInstance) {
         querystring: getSocialLinksQuerySchema,
         response: getSocialLinksResponseSchema,
       },
-      handler: upsertSocialLinksController,
+      handler: getSocialLinksController,
     })
   )
 }
