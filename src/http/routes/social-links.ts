@@ -10,7 +10,6 @@ import {
   getSocialLinksParamsSchema,
   getSocialLinksResponseSchema,
   socialLinksBodySchema,
-  socialLinksParamsSchema,
   updateSocialLinksResponseSchema,
 } from '../schemas/social-links'
 
