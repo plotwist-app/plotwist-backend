@@ -14,7 +14,7 @@ export const createUserItemResponseSchema = {
 }
 
 export const getUserItemsQuerySchema = createInsertSchema(schema.userItems)
-  .pick({ status: true })
+  .pick({ status: true, userId: true })
   .merge(languageQuerySchema)
 
 export const getUserItemsResponseSchema = {

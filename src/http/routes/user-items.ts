@@ -49,17 +49,11 @@ export async function userItemsRoutes(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
       url: '/user/items',
-      onRequest: [verifyJwt],
       schema: {
         description: 'Get user items',
         tags: USER_ITEMS_TAGS,
         querystring: getUserItemsQuerySchema,
         response: getUserItemsResponseSchema,
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
       },
       handler: (request, reply) =>
         getUserItemsController(request, reply, app.redis),
