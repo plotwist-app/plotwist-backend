@@ -410,6 +410,39 @@ export const socialLinksRelations = relations(socialLinks, ({ one }) => ({
   }),
 }))
 
+export const userEpisodes = pgTable(
+  'user_episodes',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    tmdbId: integer('tmdb_id').notNull(),
+    seasonNumber: integer('season_number').notNull(),
+    episodeNumber: integer('episode_number').notNull(),
+    watchedAt: timestamp('watched_at').defaultNow().notNull(),
+  },
+  table => {
+    return {
+      uniqueEpisode: unique('user_episode_unique').on(
+        table.userId,
+        table.tmdbId,
+        table.seasonNumber,
+        table.episodeNumber
+      ),
+    }
+  }
+)
+
+export const userEpisodesRelations = relations(userEpisodes, ({ one }) => ({
+  user: one(users, {
+    fields: [userEpisodes.userId],
+    references: [users.id],
+  }),
+}))
+
 export const schema = {
   users,
   userItems,
@@ -421,4 +454,5 @@ export const schema = {
   subscriptions,
   magicTokens,
   socialLinks,
+  userEpisodes,
 }
