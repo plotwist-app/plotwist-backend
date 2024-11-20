@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-import { relations } from 'drizzle-orm'
+import { relations, sql } from 'drizzle-orm'
 import {
   boolean,
   index,
@@ -323,19 +323,27 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   following: many(followers, { relationName: 'followedRelation' }),
 }))
 
-export const userItems = pgTable('user_items', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  userId: uuid('user_id')
-    .references(() => users.id, { onDelete: 'cascade' })
-    .notNull(),
-  tmdbId: integer('tmdb_id').notNull(),
-  addedAt: timestamp('added_at').defaultNow().notNull(),
-  position: integer('position'),
-  mediaType: mediaTypeEnum('media_type').notNull(),
-  status: statusEnum('status').notNull(),
-})
+export const userItems = pgTable(
+  'user_items',
+  {
+    id: uuid('id').default(sql`gen_random_uuid()`).primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    tmdbId: integer('tmdb_id').notNull(),
+    addedAt: timestamp('added_at').defaultNow().notNull(),
+    position: integer('position'),
+    mediaType: mediaTypeEnum('media_type').notNull(),
+    status: statusEnum('status').notNull(),
+  },
+  userItems => ({
+    uniqueUserItem: unique('user_items_userid_tmdbid_media_type_unique').on(
+      userItems.userId,
+      userItems.tmdbId,
+      userItems.mediaType
+    ),
+  })
+)
 
 export const userItemsRelations = relations(userItems, ({ one }) => ({
   user: one(users, {

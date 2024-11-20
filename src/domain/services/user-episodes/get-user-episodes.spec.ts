@@ -3,7 +3,6 @@ import { describe, expect, it, beforeAll } from 'vitest'
 import { makeUserEpisode } from '@/test/factories/make-user-episode'
 import type { User } from '@/domain/entities/user'
 import { getUserEpisodesService } from './get-user-episodes'
-import { faker } from '@faker-js/faker'
 
 const TMDB_ID = 1396
 let user: User

@@ -3,13 +3,13 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { languageQuerySchema } from './common'
 
-export const createUserItemBodySchema = createInsertSchema(
+export const upsertUserItemBodySchema = createInsertSchema(
   schema.userItems
 ).pick({ tmdbId: true, mediaType: true, status: true })
 
-export const createUserItemResponseSchema = {
-  201: z.object({
-    userItem: createSelectSchema(schema.userItems),
+export const upsertUserItemResponseSchema = {
+  201: createSelectSchema(schema.userItems).extend({
+    addedAt: z.string(),
   }),
 }
 
@@ -40,19 +40,5 @@ export const getUserItemQuerySchema = createSelectSchema(schema.userItems)
 export const getUserItemResponseSchema = {
   200: z.object({
     userItem: createSelectSchema(schema.userItems).optional(),
-  }),
-}
-
-export const updateUserItemStatusParamsSchema = z.object({
-  id: z.string(),
-})
-
-export const updateUserItemStatusBodySchema = createInsertSchema(
-  schema.userItems
-).pick({ status: true })
-
-export const updateUserItemStatusResponseSchema = {
-  200: z.object({
-    userItem: createSelectSchema(schema.userItems),
   }),
 }

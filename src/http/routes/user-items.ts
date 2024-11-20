@@ -2,24 +2,20 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
-  createUserItemBodySchema,
-  createUserItemResponseSchema,
+  upsertUserItemBodySchema,
+  upsertUserItemResponseSchema,
   deleteUserItemParamsSchema,
   getUserItemQuerySchema,
   getUserItemResponseSchema,
   getUserItemsQuerySchema,
   getUserItemsResponseSchema,
-  updateUserItemStatusBodySchema,
-  updateUserItemStatusParamsSchema,
-  updateUserItemStatusResponseSchema,
 } from '../schemas/user-items'
 
 import {
-  createUserItemController,
   deleteUserItemController,
   getUserItemController,
   getUserItemsController,
-  updateUserItemStatusController,
+  upsertUserItemController,
 } from '../controllers/user-items-controller'
 
 const USER_ITEMS_TAGS = ['User items']
@@ -27,21 +23,21 @@ const USER_ITEMS_TAGS = ['User items']
 export async function userItemsRoutes(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
-      method: 'POST',
+      method: 'PUT',
       url: '/user/item',
       onRequest: [verifyJwt],
       schema: {
-        description: 'Create user item',
+        description: 'Upsert user item',
         tags: USER_ITEMS_TAGS,
-        body: createUserItemBodySchema,
-        response: createUserItemResponseSchema,
+        body: upsertUserItemBodySchema,
+        response: upsertUserItemResponseSchema,
         security: [
           {
             bearerAuth: [],
           },
         ],
       },
-      handler: createUserItemController,
+      handler: upsertUserItemController,
     })
   )
 
@@ -96,27 +92,6 @@ export async function userItemsRoutes(app: FastifyInstance) {
         ],
       },
       handler: getUserItemController,
-    })
-  )
-
-  app.after(() =>
-    app.withTypeProvider<ZodTypeProvider>().route({
-      method: 'PATCH',
-      url: '/user/item/status/by/:id',
-      onRequest: [verifyJwt],
-      schema: {
-        description: 'Get user item',
-        tags: USER_ITEMS_TAGS,
-        params: updateUserItemStatusParamsSchema,
-        body: updateUserItemStatusBodySchema,
-        response: updateUserItemStatusResponseSchema,
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
-      },
-      handler: updateUserItemStatusController,
     })
   )
 }
