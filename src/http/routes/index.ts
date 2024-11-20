@@ -17,6 +17,7 @@ import { usersRoute } from './users'
 import { webhookRoutes } from './webhook'
 import { reviewRepliesRoute } from './review-replies'
 import { socialLinksRoute } from './social-links'
+import { userEpisodesRoutes } from './user-episodes'
 
 export function routes(app: FastifyInstance) {
   app.register(fastifySwaggerUi, {
@@ -45,6 +46,7 @@ export function routes(app: FastifyInstance) {
   app.register(webhookRoutes)
   app.register(reviewRepliesRoute)
   app.register(socialLinksRoute)
+  app.register(userEpisodesRoutes)
 
   return
 }

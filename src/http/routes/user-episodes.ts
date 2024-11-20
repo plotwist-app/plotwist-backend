@@ -1,7 +1,11 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
-import { createUserEpisodesController } from '../controllers/user-episodes-controller'
+import { createUserEpisodeController } from '../controllers/user-episodes-controller'
+import {
+  createUserEpisodeBodySchema,
+  createUserEpisodeResponseSchema,
+} from '../schemas/user-episodes'
 
 const USER_EPISODES_TAGS = ['User episodes']
 
@@ -12,15 +16,17 @@ export async function userEpisodesRoutes(app: FastifyInstance) {
       url: '/user/episodes',
       onRequest: [verifyJwt],
       schema: {
-        description: 'Create user item',
+        description: 'Create user episode',
         tags: USER_EPISODES_TAGS,
+        body: createUserEpisodeBodySchema,
+        response: createUserEpisodeResponseSchema,
         security: [
           {
             bearerAuth: [],
           },
         ],
       },
-      handler: createUserEpisodesController,
+      handler: createUserEpisodeController,
     })
   )
 }
