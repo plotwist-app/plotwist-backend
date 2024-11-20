@@ -21,3 +21,21 @@ export const createUserEpisodeResponseSchema = {
     })
     .describe('User episode already registered.'),
 }
+
+export const getUserEpisodesQuerySchema = z.object({
+  tmdbId: z.string(),
+})
+
+export const getUserEpisodesResponseSchema = {
+  200: z.object({
+    userEpisodes: z.array(createSelectSchema(schema.userEpisodes)),
+  }),
+}
+
+export const deleteUserEpisodeParamsSchema = z.object({
+  id: z.string(),
+})
+
+export const deleteUserEpisodeResponseSchema = {
+  204: z.null(),
+}
