@@ -2,9 +2,9 @@ import type { InsertUserEpisode } from '@/domain/entities/user-episode'
 import { db } from '..'
 import { schema } from '../schema'
 import type { GetUserEpisodesInput } from '@/domain/services/user-episodes/get-user-episodes'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, inArray } from 'drizzle-orm'
 
-export async function insertUserEpisode(values: InsertUserEpisode) {
+export async function insertUserEpisodes(values: InsertUserEpisode[]) {
   return db.insert(schema.userEpisodes).values(values).returning()
 }
 
@@ -24,6 +24,8 @@ export async function selectUserEpisodes({
     .orderBy(schema.userEpisodes.episodeNumber)
 }
 
-export async function deleteUserEpisode(id: string) {
-  return db.delete(schema.userEpisodes).where(eq(schema.userEpisodes.id, id))
+export async function deleteUserEpisodes(ids: string[]) {
+  return db
+    .delete(schema.userEpisodes)
+    .where(inArray(schema.userEpisodes.id, ids))
 }

@@ -3,23 +3,25 @@ import { UserEpisodeAlreadyRegisteredError } from '@/domain/errors/user-episode-
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
-export const createUserEpisodeBodySchema = createInsertSchema(
-  schema.userEpisodes
-).omit({ userId: true, watchedAt: true, id: true })
+export const createUserEpisodesBodySchema = z.array(
+  createInsertSchema(schema.userEpisodes).omit({
+    userId: true,
+    watchedAt: true,
+    id: true,
+  })
+)
 
-export const createUserEpisodeResponseSchema = {
+export const createUserEpisodesResponseSchema = {
   201: z
-    .object({
-      userEpisode: createSelectSchema(schema.userEpisodes),
-    })
-    .describe('User episode registered.'),
+    .array(createSelectSchema(schema.userEpisodes))
+    .describe('User episodes registered.'),
   409: z
     .object({
       message: z
         .string()
         .default(new UserEpisodeAlreadyRegisteredError().message),
     })
-    .describe('User episode already registered.'),
+    .describe('User episodes already registered.'),
 }
 
 export const getUserEpisodesQuerySchema = z.object({
@@ -27,15 +29,13 @@ export const getUserEpisodesQuerySchema = z.object({
 })
 
 export const getUserEpisodesResponseSchema = {
-  200: z.object({
-    userEpisodes: z.array(createSelectSchema(schema.userEpisodes)),
-  }),
+  200: z.array(createSelectSchema(schema.userEpisodes)),
 }
 
-export const deleteUserEpisodeParamsSchema = z.object({
-  id: z.string(),
+export const deleteUserEpisodesBodySchema = z.object({
+  ids: z.array(z.string()),
 })
 
-export const deleteUserEpisodeResponseSchema = {
+export const deleteUserEpisodesResponseSchema = {
   204: z.null(),
 }

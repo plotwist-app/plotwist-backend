@@ -2,17 +2,17 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
-  createUserEpisodeController,
-  deleteUserEpisodeController,
+  createUserEpisodesController,
+  deleteUserEpisodesController,
   getUserEpisodesController,
 } from '../controllers/user-episodes-controller'
 import {
-  createUserEpisodeBodySchema,
-  createUserEpisodeResponseSchema,
-  deleteUserEpisodeParamsSchema,
-  deleteUserEpisodeResponseSchema,
+  createUserEpisodesBodySchema,
+  createUserEpisodesResponseSchema,
+  deleteUserEpisodesResponseSchema,
   getUserEpisodesQuerySchema,
   getUserEpisodesResponseSchema,
+  deleteUserEpisodesBodySchema,
 } from '../schemas/user-episodes'
 
 const USER_EPISODES_TAGS = ['User episodes']
@@ -26,15 +26,15 @@ export async function userEpisodesRoutes(app: FastifyInstance) {
       schema: {
         description: 'Create user episode',
         tags: USER_EPISODES_TAGS,
-        body: createUserEpisodeBodySchema,
-        response: createUserEpisodeResponseSchema,
+        body: createUserEpisodesBodySchema,
+        response: createUserEpisodesResponseSchema,
         security: [
           {
             bearerAuth: [],
           },
         ],
       },
-      handler: createUserEpisodeController,
+      handler: createUserEpisodesController,
     })
   )
 
@@ -61,20 +61,20 @@ export async function userEpisodesRoutes(app: FastifyInstance) {
   app.after(() =>
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'DELETE',
-      url: '/user/episodes/:id',
+      url: '/user/episodes',
       onRequest: [verifyJwt],
       schema: {
-        description: 'Delete user episode',
+        description: 'Delete user episodes',
         tags: USER_EPISODES_TAGS,
-        params: deleteUserEpisodeParamsSchema,
-        response: deleteUserEpisodeResponseSchema,
+        body: deleteUserEpisodesBodySchema,
+        response: deleteUserEpisodesResponseSchema,
         security: [
           {
             bearerAuth: [],
           },
         ],
       },
-      handler: deleteUserEpisodeController,
+      handler: deleteUserEpisodesController,
     })
   )
 }

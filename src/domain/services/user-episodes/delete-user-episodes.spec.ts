@@ -4,9 +4,8 @@ import { makeUserEpisode } from '@/test/factories/make-user-episode'
 import type { User } from '@/domain/entities/user'
 import { getUserEpisodesService } from './get-user-episodes'
 import type { UserEpisode } from '@/domain/entities/user-episode'
-import { deleteUserEpisode } from '@/db/repositories/user-episode'
 import { faker } from '@faker-js/faker'
-import { deleteUserEpisodeService } from './delete-user-episode'
+import { deleteUserEpisodesService } from './delete-user-episodes'
 
 const TMDB_ID = 1396
 
@@ -20,7 +19,7 @@ describe('delete user episode', () => {
   })
 
   it('should be able to get delete user episode', async () => {
-    await deleteUserEpisodeService(userEpisode.id)
+    await deleteUserEpisodesService([userEpisode.id])
     const sut = await getUserEpisodesService({
       userId: user.id,
       tmdbId: TMDB_ID,

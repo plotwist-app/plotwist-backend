@@ -1,4 +1,4 @@
-import { insertUserEpisode } from '@/db/repositories/user-episode'
+import { insertUserEpisodes } from '@/db/repositories/user-episode'
 import type { InsertUserEpisode } from '@/domain/entities/user-episode'
 import { faker } from '@faker-js/faker'
 
@@ -16,7 +16,9 @@ export function makeRawUserEpisode(overrides: Overrides): InsertUserEpisode {
 }
 
 export async function makeUserEpisode(overrides: Overrides) {
-  const [userEpisode] = await insertUserEpisode(makeRawUserEpisode(overrides))
+  const [userEpisode] = await insertUserEpisodes([
+    makeRawUserEpisode(overrides),
+  ])
 
   return userEpisode
 }

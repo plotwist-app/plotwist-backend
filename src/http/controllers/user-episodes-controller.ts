@@ -1,30 +1,29 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
-  createUserEpisodeBodySchema,
-  deleteUserEpisodeParamsSchema,
+  createUserEpisodesBodySchema,
+  deleteUserEpisodesBodySchema,
   getUserEpisodesQuerySchema,
 } from '../schemas/user-episodes'
-import { createUserEpisodeService } from '@/domain/services/user-episodes/create-user-episode'
+import { createUserEpisodesService } from '@/domain/services/user-episodes/create-user-episodes'
 import { DomainError } from '@/domain/errors/domain-error'
 import { getUserEpisodesService } from '@/domain/services/user-episodes/get-user-episodes'
-import { deleteUserEpisodeService } from '@/domain/services/user-episodes/delete-user-episode'
+import { deleteUserEpisodesService } from '@/domain/services/user-episodes/delete-user-episodes'
 
-export async function createUserEpisodeController(
+export async function createUserEpisodesController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const body = createUserEpisodeBodySchema.parse(request.body)
+  const body = createUserEpisodesBodySchema.parse(request.body)
 
-  const result = await createUserEpisodeService({
-    ...body,
-    userId: request.user.id,
-  })
+  const result = await createUserEpisodesService(
+    body.map(userEpisode => ({ ...userEpisode, userId: request.user.id }))
+  )
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
 
-  return reply.status(201).send({ userEpisode: result.userEpisode })
+  return reply.status(201).send(result.userEpisodes)
 }
 
 export async function getUserEpisodesController(
@@ -38,15 +37,15 @@ export async function getUserEpisodesController(
     userId: request.user.id,
   })
 
-  return reply.status(200).send({ userEpisodes: result.userEpisodes })
+  return reply.status(200).send(result.userEpisodes)
 }
 
-export async function deleteUserEpisodeController(
+export async function deleteUserEpisodesController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { id } = deleteUserEpisodeParamsSchema.parse(request.params)
-  await deleteUserEpisodeService(id)
+  const { ids } = deleteUserEpisodesBodySchema.parse(request.body)
+  await deleteUserEpisodesService(ids)
 
   return reply.status(204).send()
 }
