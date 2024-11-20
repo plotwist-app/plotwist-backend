@@ -33,7 +33,7 @@ export async function upsertUserItemController(
     return reply.status(result.status).send({ message: result.message })
   }
 
-  return reply.status(201).send(result.userItem)
+  return reply.status(201).send({ userItem: result.userItem })
 }
 
 export async function getUserItemsController(

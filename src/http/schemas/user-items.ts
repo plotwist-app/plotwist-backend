@@ -8,8 +8,10 @@ export const upsertUserItemBodySchema = createInsertSchema(
 ).pick({ tmdbId: true, mediaType: true, status: true })
 
 export const upsertUserItemResponseSchema = {
-  201: createSelectSchema(schema.userItems).extend({
-    addedAt: z.string(),
+  201: z.object({
+    userItem: createSelectSchema(schema.userItems).extend({
+      addedAt: z.string(),
+    }),
   }),
 }
 
