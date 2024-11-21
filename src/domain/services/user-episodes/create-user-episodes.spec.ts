@@ -47,4 +47,11 @@ describe('create user episode', () => {
       ]),
     })
   })
+
+  it('should not be able to create user episode already registered', async () => {
+    const userEpisode = await makeUserEpisode({ userId: user.id })
+    const sut = await createUserEpisodesService([userEpisode])
+
+    expect(sut).toBeInstanceOf(UserEpisodeAlreadyRegisteredError)
+  })
 })
