@@ -1,4 +1,3 @@
-import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { makeUser } from '@/test/factories/make-user'
 import { makeUserItem } from '@/test/factories/make-watchlist-item'
 import { faker } from '@faker-js/faker'
