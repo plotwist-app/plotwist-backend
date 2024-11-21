@@ -1,5 +1,5 @@
 import { upsertUserItem } from '@/db/repositories/user-item-repository'
-import type { InsertUserItem } from '@/domain/entities/user-item'
+import type { InsertUserItem, UserItem } from '@/domain/entities/user-item'
 import { faker } from '@faker-js/faker'
 
 type Overrides = Partial<InsertUserItem> & {
@@ -16,7 +16,7 @@ export function makeRawUserItem(overrides: Overrides): InsertUserItem {
 }
 
 export async function makeUserItem(overrides: Overrides) {
-  const [user] = await upsertUserItem(makeRawUserItem(overrides))
+  const [userItem] = await upsertUserItem(makeRawUserItem(overrides))
 
-  return user
+  return userItem as UserItem
 }
