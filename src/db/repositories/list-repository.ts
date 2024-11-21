@@ -47,11 +47,7 @@ export function selectLists({
     .leftJoin(schema.users, eq(schema.lists.userId, schema.users.id))
     .leftJoin(schema.listItems, eq(schema.listItems.listId, schema.lists.id))
     .groupBy(schema.lists.id, schema.users.id)
-    .orderBy(
-      desc(
-        sql`(SELECT COUNT(*)::int FROM ${schema.listLikes} WHERE ${schema.listLikes.listId} = ${schema.lists.id})`
-      )
-    )
+    .orderBy(desc(schema.lists.createdAt))
     .limit(limit)
 }
 
