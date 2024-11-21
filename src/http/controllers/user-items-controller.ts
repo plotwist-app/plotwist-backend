@@ -1,30 +1,28 @@
 import { DomainError } from '@/domain/errors/domain-error'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
-import { createUserItemService } from '@/domain/services/user-items/create-user-item'
+import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import { deleteUserItemService } from '@/domain/services/user-items/delete-user-item'
 import { getUserItemService } from '@/domain/services/user-items/get-user-item'
 import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
-import { updateUserItemStatusService } from '@/domain/services/user-items/update-user-item'
+
 import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
-  createUserItemBodySchema,
+  upsertUserItemBodySchema,
   deleteUserItemParamsSchema,
   getUserItemQuerySchema,
   getUserItemsQuerySchema,
-  updateUserItemStatusBodySchema,
-  updateUserItemStatusParamsSchema,
 } from '../schemas/user-items'
 
-export async function createUserItemController(
+export async function upsertUserItemController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { tmdbId, mediaType, status } = createUserItemBodySchema.parse(
+  const { tmdbId, mediaType, status } = upsertUserItemBodySchema.parse(
     request.body
   )
 
-  const result = await createUserItemService({
+  const result = await upsertUserItemService({
     tmdbId,
     mediaType,
     status,
@@ -88,21 +86,6 @@ export async function getUserItemController(
     mediaType,
     tmdbId: Number(tmdbId),
     userId: request.user.id,
-  })
-
-  return reply.status(200).send({ userItem: result.userItem })
-}
-
-export async function updateUserItemStatusController(
-  request: FastifyRequest,
-  reply: FastifyReply
-) {
-  const { id } = updateUserItemStatusParamsSchema.parse(request.params)
-  const { status } = updateUserItemStatusBodySchema.parse(request.body)
-
-  const result = await updateUserItemStatusService({
-    id,
-    status,
   })
 
   return reply.status(200).send({ userItem: result.userItem })

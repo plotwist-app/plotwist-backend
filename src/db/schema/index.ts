@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-import { relations } from 'drizzle-orm'
+import { relations, sql } from 'drizzle-orm'
 import {
   boolean,
   index,
@@ -323,19 +323,27 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   following: many(followers, { relationName: 'followedRelation' }),
 }))
 
-export const userItems = pgTable('user_items', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  userId: uuid('user_id')
-    .references(() => users.id, { onDelete: 'cascade' })
-    .notNull(),
-  tmdbId: integer('tmdb_id').notNull(),
-  addedAt: timestamp('added_at').defaultNow().notNull(),
-  position: integer('position'),
-  mediaType: mediaTypeEnum('media_type').notNull(),
-  status: statusEnum('status').notNull(),
-})
+export const userItems = pgTable(
+  'user_items',
+  {
+    id: uuid('id').default(sql`gen_random_uuid()`).primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    tmdbId: integer('tmdb_id').notNull(),
+    addedAt: timestamp('added_at').defaultNow().notNull(),
+    position: integer('position'),
+    mediaType: mediaTypeEnum('media_type').notNull(),
+    status: statusEnum('status').notNull(),
+  },
+  userItems => ({
+    uniqueUserItem: unique('user_items_userid_tmdbid_media_type_unique').on(
+      userItems.userId,
+      userItems.tmdbId,
+      userItems.mediaType
+    ),
+  })
+)
 
 export const userItemsRelations = relations(userItems, ({ one }) => ({
   user: one(users, {
@@ -410,6 +418,39 @@ export const socialLinksRelations = relations(socialLinks, ({ one }) => ({
   }),
 }))
 
+export const userEpisodes = pgTable(
+  'user_episodes',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    tmdbId: integer('tmdb_id').notNull(),
+    seasonNumber: integer('season_number').notNull(),
+    episodeNumber: integer('episode_number').notNull(),
+    watchedAt: timestamp('watched_at').defaultNow().notNull(),
+  },
+  table => {
+    return {
+      uniqueEpisode: unique('user_episode_unique').on(
+        table.userId,
+        table.tmdbId,
+        table.seasonNumber,
+        table.episodeNumber
+      ),
+    }
+  }
+)
+
+export const userEpisodesRelations = relations(userEpisodes, ({ one }) => ({
+  user: one(users, {
+    fields: [userEpisodes.userId],
+    references: [users.id],
+  }),
+}))
+
 export const schema = {
   users,
   userItems,
@@ -421,4 +462,5 @@ export const schema = {
   subscriptions,
   magicTokens,
   socialLinks,
+  userEpisodes,
 }
