@@ -31,6 +31,7 @@ export async function selectReviewsWithUser({
       )
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
+    .orderBy(desc(schema.reviews.createdAt))
 }
 
 export async function selectReviews({
