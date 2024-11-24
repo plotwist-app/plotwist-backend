@@ -20,6 +20,7 @@ import {
   updateReviewBodySchema,
   updateReviewResponse,
 } from '../schemas/reviews'
+import { verifyOptionalJwt } from '../middlewares/verify-optional-jwt'
 
 export async function reviewsRoute(app: FastifyInstance) {
   const reviewsTag = 'Reviews'
@@ -48,11 +49,17 @@ export async function reviewsRoute(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
       url: '/reviews',
+      onRequest: [verifyOptionalJwt],
       schema: {
         description: 'Get reviews',
         tags: [reviewsTag],
         querystring: getReviewsQuerySchema,
         response: getReviewsResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
       handler: getReviewsController,
     })

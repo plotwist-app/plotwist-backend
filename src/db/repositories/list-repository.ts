@@ -20,18 +20,18 @@ export function selectLists({
         imagePath: schema.users.imagePath,
       },
 
-      likeCount:
-        sql`(SELECT COUNT(*)::int FROM ${schema.listLikes} WHERE ${schema.listLikes.listId} = ${schema.lists.id})`.as(
-          'likeCount'
-        ),
+      // likeCount:
+      //   sql`(SELECT COUNT(*)::int FROM ${schema.listLikes} WHERE ${schema.listLikes.listId} = ${schema.lists.id})`.as(
+      //     'likeCount'
+      //   ),
 
-      hasLiked: authenticatedUserId
-        ? sql`EXISTS (
-              SELECT 1 FROM ${schema.listLikes} 
-              WHERE ${schema.listLikes.listId} = ${schema.lists.id} 
-              AND ${schema.listLikes.userId} = ${authenticatedUserId}
-            )`.as('hasLiked')
-        : sql`false`.as('hasLiked'),
+      // hasLiked: authenticatedUserId
+      //   ? sql`EXISTS (
+      //         SELECT 1 FROM ${schema.listLikes}
+      //         WHERE ${schema.listLikes.listId} = ${schema.lists.id}
+      //         AND ${schema.listLikes.userId} = ${authenticatedUserId}
+      //       )`.as('hasLiked')
+      //   : sql`false`.as('hasLiked'),
 
       items: sql`COALESCE(ARRAY(
         SELECT jsonb_build_object(

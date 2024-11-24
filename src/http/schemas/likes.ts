@@ -12,3 +12,7 @@ export const createLikeResponseSchema = {
     like: createSelectSchema(schema.likes),
   }),
 }
+
+export const deleteLikeParamsSchema = z.object({
+  id: z.string(),
+})

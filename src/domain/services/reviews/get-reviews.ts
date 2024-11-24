@@ -6,17 +6,20 @@ export type GetReviewsServiceInput = Omit<
   'tmdbId'
 > & {
   tmdbId: number
+  authenticatedUserId?: string
 }
 
 export async function getReviewsService({
   language,
   mediaType,
   tmdbId,
+  authenticatedUserId,
 }: GetReviewsServiceInput) {
   const reviews = await selectReviewsWithUser({
     language,
     mediaType,
     tmdbId,
+    authenticatedUserId,
   })
 
   return { reviews }

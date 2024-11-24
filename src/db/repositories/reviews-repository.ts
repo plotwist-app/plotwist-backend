@@ -4,7 +4,7 @@ import type { InsertReviewModel } from '@/domain/entities/review'
 import type { GetDetailedReviewsInput } from '@/domain/services/reviews/get-detailed-reviews'
 import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
 import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
-import { and, desc, eq, getTableColumns } from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
 
 export async function insertReview(params: InsertReviewModel) {
   return db.insert(schema.reviews).values(params).returning()
@@ -13,6 +13,7 @@ export async function insertReview(params: InsertReviewModel) {
 export async function selectReviewsWithUser({
   mediaType,
   tmdbId,
+  authenticatedUserId,
 }: GetReviewsServiceInput) {
   return db
     .select({
@@ -22,6 +23,25 @@ export async function selectReviewsWithUser({
         username: schema.users.username,
         imagePath: schema.users.imagePath,
       },
+      likeCount:
+        sql`(SELECT COUNT(*)::int FROM ${schema.likes} WHERE ${schema.likes.entityId} = ${schema.reviews.id})`.as(
+          'likeCount'
+        ),
+
+      userLike: authenticatedUserId
+        ? sql`(
+               SELECT json_build_object(
+                 'id', ${schema.likes.id},
+                 'entityId', ${schema.likes.entityId},
+                 'userId', ${schema.likes.userId},
+                 'createdAt', ${schema.likes.createdAt}
+               )
+               FROM ${schema.likes}
+               WHERE ${schema.likes.entityId} = ${schema.reviews.id}
+               AND ${schema.likes.userId} = ${authenticatedUserId}
+               LIMIT 1
+             )`.as('userLike')
+        : sql`null`.as('userLike'),
     })
     .from(schema.reviews)
     .where(

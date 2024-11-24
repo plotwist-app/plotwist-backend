@@ -14,8 +14,6 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 
-import { likes } from './likes'
-
 export const listVisibilityEnum = pgEnum('list_visibility', [
   'PUBLIC',
   'NETWORK',
@@ -242,6 +240,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   reviews: many(reviews),
   followers: many(followers, { relationName: 'followerRelation' }),
   following: many(followers, { relationName: 'followedRelation' }),
+  likes: many(likes),
 }))
 
 export const userItems = pgTable(
@@ -368,6 +367,29 @@ export const userEpisodes = pgTable(
 export const userEpisodesRelations = relations(userEpisodes, ({ one }) => ({
   user: one(users, {
     fields: [userEpisodes.userId],
+    references: [users.id],
+  }),
+}))
+
+export const likeEntityEnum = pgEnum('like_entity', ['LIST', 'REVIEW', 'REPLY'])
+
+export const likes = pgTable('likes', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  entityId: uuid('entity_id').notNull(),
+  entityType: likeEntityEnum('entity_type').notNull(),
+  userId: uuid('user_id')
+    .references(() => users.id, {
+      onDelete: 'cascade',
+    })
+    .notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+export const likesRelations = relations(likes, ({ one }) => ({
+  user: one(users, {
+    fields: [likes.userId],
     references: [users.id],
   }),
 }))

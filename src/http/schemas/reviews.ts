@@ -39,6 +39,15 @@ export const getReviewsResponseSchema = {
         username: true,
         imagePath: true,
       }),
+      likeCount: z.number(),
+      userLike: z
+        .object({
+          id: z.string(),
+          entityId: z.string(),
+          userId: z.string(),
+          createdAt: z.string(),
+        })
+        .nullable(),
     })
   ),
 }

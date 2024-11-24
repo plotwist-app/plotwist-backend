@@ -5,8 +5,12 @@ import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createLikeBodySchema,
   createLikeResponseSchema,
+  deleteLikeParamsSchema,
 } from '../schemas/likes'
-import { createLikeController } from '../controllers/like-controller'
+import {
+  createLikeController,
+  deleteLikeController,
+} from '../controllers/like-controller'
 
 export async function likesRoutes(app: FastifyInstance) {
   app.after(() =>
@@ -26,6 +30,25 @@ export async function likesRoutes(app: FastifyInstance) {
         ],
       },
       handler: createLikeController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'DELETE',
+      url: '/like/:id',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Delete like',
+        tags: ['Like'],
+        params: deleteLikeParamsSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: deleteLikeController,
     })
   )
 }
