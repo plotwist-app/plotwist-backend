@@ -190,6 +190,13 @@
       "when": 1732125164987,
       "tag": "20241120175244_unique_contraint_user_item",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1732416738804,
+      "tag": "20241124025218_likes_table",
+      "breakpoints": true
     }
   ]
 }

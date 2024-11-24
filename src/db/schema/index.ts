@@ -14,7 +14,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 
-export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY'])
+import { likes } from './likes'
 
 export const listVisibilityEnum = pgEnum('list_visibility', [
   'PUBLIC',
@@ -77,40 +77,6 @@ export const followersRelations = relations(followers, ({ one }) => ({
   }),
 }))
 
-export const likes = pgTable('likes', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  entityType: likeEntityEnum('entity_type').notNull(),
-  reviewId: uuid('review_id').references(() => reviews.id, {
-    onDelete: 'cascade',
-  }),
-  reviewReplyId: uuid('review_reply_id').references(() => reviewReplies.id, {
-    onDelete: 'cascade',
-  }),
-  userId: uuid('user_id')
-    .references(() => users.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-})
-
-export const likesRelations = relations(likes, ({ one, many }) => ({
-  reviews: one(reviews, {
-    fields: [likes.reviewId],
-    references: [reviews.id],
-  }),
-  reviewReplies: one(reviewReplies, {
-    fields: [likes.reviewReplyId],
-    references: [reviewReplies.id],
-  }),
-  user: one(users, {
-    fields: [likes.userId],
-    references: [users.id],
-  }),
-}))
-
 export const listItems = pgTable(
   'list_items',
   {
@@ -141,46 +107,6 @@ export const listItemsRelations = relations(listItems, ({ one, many }) => ({
   }),
 }))
 
-export const listLikes = pgTable(
-  'list_likes',
-  {
-    id: uuid('id')
-      .$defaultFn(() => randomUUID())
-      .primaryKey(),
-    listId: uuid('list_id')
-      .references(() => lists.id, {
-        onDelete: 'cascade',
-      })
-      .notNull(),
-    userId: uuid('user_id')
-      .references(() => users.id, {
-        onDelete: 'cascade',
-      })
-      .notNull(),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
-  },
-  table => {
-    return {
-      listIdIndex: index('list_id_idx').on(table.listId),
-      listUserCompositeIndex: index('list_user_idx').on(
-        table.listId,
-        table.userId
-      ),
-    }
-  }
-)
-
-export const listLikesRelations = relations(listLikes, ({ one }) => ({
-  lists: one(lists, {
-    fields: [listLikes.listId],
-    references: [lists.id],
-  }),
-  user: one(users, {
-    fields: [listLikes.userId],
-    references: [users.id],
-  }),
-}))
-
 export const lists = pgTable(
   'lists',
   {
@@ -208,7 +134,6 @@ export const lists = pgTable(
 
 export const listRelations = relations(lists, ({ one, many }) => ({
   listItems: many(listItems),
-  listLikes: many(listLikes),
   users: one(users, {
     fields: [lists.userId],
     references: [users.id],
@@ -232,7 +157,6 @@ export const reviewReplies = pgTable('review_replies', {
 export const reviewsRepliesRelations = relations(
   reviewReplies,
   ({ one, many }) => ({
-    likes: many(likes),
     users: one(users, {
       fields: [reviewReplies.userId],
       references: [users.id],
@@ -261,7 +185,6 @@ export const reviews = pgTable('reviews', {
 })
 
 export const reviewsRelations = relations(reviews, ({ one, many }) => ({
-  likes: many(likes),
   users: one(users, {
     fields: [reviews.userId],
     references: [users.id],
@@ -314,8 +237,6 @@ export const users = pgTable(
 
 export const usersRelations = relations(users, ({ one, many }) => ({
   subscriptions: many(subscriptions),
-  likes: many(likes),
-  listLikes: many(listLikes),
   lists: many(lists),
   reviewReplies: many(reviewReplies),
   reviews: many(reviews),
@@ -457,10 +378,10 @@ export const schema = {
   reviews,
   reviewReplies,
   lists,
-  listLikes,
   listItems,
   subscriptions,
   magicTokens,
   socialLinks,
   userEpisodes,
+  likes,
 }
