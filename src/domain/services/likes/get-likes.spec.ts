@@ -17,7 +17,7 @@ describe('get likes', () => {
   it('should be able to get likes with user information', async () => {
     const review = await makeReview({ userId: user.id })
 
-    await makeLike({
+    const list = await makeLike({
       entityType: 'REVIEW',
       userId: user.id,
       entityId: review.id,
@@ -26,18 +26,17 @@ describe('get likes', () => {
     const sut = await getLikesService(review.id)
 
     expect(sut).toEqual({
-      likes: expect.objectContaining(
+      likes: expect.arrayContaining([
         expect.objectContaining({
-          entityId: review.id,
-          entityType: 'REVIEW',
+          ...list,
           user: {
             id: user.id,
             username: user.username,
             imagePath: user.imagePath,
             subscriptionType: user.subscriptionType,
           },
-        })
-      ),
+        }),
+      ]),
     })
   })
 })
