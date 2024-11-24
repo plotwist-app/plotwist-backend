@@ -8,7 +8,7 @@ export async function insertLike(values: InsertLike) {
 }
 
 export async function deleteLike(id: string) {
-  return db.delete(schema.likes).where(eq(schema.likes.id, id))
+  return db.delete(schema.likes).where(eq(schema.likes.id, id)).returning()
 }
 
 export async function selectLikes(entityId: string) {

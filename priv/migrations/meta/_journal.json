@@ -204,6 +204,13 @@
       "when": 1732418424350,
       "tag": "20241124032024_setup_new_likes_table",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1732450291030,
+      "tag": "20241124121131_likes_table_entity_type",
+      "breakpoints": true
     }
   ]
 }

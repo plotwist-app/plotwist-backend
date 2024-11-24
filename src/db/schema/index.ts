@@ -371,7 +371,7 @@ export const userEpisodesRelations = relations(userEpisodes, ({ one }) => ({
   }),
 }))
 
-export const likeEntityEnum = pgEnum('like_entity', ['LIST', 'REVIEW', 'REPLY'])
+export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY', 'LIST'])
 
 export const likes = pgTable('likes', {
   id: uuid('id')
