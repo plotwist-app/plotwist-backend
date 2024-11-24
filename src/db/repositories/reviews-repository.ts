@@ -1,7 +1,6 @@
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertReviewModel } from '@/domain/entities/review'
-import type { GetDetailedReviewsInput } from '@/domain/services/reviews/get-detailed-reviews'
 import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
 import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
@@ -10,10 +9,13 @@ export async function insertReview(params: InsertReviewModel) {
   return db.insert(schema.reviews).values(params).returning()
 }
 
-export async function selectReviewsWithUser({
+export async function selectReviews({
   mediaType,
   tmdbId,
+  userId,
   authenticatedUserId,
+  limit = 50,
+  orderBy,
 }: GetReviewsServiceInput) {
   return db
     .select({
@@ -27,7 +29,6 @@ export async function selectReviewsWithUser({
         sql`(SELECT COUNT(*)::int FROM ${schema.likes} WHERE ${schema.likes.entityId} = ${schema.reviews.id})`.as(
           'likeCount'
         ),
-
       userLike: authenticatedUserId
         ? sql`(
                SELECT json_build_object(
@@ -46,38 +47,24 @@ export async function selectReviewsWithUser({
     .from(schema.reviews)
     .where(
       and(
-        eq(schema.reviews.tmdbId, tmdbId),
-        eq(schema.reviews.mediaType, mediaType)
+        tmdbId ? eq(schema.reviews.tmdbId, tmdbId) : undefined,
+        mediaType ? eq(schema.reviews.mediaType, mediaType) : undefined,
+        userId ? eq(schema.reviews.userId, userId) : undefined
       )
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
-    .orderBy(desc(schema.reviews.createdAt))
-}
-
-export async function selectReviews({
-  userId,
-  language,
-  limit,
-}: GetDetailedReviewsInput) {
-  return db
-    .select({
-      ...getTableColumns(schema.reviews),
-      user: {
-        id: schema.users.id,
-        username: schema.users.username,
-        imagePath: schema.users.imagePath,
-      },
-    })
-    .from(schema.reviews)
-    .orderBy(desc(schema.reviews.createdAt))
-    .limit(Number(limit))
-    .where(
-      and(
-        userId ? eq(schema.reviews.userId, userId) : undefined,
-        language ? eq(schema.reviews.language, language) : undefined
-      )
+    .orderBy(
+      orderBy === 'likeCount'
+        ? desc(
+            sql`(
+            SELECT COUNT(*) 
+            FROM ${schema.likes} 
+            WHERE ${schema.likes.entityId} = ${schema.reviews.id}
+          )`
+          )
+        : desc(schema.reviews.createdAt)
     )
-    .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
+    .limit(limit)
 }
 
 export async function deleteReview(id: string) {

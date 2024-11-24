@@ -12,7 +12,6 @@ import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createReviewBodySchema,
   createReviewResponseSchema,
-  getDetailedReviewsQuerySchema,
   getDetailedReviewsResponseSchema,
   getReviewsQuerySchema,
   getReviewsResponseSchema,
@@ -100,7 +99,7 @@ export async function reviewsRoute(app: FastifyInstance) {
       schema: {
         description: 'Get detailed reviews',
         tags: [reviewsTag],
-        query: getDetailedReviewsQuerySchema,
+        query: getReviewsQuerySchema,
         response: getDetailedReviewsResponseSchema,
       },
       handler: (request, reply) =>
