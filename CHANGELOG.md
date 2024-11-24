@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Set CORS to use env variable [#42](https://github.com/plotwist-app/plotwist-backend/pull/42)
+- Do not show swagger in production environment [#42](https://github.com/plotwist-app/plotwist-backend/pull/42)
 - Format files with BiomeJs. [#28](https://github.com/plotwist-app/plotwist-backend/pull/28)
 
 ## 1.0.0

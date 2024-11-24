@@ -10,6 +10,8 @@ export const envSchema = z.object({
   REDIS_URL: z.string().url(),
   RESEND_API_KEY: z.string().optional().default('re_123'),
   CLIENT_URL: z.string(),
+  APP_ENV: z.enum(['dev', 'test', 'production']).optional().default('dev'),
+  CORS: z.string().optional().default('*'),
 })
 
 export const env = envSchema.parse(process.env)
