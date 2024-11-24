@@ -16,3 +16,22 @@ export const createLikeResponseSchema = {
 export const deleteLikeParamsSchema = z.object({
   id: z.string(),
 })
+
+export const getLikesParamsSchema = z.object({
+  entityId: z.string(),
+})
+
+export const getLikesResponseSchema = {
+  200: z.object({
+    likes: z.array(
+      createSelectSchema(schema.likes).extend({
+        user: createSelectSchema(schema.users).pick({
+          id: true,
+          username: true,
+          imagePath: true,
+          subscriptionType: true,
+        }),
+      })
+    ),
+  }),
+}

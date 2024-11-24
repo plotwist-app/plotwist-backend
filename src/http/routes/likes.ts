@@ -6,10 +6,13 @@ import {
   createLikeBodySchema,
   createLikeResponseSchema,
   deleteLikeParamsSchema,
+  getLikesParamsSchema,
+  getLikesResponseSchema,
 } from '../schemas/likes'
 import {
   createLikeController,
   deleteLikeController,
+  getLikesController,
 } from '../controllers/like-controller'
 
 export async function likesRoutes(app: FastifyInstance) {
@@ -49,6 +52,20 @@ export async function likesRoutes(app: FastifyInstance) {
         ],
       },
       handler: deleteLikeController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/likes/:entityId',
+      schema: {
+        description: 'Get likes',
+        tags: ['Like'],
+        params: getLikesParamsSchema,
+        response: getLikesResponseSchema,
+      },
+      handler: getLikesController,
     })
   )
 }

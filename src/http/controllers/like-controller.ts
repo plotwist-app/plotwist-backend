@@ -1,7 +1,12 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { createLikeBodySchema, deleteLikeParamsSchema } from '../schemas/likes'
+import {
+  createLikeBodySchema,
+  deleteLikeParamsSchema,
+  getLikesParamsSchema,
+} from '../schemas/likes'
 import { createLikeService } from '@/domain/services/likes/create-like'
 import { deleteLikeService } from '@/domain/services/likes/delete-like'
+import { getLikesService } from '@/domain/services/likes/get-likes'
 
 export async function createLikeController(
   request: FastifyRequest,
@@ -26,4 +31,14 @@ export async function deleteLikeController(
   await deleteLikeService(id)
 
   return reply.status(204).send()
+}
+
+export async function getLikesController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { entityId } = getLikesParamsSchema.parse(request.params)
+  const { likes } = await getLikesService(entityId)
+
+  return reply.status(200).send({ likes })
 }
