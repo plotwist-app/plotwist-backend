@@ -1,28 +1,29 @@
 import { insertReviewReply } from '@/db/repositories/review-replies-repository'
+import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import type { InsertReviewReplyModel } from '@/domain/entities/review-reply'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
-import { UserNotFoundError } from '../../errors/user-not-found'
-import { getReviewById } from '../reviews/get-review-by-id'
-import { getUserById } from '../users/get-by-id'
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import postgres from 'postgres'
 
 export async function createReviewReply(params: InsertReviewReplyModel) {
-  const result = await getUserById(params.userId)
+  try {
+    const [reviewReply] = await insertReviewReply(params)
+    return { reviewReply }
+  } catch (error) {
+    if (error instanceof postgres.PostgresError) {
+      if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {
+        if (
+          error.constraint_name === 'review_replies_review_id_reviews_id_fk'
+        ) {
+          return new ReviewNotFoundError()
+        }
 
-  if (result instanceof Error) {
-    return new UserNotFoundError()
+        if (error.constraint_name === 'review_replies_user_id_users_id_fk') {
+          return new UserNotFoundError()
+        }
+      }
+    }
+
+    throw error
   }
-
-  const reviewResult = await getReviewById(params.reviewId)
-
-  if (reviewResult instanceof Error) {
-    return new ReviewNotFoundError()
-  }
-
-  const [reviewReply] = await insertReviewReply(params)
-
-  if (!reviewReply) {
-    return new ReviewNotFoundError()
-  }
-
-  return { reviewReply }
 }

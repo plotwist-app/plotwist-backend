@@ -16,9 +16,7 @@ describe('create review', () => {
     const sut = await createReview(review)
 
     expect(sut).toEqual({
-      review: expect.objectContaining({
-        rating: review.rating,
-      }),
+      review: expect.objectContaining(review),
     })
   })
 

@@ -62,5 +62,5 @@ export const fetchReviewRepliesQuerySchema = z.object({
 })
 
 export const deleteReviewReplyParamsSchema = z.object({
-  reviewId: z.string(),
+  id: z.string(),
 })

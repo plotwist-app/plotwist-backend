@@ -6,6 +6,8 @@ import { makeReview } from '@/test/factories/make-review'
 import { makeReviewReply } from '@/test/factories/make-review-reply'
 import { makeUser } from '@/test/factories/make-user'
 import { deleteReviewReply } from './delete-review-reply'
+import { faker } from '@faker-js/faker'
+import { ReviewReplyNotFoundError } from '@/domain/errors/review-reply-not-found-error'
 
 describe('delete review reply', () => {
   it('should be able to delete a review reply', async () => {
@@ -17,30 +19,16 @@ describe('delete review reply', () => {
       reviewId: review.id,
     })
 
-    const sut = await deleteReviewReply({
-      id: reviewReply.id,
-      userId,
-      reviewId: review.id,
-    })
+    const sut = await deleteReviewReply(reviewReply.id)
 
-    expect(sut).toBeUndefined()
+    expect(sut).toEqual({
+      reviewReply: expect.objectContaining(reviewReply),
+    })
   })
 
-  it('should be able to fail when user id does not exists', async () => {
-    const { id: userId } = await makeUser()
+  it('should be able to fail when reply id does not exists', async () => {
+    const sut = await deleteReviewReply(faker.string.uuid())
 
-    const review = await makeReview({ userId })
-    const reviewReply = await makeReviewReply({
-      userId,
-      reviewId: review.id,
-    })
-
-    const sut = await deleteReviewReply({
-      id: reviewReply.id,
-      userId: randomUUID(),
-      reviewId: review.id,
-    })
-
-    expect(sut).toBeInstanceOf(UserNotFoundError)
+    expect(sut).toBeInstanceOf(ReviewReplyNotFoundError)
   })
 })

@@ -59,14 +59,8 @@ export async function deleteReviewReplyController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { id } = reviewReplyParamsSchema.parse(request.params)
-  const { reviewId } = deleteReviewReplyParamsSchema.parse(request.query)
-
-  const result = await deleteReviewReply({
-    id,
-    userId: request.user.id,
-    reviewId,
-  })
+  const { id } = deleteReviewReplyParamsSchema.parse(request.params)
+  const result = await deleteReviewReply(id)
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })

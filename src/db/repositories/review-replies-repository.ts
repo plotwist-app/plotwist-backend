@@ -1,7 +1,6 @@
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type {
-  DeleteReviewReplyModel,
   FetchReviewRepliesModel,
   InsertReviewReplyModel,
   UpdateReviewReplyModel,
@@ -12,10 +11,10 @@ export async function insertReviewReply(params: InsertReviewReplyModel) {
   return db.insert(schema.reviewReplies).values(params).returning()
 }
 
-export async function deleteReviewReply(params: DeleteReviewReplyModel) {
+export async function deleteReviewReply(id: string) {
   return db
     .delete(schema.reviewReplies)
-    .where(and(eq(schema.reviewReplies.id, params.id)))
+    .where(and(eq(schema.reviewReplies.id, id)))
     .returning()
 }
 
