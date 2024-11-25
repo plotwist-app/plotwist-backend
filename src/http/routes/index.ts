@@ -20,12 +20,14 @@ import { socialLinksRoute } from './social-links'
 import { userEpisodesRoutes } from './user-episodes'
 
 export function routes(app: FastifyInstance) {
-  app.register(fastifySwaggerUi, {
-    routePrefix: '/api-docs',
-  })
+  if (env.APP_ENV === 'dev') {
+    app.register(fastifySwaggerUi, {
+      routePrefix: '/api-docs',
+    })
+  }
 
   app.register(cors, {
-    origin: '*',
+    origin: env.CLIENT_URL ?? '*',
   })
 
   app.register(fastifyJwt, {
