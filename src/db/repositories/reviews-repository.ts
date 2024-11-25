@@ -3,7 +3,7 @@ import { schema } from '@/db/schema'
 import type { InsertReviewModel } from '@/domain/entities/review'
 import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
 import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
-import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, type SQL, sql } from 'drizzle-orm'
 
 export async function insertReview(params: InsertReviewModel) {
   return db.insert(schema.reviews).values(params).returning()
@@ -17,6 +17,19 @@ export async function selectReviews({
   limit = 50,
   orderBy,
 }: GetReviewsServiceInput) {
+  const orderCriteria = [
+    orderBy === 'likeCount'
+      ? desc(
+          sql`(
+            SELECT COUNT(*) 
+            FROM ${schema.likes} 
+            WHERE ${schema.likes.entityId} = ${schema.reviews.id}
+          )`
+        )
+      : undefined,
+    desc(schema.reviews.createdAt),
+  ].filter(Boolean) as SQL<unknown>[]
+
   return db
     .select({
       ...getTableColumns(schema.reviews),
@@ -57,17 +70,7 @@ export async function selectReviews({
       )
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
-    .orderBy(
-      orderBy === 'likeCount'
-        ? desc(
-            sql`(
-            SELECT COUNT(*) 
-            FROM ${schema.likes} 
-            WHERE ${schema.likes.entityId} = ${schema.reviews.id}
-          )`
-          )
-        : desc(schema.reviews.createdAt)
-    )
+    .orderBy(...orderCriteria)
     .limit(limit)
 }
 
