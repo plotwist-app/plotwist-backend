@@ -11,7 +11,6 @@ export const envSchema = z.object({
   RESEND_API_KEY: z.string().optional().default('re_123'),
   CLIENT_URL: z.string().nullable(),
   APP_ENV: z.enum(['dev', 'test', 'production']).optional().default('dev'),
-  CORS: z.string().optional().default('*'),
 })
 
 export const env = envSchema.parse(process.env)
