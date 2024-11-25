@@ -1,23 +1,17 @@
-import { selectReviewsWithUser } from '@/db/repositories/reviews-repository'
+import { selectReviews } from '@/db/repositories/reviews-repository'
 import type { getReviewsQuerySchema } from '@/http/schemas/reviews'
 
 export type GetReviewsServiceInput = Omit<
   typeof getReviewsQuerySchema._type,
-  'tmdbId'
+  'tmdbId' | 'language' | 'limit'
 > & {
-  tmdbId: number
+  tmdbId?: number
+  authenticatedUserId?: string
+  limit?: number
 }
 
-export async function getReviewsService({
-  language,
-  mediaType,
-  tmdbId,
-}: GetReviewsServiceInput) {
-  const reviews = await selectReviewsWithUser({
-    language,
-    mediaType,
-    tmdbId,
-  })
+export async function getReviewsService(input: GetReviewsServiceInput) {
+  const reviews = await selectReviews(input)
 
   return { reviews }
 }

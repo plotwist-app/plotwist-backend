@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 
 import { createReview } from './create-review'
 
-import { randomUUID } from 'node:crypto'
 import { makeRawReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
@@ -17,9 +16,7 @@ describe('create review', () => {
     const sut = await createReview(review)
 
     expect(sut).toEqual({
-      review: expect.objectContaining({
-        rating: review.rating,
-      }),
+      review: expect.objectContaining(review),
     })
   })
 

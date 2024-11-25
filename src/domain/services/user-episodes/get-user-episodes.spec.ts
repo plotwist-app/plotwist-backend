@@ -12,8 +12,6 @@ describe('get user episodes', () => {
     user = await makeUser()
 
     await makeUserEpisode({ userId: user.id, tmdbId: TMDB_ID })
-    await makeUserEpisode({ userId: user.id, tmdbId: TMDB_ID })
-    await makeUserEpisode({ userId: user.id, tmdbId: TMDB_ID })
   })
 
   it('should be able to get user episodes', async () => {
@@ -22,6 +20,6 @@ describe('get user episodes', () => {
       userId: user.id,
     })
 
-    expect(sut.userEpisodes).toHaveLength(3)
+    expect(sut.userEpisodes).toHaveLength(1)
   })
 })

@@ -2,7 +2,6 @@ import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createReviewBodySchema,
-  getDetailedReviewsQuerySchema,
   getReviewsQuerySchema,
   reviewParamsSchema,
   updateReviewBodySchema,
@@ -11,7 +10,7 @@ import {
 import { DomainError } from '@/domain/errors/domain-error'
 import { createReview } from '@/domain/services/reviews/create-review'
 import { deleteReviewService } from '@/domain/services/reviews/delete-review'
-import { getDetailedReviewsService } from '@/domain/services/reviews/get-detailed-reviews'
+
 import { getReviewsService } from '@/domain/services/reviews/get-reviews'
 import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
@@ -38,14 +37,15 @@ export async function getReviewsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { language, mediaType, tmdbId } = getReviewsQuerySchema.parse(
+  const { mediaType, tmdbId, userId } = getReviewsQuerySchema.parse(
     request.query
   )
 
   const result = await getReviewsService({
-    language,
     mediaType,
+    userId,
     tmdbId: Number(tmdbId),
+    authenticatedUserId: request.user.id,
   })
 
   return reply.status(200).send(result.reviews)
@@ -82,11 +82,15 @@ export async function getDetailedReviewsController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { userId, language, limit } = getDetailedReviewsQuerySchema.parse(
+  const { limit, language, orderBy, userId } = getReviewsQuerySchema.parse(
     request.query
   )
 
-  const result = await getDetailedReviewsService({ userId, language, limit })
+  const result = await getReviewsService({
+    limit: Number(limit),
+    orderBy,
+    userId,
+  })
 
   const mergedReviews = await Promise.all(
     result.reviews.map(async review => {

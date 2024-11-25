@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 export const createReviewReplyBodySchema = createInsertSchema(
   schema.reviewReplies
-)
+).pick({ reviewId: true, reply: true })
 
 export const createReviewReplyResponseSchema = {
   201: z
@@ -36,12 +36,11 @@ export const updateReviewReplyResponseSchema = {
 }
 
 export const updateReviewReplyParamsSchema = z.object({
-  reviewId: z.string(),
+  id: z.string(),
 })
 
 export const getReviewRepliesQuerySchema = z.object({
   reviewId: z.string(),
-  page: z.number().min(1).default(1),
 })
 
 export const getReviewRepliesResponseSchema = {
@@ -52,15 +51,19 @@ export const getReviewRepliesResponseSchema = {
         username: true,
         imagePath: true,
       }),
+      likeCount: z.number(),
+      userLike: z
+        .object({
+          id: z.string(),
+          entityId: z.string(),
+          userId: z.string(),
+          createdAt: z.string(),
+        })
+        .nullable(),
     })
   ),
 }
 
-export const fetchReviewRepliesQuerySchema = z.object({
-  reviewId: z.string(),
-  page: z.number().min(1).default(1),
-})
-
 export const deleteReviewReplyParamsSchema = z.object({
-  reviewId: z.string(),
+  id: z.string(),
 })

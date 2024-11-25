@@ -7,7 +7,7 @@ import { makeReview } from '@/test/factories/make-review'
 import { makeReviewReply } from '@/test/factories/make-review-reply'
 import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
-import { createReviewReply } from './create-review-reply'
+import { createReviewReplyService } from './create-review-reply'
 import { updateReviewReply } from './update-review-reply'
 
 describe('update review reply', () => {
@@ -15,20 +15,14 @@ describe('update review reply', () => {
     const { id: userId } = await makeUser()
 
     const review = await makeReview({ userId })
-    const oldReply = await makeReviewReply({ reviewId: review.id, userId })
+    const reply = await makeReviewReply({ reviewId: review.id, userId })
 
-    const reply = faker.lorem.sentence()
-
-    const sut = await updateReviewReply({
-      id: oldReply.id,
-      userId,
-      reviewId: review.id,
-      reply,
-    })
+    const lorem = faker.lorem.sentence()
+    const sut = await updateReviewReply(reply.id, lorem)
 
     expect(sut).toEqual({
       reviewReply: expect.objectContaining({
-        reply,
+        reply: lorem,
       }),
     })
   })
@@ -39,7 +33,7 @@ describe('update review reply', () => {
     const review = await makeReview({ userId })
     const reply = faker.lorem.sentence()
 
-    const sut = await createReviewReply({
+    const sut = await createReviewReplyService({
       userId: randomUUID(),
       reviewId: review.id,
       reply,

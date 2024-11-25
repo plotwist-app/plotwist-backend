@@ -22,25 +22,34 @@ export const createReviewResponseSchema = {
     .describe('User not found'),
 }
 
-export const getReviewsQuerySchema = createSelectSchema(schema.reviews)
-  .pick({
-    mediaType: true,
-    language: true,
-  })
-  .extend({
-    tmdbId: z.string(),
-  })
+export const getReviewsQuerySchema = languageQuerySchema.extend({
+  tmdbId: z.string().optional(),
+  userId: z.string().optional(),
+  limit: z.string().optional(),
+  mediaType: z.enum(['MOVIE', 'TV_SHOW']).optional(),
+  orderBy: z.enum(['likeCount', 'createdAt']).optional(),
+})
+
+const review = createSelectSchema(schema.reviews).extend({
+  user: createSelectSchema(schema.users).pick({
+    id: true,
+    username: true,
+    imagePath: true,
+  }),
+  likeCount: z.number(),
+  replyCount: z.number(),
+  userLike: z
+    .object({
+      id: z.string(),
+      entityId: z.string(),
+      userId: z.string(),
+      createdAt: z.string(),
+    })
+    .nullable(),
+})
 
 export const getReviewsResponseSchema = {
-  200: z.array(
-    createSelectSchema(schema.reviews).extend({
-      user: createSelectSchema(schema.users).pick({
-        id: true,
-        username: true,
-        imagePath: true,
-      }),
-    })
-  ),
+  200: z.array(review),
 }
 
 export const reviewParamsSchema = z.object({
@@ -57,22 +66,10 @@ export const updateReviewResponse = {
   200: createSelectSchema(schema.reviews),
 }
 
-export const getDetailedReviewsQuerySchema = z
-  .object({
-    userId: z.string().optional(),
-    limit: z.string().optional(),
-  })
-  .merge(languageQuerySchema)
-
 export const getDetailedReviewsResponseSchema = {
   200: z.object({
     reviews: z.array(
-      createSelectSchema(schema.reviews).extend({
-        user: createSelectSchema(schema.users).pick({
-          username: true,
-          id: true,
-          imagePath: true,
-        }),
+      review.extend({
         title: z.string(),
         posterPath: z.string().nullable(),
         backdropPath: z.string().nullable(),

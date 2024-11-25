@@ -21,15 +21,15 @@ export function selectLists({
       },
 
       likeCount:
-        sql`(SELECT COUNT(*)::int FROM ${schema.listLikes} WHERE ${schema.listLikes.listId} = ${schema.lists.id})`.as(
+        sql`(SELECT COUNT(*)::int FROM ${schema.likes} WHERE ${schema.likes.entityId} = ${schema.lists.id})`.as(
           'likeCount'
         ),
 
       hasLiked: authenticatedUserId
         ? sql`EXISTS (
-              SELECT 1 FROM ${schema.listLikes} 
-              WHERE ${schema.listLikes.listId} = ${schema.lists.id} 
-              AND ${schema.listLikes.userId} = ${authenticatedUserId}
+              SELECT 1 FROM ${schema.likes}
+              WHERE ${schema.likes.entityId} = ${schema.lists.id}
+              AND ${schema.likes.userId} = ${authenticatedUserId}
             )`.as('hasLiked')
         : sql`false`.as('hasLiked'),
 

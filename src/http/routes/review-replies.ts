@@ -4,7 +4,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
   createReviewReplyController,
   deleteReviewReplyController,
-  fetchReviewRepliesController,
+  getReviewRepliesController,
   updateReviewReplyController,
 } from '../controllers/review-replies-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
@@ -17,6 +17,7 @@ import {
   updateReviewReplyBodySchema,
   updateReviewReplyResponseSchema,
 } from '../schemas/review-replies'
+import { verifyOptionalJwt } from '../middlewares/verify-optional-jwt'
 
 export async function reviewRepliesRoute(app: FastifyInstance) {
   const reviewRepliesTag = 'Review Replies'
@@ -45,13 +46,19 @@ export async function reviewRepliesRoute(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
       url: '/review-replies',
+      onRequest: [verifyOptionalJwt],
       schema: {
         description: 'Get review replies',
         tags: [reviewRepliesTag],
         querystring: getReviewRepliesQuerySchema,
         response: getReviewRepliesResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
-      handler: fetchReviewRepliesController,
+      handler: getReviewRepliesController,
     })
   )
 
