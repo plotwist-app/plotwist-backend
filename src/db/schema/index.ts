@@ -373,19 +373,25 @@ export const userEpisodesRelations = relations(userEpisodes, ({ one }) => ({
 
 export const likeEntityEnum = pgEnum('like_entity', ['REVIEW', 'REPLY', 'LIST'])
 
-export const likes = pgTable('likes', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  entityId: uuid('entity_id').notNull(),
-  entityType: likeEntityEnum('entity_type').notNull(),
-  userId: uuid('user_id')
-    .references(() => users.id, {
-      onDelete: 'cascade',
-    })
-    .notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-})
+export const likes = pgTable(
+  'likes',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    entityId: uuid('entity_id').notNull(),
+    entityType: likeEntityEnum('entity_type').notNull(),
+    userId: uuid('user_id')
+      .references(() => users.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  likes => ({
+    entityIdIdx: index('idx_entity_id').on(likes.entityId),
+  })
+)
 
 export const likesRelations = relations(likes, ({ one }) => ({
   user: one(users, {
