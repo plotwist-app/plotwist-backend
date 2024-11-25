@@ -29,6 +29,10 @@ export async function selectReviews({
         sql`(SELECT COUNT(*)::int FROM ${schema.likes} WHERE ${schema.likes.entityId} = ${schema.reviews.id})`.as(
           'likeCount'
         ),
+      replyCount:
+        sql`(SELECT COUNT(*)::int FROM ${schema.reviewReplies} WHERE ${schema.reviewReplies.reviewId} = ${schema.reviews.id})`.as(
+          'replyCount'
+        ),
       userLike: authenticatedUserId
         ? sql`(
                SELECT json_build_object(

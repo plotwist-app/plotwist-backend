@@ -5,7 +5,7 @@ import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import postgres from 'postgres'
 
-export async function createReviewReply(params: InsertReviewReplyModel) {
+export async function createReviewReplyService(params: InsertReviewReplyModel) {
   try {
     const [reviewReply] = await insertReviewReply(params)
     return { reviewReply }

@@ -7,7 +7,7 @@ import { makeReview } from '@/test/factories/make-review'
 import { makeReviewReply } from '@/test/factories/make-review-reply'
 import { makeUser } from '@/test/factories/make-user'
 import { faker } from '@faker-js/faker'
-import { createReviewReply } from './create-review-reply'
+import { createReviewReplyService } from './create-review-reply'
 import { updateReviewReply } from './update-review-reply'
 
 describe('update review reply', () => {
@@ -39,7 +39,7 @@ describe('update review reply', () => {
     const review = await makeReview({ userId })
     const reply = faker.lorem.sentence()
 
-    const sut = await createReviewReply({
+    const sut = await createReviewReplyService({
       userId: randomUUID(),
       reviewId: review.id,
       reply,

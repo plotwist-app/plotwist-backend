@@ -37,6 +37,7 @@ const review = createSelectSchema(schema.reviews).extend({
     imagePath: true,
   }),
   likeCount: z.number(),
+  replyCount: z.number(),
   userLike: z
     .object({
       id: z.string(),
