@@ -15,20 +15,14 @@ describe('update review reply', () => {
     const { id: userId } = await makeUser()
 
     const review = await makeReview({ userId })
-    const oldReply = await makeReviewReply({ reviewId: review.id, userId })
+    const reply = await makeReviewReply({ reviewId: review.id, userId })
 
-    const reply = faker.lorem.sentence()
-
-    const sut = await updateReviewReply({
-      id: oldReply.id,
-      userId,
-      reviewId: review.id,
-      reply,
-    })
+    const lorem = faker.lorem.sentence()
+    const sut = await updateReviewReply(reply.id, lorem)
 
     expect(sut).toEqual({
       reviewReply: expect.objectContaining({
-        reply,
+        reply: lorem,
       }),
     })
   })
