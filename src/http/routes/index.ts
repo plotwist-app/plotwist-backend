@@ -27,7 +27,7 @@ export function routes(app: FastifyInstance) {
   }
 
   app.register(cors, {
-    origin: env.CLIENT_URL,
+    origin: env.CLIENT_URL ?? '*',
   })
 
   app.register(fastifyJwt, {
