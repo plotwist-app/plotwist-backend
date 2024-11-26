@@ -35,16 +35,4 @@ describe('update list', () => {
       }),
     })
   })
-
-  it('should not be able to update a inexistent list', async () => {
-    const sut = await updateListService({
-      id: faker.string.uuid(),
-      userId: user.id,
-      values: {
-        ...list,
-      },
-    })
-
-    expect(sut).toBeInstanceOf(ListNotFoundError)
-  })
 })

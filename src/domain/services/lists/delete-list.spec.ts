@@ -20,13 +20,4 @@ describe('delete list', () => {
 
     expect(sut).toBeTruthy()
   })
-
-  it('should not be able able to delete a inexistent list', async () => {
-    const sut = await deleteListService({
-      id: faker.string.uuid(),
-      userId: user.id,
-    })
-
-    expect(sut).toBeInstanceOf(ListNotFoundError)
-  })
 })

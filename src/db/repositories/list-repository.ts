@@ -62,13 +62,6 @@ export async function deleteList(id: string) {
   return db.delete(schema.lists).where(eq(schema.lists.id, id))
 }
 
-export async function getList(id: string, userId: string) {
-  return db
-    .select()
-    .from(schema.lists)
-    .where(and(eq(schema.lists.id, id), eq(schema.lists.userId, userId)))
-}
-
 export async function updateList(
   id: string,
   userId: string,
@@ -81,8 +74,31 @@ export async function updateList(
     .returning()
 }
 
-export async function getListById(id: string) {
-  return db.select().from(schema.lists).where(eq(schema.lists.id, id))
+export async function getListById(id: string, authenticatedUserId?: string) {
+  return db
+    .select({
+      ...getTableColumns(schema.lists),
+      likeCount:
+        sql`(SELECT COUNT(*)::int FROM ${schema.likes} WHERE ${schema.likes.entityId} = ${id})`.as(
+          'likeCount'
+        ),
+      userLike: authenticatedUserId
+        ? sql`(
+               SELECT json_build_object(
+                 'id', ${schema.likes.id},
+                 'entityId', ${schema.likes.entityId},
+                 'userId', ${schema.likes.userId},
+                 'createdAt', ${schema.likes.createdAt}
+               )
+               FROM ${schema.likes}
+               WHERE ${schema.likes.entityId} = ${id}
+               AND ${schema.likes.userId} = ${authenticatedUserId}
+               LIMIT 1
+             )`.as('userLike')
+        : sql`null`.as('userLike'),
+    })
+    .from(schema.lists)
+    .where(eq(schema.lists.id, id))
 }
 
 export async function updateListBanner({

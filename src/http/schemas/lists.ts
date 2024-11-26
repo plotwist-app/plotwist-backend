@@ -86,7 +86,17 @@ export const getListParamsSchema = z.object({
 
 export const getListResponseSchema = {
   200: z.object({
-    list: createSelectSchema(schema.lists),
+    list: createSelectSchema(schema.lists).extend({
+      likeCount: z.number(),
+      userLike: z
+        .object({
+          id: z.string(),
+          entityId: z.string(),
+          userId: z.string(),
+          createdAt: z.string(),
+        })
+        .nullable(),
+    }),
   }),
   404: z.object({ message: z.string() }).describe('List not found.'),
 }

@@ -96,8 +96,10 @@ export async function getListController(
   reply: FastifyReply
 ) {
   const { id } = getListParamsSchema.parse(request.params)
+
   const result = await getListService({
     id: id,
+    authenticatedUserId: request.user?.id,
   })
 
   if (result instanceof DomainError) {

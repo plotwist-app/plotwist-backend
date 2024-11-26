@@ -3,10 +3,14 @@ import { ListNotFoundError } from '../../errors/list-not-found-error'
 
 type GetListInput = {
   id: string
+  authenticatedUserId?: string
 }
 
-export async function getListService({ id }: GetListInput) {
-  const [list] = await getListById(id)
+export async function getListService({
+  id,
+  authenticatedUserId,
+}: GetListInput) {
+  const [list] = await getListById(id, authenticatedUserId)
 
   if (!list) {
     return new ListNotFoundError()
