@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Add likeCount and userLike in select list by id [#42](https://github.com/plotwist-app/plotwist-backend/pull/42)
 - Add operations for like [#40](https://github.com/plotwist-app/plotwist-backend/pull/40)
 - Add operations for user episodes. [#39](https://github.com/plotwist-app/plotwist-backend/pull/39)
 - Add CRUD operations for social links. [#37](https://github.com/plotwist-app/plotwist-backend/pull/37)
