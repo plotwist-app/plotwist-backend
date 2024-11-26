@@ -111,11 +111,17 @@ export async function listsRoute(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'GET',
       url: '/list/by/:id',
+      onRequest: [verifyOptionalJwt],
       schema: {
         description: 'Get list by ID',
         tags: ['List'],
         params: getListParamsSchema,
         response: getListResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
       handler: getListController,
     })
@@ -125,7 +131,7 @@ export async function listsRoute(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().route({
       method: 'PATCH',
       url: '/list/banner',
-      onRequest: [verifyOptionalJwt],
+      onRequest: [verifyJwt],
       schema: {
         description: 'Update list banner by ID',
         tags: ['List'],

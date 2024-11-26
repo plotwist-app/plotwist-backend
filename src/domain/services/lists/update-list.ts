@@ -19,12 +19,6 @@ export async function updateListService({
   userId,
   values,
 }: UpdateListInput) {
-  const [list] = await getList(id, userId)
-
-  if (!list) {
-    return new ListNotFoundError()
-  }
-
   const [updatedList] = await updateList(id, userId, values)
   return { list: updatedList }
 }
