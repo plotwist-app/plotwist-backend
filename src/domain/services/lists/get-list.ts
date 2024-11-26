@@ -11,7 +11,6 @@ export async function getListService({
   authenticatedUserId,
 }: GetListInput) {
   const [list] = await getListById(id, authenticatedUserId)
-  console.log({ list })
 
   if (!list) {
     return new ListNotFoundError()
