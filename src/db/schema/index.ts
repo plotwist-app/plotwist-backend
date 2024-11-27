@@ -412,4 +412,5 @@ export const schema = {
   socialLinks,
   userEpisodes,
   likes,
+  followers,
 }

@@ -19,6 +19,7 @@ import { reviewRepliesRoute } from './review-replies'
 import { socialLinksRoute } from './social-links'
 import { userEpisodesRoutes } from './user-episodes'
 import { likesRoutes } from './likes'
+import { userStatsRoutes } from './user-stats'
 
 export function routes(app: FastifyInstance) {
   if (env.APP_ENV === 'dev') {
@@ -51,6 +52,7 @@ export function routes(app: FastifyInstance) {
   app.register(socialLinksRoute)
   app.register(userEpisodesRoutes)
   app.register(likesRoutes)
+  app.register(userStatsRoutes)
 
   return
 }
