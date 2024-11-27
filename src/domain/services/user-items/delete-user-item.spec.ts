@@ -1,5 +1,5 @@
 import { makeUser } from '@/test/factories/make-user'
-import { makeUserItem } from '@/test/factories/make-watchlist-item'
+import { makeUserItem } from '@/test/factories/make-user-item'
 import { faker } from '@faker-js/faker'
 import { beforeAll, describe, expect, it } from 'vitest'
 
