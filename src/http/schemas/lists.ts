@@ -105,3 +105,9 @@ export const updateListBannerBodySchema = z.object({
   bannerPath: z.string(),
   listId: z.string(),
 })
+
+export const updateListBannerResponseSchema = {
+  200: z.object({
+    list: createSelectSchema(schema.lists),
+  }),
+}

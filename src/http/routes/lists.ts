@@ -20,6 +20,7 @@ import {
   getListsQuerySchema,
   getListsResponseSchema,
   updateListBannerBodySchema,
+  updateListBannerResponseSchema,
   updateListBodySchema,
   updateListParamsSchema,
   updateListResponseSchema,
@@ -136,7 +137,7 @@ export async function listsRoute(app: FastifyInstance) {
         description: 'Update list banner by ID',
         tags: ['List'],
         body: updateListBannerBodySchema,
-        response: getListResponseSchema,
+        response: updateListBannerResponseSchema,
         security: [
           {
             bearerAuth: [],
