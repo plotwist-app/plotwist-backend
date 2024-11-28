@@ -5,6 +5,7 @@ import {
   boolean,
   index,
   integer,
+  json,
   pgEnum,
   pgTable,
   primaryKey,
@@ -36,7 +37,26 @@ export const languagesEnum = pgEnum('languages', [
 ])
 
 export const mediaTypeEnum = pgEnum('media_type', ['TV_SHOW', 'MOVIE'])
-export const statusEnum = pgEnum('status', ['WATCHLIST', 'WATCHED', 'WATCHING'])
+
+export const statusEnum = pgEnum('status', [
+  'WATCHLIST',
+  'WATCHED',
+  'WATCHING',
+  'DROPPED',
+])
+
+export const importItemStatusEnum = pgEnum('import_item_status', [
+  'COMPLETED',
+  'FAILED',
+  'NOT_STARTED',
+])
+
+export const importStatusEnum = pgEnum('import_status_enum', [
+  'PARTIAL',
+  'COMPLETED',
+  'FAILED',
+  'NOT_STARTED',
+])
 
 export const followers = pgTable(
   'followers',
@@ -397,6 +417,55 @@ export const likesRelations = relations(likes, ({ one }) => ({
   user: one(users, {
     fields: [likes.userId],
     references: [users.id],
+  }),
+}))
+
+export const imports = pgTable('imports', {
+  id: uuid('id')
+    .$defaultFn(() => randomUUID())
+    .primaryKey(),
+  userId: uuid('user_id')
+    .references(() => users.id, { onDelete: 'cascade' })
+    .notNull(),
+  itensCount: integer('itens_count').notNull(),
+  status: importStatusEnum('status').notNull(),
+  provider: varchar('provider'),
+  metadata: json('__metadata'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+export const importsRelations = relations(imports, ({ one, many }) => ({
+  user: one(users, {
+    fields: [imports.userId],
+    references: [users.id],
+  }),
+  importItems: many(importItems),
+}))
+
+export const importItems = pgTable('importItems', {
+  id: uuid('id').primaryKey(),
+  importId: uuid('import_id')
+    .references(() => imports.id, { onDelete: 'cascade' })
+    .notNull(),
+  media_type: mediaTypeEnum('media_type').notNull(),
+  name: varchar('name').notNull(),
+  startDate: timestamp('start_date', { withTimezone: true }),
+  endDate: timestamp('end_date', { withTimezone: true }),
+  itemStatus: statusEnum('item_status').notNull(),
+  status: importItemStatusEnum('status').notNull(),
+  tmdbId: integer('TMDB_ID'),
+  watchedEpisodes: integer('watched_episodes'),
+  seriesEpisodes: integer('series_episodes'),
+  metadata: json('__metadata'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+export const importItemsRelations = relations(importItems, ({ one }) => ({
+  import: one(imports, {
+    fields: [importItems.importId],
+    references: [imports.id],
   }),
 }))
 

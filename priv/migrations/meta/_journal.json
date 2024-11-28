@@ -218,6 +218,13 @@
       "when": 1732549321764,
       "tag": "20241125154201_likes_idx_entity_id",
       "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1732818980700,
+      "tag": "20241128183620_create_import_tables",
+      "breakpoints": true
     }
   ]
 }
