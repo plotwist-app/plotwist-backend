@@ -11,7 +11,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 ALTER TYPE "status" ADD VALUE 'DROPPED';--> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "importItems" (
+CREATE TABLE IF NOT EXISTS "user_import_items" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"import_id" uuid NOT NULL,
 	"media_type" "media_type" NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS "importItems" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "imports" (
+CREATE TABLE IF NOT EXISTS "user_imports" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"user_id" uuid NOT NULL,
 	"itens_count" integer NOT NULL,
@@ -40,13 +40,13 @@ CREATE TABLE IF NOT EXISTS "imports" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "importItems" ADD CONSTRAINT "importItems_import_id_imports_id_fk" FOREIGN KEY ("import_id") REFERENCES "public"."imports"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "user_import_items" ADD CONSTRAINT "user_import_items_import_id_user_imports_id_fk" FOREIGN KEY ("import_id") REFERENCES "public"."user_imports"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "imports" ADD CONSTRAINT "imports_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "user_imports" ADD CONSTRAINT "user_imports_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

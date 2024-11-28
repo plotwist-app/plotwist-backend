@@ -222,8 +222,8 @@
     {
       "idx": 31,
       "version": "7",
-      "when": 1732818980700,
-      "tag": "20241128183620_create_import_tables",
+      "when": 1732831463195,
+      "tag": "20241128220423_create_followers_and_profile_table",
       "breakpoints": true
     }
   ]

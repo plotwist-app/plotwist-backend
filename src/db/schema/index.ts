@@ -420,7 +420,7 @@ export const likesRelations = relations(likes, ({ one }) => ({
   }),
 }))
 
-export const imports = pgTable('imports', {
+export const userImports = pgTable('user_imports', {
   id: uuid('id')
     .$defaultFn(() => randomUUID())
     .primaryKey(),
@@ -435,18 +435,18 @@ export const imports = pgTable('imports', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
-export const importsRelations = relations(imports, ({ one, many }) => ({
+export const userImportsRelations = relations(userImports, ({ one, many }) => ({
   user: one(users, {
-    fields: [imports.userId],
+    fields: [userImports.userId],
     references: [users.id],
   }),
-  importItems: many(importItems),
+  importItems: many(userImportItems),
 }))
 
-export const importItems = pgTable('importItems', {
+export const userImportItems = pgTable('user_import_items', {
   id: uuid('id').primaryKey(),
   importId: uuid('import_id')
-    .references(() => imports.id, { onDelete: 'cascade' })
+    .references(() => userImports.id, { onDelete: 'cascade' })
     .notNull(),
   media_type: mediaTypeEnum('media_type').notNull(),
   name: varchar('name').notNull(),
@@ -462,10 +462,10 @@ export const importItems = pgTable('importItems', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
-export const importItemsRelations = relations(importItems, ({ one }) => ({
-  import: one(imports, {
-    fields: [importItems.importId],
-    references: [imports.id],
+export const importItemsRelations = relations(userImportItems, ({ one }) => ({
+  import: one(userImports, {
+    fields: [userImportItems.importId],
+    references: [userImports.id],
   }),
 }))
 
@@ -482,4 +482,6 @@ export const schema = {
   userEpisodes,
   likes,
   followers,
+  userImports,
+  userImportItems,
 }
