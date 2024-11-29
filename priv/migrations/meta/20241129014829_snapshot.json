@@ -1,5 +1,5 @@
 {
-  "id": "7d0e8456-2ff0-492f-bf60-7ca8ed831b20",
+  "id": "860a4b31-368b-41dc-ba44-ea0b41769f33",
   "prevId": "7dba00ea-4c9f-456f-81b8-55bf154795a9",
   "version": "7",
   "dialect": "postgresql",
@@ -772,8 +772,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "status": {
-          "name": "status",
+        "import_status": {
+          "name": "import_status",
           "type": "import_item_status",
           "typeSchema": "public",
           "primaryKey": false,
@@ -870,7 +870,7 @@
           "name": "provider",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "__metadata": {
           "name": "__metadata",

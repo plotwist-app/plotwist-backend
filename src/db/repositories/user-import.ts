@@ -1,9 +1,7 @@
-import { sql } from 'drizzle-orm'
 import { db } from '..'
-import { schema, userImportItems } from '../schema'
+import { schema } from '../schema'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
 import { randomUUID } from 'node:crypto'
-import { InsertUserImportItem } from '@/domain/entities/import-item'
 
 export async function insertUserImport({
   userId,
@@ -33,8 +31,8 @@ export async function insertUserImport({
       name: item.name,
       startDate: item.startDate,
       endDate: item.endDate,
-      itemStatus: item.itemStatus,
-      status: item.status,
+      userItemStatus: item.userItemStatus,
+      importStatus: item.importStatus,
       tmdbId: item.tmdbId,
       watchedEpisodes: item.watchedEpisodes,
       seriesEpisodes: item.seriesEpisodes,

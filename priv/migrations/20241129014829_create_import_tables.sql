@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS "user_import_items" (
 	"start_date" timestamp with time zone,
 	"end_date" timestamp with time zone,
 	"item_status" "status" NOT NULL,
-	"status" "import_item_status" NOT NULL,
+	"import_status" "import_item_status" NOT NULL,
 	"TMDB_ID" integer,
 	"watched_episodes" integer,
 	"series_episodes" integer,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS "user_imports" (
 	"user_id" uuid NOT NULL,
 	"itens_count" integer NOT NULL,
 	"status" "import_status_enum" NOT NULL,
-	"provider" varchar,
+	"provider" varchar NOT NULL,
 	"__metadata" json,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL

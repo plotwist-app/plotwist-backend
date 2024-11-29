@@ -430,7 +430,7 @@ export const userImports = pgTable('user_imports', {
   itensCount: integer('itens_count').notNull(),
   status: importStatusEnum('status').notNull(),
   provider: varchar('provider').notNull(),
-  metadata: json('__metadata').notNull(),
+  metadata: json('__metadata'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })

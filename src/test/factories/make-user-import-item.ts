@@ -1,13 +1,11 @@
-import { insertUserImport } from '@/db/repositories/user-import'
 import type { InsertUserImportItem } from '@/domain/entities/import-item'
-import {
-  ImportItemStatusEnum,
+import type {
   ImportStatusEnum,
   UserItemStatus,
 } from '@/domain/value_objects/import_item_status_enum'
-import { MediaTypeEnum } from '@/domain/value_objects/media_type_enum'
+import type { MediaTypeEnum } from '@/domain/value_objects/media_type_enum'
 
-import { Faker, faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 import { randomUUID } from 'node:crypto'
 
 type Overrides = Partial<InsertUserImportItem>
@@ -15,14 +13,20 @@ type Overrides = Partial<InsertUserImportItem>
 export function makeRawUserImportItem(
   overrides: Overrides
 ): InsertUserImportItem {
+  const params = buildItemType()
   return {
+    ...params,
+    id: overrides.id ?? randomUUID(),
     importId: overrides.importId ?? randomUUID(),
     name: faker.book.title(),
     ...overrides,
   }
 }
 
-function buildItemType() {
+function buildItemType(): Omit<
+  InsertUserImportItem,
+  'id' | 'name' | 'importId'
+> {
   const importStatus: ImportStatusEnum = faker.helpers.arrayElement([
     'COMPLETED',
     'FAILED',
@@ -68,5 +72,6 @@ function buildItemType() {
     watchedEpisodes,
     userItemStatus,
     importStatus,
+    mediaType,
   }
 }
