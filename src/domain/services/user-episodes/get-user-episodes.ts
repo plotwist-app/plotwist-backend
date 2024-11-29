@@ -1,6 +1,6 @@
 import { selectUserEpisodes } from '@/db/repositories/user-episode'
 
-export type GetUserEpisodesInput = { userId: string; tmdbId: number }
+export type GetUserEpisodesInput = { userId: string; tmdbId?: number }
 
 export async function getUserEpisodesService({
   userId,

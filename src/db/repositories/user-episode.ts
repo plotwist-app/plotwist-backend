@@ -18,7 +18,7 @@ export async function selectUserEpisodes({
     .where(
       and(
         eq(schema.userEpisodes.userId, userId),
-        eq(schema.userEpisodes.tmdbId, tmdbId)
+        tmdbId ? eq(schema.userEpisodes.tmdbId, tmdbId) : undefined
       )
     )
     .orderBy(schema.userEpisodes.episodeNumber)
