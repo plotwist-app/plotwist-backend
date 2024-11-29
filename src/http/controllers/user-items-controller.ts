@@ -13,14 +13,25 @@ import {
   getUserItemQuerySchema,
   getUserItemsQuerySchema,
 } from '../schemas/user-items'
+import { createUserItemEpisodesService } from '@/domain/services/user-items/create-user-item-episodes'
+import { deleteUserItemEpisodesService } from '@/domain/services/user-items/delete-user-item-episodes'
 
 export async function upsertUserItemController(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  redis: FastifyRedis
 ) {
   const { tmdbId, mediaType, status } = upsertUserItemBodySchema.parse(
     request.body
   )
+
+  if (mediaType === 'TV_SHOW' && status === 'WATCHED') {
+    await createUserItemEpisodesService({
+      redis,
+      tmdbId,
+      userId: request.user.id,
+    })
+  }
 
   const result = await upsertUserItemService({
     tmdbId,
@@ -71,7 +82,18 @@ export async function deleteUserItemController(
 ) {
   const { id } = deleteUserItemParamsSchema.parse(request.params)
 
-  await deleteUserItemService(id)
+  const result = await deleteUserItemService(id)
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  const { deletedUserItem } = result
+
+  await deleteUserItemEpisodesService({
+    tmdbId: deletedUserItem.tmdbId,
+    userId: deletedUserItem.userId,
+  })
 
   return reply.send(204).send()
 }
