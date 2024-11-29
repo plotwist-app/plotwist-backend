@@ -5,7 +5,11 @@ import type { GetUserEpisodesInput } from '@/domain/services/user-episodes/get-u
 import { and, eq, inArray } from 'drizzle-orm'
 
 export async function insertUserEpisodes(values: InsertUserEpisode[]) {
-  return db.insert(schema.userEpisodes).values(values).returning()
+  return db
+    .insert(schema.userEpisodes)
+    .values(values)
+    .returning()
+    .onConflictDoNothing()
 }
 
 export async function selectUserEpisodes({
