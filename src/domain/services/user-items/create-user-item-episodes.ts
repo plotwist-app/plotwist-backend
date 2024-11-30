@@ -28,9 +28,7 @@ export async function createUserItemEpisodesService({
       season =>
         season.season_number !== 0 && // Some TV series have special episodes and we don't consider that as part.
         season.episode_count > 0 &&
-        // We disregard seasons and episodes and seasons not yet released
-        season.air_date &&
-        isBefore(new Date(season.air_date), new Date())
+        season.vote_average > 0
     )
 
     const seasonEpisodes = await Promise.all(
