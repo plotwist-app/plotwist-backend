@@ -39,9 +39,12 @@ export async function insertUserImport({
       metadata: item.metadata,
     }))
 
-    await trx.insert(schema.userImportItems).values(itemsWithIds)
+    const savedItems = await trx
+      .insert(schema.userImportItems)
+      .values(itemsWithIds)
+      .returning()
 
-    return { userImport, items: itemsWithIds }
+    return { userImport, items: savedItems }
   })
 
   return transaction

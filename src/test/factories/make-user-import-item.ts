@@ -12,12 +12,11 @@ type Overrides = Partial<InsertUserImportItem>
 
 export function makeRawUserImportItem(
   overrides: Overrides
-): InsertUserImportItem {
+): Omit<InsertUserImportItem, 'importId'> {
   const params = buildItemType()
   return {
     ...params,
     id: overrides.id ?? randomUUID(),
-    importId: overrides.importId ?? randomUUID(),
     name: faker.book.title(),
     ...overrides,
   }
@@ -51,7 +50,7 @@ function buildItemType(): Omit<
   })
 
   let watchedEpisodes = faker.helpers.rangeToNumber({
-    min: 10,
+    min: 0,
     max: seriesEpisodes,
   })
 

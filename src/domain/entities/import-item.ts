@@ -5,3 +5,8 @@ export type UserImportItem = InferSelectModel<typeof schema.userImportItems>
 export type InsertUserImportItem = InferInsertModel<
   typeof schema.userImportItems
 >
+
+export type InsertUserImportWithoutImportId = Omit<
+  InsertUserImportItem,
+  'importId'
+>

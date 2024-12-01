@@ -2,12 +2,13 @@ import { insertUserImport } from '@/db/repositories/user-import'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
 import { makeRawUserImportItem } from './make-user-import-item'
 import { randomUUID } from 'node:crypto'
+import { makeUser, makeUserReturningId } from './make-user'
 
 type Overrides = Partial<InsertUserImportWithItems>
 
-export function makeRawUserImport(
+export async function makeRawUserImport(
   overrides: Overrides
-): InsertUserImportWithItems {
+): Promise<InsertUserImportWithItems> {
   const rawItem = makeRawUserImportItem({})
 
   const items = [rawItem]
@@ -16,15 +17,15 @@ export function makeRawUserImport(
     id: overrides.id ?? randomUUID(),
     itensCount: items.length,
     items,
-    userId: overrides.userId ?? randomUUID(),
+    userId: overrides.userId ?? (await makeUserReturningId({})),
     provider: 'my-anime-list',
     status: 'NOT_STARTED',
     ...overrides,
   }
 }
 
-export async function makeUserEpisode(overrides: Overrides) {
-  const userImport = await insertUserImport(makeRawUserImport(overrides))
+export async function makeUserImport(overrides: Overrides) {
+  const userImport = await insertUserImport(await makeRawUserImport(overrides))
 
   return userImport
 }
