@@ -32,8 +32,6 @@ describe('get user most watched series', () => {
       language: 'en-US',
     })
 
-    console.log({ sut })
-
     expect(sut).toEqual({
       mostWatchedSeries: expect.arrayContaining([
         expect.objectContaining({
