@@ -2,7 +2,6 @@ import type { FastifyRedis } from '@fastify/redis'
 import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 import { getTMDBEpisodesService } from '../tmdb/get-tmdb-episodes'
 import { createUserEpisodesService } from '../user-episodes/create-user-episodes'
-import { isBefore } from 'date-fns'
 
 const DEFAULT_LANGUAGE = 'en-US'
 
@@ -54,6 +53,6 @@ export async function createUserItemEpisodesService({
         runtime: ep.runtime,
       }))
 
-    await createUserEpisodesService(allEpisodesBody)
+    return await createUserEpisodesService(allEpisodesBody)
   }
 }

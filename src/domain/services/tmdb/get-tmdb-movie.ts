@@ -6,13 +6,19 @@ type GetTMDBMovieServiceInput = {
   tmdbId: number
   language: Language
   returnRuntime?: boolean
+  returnGenres?: boolean
 }
 
 const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60
 
 export async function getTMDBMovieService(
   redis: FastifyRedis,
-  { tmdbId, language, returnRuntime = false }: GetTMDBMovieServiceInput
+  {
+    tmdbId,
+    language,
+    returnRuntime = false,
+    returnGenres = false,
+  }: GetTMDBMovieServiceInput
 ) {
   const cacheKey = `MOVIE:${tmdbId}:${language}`
   const cachedResult = await redis.get(cacheKey)
@@ -25,6 +31,7 @@ export async function getTMDBMovieService(
       posterPath: data.poster_path,
       backdropPath: data.backdrop_path,
       ...(returnRuntime && { runtime: data.runtime }),
+      ...(returnGenres && { genres: data.genres }),
     }
   }
 
@@ -36,5 +43,6 @@ export async function getTMDBMovieService(
     posterPath: data.poster_path,
     backdropPath: data.backdrop_path,
     ...(returnRuntime && { runtime: data.runtime }),
+    ...(returnGenres && { genres: data.genres }),
   }
 }

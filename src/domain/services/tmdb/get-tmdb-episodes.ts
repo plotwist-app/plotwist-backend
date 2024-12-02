@@ -3,7 +3,6 @@ import type { FastifyRedis } from '@fastify/redis'
 import type {
   Language,
   SeasonDetails,
-  TvSerieDetails,
 } from '@plotwist_app/tmdb'
 
 type GetTMDBEpisodesServiceInput = {

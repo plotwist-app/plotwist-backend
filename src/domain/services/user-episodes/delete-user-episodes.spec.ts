@@ -4,7 +4,6 @@ import { makeUserEpisode } from '@/test/factories/make-user-episode'
 import type { User } from '@/domain/entities/user'
 import { getUserEpisodesService } from './get-user-episodes'
 import type { UserEpisode } from '@/domain/entities/user-episode'
-import { faker } from '@faker-js/faker'
 import { deleteUserEpisodesService } from './delete-user-episodes'
 
 const TMDB_ID = 1396

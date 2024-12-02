@@ -1,6 +1,7 @@
 import { upsertUserItem } from '@/db/repositories/user-item-repository'
 import type { InsertUserItem, UserItem } from '@/domain/entities/user-item'
 import { faker } from '@faker-js/faker'
+import * as changeKeys from 'change-case/keys'
 
 type Overrides = Partial<InsertUserItem> & {
   userId: string
@@ -18,5 +19,5 @@ export function makeRawUserItem(overrides: Overrides): InsertUserItem {
 export async function makeUserItem(overrides: Overrides) {
   const [userItem] = await upsertUserItem(makeRawUserItem(overrides))
 
-  return userItem as UserItem
+  return changeKeys.camelCase(userItem) as UserItem
 }

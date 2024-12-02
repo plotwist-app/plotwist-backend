@@ -1,10 +1,9 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, } from 'vitest'
 
 import { randomUUID } from 'node:crypto'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
 import { makeReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
-import { UserNotFoundError } from '../../errors/user-not-found'
 import { getReviewById } from './get-review-by-id'
 
 describe('get review by id', () => {

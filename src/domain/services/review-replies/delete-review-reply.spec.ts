@@ -1,7 +1,4 @@
 import { describe, expect, it } from 'vitest'
-
-import { randomUUID } from 'node:crypto'
-import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { makeReview } from '@/test/factories/make-review'
 import { makeReviewReply } from '@/test/factories/make-review-reply'
 import { makeUser } from '@/test/factories/make-user'
