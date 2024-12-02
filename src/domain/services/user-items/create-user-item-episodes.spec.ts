@@ -1,6 +1,6 @@
 import { makeUser } from '@/test/factories/make-user'
 import { makeUserItem } from '@/test/factories/make-user-item'
-import { beforeAll, describe, it } from 'vitest'
+import { beforeAll, describe, it, expect } from 'vitest'
 
 import type { User } from '@/domain/entities/user'
 import type { UserItem } from '@/domain/entities/user-item'
