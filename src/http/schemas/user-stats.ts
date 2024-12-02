@@ -24,3 +24,17 @@ export const getUserReviewsCountResponseSchema = {
     reviewsCount: z.number(),
   }),
 }
+
+export const getUserMostWatchedSeriesResponseSchema = {
+  200: z.object({
+    mostWatchedSeries: z.array(
+      z.object({
+        id: z.number(),
+        episodes: z.number(),
+        title: z.string(),
+        posterPath: z.string().nullable(),
+        backdropPath: z.string().nullable(),
+      })
+    ),
+  }),
+}

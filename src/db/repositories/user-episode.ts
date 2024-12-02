@@ -2,7 +2,7 @@ import type { InsertUserEpisode } from '@/domain/entities/user-episode'
 import { db } from '..'
 import { schema } from '../schema'
 import type { GetUserEpisodesInput } from '@/domain/services/user-episodes/get-user-episodes'
-import { and, eq, inArray } from 'drizzle-orm'
+import { and, count, desc, eq, inArray } from 'drizzle-orm'
 
 export async function insertUserEpisodes(values: InsertUserEpisode[]) {
   return db
@@ -32,4 +32,14 @@ export async function deleteUserEpisodes(ids: string[]) {
   return db
     .delete(schema.userEpisodes)
     .where(inArray(schema.userEpisodes.id, ids))
+}
+
+export async function selectMostWatched(userId: string) {
+  return db
+    .select({ count: count(), tmdbId: schema.userEpisodes.tmdbId })
+    .from(schema.userEpisodes)
+    .where(and(eq(schema.userEpisodes.userId, userId)))
+    .groupBy(schema.userEpisodes.tmdbId)
+    .orderBy(desc(count()))
+    .limit(3)
 }
