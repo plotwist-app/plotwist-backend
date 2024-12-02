@@ -18,7 +18,8 @@
     "test:coverage": "dotenv -e .env.test -- vitest --coverage",
     "format": "biome check src --write",
     "mail:dev": "email dev --dir src/mail/templates",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "bunx biome lint --write ./src"
   },
   "keywords": [],
   "author": "",
