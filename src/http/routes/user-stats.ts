@@ -3,9 +3,11 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
   getUserStatsController,
   getUserTotalHoursController,
+  getUserReviewsCountController,
 } from '../controllers/user-stats'
 import {
   getUserDefaultSchema,
+  getUserReviewsCountResponseSchema,
   getUserStatsResponseSchema,
   getUserTotalHoursResponseSchema,
 } from '../schemas/user-stats'
@@ -39,6 +41,20 @@ export async function userStatsRoutes(app: FastifyInstance) {
       },
       handler: (request, reply) =>
         getUserTotalHoursController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/reviews-count',
+      schema: {
+        description: 'Get user reviews count',
+        params: getUserDefaultSchema,
+        response: getUserReviewsCountResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: getUserReviewsCountController,
     })
   )
 }

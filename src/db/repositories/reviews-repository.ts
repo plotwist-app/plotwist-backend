@@ -3,7 +3,15 @@ import { schema } from '@/db/schema'
 import type { InsertReviewModel } from '@/domain/entities/review'
 import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
 import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
-import { and, desc, eq, getTableColumns, type SQL, sql } from 'drizzle-orm'
+import {
+  and,
+  count,
+  desc,
+  eq,
+  getTableColumns,
+  type SQL,
+  sql,
+} from 'drizzle-orm'
 
 export async function insertReview(params: InsertReviewModel) {
   return db.insert(schema.reviews).values(params).returning()
@@ -93,4 +101,11 @@ export async function updateReview({
 
 export async function getReviewById(id: string) {
   return db.select().from(schema.reviews).where(eq(schema.reviews.id, id))
+}
+
+export async function selectReviewsCount(userId?: string) {
+  return db
+    .select({ count: count() })
+    .from(schema.reviews)
+    .where(userId ? eq(schema.reviews.userId, userId) : undefined)
 }
