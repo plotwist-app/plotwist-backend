@@ -18,17 +18,14 @@ describe('delete user item episodes', () => {
   })
 
   it('should be able to delete user item episodes', async () => {
-    await Promise.all(
-      Array.from({ length: 5 }).map(
-        async (_, idx) =>
-          await makeUserEpisode({
-            userId: user.id,
-            tmdbId: userItem.tmdbId,
-            episodeNumber: idx,
-            seasonNumber: 1,
-          })
-      )
-    )
+    for (let idx = 0; idx < 5; idx++) {
+      await makeUserEpisode({
+        userId: user.id,
+        tmdbId: userItem.tmdbId,
+        episodeNumber: idx,
+        seasonNumber: 1,
+      })
+    }
 
     await deleteUserItemEpisodesService({
       tmdbId: userItem.tmdbId,
