@@ -46,7 +46,12 @@ export async function getUserMostWatchedSeriesController(
 ) {
   const { language } = languageQuerySchema.parse(request.query)
   const { id } = getUserDefaultSchema.parse(request.params)
-  const result = await getUserMostWatchedSeriesService(id, redis, language)
+
+  const result = await getUserMostWatchedSeriesService({
+    userId: id,
+    redis,
+    language,
+  })
 
   return reply.status(200).send(result)
 }
