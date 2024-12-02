@@ -1,0 +1,35 @@
+import { makeUser } from '@/test/factories/make-user'
+import { makeRawUserItem, makeUserItem } from '@/test/factories/make-user-item'
+import { faker } from '@faker-js/faker'
+import { beforeAll, describe, expect, it } from 'vitest'
+
+import type { User } from '@/domain/entities/user'
+import { upsertUserItemService } from './upsert-user-item'
+import { randomUUID } from 'node:crypto'
+import { UserNotFoundError } from '@/domain/errors/user-not-found'
+
+let user: User
+
+describe('upsert user item', () => {
+  beforeAll(async () => {
+    user = await makeUser()
+  })
+
+  it('should be able to insert user item', async () => {
+    const insertUserItem = makeRawUserItem({ userId: user.id })
+    const sut = await upsertUserItemService(insertUserItem)
+
+    expect(sut).toEqual({
+      userItem: expect.objectContaining(insertUserItem),
+    })
+  })
+
+  it('should be able to update user item', async () => {
+    const updateUserItem = await makeUserItem({ userId: user.id })
+    const sut = await upsertUserItemService(updateUserItem)
+
+    expect(sut).toEqual({
+      userItem: expect.objectContaining(updateUserItem),
+    })
+  })
+})
