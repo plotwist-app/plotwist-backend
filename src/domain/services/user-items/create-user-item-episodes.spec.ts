@@ -15,9 +15,8 @@ describe('create user item episodes', () => {
     user = await makeUser()
     userItem = await makeUserItem({
       userId: user.id,
-      // Breaking bad (62 episodes)
-      // https://en.wikipedia.org/wiki/List_of_Breaking_Bad_episodes
-      tmdbId: 1396,
+      // Chernobyl (5 episodes)
+      tmdbId: 87108,
       mediaType: 'TV_SHOW',
     })
   })
@@ -29,6 +28,6 @@ describe('create user item episodes', () => {
       userId: user.id,
     })
 
-    expect(sut?.userEpisodes).toHaveLength(62)
+    expect(sut?.userEpisodes).toHaveLength(5)
   })
 })

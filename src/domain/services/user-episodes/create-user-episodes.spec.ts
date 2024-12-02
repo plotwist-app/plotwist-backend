@@ -1,12 +1,8 @@
 import { makeUser } from '@/test/factories/make-user'
 import { describe, expect, it, beforeAll } from 'vitest'
 import { createUserEpisodesService } from './create-user-episodes'
-import {
-  makeRawUserEpisode,
-  makeUserEpisode,
-} from '@/test/factories/make-user-episode'
+import { makeRawUserEpisode } from '@/test/factories/make-user-episode'
 import type { User } from '@/domain/entities/user'
-import { UserEpisodeAlreadyRegisteredError } from '@/domain/errors/user-episode-already-registered-error'
 
 let user: User
 
