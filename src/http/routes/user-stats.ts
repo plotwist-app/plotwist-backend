@@ -5,6 +5,7 @@ import {
   getUserTotalHoursController,
   getUserReviewsCountController,
   getUserMostWatchedSeriesController,
+  getUserWatchedGenresController,
 } from '../controllers/user-stats'
 import {
   getUserDefaultSchema,
@@ -12,6 +13,7 @@ import {
   getUserReviewsCountResponseSchema,
   getUserStatsResponseSchema,
   getUserTotalHoursResponseSchema,
+  getUserWatchedGenresResponseSchema,
 } from '../schemas/user-stats'
 import { languageQuerySchema } from '../schemas/common'
 
@@ -74,6 +76,22 @@ export async function userStatsRoutes(app: FastifyInstance) {
       },
       handler: (request, reply) =>
         getUserMostWatchedSeriesController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/watched-genres',
+      schema: {
+        description: 'Get user watched genres',
+        params: getUserDefaultSchema,
+        query: languageQuerySchema,
+        response: getUserWatchedGenresResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: (request, reply) =>
+        getUserWatchedGenresController(request, reply, app.redis),
     })
   )
 }

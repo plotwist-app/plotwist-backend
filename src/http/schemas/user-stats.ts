@@ -38,3 +38,15 @@ export const getUserMostWatchedSeriesResponseSchema = {
     ),
   }),
 }
+
+export const getUserWatchedGenresResponseSchema = {
+  200: z.object({
+    genres: z.array(
+      z.object({
+        name: z.string(),
+        count: z.number(),
+        percentage: z.number(),
+      })
+    ),
+  }),
+}

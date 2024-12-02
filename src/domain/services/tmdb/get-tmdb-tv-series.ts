@@ -6,13 +6,19 @@ type GetTMDBTvSeriesServiceInput = {
   tmdbId: number
   language: Language
   returnSeasons?: boolean
+  returnGenres?: boolean
 }
 
 const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60
 
 export async function getTMDBTvSeriesService(
   redis: FastifyRedis,
-  { tmdbId, language, returnSeasons = false }: GetTMDBTvSeriesServiceInput
+  {
+    tmdbId,
+    language,
+    returnSeasons = false,
+    returnGenres = false,
+  }: GetTMDBTvSeriesServiceInput
 ) {
   const cacheKey = `TV_SHOW:${tmdbId}:${language}`
   const cachedResult = await redis.get(cacheKey)
@@ -24,6 +30,7 @@ export async function getTMDBTvSeriesService(
       posterPath: data.poster_path,
       backdropPath: data.backdrop_path,
       ...(returnSeasons && { seasons: data.seasons }),
+      ...(returnGenres && { genres: data.genres }),
     }
   }
 
@@ -35,5 +42,6 @@ export async function getTMDBTvSeriesService(
     posterPath: data.poster_path,
     backdropPath: data.backdrop_path,
     ...(returnSeasons && { seasons: data.seasons }),
+    ...(returnGenres && { genres: data.genres }),
   }
 }
