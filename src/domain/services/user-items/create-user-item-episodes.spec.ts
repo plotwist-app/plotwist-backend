@@ -15,7 +15,6 @@ describe('create user item episodes', () => {
     user = await makeUser()
     userItem = await makeUserItem({
       userId: user.id,
-      // Chernobyl (5 episodes)
       tmdbId: 87108,
       mediaType: 'TV_SHOW',
     })
