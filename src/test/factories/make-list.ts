@@ -1,8 +1,7 @@
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import type { InsertListModel, List } from '@/domain/entities/lists'
+import type { InsertListModel, } from '@/domain/entities/lists'
 import { faker } from '@faker-js/faker'
-import type { InferInsertModel } from 'drizzle-orm'
 
 type Overrides = Partial<InsertListModel> & { userId: string }
 

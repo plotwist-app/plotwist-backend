@@ -1,4 +1,4 @@
-import { listItems, schema } from '@/db/schema'
+import { schema } from '@/db/schema'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 

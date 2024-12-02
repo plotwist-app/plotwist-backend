@@ -1,4 +1,4 @@
-import { client, db } from '.'
+import { client, } from '.'
 
 async function main() {
   console.log('🌱 Database seeded!')

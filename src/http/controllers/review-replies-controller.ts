@@ -9,7 +9,6 @@ import {
   createReviewReplyBodySchema,
   deleteReviewReplyParamsSchema,
   getReviewRepliesQuerySchema,
-  reviewReplyParamsSchema,
   updateReviewReplyBodySchema,
   updateReviewReplyParamsSchema,
 } from '../schemas/review-replies'
