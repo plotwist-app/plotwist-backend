@@ -1,12 +1,9 @@
 import { makeUser } from '@/test/factories/make-user'
 import { makeRawUserItem, makeUserItem } from '@/test/factories/make-user-item'
-import { faker } from '@faker-js/faker'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import type { User } from '@/domain/entities/user'
 import { upsertUserItemService } from './upsert-user-item'
-import { randomUUID } from 'node:crypto'
-import { UserNotFoundError } from '@/domain/errors/user-not-found'
 
 let user: User
 
