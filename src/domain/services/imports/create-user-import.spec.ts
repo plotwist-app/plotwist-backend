@@ -5,7 +5,7 @@ import { createUserImport } from './create-user-import'
 import { makeUser } from '@/test/factories/make-user'
 
 import { makeRawUserImport } from '@/test/factories/make-user-import'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 
 describe('create user import', () => {
@@ -20,7 +20,7 @@ describe('create user import', () => {
       userImport: expect.objectContaining({
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
-        status: expect.stringContaining('NOT_STARTED'),
+        importStatus: expect.stringContaining('NOT_STARTED'),
       }),
       items: expect.arrayContaining(
         rawImport.items.map(item =>

@@ -1,5 +1,5 @@
 {
-  "id": "860a4b31-368b-41dc-ba44-ea0b41769f33",
+  "id": "70aacbd3-a641-42ab-bbaa-b73b9e5c4212",
   "prevId": "7dba00ea-4c9f-456f-81b8-55bf154795a9",
   "version": "7",
   "dialect": "postgresql",
@@ -859,8 +859,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "status": {
-          "name": "status",
+        "import_status": {
+          "name": "import_status",
           "type": "import_status_enum",
           "typeSchema": "public",
           "primaryKey": false,

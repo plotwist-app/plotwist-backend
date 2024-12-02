@@ -2,7 +2,7 @@ import { insertUserImport } from '@/db/repositories/user-import'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
 import { makeRawUserImportItem } from './make-user-import-item'
 import { randomUUID } from 'node:crypto'
-import { makeUser, makeUserReturningId } from './make-user'
+import { makeUserReturningId } from './make-user'
 
 type Overrides = Partial<InsertUserImportWithItems>
 
@@ -19,7 +19,7 @@ export async function makeRawUserImport(
     items,
     userId: overrides.userId ?? (await makeUserReturningId({})),
     provider: 'my-anime-list',
-    status: 'NOT_STARTED',
+    importStatus: 'NOT_STARTED',
     ...overrides,
   }
 }

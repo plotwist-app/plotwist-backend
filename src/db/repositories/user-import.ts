@@ -18,7 +18,7 @@ export async function insertUserImport({
         itensCount,
         metadata,
         provider,
-        status: 'NOT_STARTED',
+        importStatus: 'NOT_STARTED',
       })
       .returning()
 

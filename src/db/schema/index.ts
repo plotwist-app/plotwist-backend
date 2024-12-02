@@ -428,7 +428,7 @@ export const userImports = pgTable('user_imports', {
     .references(() => users.id, { onDelete: 'cascade' })
     .notNull(),
   itensCount: integer('itens_count').notNull(),
-  status: importStatusEnum('status').notNull(),
+  importStatus: importStatusEnum('import_status').notNull(),
   provider: varchar('provider').notNull(),
   metadata: json('__metadata'),
   createdAt: timestamp('created_at').defaultNow().notNull(),

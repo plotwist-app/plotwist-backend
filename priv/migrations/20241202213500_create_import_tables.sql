@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS "user_imports" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"user_id" uuid NOT NULL,
 	"itens_count" integer NOT NULL,
-	"status" "import_status_enum" NOT NULL,
+	"import_status" "import_status_enum" NOT NULL,
 	"provider" varchar NOT NULL,
 	"__metadata" json,
 	"created_at" timestamp DEFAULT now() NOT NULL,
