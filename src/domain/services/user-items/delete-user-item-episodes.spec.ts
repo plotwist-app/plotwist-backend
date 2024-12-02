@@ -1,0 +1,45 @@
+import { makeUser } from '@/test/factories/make-user'
+import { makeUserItem } from '@/test/factories/make-user-item'
+import { beforeAll, describe, expect, it } from 'vitest'
+
+import type { User } from '@/domain/entities/user'
+import type { UserItem } from '@/domain/entities/user-item'
+import { deleteUserItemEpisodesService } from './delete-user-item-episodes'
+import { makeUserEpisode } from '@/test/factories/make-user-episode'
+import { getUserEpisodesService } from '../user-episodes/get-user-episodes'
+
+let user: User
+let userItem: UserItem
+
+describe('delete user item episodes', () => {
+  beforeAll(async () => {
+    user = await makeUser()
+    userItem = await makeUserItem({ userId: user.id })
+  })
+
+  it('should be able to delete user item episodes', async () => {
+    await Promise.all(
+      Array.from({ length: 5 }).map(
+        async (_, idx) =>
+          await makeUserEpisode({
+            userId: user.id,
+            tmdbId: userItem.tmdbId,
+            episodeNumber: idx,
+            seasonNumber: 1,
+          })
+      )
+    )
+
+    await deleteUserItemEpisodesService({
+      tmdbId: userItem.tmdbId,
+      userId: user.id,
+    })
+
+    const sut = await getUserEpisodesService({
+      userId: user.id,
+      tmdbId: userItem.tmdbId,
+    })
+
+    expect(sut.userEpisodes).toHaveLength(0)
+  })
+})
