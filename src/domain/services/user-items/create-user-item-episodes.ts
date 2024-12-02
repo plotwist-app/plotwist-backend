@@ -53,6 +53,7 @@ export async function createUserItemEpisodesService({
         runtime: ep.runtime,
       }))
 
-    await createUserEpisodesService(allEpisodesBody)
+    const { userEpisodes } = await createUserEpisodesService(allEpisodesBody)
+    return { userEpisodes }
   }
 }
