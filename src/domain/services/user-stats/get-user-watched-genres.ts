@@ -42,16 +42,11 @@ export async function getUserWatchedGenresService({
     })
   )
 
-  const totalGenres = Array.from(genreCount.values()).reduce(
-    (acc, count) => acc + count,
-    0
-  )
-
   const genres = Array.from(genreCount)
     .map(([name, count]) => ({
       name,
       count,
-      percentage: (count / totalGenres) * 100,
+      percentage: (count / watchedItems.length) * 100,
     }))
     .sort((a, b) => b.count - a.count)
 

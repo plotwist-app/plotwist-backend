@@ -7,6 +7,7 @@ import { getUserReviewsCountService } from '@/domain/services/user-stats/get-use
 import { getUserMostWatchedSeriesService } from '@/domain/services/user-stats/get-user-most-watched-series'
 import { languageQuerySchema } from '../schemas/common'
 import { getUserWatchedGenresService } from '@/domain/services/user-stats/get-user-watched-genres'
+import { getUserWatchedCastService } from '@/domain/services/user-stats/get-user-watched-cast'
 
 export async function getUserStatsController(
   request: FastifyRequest,
@@ -70,6 +71,17 @@ export async function getUserWatchedGenresController(
     redis,
     language,
   })
+
+  return reply.status(200).send(result)
+}
+
+export async function getUserWatchedCastController(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  redis: FastifyRedis
+) {
+  const { id } = getUserDefaultSchema.parse(request.params)
+  const result = await getUserWatchedCastService({ userId: id, redis })
 
   return reply.status(200).send(result)
 }

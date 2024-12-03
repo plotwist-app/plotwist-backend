@@ -50,3 +50,17 @@ export const getUserWatchedGenresResponseSchema = {
     ),
   }),
 }
+
+export const getUserWatchedCastResponseSchema = {
+  200: z.object({
+    watchedCast: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        count: z.number(),
+        percentage: z.number(),
+        profilePath: z.string().nullable(),
+      })
+    ),
+  }),
+}
