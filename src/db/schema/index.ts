@@ -5,7 +5,6 @@ import {
   boolean,
   index,
   integer,
-  json,
   pgEnum,
   pgTable,
   primaryKey,

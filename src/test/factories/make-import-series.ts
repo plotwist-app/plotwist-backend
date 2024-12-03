@@ -21,6 +21,19 @@ export function makeRawImportSeries(
   }
 }
 
+export function makeManyRawImportSeries(
+  quantity: number,
+  overrides: Overrides
+) {
+  const series = []
+  for (let i = 0; i < quantity; i++) {
+    const movie = makeRawImportSeries(overrides)
+    series.push(movie)
+  }
+
+  return series
+}
+
 function buildItemType(): Omit<InsertImportSeries, 'id' | 'name' | 'importId'> {
   const importStatus: ImportStatusEnum = faker.helpers.arrayElement([
     'COMPLETED',
