@@ -1,59 +1,37 @@
-import { selectUserItems } from '@/db/repositories/user-item-repository'
-import type { FastifyRedis } from '@fastify/redis'
-import type { Language } from '@plotwist_app/tmdb'
-import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
-import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
+import { makeUser } from '@/test/factories/make-user'
 
-type GetUserWatchedCountriesServiceInput = {
-  userId: string
-  redis: FastifyRedis
-  language: Language
-}
+import { redisClient } from '@/test/mocks/redis'
+import { makeUserItem } from '@/test/factories/make-user-item'
+import { getUserWatchedCountriesService } from './get-user-watched-countries'
 
-export async function getUserWatchedCountriesService({
-  userId,
-  redis,
-  language,
-}: GetUserWatchedCountriesServiceInput) {
-  const watchedItems = await selectUserItems({ status: 'WATCHED', userId })
-  const countryCount = new Map()
+const SCIENCE_FICTION_MOVIES = [157336] // Interestellar
 
-  await Promise.all(
-    watchedItems.map(async ({ tmdbId, mediaType }) => {
-      const { countries } =
-        mediaType === 'MOVIE'
-          ? await getTMDBMovieService(redis, {
-              tmdbId: tmdbId,
-              language,
-              returnCountries: true,
-            })
-          : await getTMDBTvSeriesService(redis, {
-              tmdbId: tmdbId,
-              language,
-              returnCountries: true,
-            })
+describe('get user watched countries', () => {
+  it('should be able to get user watched countries with right values', async () => {
+    const user = await makeUser()
 
-      if (countries) {
-        for (const country of countries) {
-          const currentCount = countryCount.get(country.name) || 0
-          countryCount.set(country.name, currentCount + 1)
-        }
-      }
+    for (const movieId of SCIENCE_FICTION_MOVIES) {
+      await makeUserItem({
+        userId: user.id,
+        mediaType: 'MOVIE',
+        status: 'WATCHED',
+        tmdbId: movieId,
+      })
+    }
+
+    const sut = await getUserWatchedCountriesService({
+      userId: user.id,
+      redis: redisClient,
+      language: 'en-US',
     })
-  )
 
-  const totalCountries = Array.from(countryCount.values()).reduce(
-    (acc, count) => acc + count,
-    0
-  )
-
-  const countries = Array.from(countryCount)
-    .map(([name, count]) => ({
-      name,
-      count,
-      percentage: (count / totalCountries) * 100,
-    }))
-    .sort((a, b) => b.count - a.count)
-
-  return { watchedCountries: countries }
-}
+    expect(sut).toEqual({
+      watchedCountries: expect.arrayContaining([
+        expect.objectContaining({
+          count: SCIENCE_FICTION_MOVIES.length,
+          percentage: 100,
+        }),
+      ]),
+    })
+  })
+})
