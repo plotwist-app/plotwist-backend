@@ -55,7 +55,6 @@ async function saveMovies(
       id: item.id || randomUUID(),
       importId: importId,
       name: item.name,
-      startDate: item.startDate,
       endDate: item.endDate,
       userItemStatus: item.userItemStatus,
       importStatus: item.importStatus,
