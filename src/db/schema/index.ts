@@ -57,6 +57,11 @@ export const importStatusEnum = pgEnum('import_status_enum', [
   'NOT_STARTED',
 ])
 
+export const providersEnum = pgEnum('providers_enum', [
+  'MY_ANIME_LIST',
+  'LETTERBOXD',
+])
+
 export const followers = pgTable(
   'followers',
   {
@@ -429,7 +434,7 @@ export const userImports = pgTable('user_imports', {
     .notNull(),
   itemsCount: integer('items_count').notNull(),
   importStatus: importStatusEnum('import_status').notNull(),
-  provider: varchar('provider').notNull(),
+  provider: providersEnum('provider').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
@@ -449,7 +454,6 @@ export const importMovies = pgTable('import_movies', {
     .references(() => userImports.id, { onDelete: 'cascade' })
     .notNull(),
   name: varchar('name').notNull(),
-  startDate: timestamp('start_date', { withTimezone: true }),
   endDate: timestamp('end_date', { withTimezone: true }),
   userItemStatus: statusEnum('item_status').notNull(),
   importStatus: importItemStatusEnum('import_status').notNull(),

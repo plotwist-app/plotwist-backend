@@ -10,12 +10,17 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."providers_enum" AS ENUM('MY_ANIME_LIST', 'LETTERBOXD');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
 ALTER TYPE "status" ADD VALUE 'DROPPED';--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "import_movies" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"import_id" uuid NOT NULL,
 	"name" varchar NOT NULL,
-	"start_date" timestamp with time zone,
 	"end_date" timestamp with time zone,
 	"item_status" "status" NOT NULL,
 	"import_status" "import_item_status" NOT NULL,
@@ -44,7 +49,7 @@ CREATE TABLE IF NOT EXISTS "user_imports" (
 	"user_id" uuid NOT NULL,
 	"items_count" integer NOT NULL,
 	"import_status" "import_status_enum" NOT NULL,
-	"provider" varchar NOT NULL,
+	"provider" "providers_enum" NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );

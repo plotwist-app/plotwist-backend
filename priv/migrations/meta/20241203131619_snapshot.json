@@ -1,5 +1,5 @@
 {
-  "id": "26b1ae01-421a-499f-b903-c4d2ac5dc1ec",
+  "id": "1545ea29-d35b-4e8c-8aed-ecd1569edba7",
   "prevId": "9727c54e-a13e-4b4f-973b-788d209d6d0e",
   "version": "7",
   "dialect": "postgresql",
@@ -89,12 +89,6 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
-        },
-        "start_date": {
-          "name": "start_date",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
         },
         "end_date": {
           "name": "end_date",
@@ -950,7 +944,8 @@
         },
         "provider": {
           "name": "provider",
-          "type": "varchar",
+          "type": "providers_enum",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -1246,6 +1241,14 @@
       "values": [
         "TV_SHOW",
         "MOVIE"
+      ]
+    },
+    "public.providers_enum": {
+      "name": "providers_enum",
+      "schema": "public",
+      "values": [
+        "MY_ANIME_LIST",
+        "LETTERBOXD"
       ]
     },
     "public.social_platforms": {

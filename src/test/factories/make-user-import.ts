@@ -3,19 +3,16 @@ import type { InsertUserImportWithItems } from '@/domain/entities/import'
 
 import { randomUUID } from 'node:crypto'
 import { makeUserReturningId } from './make-user'
-import { makeRawImportSeries } from './make-import-series'
-import { makeRawImportMovies } from './make-import-movies'
+import { makeManyRawImportSeries } from './make-import-series'
+import { makeManyRawImportMovies } from './make-import-movies'
 
 type Overrides = Partial<InsertUserImportWithItems>
 
 export async function makeRawUserImport(
   overrides: Overrides
 ): Promise<InsertUserImportWithItems> {
-  const rawSeries = makeRawImportSeries({})
-  const rawMovies = makeRawImportMovies({})
-
-  const series = [rawSeries]
-  const movies = [rawMovies]
+  const series = makeManyRawImportSeries(1, {})
+  const movies = makeManyRawImportMovies(1, {})
 
   return {
     id: overrides.id ?? randomUUID(),
@@ -23,7 +20,7 @@ export async function makeRawUserImport(
     series,
     movies,
     userId: overrides.userId ?? (await makeUserReturningId({})),
-    provider: 'my-anime-list',
+    provider: 'MY_ANIME_LIST',
     importStatus: 'NOT_STARTED',
     ...overrides,
   }
