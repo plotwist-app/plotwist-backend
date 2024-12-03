@@ -4,7 +4,7 @@ import { redisClient } from '@/test/mocks/redis'
 import { makeUserItem } from '@/test/factories/make-user-item'
 import { getUserWatchedGenresService } from './get-user-watched-genres'
 
-const SCIENCE_FICTION_MOVIES = [157336] // Click, 50 First Dates
+const SCIENCE_FICTION_MOVIES = [157336] // Interestellar
 
 describe('get user watched genres', () => {
   it('should be able to get user watched cast with right values', async () => {
