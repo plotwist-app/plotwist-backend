@@ -37,15 +37,16 @@ export async function getReviewsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { mediaType, tmdbId, userId } = getReviewsQuerySchema.parse(
-    request.query
-  )
+  const { mediaType, tmdbId, userId, limit, interval } =
+    getReviewsQuerySchema.parse(request.query)
 
   const result = await getReviewsService({
     mediaType,
     userId,
     tmdbId: Number(tmdbId),
+    limit: Number(limit),
     authenticatedUserId: request.user?.id,
+    interval,
   })
 
   return reply.status(200).send(result.reviews)
@@ -82,14 +83,14 @@ export async function getDetailedReviewsController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { limit, language, orderBy, userId } = getReviewsQuerySchema.parse(
-    request.query
-  )
+  const { limit, language, orderBy, userId, interval } =
+    getReviewsQuerySchema.parse(request.query)
 
   const result = await getReviewsService({
     limit: Number(limit),
     orderBy,
     userId,
+    interval,
   })
 
   const mergedReviews = await Promise.all(

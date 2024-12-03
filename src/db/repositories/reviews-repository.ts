@@ -9,6 +9,8 @@ import {
   desc,
   eq,
   getTableColumns,
+  gte,
+  lte,
   type SQL,
   sql,
 } from 'drizzle-orm'
@@ -24,6 +26,8 @@ export async function selectReviews({
   authenticatedUserId,
   limit = 50,
   orderBy,
+  startDate,
+  endDate,
 }: GetReviewsServiceInput) {
   const orderCriteria = [
     orderBy === 'likeCount'
@@ -74,7 +78,9 @@ export async function selectReviews({
       and(
         tmdbId ? eq(schema.reviews.tmdbId, tmdbId) : undefined,
         mediaType ? eq(schema.reviews.mediaType, mediaType) : undefined,
-        userId ? eq(schema.reviews.userId, userId) : undefined
+        userId ? eq(schema.reviews.userId, userId) : undefined,
+        startDate ? gte(schema.reviews.createdAt, startDate) : undefined,
+        endDate ? lte(schema.reviews.createdAt, endDate) : undefined
       )
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))

@@ -28,6 +28,10 @@ export const getReviewsQuerySchema = languageQuerySchema.extend({
   limit: z.string().optional(),
   mediaType: z.enum(['MOVIE', 'TV_SHOW']).optional(),
   orderBy: z.enum(['likeCount', 'createdAt']).optional(),
+  interval: z
+    .enum(['TODAY', 'THIS_WEEK', 'THIS_MONTH', 'ALL_TIME'])
+    .optional()
+    .default('ALL_TIME'),
 })
 
 const review = createSelectSchema(schema.reviews).extend({
