@@ -2,7 +2,7 @@ import { DomainError } from '@/domain/errors/domain-error'
 import { createList } from '@/domain/services/lists/create-list'
 import { deleteListService } from '@/domain/services/lists/delete-list'
 import { getListService } from '@/domain/services/lists/get-list'
-import { getLists } from '@/domain/services/lists/get-lists'
+import { getListsServices } from '@/domain/services/lists/get-lists'
 import { updateListService } from '@/domain/services/lists/update-list'
 import { updateListBannerService } from '@/domain/services/lists/update-list-banner'
 import type { FastifyReply, FastifyRequest } from 'fastify'
@@ -42,12 +42,13 @@ export async function getListsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { userId, limit } = getListsQuerySchema.parse(request.query)
+  const { userId, limit, visibility } = getListsQuerySchema.parse(request.query)
 
-  const result = await getLists({
+  const result = await getListsServices({
     userId,
     authenticatedUserId: request.user?.id,
     limit: Number(limit),
+    visibility,
   })
 
   if (result instanceof DomainError) {

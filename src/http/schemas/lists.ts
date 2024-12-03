@@ -22,10 +22,15 @@ export const createListResponseSchema = {
     .describe('User not found'),
 }
 
-export const getListsQuerySchema = z.object({
-  userId: z.string().optional(),
-  limit: z.coerce.number().default(5).optional(),
-})
+export const getListsQuerySchema = createSelectSchema(schema.lists)
+  .pick({
+    visibility: true,
+  })
+  .partial()
+  .extend({
+    userId: z.string().optional(),
+    limit: z.coerce.number().default(5).optional(),
+  })
 
 export const getListsResponseSchema = {
   200: z.object({

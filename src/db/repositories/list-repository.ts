@@ -10,6 +10,7 @@ export function selectLists({
   userId,
   limit = 5,
   authenticatedUserId,
+  visibility,
 }: GetListsInput) {
   return db
     .select({
@@ -43,7 +44,12 @@ export function selectLists({
     ), NULL)`.as('items'),
     })
     .from(schema.lists)
-    .where(userId ? and(eq(schema.lists.userId, userId)) : undefined)
+    .where(
+      and(
+        userId ? eq(schema.lists.userId, userId) : undefined,
+        visibility ? eq(schema.lists.visibility, visibility) : undefined
+      )
+    )
     .leftJoin(schema.users, eq(schema.lists.userId, schema.users.id))
     .leftJoin(schema.listItems, eq(schema.listItems.listId, schema.lists.id))
     .groupBy(schema.lists.id, schema.users.id)
