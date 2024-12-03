@@ -8,6 +8,7 @@ type GetTMDBTvSeriesServiceInput = {
   returnSeasons?: boolean
   returnGenres?: boolean
   returnCountries?: boolean
+  returnDate?: boolean
 }
 
 const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60
@@ -20,6 +21,7 @@ export async function getTMDBTvSeriesService(
     returnSeasons = false,
     returnGenres = false,
     returnCountries = false,
+    returnDate = false,
   }: GetTMDBTvSeriesServiceInput
 ) {
   const cacheKey = `TV_SHOW:${tmdbId}:${language}`
@@ -34,6 +36,7 @@ export async function getTMDBTvSeriesService(
       ...(returnSeasons && { seasons: data.seasons }),
       ...(returnGenres && { genres: data.genres }),
       ...(returnCountries && { countries: data.production_countries }),
+      ...(returnDate && { date: data.first_air_date }),
     }
   }
 
@@ -47,5 +50,6 @@ export async function getTMDBTvSeriesService(
     ...(returnSeasons && { seasons: data.seasons }),
     ...(returnGenres && { genres: data.genres }),
     ...(returnCountries && { countries: data.production_countries }),
+    ...(returnDate && { date: data.first_air_date }),
   }
 }

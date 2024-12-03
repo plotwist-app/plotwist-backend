@@ -30,7 +30,7 @@ export async function selectUserItems({ userId, status }: GetUserItemsInput) {
     .where(
       and(
         eq(schema.userItems.userId, userId),
-        eq(schema.userItems.status, status)
+        status ? eq(schema.userItems.status, status) : undefined
       )
     )
     .orderBy(desc(schema.userItems.addedAt))
@@ -59,4 +59,16 @@ export async function selectUserItem({
       )
     )
     .limit(1)
+}
+
+export async function selectUserItemStatus(userId: string) {
+  return db
+    .select({
+      status: schema.userItems.status,
+      count: sql`COUNT(*)::int`,
+      percentage: sql`(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER ())::float`,
+    })
+    .from(schema.userItems)
+    .where(eq(schema.userItems.userId, userId))
+    .groupBy(schema.userItems.status)
 }
