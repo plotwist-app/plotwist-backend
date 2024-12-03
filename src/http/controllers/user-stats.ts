@@ -9,6 +9,8 @@ import { languageQuerySchema } from '../schemas/common'
 import { getUserWatchedGenresService } from '@/domain/services/user-stats/get-user-watched-genres'
 import { getUserWatchedCastService } from '@/domain/services/user-stats/get-user-watched-cast'
 import { getUserWatchedCountriesService } from '@/domain/services/user-stats/get-user-watched-countries'
+import { getUserBestReviewsService } from '@/domain/services/user-stats/get-user-best-reviews'
+import { getUserItemsStatusService } from '@/domain/services/user-stats/get-user-items-status'
 
 export async function getUserStatsController(
   request: FastifyRequest,
@@ -99,6 +101,37 @@ export async function getUserWatchedCountriesController(
     userId: id,
     redis,
     language,
+  })
+
+  return reply.status(200).send(result)
+}
+
+export async function getUserBestReviewsController(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  redis: FastifyRedis
+) {
+  const { id } = getUserDefaultSchema.parse(request.params)
+  const { language } = languageQuerySchema.parse(request.query)
+
+  const result = await getUserBestReviewsService({
+    userId: id,
+    redis,
+    language,
+  })
+
+  return reply.status(200).send(result)
+}
+
+export async function getUserItemsStatusController(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  redis: FastifyRedis
+) {
+  const { id } = getUserDefaultSchema.parse(request.params)
+
+  const result = await getUserItemsStatusService({
+    userId: id,
   })
 
   return reply.status(200).send(result)
