@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.1.0
+
 ### Added
 
 - Add user reviews count and vitest coverage [#47](https://github.com/plotwist-app/plotwist-backend/pull/47)
