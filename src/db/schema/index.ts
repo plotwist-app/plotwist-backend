@@ -427,10 +427,9 @@ export const userImports = pgTable('user_imports', {
   userId: uuid('user_id')
     .references(() => users.id, { onDelete: 'cascade' })
     .notNull(),
-  itensCount: integer('itens_count').notNull(),
+  itemsCount: integer('items_count').notNull(),
   importStatus: importStatusEnum('import_status').notNull(),
   provider: varchar('provider').notNull(),
-  metadata: json('__metadata'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
@@ -440,15 +439,37 @@ export const userImportsRelations = relations(userImports, ({ one, many }) => ({
     fields: [userImports.userId],
     references: [users.id],
   }),
-  importItems: many(userImportItems),
+  ImportMovies: many(importMovies),
+  importSeries: many(importSeries),
 }))
 
-export const userImportItems = pgTable('user_import_items', {
+export const importMovies = pgTable('import_movies', {
   id: uuid('id').primaryKey(),
   importId: uuid('import_id')
     .references(() => userImports.id, { onDelete: 'cascade' })
     .notNull(),
-  mediaType: mediaTypeEnum('media_type').notNull(),
+  name: varchar('name').notNull(),
+  startDate: timestamp('start_date', { withTimezone: true }),
+  endDate: timestamp('end_date', { withTimezone: true }),
+  userItemStatus: statusEnum('item_status').notNull(),
+  importStatus: importItemStatusEnum('import_status').notNull(),
+  tmdbId: integer('TMDB_ID'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+export const importMoviesRelations = relations(importMovies, ({ one }) => ({
+  import: one(userImports, {
+    fields: [importMovies.importId],
+    references: [userImports.id],
+  }),
+}))
+
+export const importSeries = pgTable('import_series', {
+  id: uuid('id').primaryKey(),
+  importId: uuid('import_id')
+    .references(() => userImports.id, { onDelete: 'cascade' })
+    .notNull(),
   name: varchar('name').notNull(),
   startDate: timestamp('start_date', { withTimezone: true }),
   endDate: timestamp('end_date', { withTimezone: true }),
@@ -457,14 +478,13 @@ export const userImportItems = pgTable('user_import_items', {
   tmdbId: integer('TMDB_ID'),
   watchedEpisodes: integer('watched_episodes'),
   seriesEpisodes: integer('series_episodes'),
-  metadata: json('__metadata'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
-export const importItemsRelations = relations(userImportItems, ({ one }) => ({
+export const importTVShowsRelations = relations(importSeries, ({ one }) => ({
   import: one(userImports, {
-    fields: [userImportItems.importId],
+    fields: [importSeries.importId],
     references: [userImports.id],
   }),
 }))
@@ -483,5 +503,6 @@ export const schema = {
   likes,
   followers,
   userImports,
-  userImportItems,
+  importMovies,
+  importSeries,
 }

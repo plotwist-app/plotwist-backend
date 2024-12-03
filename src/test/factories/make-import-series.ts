@@ -1,18 +1,17 @@
-import type { InsertUserImportItem } from '@/domain/entities/import-item'
+import type { InsertImportSeries } from '@/domain/entities/import-series'
 import type {
   ImportStatusEnum,
   UserItemStatus,
 } from '@/domain/value_objects/import_item_status_enum'
-import type { MediaTypeEnum } from '@/domain/value_objects/media_type_enum'
 
 import { faker } from '@faker-js/faker'
 import { randomUUID } from 'node:crypto'
 
-type Overrides = Partial<InsertUserImportItem>
+type Overrides = Partial<InsertImportSeries>
 
-export function makeRawUserImportItem(
+export function makeRawImportSeries(
   overrides: Overrides
-): Omit<InsertUserImportItem, 'importId'> {
+): Omit<InsertImportSeries, 'importId'> {
   const params = buildItemType()
   return {
     ...params,
@@ -22,10 +21,7 @@ export function makeRawUserImportItem(
   }
 }
 
-function buildItemType(): Omit<
-  InsertUserImportItem,
-  'id' | 'name' | 'importId'
-> {
+function buildItemType(): Omit<InsertImportSeries, 'id' | 'name' | 'importId'> {
   const importStatus: ImportStatusEnum = faker.helpers.arrayElement([
     'COMPLETED',
     'FAILED',
@@ -39,12 +35,7 @@ function buildItemType(): Omit<
     'DROPPED',
   ])
 
-  const mediaType: MediaTypeEnum = faker.helpers.arrayElement([
-    'TV_SHOW',
-    'MOVIE',
-  ])
-
-  let seriesEpisodes = faker.helpers.rangeToNumber({
+  const seriesEpisodes = faker.helpers.rangeToNumber({
     min: 2,
     max: 300,
   })
@@ -53,10 +44,6 @@ function buildItemType(): Omit<
     min: 0,
     max: seriesEpisodes,
   })
-
-  if (mediaType === 'MOVIE') {
-    seriesEpisodes = 1
-  }
 
   if (userItemStatus === 'WATCHLIST') {
     watchedEpisodes = 0
@@ -71,6 +58,5 @@ function buildItemType(): Omit<
     watchedEpisodes,
     userItemStatus,
     importStatus,
-    mediaType,
   }
 }

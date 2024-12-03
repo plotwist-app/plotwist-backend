@@ -5,18 +5,17 @@ import { randomUUID } from 'node:crypto'
 
 export async function insertUserImport({
   userId,
-  itensCount,
-  metadata,
+  itemsCount,
   provider,
-  items,
+  movies,
+  series,
 }: InsertUserImportWithItems) {
   const transaction = await db.transaction(async trx => {
     const [userImport] = await trx
       .insert(schema.userImports)
       .values({
         userId,
-        itensCount,
-        metadata,
+        itemsCount,
         provider,
         importStatus: 'NOT_STARTED',
       })
@@ -24,10 +23,9 @@ export async function insertUserImport({
 
     const userImportId = userImport.id
 
-    const itemsWithIds = items.map(item => ({
+    const seriesWithIds = series.map(item => ({
       id: item.id || randomUUID(),
       importId: userImportId,
-      mediaType: item.mediaType,
       name: item.name,
       startDate: item.startDate,
       endDate: item.endDate,
@@ -36,15 +34,30 @@ export async function insertUserImport({
       tmdbId: item.tmdbId,
       watchedEpisodes: item.watchedEpisodes,
       seriesEpisodes: item.seriesEpisodes,
-      metadata: item.metadata,
     }))
 
-    const savedItems = await trx
-      .insert(schema.userImportItems)
-      .values(itemsWithIds)
+    const savedSeries = await trx
+      .insert(schema.importSeries)
+      .values(seriesWithIds)
       .returning()
 
-    return { userImport, items: savedItems }
+    const moviesWithIds = movies.map(item => ({
+      id: item.id || randomUUID(),
+      importId: userImportId,
+      name: item.name,
+      startDate: item.startDate,
+      endDate: item.endDate,
+      userItemStatus: item.userItemStatus,
+      importStatus: item.importStatus,
+      tmdbId: item.tmdbId,
+    }))
+
+    const savedMovies = await trx
+      .insert(schema.importMovies)
+      .values(moviesWithIds)
+      .returning()
+
+    return { userImport, series: savedSeries, movies: savedMovies }
   })
 
   return transaction

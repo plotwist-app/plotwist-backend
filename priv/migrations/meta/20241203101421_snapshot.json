@@ -1,5 +1,5 @@
 {
-  "id": "70aacbd3-a641-42ab-bbaa-b73b9e5c4212",
+  "id": "1b3391de-5db3-4de0-b0f8-742e374e87ac",
   "prevId": "7dba00ea-4c9f-456f-81b8-55bf154795a9",
   "version": "7",
   "dialect": "postgresql",
@@ -66,6 +66,194 @@
           ]
         }
       },
+      "uniqueConstraints": {}
+    },
+    "public.import_movies": {
+      "name": "import_movies",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "import_id": {
+          "name": "import_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "end_date": {
+          "name": "end_date",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "item_status": {
+          "name": "item_status",
+          "type": "status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "import_status": {
+          "name": "import_status",
+          "type": "import_item_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "TMDB_ID": {
+          "name": "TMDB_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "import_movies_import_id_user_imports_id_fk": {
+          "name": "import_movies_import_id_user_imports_id_fk",
+          "tableFrom": "import_movies",
+          "tableTo": "user_imports",
+          "columnsFrom": [
+            "import_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.import_series": {
+      "name": "import_series",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "import_id": {
+          "name": "import_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "end_date": {
+          "name": "end_date",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "item_status": {
+          "name": "item_status",
+          "type": "status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "import_status": {
+          "name": "import_status",
+          "type": "import_item_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "TMDB_ID": {
+          "name": "TMDB_ID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "watched_episodes": {
+          "name": "watched_episodes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "series_episodes": {
+          "name": "series_episodes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "import_series_import_id_user_imports_id_fk": {
+          "name": "import_series_import_id_user_imports_id_fk",
+          "tableFrom": "import_series",
+          "tableTo": "user_imports",
+          "columnsFrom": [
+            "import_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
     "public.likes": {
@@ -724,119 +912,6 @@
         }
       }
     },
-    "public.user_import_items": {
-      "name": "user_import_items",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "import_id": {
-          "name": "import_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "media_type": {
-          "name": "media_type",
-          "type": "media_type",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "start_date": {
-          "name": "start_date",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "end_date": {
-          "name": "end_date",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "item_status": {
-          "name": "item_status",
-          "type": "status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "import_status": {
-          "name": "import_status",
-          "type": "import_item_status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "TMDB_ID": {
-          "name": "TMDB_ID",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "watched_episodes": {
-          "name": "watched_episodes",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "series_episodes": {
-          "name": "series_episodes",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "__metadata": {
-          "name": "__metadata",
-          "type": "json",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "user_import_items_import_id_user_imports_id_fk": {
-          "name": "user_import_items_import_id_user_imports_id_fk",
-          "tableFrom": "user_import_items",
-          "tableTo": "user_imports",
-          "columnsFrom": [
-            "import_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "public.user_imports": {
       "name": "user_imports",
       "schema": "",
@@ -853,8 +928,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "itens_count": {
-          "name": "itens_count",
+        "items_count": {
+          "name": "items_count",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -871,12 +946,6 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
-        },
-        "__metadata": {
-          "name": "__metadata",
-          "type": "json",
-          "primaryKey": false,
-          "notNull": false
         },
         "created_at": {
           "name": "created_at",

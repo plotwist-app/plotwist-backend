@@ -22,8 +22,17 @@ describe('create user import', () => {
         updatedAt: expect.any(Date),
         importStatus: expect.stringContaining('NOT_STARTED'),
       }),
-      items: expect.arrayContaining(
-        rawImport.items.map(item =>
+      series: expect.arrayContaining(
+        rawImport.series.map(item =>
+          expect.objectContaining({
+            importStatus: expect.stringContaining(item.importStatus),
+            createdAt: expect.any(Date),
+            updatedAt: expect.any(Date),
+          })
+        )
+      ),
+      movies: expect.arrayContaining(
+        rawImport.movies.map(item =>
           expect.objectContaining({
             importStatus: expect.stringContaining(item.importStatus),
             createdAt: expect.any(Date),

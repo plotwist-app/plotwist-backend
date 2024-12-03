@@ -11,10 +11,22 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 ALTER TYPE "status" ADD VALUE 'DROPPED';--> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "user_import_items" (
+CREATE TABLE IF NOT EXISTS "import_movies" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"import_id" uuid NOT NULL,
-	"media_type" "media_type" NOT NULL,
+	"name" varchar NOT NULL,
+	"start_date" timestamp with time zone,
+	"end_date" timestamp with time zone,
+	"item_status" "status" NOT NULL,
+	"import_status" "import_item_status" NOT NULL,
+	"TMDB_ID" integer,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "import_series" (
+	"id" uuid PRIMARY KEY NOT NULL,
+	"import_id" uuid NOT NULL,
 	"name" varchar NOT NULL,
 	"start_date" timestamp with time zone,
 	"end_date" timestamp with time zone,
@@ -23,7 +35,6 @@ CREATE TABLE IF NOT EXISTS "user_import_items" (
 	"TMDB_ID" integer,
 	"watched_episodes" integer,
 	"series_episodes" integer,
-	"__metadata" json,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
@@ -31,16 +42,21 @@ CREATE TABLE IF NOT EXISTS "user_import_items" (
 CREATE TABLE IF NOT EXISTS "user_imports" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"user_id" uuid NOT NULL,
-	"itens_count" integer NOT NULL,
+	"items_count" integer NOT NULL,
 	"import_status" "import_status_enum" NOT NULL,
 	"provider" varchar NOT NULL,
-	"__metadata" json,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "user_import_items" ADD CONSTRAINT "user_import_items_import_id_user_imports_id_fk" FOREIGN KEY ("import_id") REFERENCES "public"."user_imports"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "import_movies" ADD CONSTRAINT "import_movies_import_id_user_imports_id_fk" FOREIGN KEY ("import_id") REFERENCES "public"."user_imports"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "import_series" ADD CONSTRAINT "import_series_import_id_user_imports_id_fk" FOREIGN KEY ("import_id") REFERENCES "public"."user_imports"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
