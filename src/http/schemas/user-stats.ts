@@ -64,3 +64,15 @@ export const getUserWatchedCastResponseSchema = {
     ),
   }),
 }
+
+export const getUserWatchedCountriesResponseSchema = {
+  200: z.object({
+    watchedCountries: z.array(
+      z.object({
+        name: z.string(),
+        count: z.number(),
+        percentage: z.number(),
+      })
+    ),
+  }),
+}

@@ -7,6 +7,7 @@ type GetTMDBMovieServiceInput = {
   language: Language
   returnRuntime?: boolean
   returnGenres?: boolean
+  returnCountries?: boolean
 }
 
 const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60
@@ -18,6 +19,7 @@ export async function getTMDBMovieService(
     language,
     returnRuntime = false,
     returnGenres = false,
+    returnCountries = false,
   }: GetTMDBMovieServiceInput
 ) {
   const cacheKey = `MOVIE:${tmdbId}:${language}`
@@ -32,6 +34,7 @@ export async function getTMDBMovieService(
       backdropPath: data.backdrop_path,
       ...(returnRuntime && { runtime: data.runtime }),
       ...(returnGenres && { genres: data.genres }),
+      ...(returnCountries && { countries: data.production_countries }),
     }
   }
 
@@ -44,5 +47,6 @@ export async function getTMDBMovieService(
     backdropPath: data.backdrop_path,
     ...(returnRuntime && { runtime: data.runtime }),
     ...(returnGenres && { genres: data.genres }),
+    ...(returnCountries && { countries: data.production_countries }),
   }
 }
