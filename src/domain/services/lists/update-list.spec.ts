@@ -2,9 +2,6 @@ import { beforeAll, describe, expect, it } from 'vitest'
 
 import { makeList } from '@/test/factories/make-list'
 import { makeUser } from '@/test/factories/make-user'
-import { faker } from '@faker-js/faker'
-
-import { ListNotFoundError } from '../../errors/list-not-found-error'
 import { updateListService } from './update-list'
 
 import type { List } from '@/domain/entities/lists'

@@ -1,5 +1,4 @@
 import {
-  getUserById as getById,
   getUserByEmail,
 } from '@/db/repositories/user-repository'
 import { UserNotFoundError } from '../../errors/user-not-found'

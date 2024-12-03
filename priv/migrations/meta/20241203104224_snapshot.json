@@ -1,6 +1,6 @@
 {
-  "id": "1b3391de-5db3-4de0-b0f8-742e374e87ac",
-  "prevId": "7dba00ea-4c9f-456f-81b8-55bf154795a9",
+  "id": "26b1ae01-421a-499f-b903-c4d2ac5dc1ec",
+  "prevId": "9727c54e-a13e-4b4f-973b-788d209d6d0e",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -880,6 +880,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "runtime": {
+          "name": "runtime",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
         }
       },
       "indexes": {},

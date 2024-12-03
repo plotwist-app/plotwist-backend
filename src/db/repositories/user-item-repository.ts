@@ -14,12 +14,12 @@ export async function upsertUserItem({
 }: InsertUserItem) {
   return db.execute(
     sql`
-      INSERT INTO ${schema.userItems} (media_type, tmdb_id, user_id, status)
-      VALUES (${mediaType}, ${tmdbId}, ${userId}, ${status})
-      ON CONFLICT (media_type, tmdb_id, user_id)
-      DO UPDATE SET status = ${status}
-      RETURNING *
-    `
+        INSERT INTO ${schema.userItems} (media_type, tmdb_id, user_id, status)
+        VALUES (${mediaType}, ${tmdbId}, ${userId}, ${status})
+        ON CONFLICT (media_type, tmdb_id, user_id)
+        DO UPDATE SET status = ${status}
+        RETURNING *
+      `
   )
 }
 

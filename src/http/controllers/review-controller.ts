@@ -45,7 +45,7 @@ export async function getReviewsController(
     mediaType,
     userId,
     tmdbId: Number(tmdbId),
-    authenticatedUserId: request.user.id,
+    authenticatedUserId: request.user?.id,
   })
 
   return reply.status(200).send(result.reviews)

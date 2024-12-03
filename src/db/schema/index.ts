@@ -371,6 +371,7 @@ export const userEpisodes = pgTable(
     seasonNumber: integer('season_number').notNull(),
     episodeNumber: integer('episode_number').notNull(),
     watchedAt: timestamp('watched_at').defaultNow().notNull(),
+    runtime: integer('runtime').notNull().default(0),
   },
   table => {
     return {

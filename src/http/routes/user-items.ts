@@ -37,7 +37,8 @@ export async function userItemsRoutes(app: FastifyInstance) {
           },
         ],
       },
-      handler: upsertUserItemController,
+      handler: (request, reply) =>
+        upsertUserItemController(request, reply, app.redis),
     })
   )
 

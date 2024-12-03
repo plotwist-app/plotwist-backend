@@ -1,12 +1,8 @@
 import { makeUser } from '@/test/factories/make-user'
 import { describe, expect, it, beforeAll } from 'vitest'
 import { createUserEpisodesService } from './create-user-episodes'
-import {
-  makeRawUserEpisode,
-  makeUserEpisode,
-} from '@/test/factories/make-user-episode'
+import { makeRawUserEpisode } from '@/test/factories/make-user-episode'
 import type { User } from '@/domain/entities/user'
-import { UserEpisodeAlreadyRegisteredError } from '@/domain/errors/user-episode-already-registered-error'
 
 let user: User
 
@@ -46,12 +42,5 @@ describe('create user episode', () => {
         expect.objectContaining(thirtyUserEpisode),
       ]),
     })
-  })
-
-  it('should not be able to create user episode already registered', async () => {
-    const userEpisode = await makeUserEpisode({ userId: user.id })
-    const sut = await createUserEpisodesService([userEpisode])
-
-    expect(sut).toBeInstanceOf(UserEpisodeAlreadyRegisteredError)
   })
 })

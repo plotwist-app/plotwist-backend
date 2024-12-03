@@ -3,8 +3,6 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import type { User } from '@/domain/entities/user'
 import { makeList } from '@/test/factories/make-list'
 import { makeUser } from '@/test/factories/make-user'
-import { faker } from '@faker-js/faker'
-import { ListNotFoundError } from '../../errors/list-not-found-error'
 import { deleteListService } from './delete-list'
 
 let user: User
