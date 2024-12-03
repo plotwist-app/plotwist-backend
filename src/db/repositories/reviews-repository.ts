@@ -109,3 +109,11 @@ export async function selectReviewsCount(userId?: string) {
     .from(schema.reviews)
     .where(userId ? eq(schema.reviews.userId, userId) : undefined)
 }
+
+export async function selectBestReviews(userId: string) {
+  return db
+    .select()
+    .from(schema.reviews)
+    .where(and(eq(schema.reviews.userId, userId), eq(schema.reviews.rating, 5)))
+    .orderBy(desc(schema.reviews.rating), desc(schema.reviews.createdAt))
+}

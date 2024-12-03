@@ -60,3 +60,15 @@ export async function selectUserItem({
     )
     .limit(1)
 }
+
+export async function selectUserItemStatus(userId: string) {
+  return db
+    .select({
+      status: schema.userItems.status,
+      count: sql`COUNT(*)::int`,
+      percentage: sql`(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER ())::float`,
+    })
+    .from(schema.userItems)
+    .where(eq(schema.userItems.userId, userId))
+    .groupBy(schema.userItems.status)
+}

@@ -7,7 +7,13 @@ import { getUserTotalHoursService } from './get-user-total-hours'
 const CHERNOBYL = {
   tmdbId: 87108,
   mediaType: 'TV_SHOW',
-  totalHours: 5.516666666666667,
+  runtime: 5.516666666666667,
+} as const
+
+const INCEPTION = {
+  tmdbId: 27205,
+  mediaType: 'MOVIE',
+  runtime: 148 / 60,
 } as const
 
 describe('get user total hours count', () => {
@@ -21,6 +27,13 @@ describe('get user total hours count', () => {
       status: 'WATCHED',
     })
 
+    await makeUserItem({
+      userId: user.id,
+      tmdbId: INCEPTION.tmdbId,
+      mediaType: INCEPTION.mediaType,
+      status: 'WATCHED',
+    })
+
     await createUserItemEpisodesService({
       redis: redisClient,
       tmdbId: userItem.tmdbId,
@@ -30,7 +43,7 @@ describe('get user total hours count', () => {
     const sut = await getUserTotalHoursService(user.id, redisClient)
 
     expect(sut).toEqual({
-      totalHours: CHERNOBYL.totalHours,
+      totalHours: CHERNOBYL.runtime + INCEPTION.runtime,
     })
   })
 })

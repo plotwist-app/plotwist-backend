@@ -42,16 +42,11 @@ export async function getUserWatchedCountriesService({
     })
   )
 
-  const totalCountries = Array.from(countryCount.values()).reduce(
-    (acc, count) => acc + count,
-    0
-  )
-
   const countries = Array.from(countryCount)
     .map(([name, count]) => ({
       name,
       count,
-      percentage: (count / totalCountries) * 100,
+      percentage: (count / watchedItems.length) * 100,
     }))
     .sort((a, b) => b.count - a.count)
 
