@@ -30,7 +30,7 @@ export async function selectUserItems({ userId, status }: GetUserItemsInput) {
     .where(
       and(
         eq(schema.userItems.userId, userId),
-        status ? eq(schema.userItems.status, status) : undefined
+        eq(schema.userItems.status, status)
       )
     )
     .orderBy(desc(schema.userItems.addedAt))
