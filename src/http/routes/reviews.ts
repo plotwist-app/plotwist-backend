@@ -118,7 +118,7 @@ export async function reviewsRoute(app: FastifyInstance) {
       schema: {
         description: 'Get review',
         tags: [reviewsTag],
-        query: getReviewQuerySchema,
+        querystring: getReviewQuerySchema,
         security: [
           {
             bearerAuth: [],
