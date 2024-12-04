@@ -232,6 +232,13 @@
       "when": 1733284935022,
       "tag": "20241204040215_real_rating",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1733339403493,
+      "tag": "20241204191003_add_case_insensitive_indexes_to_users",
+      "breakpoints": true
     }
   ]
 }

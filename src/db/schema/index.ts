@@ -11,6 +11,7 @@ import {
   real,
   timestamp,
   unique,
+  uniqueIndex,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
@@ -228,8 +229,12 @@ export const users = pgTable(
   },
   table => {
     return {
-      email: index('email_idx').on(table.email),
-      username: index('username_idx').on(table.username),
+      usernameLowerIdx: uniqueIndex('username_lower_idx').on(
+        sql`LOWER(${table.username})`
+      ),
+      emailLowerIdx: uniqueIndex('email_lower_idx').on(
+        sql`LOWER(${table.email})`
+      ),
     }
   }
 )
