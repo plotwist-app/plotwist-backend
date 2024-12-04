@@ -26,6 +26,7 @@ describe('get reviews', () => {
     const sut = await getReviewsService({
       tmdbId: TMDB_ID,
       mediaType: MEDIA_TYPE,
+      interval: 'ALL_TIME',
     })
 
     expect(sut).toEqual({

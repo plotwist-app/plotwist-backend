@@ -42,8 +42,8 @@ function getIntervalDate(interval: GetReviewsServiceInput['interval']) {
       }
     case 'ALL_TIME':
       return {
-        startDate: new Date(0),
-        endDate: new Date(),
+        startDate: undefined,
+        endDate: undefined,
       }
     default:
       throw new Error(`Invalid interval: ${interval}`)

@@ -1,6 +1,7 @@
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertReviewModel } from '@/domain/entities/review'
+import type { GetReviewInput } from '@/domain/services/reviews/get-review'
 import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
 import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import {
@@ -122,4 +123,21 @@ export async function selectBestReviews(userId: string) {
     .from(schema.reviews)
     .where(and(eq(schema.reviews.userId, userId), eq(schema.reviews.rating, 5)))
     .orderBy(desc(schema.reviews.rating), desc(schema.reviews.createdAt))
+}
+
+export async function selectReview({
+  mediaType,
+  tmdbId,
+  userId,
+}: GetReviewInput) {
+  return db
+    .select()
+    .from(schema.reviews)
+    .where(
+      and(
+        eq(schema.reviews.mediaType, mediaType),
+        eq(schema.reviews.tmdbId, tmdbId),
+        eq(schema.reviews.userId, userId)
+      )
+    )
 }

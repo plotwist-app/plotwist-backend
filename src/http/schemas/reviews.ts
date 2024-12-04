@@ -81,3 +81,17 @@ export const getDetailedReviewsResponseSchema = {
     ),
   }),
 }
+
+export const getReviewQuerySchema = createSelectSchema(schema.reviews)
+  .pick({
+    mediaType: true,
+  })
+  .extend({
+    tmdbId: z.string(),
+  })
+
+export const getReviewResponseSchema = {
+  200: z.object({
+    review: createSelectSchema(schema.reviews).nullable(),
+  }),
+}

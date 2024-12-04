@@ -8,6 +8,7 @@ import {
   pgEnum,
   pgTable,
   primaryKey,
+  real,
   timestamp,
   unique,
   uuid,
@@ -177,7 +178,7 @@ export const reviews = pgTable('reviews', {
   tmdbId: integer('tmdb_id').notNull(),
   mediaType: mediaTypeEnum('media_type').notNull(),
   review: varchar('review').notNull(),
-  rating: integer('rating').notNull(),
+  rating: real('rating').notNull(),
   hasSpoilers: boolean('has_spoilers').notNull().default(false),
   language: languagesEnum('language'),
 })

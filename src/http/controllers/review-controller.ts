@@ -2,6 +2,7 @@ import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createReviewBodySchema,
+  getReviewQuerySchema,
   getReviewsQuerySchema,
   reviewParamsSchema,
   updateReviewBodySchema,
@@ -14,6 +15,7 @@ import { deleteReviewService } from '@/domain/services/reviews/delete-review'
 import { getReviewsService } from '@/domain/services/reviews/get-reviews'
 import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
+import { getReviewService } from '@/domain/services/reviews/get-review'
 
 export async function createReviewController(
   request: FastifyRequest,
@@ -106,4 +108,19 @@ export async function getDetailedReviewsController(
   )
 
   return reply.status(200).send({ reviews: mergedReviews })
+}
+
+export async function getReviewController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { mediaType, tmdbId } = getReviewQuerySchema.parse(request.query)
+
+  const result = await getReviewService({
+    mediaType,
+    tmdbId: Number(tmdbId),
+    userId: request.user.id,
+  })
+
+  return reply.status(200).send(result)
 }
