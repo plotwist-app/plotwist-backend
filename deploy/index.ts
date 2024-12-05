@@ -1,4 +1,5 @@
 import * as pulumi from '@pulumi/pulumi'
+import * as docker_build from '@pulumi/docker-build'
 import * as aws from '@pulumi/aws'
 import * as awsx from '@pulumi/awsx'
 
@@ -6,10 +7,42 @@ const repository = new awsx.ecr.Repository('aws-host-repository', {
   forceDelete: true,
 })
 
-const image = new awsx.ecr.Image('aws-host-image', {
-  repositoryUrl: repository.url,
-  context: '../',
-  platform: 'linux/amd64',
+// const image = new awsx.ecr.Image('aws-host-image', {
+//   repositoryUrl: repository.url,
+//   context: '../',
+//   platform: 'linux/amd64',
+// })
+
+const authToken = aws.ecr.getAuthorizationTokenOutput({
+  registryId: repository.repository.registryId,
+})
+
+const image = new docker_build.Image('aws-host-image', {
+  tags: [pulumi.interpolate`${repository.repository.repositoryUrl}:latest`],
+  context: {
+    location: '../',
+  },
+  cacheFrom: [
+    {
+      registry: {
+        ref: pulumi.interpolate`${repository.repository.repositoryUrl}:latest`,
+      },
+    },
+  ],
+  cacheTo: [
+    {
+      inline: {},
+    },
+  ],
+  platforms: ['linux/amd64'],
+  push: true,
+  registries: [
+    {
+      address: repository.repository.repositoryUrl,
+      password: authToken.password,
+      username: authToken.userName,
+    },
+  ],
 })
 
 const cluster = new awsx.classic.ecs.Cluster('aws-host-cluster')
@@ -25,7 +58,7 @@ const targetGroup = loadBalancer.createTargetGroup('aws-host-target-group', {
   port: 3000,
   protocol: 'HTTP',
   healthCheck: {
-    path: '/healthcheck',
+    path: '/health',
     protocol: 'HTTP',
     interval: 10,
     healthyThreshold: 3,
@@ -40,16 +73,68 @@ const httpListener = loadBalancer.createListener('aws-host-http-listener', {
   targetGroup,
 })
 
+const executionRole = new aws.iam.Role('aws-workshop-execution-role', {
+  assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({
+    Service: 'ecs-tasks.amazonaws.com',
+  }),
+  managedPolicyArns: [
+    'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy',
+  ],
+  inlinePolicies: [
+    {
+      name: 'inline',
+      policy: aws.iam.getPolicyDocumentOutput({
+        statements: [
+          {
+            sid: 'ReadSsmAndSecrets',
+            actions: [
+              'ssm:GetParameters',
+              'ssm:GetParameter',
+              'ssm:GetParameterHistory',
+            ],
+            resources: [
+              'arn:aws:ssm:sa-east-1:972523082673:parameter/plotwist/prod/*',
+            ],
+          },
+        ],
+      }).json,
+    },
+  ],
+})
+
 const app = new awsx.classic.ecs.FargateService('aws-host-app', {
   cluster,
   desiredCount: 1,
   waitForSteadyState: false,
   taskDefinitionArgs: {
+    executionRole,
     container: {
-      image: image.imageUri,
+      image: image.ref,
       cpu: 256,
       memory: 512,
       portMappings: [httpListener],
+      secrets: [
+        { name: 'APP_ENV', valueFrom: '/plotwist/prod/APP_ENV' },
+        { name: 'BASE_URL', valueFrom: '/plotwist/prod/BASE_URL' },
+        { name: 'CLIENT_URL', valueFrom: '/plotwist/prod/CLIENT_URL' },
+        { name: 'DATABASE_URL', valueFrom: '/plotwist/prod/DATABASE_URL' },
+        { name: 'JWT_SECRET', valueFrom: '/plotwist/prod/JWT_SECRET' },
+        { name: 'PORT', valueFrom: '/plotwist/prod/PORT' },
+        { name: 'REDIS_URL', valueFrom: '/plotwist/prod/REDIS_URL' },
+        { name: 'RESEND_API_KEY', valueFrom: '/plotwist/prod/RESEND_API_KEY' },
+        {
+          name: 'STRIPE_PUBLISHABLE_KEY',
+          valueFrom: '/plotwist/prod/STRIPE_PUBLISHABLE_KEY',
+        },
+        {
+          name: 'STRIPE_SECRET_KEY',
+          valueFrom: '/plotwist/prod/STRIPE_SECRET_KEY',
+        },
+        {
+          name: 'TMDB_ACCESS_TOKEN',
+          valueFrom: '/plotwist/prod/TMDB_ACCESS_TOKEN',
+        },
+      ],
     },
   },
 })

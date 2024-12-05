@@ -14,6 +14,9 @@ importers:
       '@pulumi/awsx':
         specifier: ^2.0.2
         version: 2.19.0(typescript@5.7.2)
+      '@pulumi/docker-build':
+        specifier: ^0.0.7
+        version: 0.0.7(typescript@5.7.2)
       '@pulumi/pulumi':
         specifier: ^3.113.0
         version: 3.142.0(typescript@5.7.2)
@@ -344,6 +347,9 @@ packages:
 
   '@pulumi/awsx@2.19.0':
     resolution: {integrity: sha512-7byK+zf2eTKRPdYHHSS5lifqsI0Km6ZkB0rCb332zQ4Nm0stS+YjeCIkbQtjJWdDtXUXPP60SX5na/9vfQYAow==}
+
+  '@pulumi/docker-build@0.0.7':
+    resolution: {integrity: sha512-yiPvQefRS3Z+5NtG5VK2pYTds0pCQh21INpoWY8gKFrqs166ZFVrPrMXelmsjABnmkG5ZNlkHanU7HqAExn55Q==}
 
   '@pulumi/docker@3.6.1':
     resolution: {integrity: sha512-BZME50QkT556v+LvmTXPT8ssB2xxNkp9+msB5xYFEnUnWcdGAx5yUysQw70RJCb+U0GbkJSbxtlgMJgOQf/now==}
@@ -2112,6 +2118,15 @@ snapshots:
       mime: 2.6.0
     transitivePeerDependencies:
       - aws-crt
+      - bluebird
+      - supports-color
+      - ts-node
+      - typescript
+
+  '@pulumi/docker-build@0.0.7(typescript@5.7.2)':
+    dependencies:
+      '@pulumi/pulumi': 3.142.0(typescript@5.7.2)
+    transitivePeerDependencies:
       - bluebird
       - supports-color
       - ts-node
