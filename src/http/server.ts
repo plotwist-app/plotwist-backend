@@ -2,10 +2,10 @@ import fastifySwagger from '@fastify/swagger'
 import fastify from 'fastify'
 
 import {
-  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { transformSwaggerSchema } from './transform-schema'
 
 import { ZodError } from 'zod'
 import { env } from '../env'
@@ -41,7 +41,7 @@ app.register(fastifySwagger, {
   },
   transform: schema => {
     try {
-      return jsonSchemaTransform(schema)
+      return transformSwaggerSchema(schema)
     } catch (err) {
       return schema
     }

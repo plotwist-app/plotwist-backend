@@ -18,7 +18,7 @@ export function selectLists({
       user: {
         id: schema.users.id,
         username: schema.users.username,
-        imagePath: schema.users.imagePath,
+        avatarUrl: schema.users.avatarUrl,
       },
 
       likeCount:
@@ -110,11 +110,11 @@ export async function getListById(id: string, authenticatedUserId?: string) {
 export async function updateListBanner({
   listId,
   userId,
-  bannerPath,
+  bannerUrl,
 }: UpdateListBannerInput) {
   return db
     .update(schema.lists)
-    .set({ bannerPath })
+    .set({ bannerUrl })
     .where(and(eq(schema.lists.id, listId), eq(schema.lists.userId, userId)))
     .returning()
 }

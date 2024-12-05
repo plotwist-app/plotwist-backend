@@ -32,7 +32,7 @@ describe('get likes', () => {
           user: {
             id: user.id,
             username: user.username,
-            imagePath: user.imagePath,
+            avatarUrl: user.avatarUrl,
             subscriptionType: user.subscriptionType,
           },
         }),

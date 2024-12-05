@@ -83,8 +83,8 @@ export const updateUserResponseSchema = {
 }
 
 export const updateUserBodySchema = z.object({
-  bannerPath: z.string().optional(),
-  imagePath: z.string().optional(),
+  bannerUrl: z.string().optional(),
+  avatarUrl: z.string().optional(),
   username: z.string().optional(),
   biography: z.string().optional(),
 })
