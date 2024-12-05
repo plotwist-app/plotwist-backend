@@ -1,17 +1,15 @@
+// @ts-ignore
 import * as pulumi from '@pulumi/pulumi'
+// ts-ignore
 import * as docker_build from '@pulumi/docker-build'
+// ts-ignore
 import * as aws from '@pulumi/aws'
+// ts-ignore
 import * as awsx from '@pulumi/awsx'
 
 const repository = new awsx.ecr.Repository('aws-host-repository', {
   forceDelete: true,
 })
-
-// const image = new awsx.ecr.Image('aws-host-image', {
-//   repositoryUrl: repository.url,
-//   context: '../',
-//   platform: 'linux/amd64',
-// })
 
 const authToken = aws.ecr.getAuthorizationTokenOutput({
   registryId: repository.repository.registryId,
