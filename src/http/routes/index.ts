@@ -2,6 +2,7 @@ import cors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifyRedis from '@fastify/redis'
 import fastifySwaggerUi from '@fastify/swagger-ui'
+import fastifyMultipart from '@fastify/multipart'
 
 import type { FastifyInstance } from 'fastify'
 
@@ -20,6 +21,7 @@ import { socialLinksRoute } from './social-links'
 import { userEpisodesRoutes } from './user-episodes'
 import { likesRoutes } from './likes'
 import { userStatsRoutes } from './user-stats'
+import { imagesRoutes } from './images'
 
 export function routes(app: FastifyInstance) {
   if (env.APP_ENV === 'dev') {
@@ -35,6 +37,8 @@ export function routes(app: FastifyInstance) {
   app.register(fastifyJwt, {
     secret: env.JWT_SECRET,
   })
+
+  app.register(fastifyMultipart)
 
   app.register(fastifyRedis, {
     url: env.REDIS_URL,
@@ -53,6 +57,7 @@ export function routes(app: FastifyInstance) {
   app.register(userEpisodesRoutes)
   app.register(likesRoutes)
   app.register(userStatsRoutes)
+  app.register(imagesRoutes)
 
   return
 }
