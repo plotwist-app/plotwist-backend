@@ -39,7 +39,7 @@ export async function selectReviewReplies(
       user: {
         id: schema.users.id,
         username: schema.users.username,
-        imagePath: schema.users.imagePath,
+        avatarUrl: schema.users.avatarUrl,
       },
       likeCount:
         sql`(SELECT COUNT(*)::int FROM ${schema.likes} WHERE ${schema.likes.entityId} = ${schema.reviewReplies.id})`.as(

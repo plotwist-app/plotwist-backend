@@ -21,12 +21,12 @@ describe('update list banner', () => {
     const sut = await updateListBannerService({
       listId: list.id,
       userId: user.id,
-      bannerPath: 'new',
+      bannerUrl: 'new',
     })
 
     expect(sut).toEqual({
       list: expect.objectContaining({
-        bannerPath: 'new',
+        bannerUrl: 'new',
       }),
     })
   })
@@ -35,7 +35,7 @@ describe('update list banner', () => {
     const sut = await updateListBannerService({
       listId: faker.string.uuid(),
       userId: user.id,
-      bannerPath: 'new',
+      bannerUrl: 'new',
     })
 
     expect(sut).toBeInstanceOf(ListNotFoundError)

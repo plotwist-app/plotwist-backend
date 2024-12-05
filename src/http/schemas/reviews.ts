@@ -38,7 +38,7 @@ const review = createSelectSchema(schema.reviews).extend({
   user: createSelectSchema(schema.users).pick({
     id: true,
     username: true,
-    imagePath: true,
+    avatarUrl: true,
   }),
   likeCount: z.number(),
   replyCount: z.number(),
