@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { createImageQuerySchema } from '../schemas/images'
-import { deleteOldImages } from '@/domain/services/r2-storage/delete-old-images'
+import { deleteOldImagesService } from '@/domain/services/r2-storage/delete-old-images'
 import { uploadImageService } from '@/domain/services/r2-storage/upload-image'
 
 const MAXIMUM_FILE_SIZE_IN_BYTES = 1024 * 1024 * 4 // 4mb
@@ -23,7 +23,7 @@ export async function createImageController(
   const timestamp = Date.now()
   const fileName = `${request.user.id}-${timestamp}`
 
-  await deleteOldImages(`${folder}/${request.user.id}`)
+  await deleteOldImagesService(`${folder}/${request.user.id}`)
 
   const { url } = await uploadImageService({
     path: `${folder}/${fileName}`,

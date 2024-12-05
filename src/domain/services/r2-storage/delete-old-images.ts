@@ -2,7 +2,7 @@ import { r2Storage } from '@/domain/entities/r2-storage'
 import { env } from '@/env'
 import { DeleteObjectsCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
 
-export async function deleteOldImages(prefix: string) {
+export async function deleteOldImagesService(prefix: string) {
   try {
     const listCommand = new ListObjectsV2Command({
       Bucket: env.CLOUDFLARE_BUCKET,

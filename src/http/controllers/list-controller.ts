@@ -114,11 +114,11 @@ export async function updateListBannerController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { listId, bannerPath } = updateListBannerBodySchema.parse(request.body)
+  const { listId, bannerUrl } = updateListBannerBodySchema.parse(request.body)
 
   const result = await updateListBannerService({
     listId,
-    bannerPath,
+    bannerUrl,
     userId: request.user.id,
   })
 

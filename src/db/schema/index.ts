@@ -121,7 +121,7 @@ export const lists = pgTable(
       })
       .notNull(),
     description: varchar('description'),
-    bannerPath: varchar('banner_path'),
+    bannerUrl: varchar('banner_url'),
     visibility: listVisibilityEnum('visibility').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
@@ -222,8 +222,8 @@ export const users = pgTable(
     subscriptionType: subscriptionTypeEnum('subscription_type')
       .notNull()
       .default('MEMBER'),
-    bannerPath: varchar('banner_path'),
-    imagePath: varchar('image_path'),
+    bannerUrl: varchar('banner_url'),
+    avatarUrl: varchar('avatar_url'),
     isLegacy: boolean('is_legacy').default(false),
     biography: varchar('biography'),
   },

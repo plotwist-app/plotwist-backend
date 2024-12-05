@@ -18,7 +18,7 @@ export async function selectLikes(entityId: string) {
       user: {
         id: schema.users.id,
         username: schema.users.username,
-        imagePath: schema.users.imagePath,
+        avatarUrl: schema.users.avatarUrl,
         subscriptionType: schema.users.subscriptionType,
       },
     })
