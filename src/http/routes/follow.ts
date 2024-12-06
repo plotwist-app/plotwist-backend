@@ -1,0 +1,76 @@
+import type { FastifyInstance } from 'fastify'
+import type { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { verifyJwt } from '../middlewares/verify-jwt'
+import {
+  createFollowBodySchema,
+  deleteFollowBodySchema,
+  getFollowQuerySchema,
+  getFollowResponseSchema,
+} from '../schemas/follow'
+import {
+  createFollowController,
+  deleteFollowController,
+  getFollowController,
+} from '../controllers/follows-controller'
+
+const TAGS = ['FOLLOW']
+
+export async function followsRoutes(app: FastifyInstance) {
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'POST',
+      url: '/follow',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Follow user',
+        tags: TAGS,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        body: createFollowBodySchema,
+      },
+      handler: createFollowController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/follow',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get follow',
+        tags: TAGS,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        querystring: getFollowQuerySchema,
+        response: getFollowResponseSchema,
+      },
+      handler: getFollowController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'DELETE',
+      url: '/follow',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Delete follow',
+        tags: TAGS,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        body: deleteFollowBodySchema,
+      },
+      handler: deleteFollowController,
+    })
+  )
+}
