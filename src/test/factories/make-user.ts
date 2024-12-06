@@ -18,3 +18,11 @@ export async function makeUser(overrides: Overrides = {}): Promise<User> {
 
   return user
 }
+
+export async function makeUserReturningId(
+  overrides: Overrides = {}
+): Promise<string> {
+  const { id } = await makeUser(overrides)
+
+  return id
+}

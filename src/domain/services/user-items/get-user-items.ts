@@ -1,8 +1,9 @@
 import { selectUserItems } from '@/db/repositories/user-item-repository'
+import type { UserItemStatus } from '@/domain/value_objects/import_item_status_enum'
 
 export type GetUserItemsInput = {
   userId: string
-  status: 'WATCHED' | 'WATCHLIST' | 'WATCHING'
+  status: UserItemStatus
 }
 
 export async function getUserItemsService({

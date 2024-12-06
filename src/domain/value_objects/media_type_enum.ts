@@ -1,4 +1,3 @@
-export enum MediaTypeEnum {
-  TV_SHOW = 'TV_SHOW',
-  MOVIE = 'MOVIE',
-}
+import type { mediaTypeEnum } from '@/db/schema'
+
+export type MediaTypeEnum = (typeof mediaTypeEnum)['enumValues'][number]
