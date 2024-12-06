@@ -6,7 +6,6 @@
   "dotenv.enableAutocloaking": false,
   "cSpell.words": [
     "biomejs",
-    "bunx",
     "fastify",
     "healthcheck",
     "openapi",

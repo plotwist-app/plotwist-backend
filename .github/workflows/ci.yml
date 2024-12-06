@@ -25,29 +25,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Cache Bun dependencies
+      - name: Cache pnpm dependencies
         uses: actions/cache@v4
         with:
-          path: ~/.bun/install/cache
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-bun-
+            ${{ runner.os }}-pnpm-
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: pnpm/action-setup@v2
         with:
-          bun-version: 1.1.33
+          version: 7.x
 
       - name: Install
-        run: bun install
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Pretest
+        run: pnpm run pretest
 
       - name: Test
-        run: bun run test
+        run: pnpm run test
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/plotwist_test
           REDIS_URL: redis://default:redis@127.0.0.1:6379
 
       - name: Types
-        run: bun run typecheck
+        run: pnpm run typecheck
 
       - name: Build
-        run: bun run build
+        run: pnpm run build

@@ -1,46 +1,56 @@
-# syntax = docker/dockerfile:1
+FROM node:20-alpine AS base
 
-# Adjust BUN_VERSION as desired
-ARG BUN_VERSION=1.1.24
-FROM oven/bun:${BUN_VERSION}-slim as base
+# ---------
 
-LABEL fly_launch_runtime="Bun"
-
-# Bun app lives here
+FROM base AS deps
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
+COPY package.json pnpm-lock.yaml ./
 
+RUN corepack enable && pnpm install --frozen-lockfile
 
-# Throw-away build stage to reduce size of final image
-FROM base as build
+# ---------
 
-# Install packages needed to build node modules
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential pkg-config python-is-python3
+FROM base AS prod-deps
+WORKDIR /app
 
-# Install node modules
-COPY bun.lockb package.json ./
-RUN bun install
+COPY package.json pnpm-lock.yaml ./
 
-# Copy application code
+RUN corepack enable && pnpm install --prod --frozen-lockfile
+
+# ---------
+
+FROM base AS builder
+
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build application
-RUN bun run build
+RUN corepack enable pnpm && pnpm run build
 
-# Remove development dependencies
-RUN rm -rf node_modules && \
-    bun install --ci
+# ---------
 
+FROM base AS runner
+WORKDIR /app
 
-# Final stage for app image
-FROM base
+ENV NODE_ENV=production
 
-# Copy built application
-COPY --from=build /app /app
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 api
 
-# Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD [ "bun", "run", "start" ]
+RUN mkdir dist
+RUN chown api:nodejs dist
+RUN chown api:nodejs .
+
+COPY --chown=api:nodejs package.json ./
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=builder --chown=api:nodejs /app/dist ./
+
+USER api
+
+EXPOSE 3333
+
+ENV PORT=3333
+ENV HOSTNAME="0.0.0.0"
+
+ENTRYPOINT ["node", "server.js"]
