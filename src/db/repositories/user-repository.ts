@@ -2,10 +2,13 @@ import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertUserModel } from '@/domain/entities/user'
 import type { UpdateUserInput } from '@/domain/services/users/update-user'
-import { eq } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 
 export async function getUserByEmail(email: string) {
-  return db.select().from(schema.users).where(eq(schema.users.email, email))
+  return db
+    .select()
+    .from(schema.users)
+    .where(sql`LOWER(${schema.users.email}) = LOWER(${email})`)
 }
 
 export async function getUserById(id: string) {
@@ -16,7 +19,7 @@ export async function getUserByUsername(username: string) {
   return db
     .select()
     .from(schema.users)
-    .where(eq(schema.users.username, username))
+    .where(sql`LOWER(${schema.users.username}) = LOWER(${username})`)
 }
 
 export async function insertUser({

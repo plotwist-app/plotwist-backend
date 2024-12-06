@@ -2,6 +2,7 @@ import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createReviewBodySchema,
+  getReviewQuerySchema,
   getReviewsQuerySchema,
   reviewParamsSchema,
   updateReviewBodySchema,
@@ -14,6 +15,7 @@ import { deleteReviewService } from '@/domain/services/reviews/delete-review'
 import { getReviewsService } from '@/domain/services/reviews/get-reviews'
 import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
+import { getReviewService } from '@/domain/services/reviews/get-review'
 
 export async function createReviewController(
   request: FastifyRequest,
@@ -37,15 +39,16 @@ export async function getReviewsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { mediaType, tmdbId, userId } = getReviewsQuerySchema.parse(
-    request.query
-  )
+  const { mediaType, tmdbId, userId, limit, interval } =
+    getReviewsQuerySchema.parse(request.query)
 
   const result = await getReviewsService({
     mediaType,
     userId,
     tmdbId: Number(tmdbId),
+    limit: Number(limit),
     authenticatedUserId: request.user?.id,
+    interval,
   })
 
   return reply.status(200).send(result.reviews)
@@ -82,14 +85,14 @@ export async function getDetailedReviewsController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { limit, language, orderBy, userId } = getReviewsQuerySchema.parse(
-    request.query
-  )
+  const { limit, language, orderBy, userId, interval } =
+    getReviewsQuerySchema.parse(request.query)
 
   const result = await getReviewsService({
     limit: Number(limit),
     orderBy,
     userId,
+    interval,
   })
 
   const mergedReviews = await Promise.all(
@@ -105,4 +108,19 @@ export async function getDetailedReviewsController(
   )
 
   return reply.status(200).send({ reviews: mergedReviews })
+}
+
+export async function getReviewController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { mediaType, tmdbId } = getReviewQuerySchema.parse(request.query)
+
+  const result = await getReviewService({
+    mediaType,
+    tmdbId: Number(tmdbId),
+    userId: request.user.id,
+  })
+
+  return reply.status(200).send(result)
 }

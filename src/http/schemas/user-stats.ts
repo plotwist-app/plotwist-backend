@@ -1,3 +1,5 @@
+import { schema, statusEnum } from '@/db/schema'
+import { createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 export const getUserDefaultSchema = z.object({
@@ -60,6 +62,42 @@ export const getUserWatchedCastResponseSchema = {
         count: z.number(),
         percentage: z.number(),
         profilePath: z.string().nullable(),
+      })
+    ),
+  }),
+}
+
+export const getUserWatchedCountriesResponseSchema = {
+  200: z.object({
+    watchedCountries: z.array(
+      z.object({
+        name: z.string(),
+        count: z.number(),
+        percentage: z.number(),
+      })
+    ),
+  }),
+}
+
+export const getUserBestReviewsResponseSchema = {
+  200: z.object({
+    bestReviews: z.array(
+      createSelectSchema(schema.reviews).extend({
+        title: z.string(),
+        posterPath: z.string().nullable(),
+        date: z.string().nullable(),
+      })
+    ),
+  }),
+}
+
+export const getUserItemsStatusResponseSchema = {
+  200: z.object({
+    userItems: z.array(
+      z.object({
+        status: z.enum(statusEnum.enumValues),
+        count: z.number(),
+        percentage: z.number(),
       })
     ),
   }),

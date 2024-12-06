@@ -5,6 +5,7 @@ import {
   createReviewController,
   deleteReviewController,
   getDetailedReviewsController,
+  getReviewController,
   getReviewsController,
   updateReviewController,
 } from '../controllers/review-controller'
@@ -13,6 +14,8 @@ import {
   createReviewBodySchema,
   createReviewResponseSchema,
   getDetailedReviewsResponseSchema,
+  getReviewQuerySchema,
+  getReviewResponseSchema,
   getReviewsQuerySchema,
   getReviewsResponseSchema,
   reviewParamsSchema,
@@ -104,6 +107,26 @@ export async function reviewsRoute(app: FastifyInstance) {
       },
       handler: (request, reply) =>
         getDetailedReviewsController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/review',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get review',
+        tags: [reviewsTag],
+        querystring: getReviewQuerySchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        response: getReviewResponseSchema,
+      },
+      handler: getReviewController,
     })
   )
 }

@@ -7,7 +7,7 @@ import { getUserWatchedGenresService } from './get-user-watched-genres'
 const SCIENCE_FICTION_MOVIES = [157336] // Interestellar
 
 describe('get user watched genres', () => {
-  it('should be able to get user watched cast with right values', async () => {
+  it('should be able to get user watched genres with right values', async () => {
     const user = await makeUser()
 
     for (const movieId of SCIENCE_FICTION_MOVIES) {

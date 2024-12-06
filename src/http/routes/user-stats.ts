@@ -7,14 +7,20 @@ import {
   getUserMostWatchedSeriesController,
   getUserWatchedGenresController,
   getUserWatchedCastController,
+  getUserWatchedCountriesController,
+  getUserBestReviewsController,
+  getUserItemsStatusController,
 } from '../controllers/user-stats'
 import {
+  getUserBestReviewsResponseSchema,
   getUserDefaultSchema,
+  getUserItemsStatusResponseSchema,
   getUserMostWatchedSeriesResponseSchema,
   getUserReviewsCountResponseSchema,
   getUserStatsResponseSchema,
   getUserTotalHoursResponseSchema,
   getUserWatchedCastResponseSchema,
+  getUserWatchedCountriesResponseSchema,
   getUserWatchedGenresResponseSchema,
 } from '../schemas/user-stats'
 import { languageQuerySchema } from '../schemas/common'
@@ -110,6 +116,53 @@ export async function userStatsRoutes(app: FastifyInstance) {
       },
       handler: (request, reply) =>
         getUserWatchedCastController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/watched-countries',
+      schema: {
+        description: 'Get user watched countries',
+        params: getUserDefaultSchema,
+        query: languageQuerySchema,
+        response: getUserWatchedCountriesResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: (request, reply) =>
+        getUserWatchedCountriesController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/best-reviews',
+      schema: {
+        description: 'Get user best reviews',
+        params: getUserDefaultSchema,
+        query: languageQuerySchema,
+        response: getUserBestReviewsResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: (request, reply) =>
+        getUserBestReviewsController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/:id/items-status',
+      schema: {
+        description: 'Get user items status',
+        params: getUserDefaultSchema,
+        response: getUserItemsStatusResponseSchema,
+        tags: USER_STATS_TAG,
+      },
+      handler: (request, reply) =>
+        getUserItemsStatusController(request, reply, app.redis),
     })
   )
 }

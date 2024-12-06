@@ -10,6 +10,7 @@ export function selectLists({
   userId,
   limit = 5,
   authenticatedUserId,
+  visibility,
 }: GetListsInput) {
   return db
     .select({
@@ -17,7 +18,7 @@ export function selectLists({
       user: {
         id: schema.users.id,
         username: schema.users.username,
-        imagePath: schema.users.imagePath,
+        avatarUrl: schema.users.avatarUrl,
       },
 
       likeCount:
@@ -43,7 +44,12 @@ export function selectLists({
     ), NULL)`.as('items'),
     })
     .from(schema.lists)
-    .where(userId ? and(eq(schema.lists.userId, userId)) : undefined)
+    .where(
+      and(
+        userId ? eq(schema.lists.userId, userId) : undefined,
+        visibility ? eq(schema.lists.visibility, visibility) : undefined
+      )
+    )
     .leftJoin(schema.users, eq(schema.lists.userId, schema.users.id))
     .leftJoin(schema.listItems, eq(schema.listItems.listId, schema.lists.id))
     .groupBy(schema.lists.id, schema.users.id)
@@ -104,11 +110,11 @@ export async function getListById(id: string, authenticatedUserId?: string) {
 export async function updateListBanner({
   listId,
   userId,
-  bannerPath,
+  bannerUrl,
 }: UpdateListBannerInput) {
   return db
     .update(schema.lists)
-    .set({ bannerPath })
+    .set({ bannerUrl })
     .where(and(eq(schema.lists.id, listId), eq(schema.lists.userId, userId)))
     .returning()
 }

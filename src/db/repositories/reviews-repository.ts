@@ -1,6 +1,7 @@
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertReviewModel } from '@/domain/entities/review'
+import type { GetReviewInput } from '@/domain/services/reviews/get-review'
 import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
 import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import {
@@ -9,6 +10,8 @@ import {
   desc,
   eq,
   getTableColumns,
+  gte,
+  lte,
   type SQL,
   sql,
 } from 'drizzle-orm'
@@ -24,6 +27,8 @@ export async function selectReviews({
   authenticatedUserId,
   limit = 50,
   orderBy,
+  startDate,
+  endDate,
 }: GetReviewsServiceInput) {
   const orderCriteria = [
     orderBy === 'likeCount'
@@ -44,7 +49,7 @@ export async function selectReviews({
       user: {
         id: schema.users.id,
         username: schema.users.username,
-        imagePath: schema.users.imagePath,
+        avatarUrl: schema.users.avatarUrl,
       },
       likeCount:
         sql`(SELECT COUNT(*)::int FROM ${schema.likes} WHERE ${schema.likes.entityId} = ${schema.reviews.id})`.as(
@@ -74,7 +79,9 @@ export async function selectReviews({
       and(
         tmdbId ? eq(schema.reviews.tmdbId, tmdbId) : undefined,
         mediaType ? eq(schema.reviews.mediaType, mediaType) : undefined,
-        userId ? eq(schema.reviews.userId, userId) : undefined
+        userId ? eq(schema.reviews.userId, userId) : undefined,
+        startDate ? gte(schema.reviews.createdAt, startDate) : undefined,
+        endDate ? lte(schema.reviews.createdAt, endDate) : undefined
       )
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
@@ -108,4 +115,29 @@ export async function selectReviewsCount(userId?: string) {
     .select({ count: count() })
     .from(schema.reviews)
     .where(userId ? eq(schema.reviews.userId, userId) : undefined)
+}
+
+export async function selectBestReviews(userId: string) {
+  return db
+    .select()
+    .from(schema.reviews)
+    .where(and(eq(schema.reviews.userId, userId), eq(schema.reviews.rating, 5)))
+    .orderBy(desc(schema.reviews.rating), desc(schema.reviews.createdAt))
+}
+
+export async function selectReview({
+  mediaType,
+  tmdbId,
+  userId,
+}: GetReviewInput) {
+  return db
+    .select()
+    .from(schema.reviews)
+    .where(
+      and(
+        eq(schema.reviews.mediaType, mediaType),
+        eq(schema.reviews.tmdbId, tmdbId),
+        eq(schema.reviews.userId, userId)
+      )
+    )
 }

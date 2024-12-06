@@ -6,7 +6,7 @@ export const createListBodySchema = createInsertSchema(schema.lists).omit({
   id: true,
   userId: true,
   createdAt: true,
-  bannerPath: true,
+  bannerUrl: true,
 })
 
 export const createListResponseSchema = {
@@ -22,10 +22,15 @@ export const createListResponseSchema = {
     .describe('User not found'),
 }
 
-export const getListsQuerySchema = z.object({
-  userId: z.string().optional(),
-  limit: z.coerce.number().default(5).optional(),
-})
+export const getListsQuerySchema = createSelectSchema(schema.lists)
+  .pick({
+    visibility: true,
+  })
+  .partial()
+  .extend({
+    userId: z.string().optional(),
+    limit: z.coerce.number().default(5).optional(),
+  })
 
 export const getListsResponseSchema = {
   200: z.object({
@@ -43,7 +48,7 @@ export const getListsResponseSchema = {
         user: createSelectSchema(schema.users).pick({
           id: true,
           username: true,
-          imagePath: true,
+          avatarUrl: true,
         }),
       })
     ),
@@ -70,7 +75,7 @@ export const updateListBodySchema = createInsertSchema(schema.lists).omit({
   userId: true,
   id: true,
   createdAt: true,
-  bannerPath: true,
+  bannerUrl: true,
 })
 
 export const updateListResponseSchema = {
@@ -102,7 +107,7 @@ export const getListResponseSchema = {
 }
 
 export const updateListBannerBodySchema = z.object({
-  bannerPath: z.string(),
+  bannerUrl: z.string(),
   listId: z.string(),
 })
 

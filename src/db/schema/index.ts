@@ -8,8 +8,10 @@ import {
   pgEnum,
   pgTable,
   primaryKey,
+  real,
   timestamp,
   unique,
+  uniqueIndex,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
@@ -143,7 +145,7 @@ export const lists = pgTable(
       })
       .notNull(),
     description: varchar('description'),
-    bannerPath: varchar('banner_path'),
+    bannerUrl: varchar('banner_url'),
     visibility: listVisibilityEnum('visibility').notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
@@ -201,7 +203,7 @@ export const reviews = pgTable('reviews', {
   tmdbId: integer('tmdb_id').notNull(),
   mediaType: mediaTypeEnum('media_type').notNull(),
   review: varchar('review').notNull(),
-  rating: integer('rating').notNull(),
+  rating: real('rating').notNull(),
   hasSpoilers: boolean('has_spoilers').notNull().default(false),
   language: languagesEnum('language'),
 })
@@ -244,15 +246,19 @@ export const users = pgTable(
     subscriptionType: subscriptionTypeEnum('subscription_type')
       .notNull()
       .default('MEMBER'),
-    bannerPath: varchar('banner_path'),
-    imagePath: varchar('image_path'),
+    bannerUrl: varchar('banner_url'),
+    avatarUrl: varchar('avatar_url'),
     isLegacy: boolean('is_legacy').default(false),
     biography: varchar('biography'),
   },
   table => {
     return {
-      email: index('email_idx').on(table.email),
-      username: index('username_idx').on(table.username),
+      usernameLowerIdx: uniqueIndex('username_lower_idx').on(
+        sql`LOWER(${table.username})`
+      ),
+      emailLowerIdx: uniqueIndex('email_lower_idx').on(
+        sql`LOWER(${table.email})`
+      ),
     }
   }
 )

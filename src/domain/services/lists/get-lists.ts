@@ -4,13 +4,11 @@ export type GetListsInput = {
   userId?: string
   limit?: number
   authenticatedUserId?: string
+  visibility?: 'PUBLIC' | 'PRIVATE' | 'NETWORK'
 }
 
-export async function getLists({
-  authenticatedUserId,
-  limit,
-  userId,
-}: GetListsInput) {
-  const lists = await selectLists({ authenticatedUserId, limit, userId })
+export async function getListsServices(input: GetListsInput) {
+  const lists = await selectLists(input)
+
   return { lists }
 }
