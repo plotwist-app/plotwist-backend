@@ -82,6 +82,9 @@ devDependencies:
   '@types/bcrypt':
     specifier: ^5.0.2
     version: 5.0.2
+  '@types/ioredis-mock':
+    specifier: ^8.2.5
+    version: 8.2.5
   '@types/node':
     specifier: 22.5.0
     version: 22.5.0

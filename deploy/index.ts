@@ -1,10 +1,10 @@
 // @ts-ignore
 import * as pulumi from '@pulumi/pulumi'
-// ts-ignore
+// @ts-ignore
 import * as docker_build from '@pulumi/docker-build'
-// ts-ignore
+// @ts-ignore
 import * as aws from '@pulumi/aws'
-// ts-ignore
+// @ts-ignore
 import * as awsx from '@pulumi/awsx'
 
 const repository = new awsx.ecr.Repository('aws-host-repository', {
