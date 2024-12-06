@@ -1,6 +1,6 @@
 {
-  "id": "1545ea29-d35b-4e8c-8aed-ecd1569edba7",
-  "prevId": "9727c54e-a13e-4b4f-973b-788d209d6d0e",
+  "id": "d2c5b7b5-e02f-4bc1-b296-030c6c65ce7b",
+  "prevId": "f6aeb171-d84e-4975-a5d8-c5f137c9a618",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -420,8 +420,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "banner_path": {
-          "name": "banner_path",
+        "banner_url": {
+          "name": "banner_url",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -681,7 +681,7 @@
         },
         "rating": {
           "name": "rating",
-          "type": "integer",
+          "type": "real",
           "primaryKey": false,
           "notNull": true
         },
@@ -1106,14 +1106,14 @@
           "notNull": true,
           "default": "'MEMBER'"
         },
-        "banner_path": {
-          "name": "banner_path",
+        "banner_url": {
+          "name": "banner_url",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "image_path": {
-          "name": "image_path",
+        "avatar_url": {
+          "name": "avatar_url",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -1133,32 +1133,32 @@
         }
       },
       "indexes": {
-        "email_idx": {
-          "name": "email_idx",
+        "username_lower_idx": {
+          "name": "username_lower_idx",
           "columns": [
             {
-              "expression": "email",
-              "isExpression": false,
+              "expression": "LOWER(\"username\")",
               "asc": true,
+              "isExpression": true,
               "nulls": "last"
             }
           ],
-          "isUnique": false,
+          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
         },
-        "username_idx": {
-          "name": "username_idx",
+        "email_lower_idx": {
+          "name": "email_lower_idx",
           "columns": [
             {
-              "expression": "username",
-              "isExpression": false,
+              "expression": "LOWER(\"email\")",
               "asc": true,
+              "isExpression": true,
               "nulls": "last"
             }
           ],
-          "isUnique": false,
+          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}

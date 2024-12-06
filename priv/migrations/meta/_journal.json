@@ -253,6 +253,13 @@
       "when": 1733432371823,
       "tag": "20241205205931_rename_list_banner_column",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1733486281923,
+      "tag": "20241206115801_create_import_tables",
+      "breakpoints": true
     }
   ]
 }
