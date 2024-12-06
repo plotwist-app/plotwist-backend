@@ -1,30 +1,56 @@
-ARG BUN_VERSION=1.1.24
-FROM oven/bun:${BUN_VERSION}-slim AS base
+FROM node:20-alpine AS base
 
-LABEL fly_launch_runtime="Bun"
+# ---------
 
+FROM base AS deps
 WORKDIR /app
 
-ENV NODE_ENV="production"
+COPY package.json pnpm-lock.yaml ./
 
-FROM base AS build
+RUN corepack enable && pnpm install --frozen-lockfile
 
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential pkg-config python-is-python3
+# ---------
 
-COPY bun.lockb package.json ./
-RUN bun install
+FROM base AS prod-deps
+WORKDIR /app
 
+COPY package.json pnpm-lock.yaml ./
+
+RUN corepack enable && pnpm install --prod --frozen-lockfile
+
+# ---------
+
+FROM base AS builder
+
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN bun run build
+RUN corepack enable pnpm && pnpm run build
 
-RUN rm -rf node_modules && \
-    bun install --ci
+# ---------
 
-FROM base
+FROM base AS runner
+WORKDIR /app
 
-COPY --from=build /app /app
+ENV NODE_ENV=production
 
-EXPOSE 3000
-CMD [ "bun", "run", "start" ]
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 api
+
+RUN mkdir dist
+RUN chown api:nodejs dist
+RUN chown api:nodejs .
+
+COPY --chown=api:nodejs package.json ./
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=builder --chown=api:nodejs /app/dist ./
+
+USER api
+
+EXPOSE 3333
+
+ENV PORT=3333
+ENV HOSTNAME="0.0.0.0"
+
+ENTRYPOINT ["node", "server.js"]
