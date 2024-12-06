@@ -5,10 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-## 1.1.0
+### 1.2.2
+
+### Fixed
+
+- Ci file not pushing to AWS [#55](https://github.com/plotwist-app/plotwist-backend/pull/52/)
+
+### 1.2.0
 
 ### Added
 
+- Infra in AWS with pulumi [#52](https://github.com/plotwist-app/plotwist-backend/pull/52/)
 - Adds endpoint to create image [#54](https://github.com/plotwist-app/plotwist-backend/pull/54/)
 - Adds case-insensitive indexes to user email and username [#53](https://github.com/plotwist-app/plotwist-backend/pull/53/)
 - Add user best reviews and items status [#50](https://github.com/plotwist-app/plotwist-backend/pull/51/)
