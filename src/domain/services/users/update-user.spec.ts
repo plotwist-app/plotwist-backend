@@ -27,30 +27,31 @@ describe('update user', () => {
     })
   })
 
-  it('should be able to update user banner path', async () => {
-    const bannerPath = faker.internet.url()
+  it('should be able to update user banner url', async () => {
+    const bannerUrl = faker.internet.url()
     const sut = await updateUserService({
       userId: user.id,
-      bannerPath: bannerPath,
+      bannerUrl: bannerUrl,
     })
 
     expect(sut).toEqual({
       user: expect.objectContaining({
-        bannerPath: bannerPath,
+        bannerUrl: bannerUrl,
       }),
     })
   })
 
-  it('should be able to update user image path', async () => {
-    const imagePath = faker.internet.url()
+  it('should be able to update user image url', async () => {
+    const avatarUrl = faker.internet.url()
+
     const sut = await updateUserService({
       userId: user.id,
-      bannerPath: imagePath,
+      avatarUrl: avatarUrl,
     })
 
     expect(sut).toEqual({
       user: expect.objectContaining({
-        bannerPath: imagePath,
+        avatarUrl: avatarUrl,
       }),
     })
   })

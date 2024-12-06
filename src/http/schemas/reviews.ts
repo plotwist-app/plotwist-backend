@@ -38,7 +38,7 @@ const review = createSelectSchema(schema.reviews).extend({
   user: createSelectSchema(schema.users).pick({
     id: true,
     username: true,
-    imagePath: true,
+    avatarUrl: true,
   }),
   likeCount: z.number(),
   replyCount: z.number(),
@@ -79,5 +79,19 @@ export const getDetailedReviewsResponseSchema = {
         backdropPath: z.string().nullable(),
       })
     ),
+  }),
+}
+
+export const getReviewQuerySchema = createSelectSchema(schema.reviews)
+  .pick({
+    mediaType: true,
+  })
+  .extend({
+    tmdbId: z.string(),
+  })
+
+export const getReviewResponseSchema = {
+  200: z.object({
+    review: createSelectSchema(schema.reviews).nullable(),
   }),
 }

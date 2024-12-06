@@ -225,6 +225,34 @@
       "when": 1732898105398,
       "tag": "20241129163505_runtime_in_user_episodes",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1733284935022,
+      "tag": "20241204040215_real_rating",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1733339403493,
+      "tag": "20241204191003_add_case_insensitive_indexes_to_users",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1733432283129,
+      "tag": "20241205205803_rename_users_images_columns",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1733432371823,
+      "tag": "20241205205931_rename_list_banner_column",
+      "breakpoints": true
     }
   ]
 }

@@ -3,7 +3,7 @@ import { ListNotFoundError } from '@/domain/errors/list-not-found-error'
 
 export type UpdateListBannerInput = {
   listId: string
-  bannerPath?: string
+  bannerUrl?: string
   userId: string
 }
 

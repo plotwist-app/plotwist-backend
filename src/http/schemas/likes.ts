@@ -28,7 +28,7 @@ export const getLikesResponseSchema = {
         user: createSelectSchema(schema.users).pick({
           id: true,
           username: true,
-          imagePath: true,
+          avatarUrl: true,
           subscriptionType: true,
         }),
       })
