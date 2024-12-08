@@ -1,9 +1,10 @@
 import type { QueueService } from '@/ports/queue-service'
+import { createSqsClient } from '@/sqs'
 import {
   CreateQueueCommand,
   ReceiveMessageCommand,
   SendMessageCommand,
-  SQSClient,
+  type SQSClient,
 } from '@aws-sdk/client-sqs'
 
 async function createQueue(sqsClient: SQSClient, queueName: string) {
