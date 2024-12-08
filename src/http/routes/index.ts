@@ -6,7 +6,7 @@ import fastifyMultipart from '@fastify/multipart'
 
 import type { FastifyInstance } from 'fastify'
 
-import { env } from '../../env'
+import { config } from '../../env'
 
 import { healthCheck } from './healthcheck'
 import { listItemRoute } from './list-item'
@@ -24,24 +24,24 @@ import { userStatsRoutes } from './user-stats'
 import { imagesRoutes } from './images'
 
 export function routes(app: FastifyInstance) {
-  if (env.APP_ENV === 'dev') {
+  if (config.app.APP_ENV === 'dev') {
     app.register(fastifySwaggerUi, {
       routePrefix: '/api-docs',
     })
   }
 
   app.register(cors, {
-    origin: env.CLIENT_URL ?? '*',
+    origin: config.app.CLIENT_URL ?? '*',
   })
 
   app.register(fastifyJwt, {
-    secret: env.JWT_SECRET,
+    secret: config.app.JWT_SECRET,
   })
 
   app.register(fastifyMultipart)
 
   app.register(fastifyRedis, {
-    url: env.REDIS_URL,
+    url: config.redis.REDIS_URL,
   })
 
   app.register(usersRoute)

@@ -1,5 +1,5 @@
 import { r2Storage } from '@/domain/entities/r2-storage'
-import { env } from '@/env'
+import { config } from '@/env'
 import { Upload } from '@aws-sdk/lib-storage'
 import type { Readable } from 'node:stream'
 
@@ -20,7 +20,7 @@ export async function uploadImageService({
     client: r2Storage,
     params: {
       Key: key,
-      Bucket: env.CLOUDFLARE_BUCKET,
+      Bucket: config.cloudflare.CLOUDFLARE_BUCKET,
       Body: contentStream,
       ContentType: contentType,
     },
@@ -28,5 +28,7 @@ export async function uploadImageService({
 
   await upload.done()
 
-  return { url: new URL(key, env.CLOUDFLARE_PUBLIC_URL).toString() }
+  return {
+    url: new URL(key, config.cloudflare.CLOUDFLARE_PUBLIC_URL).toString(),
+  }
 }
