@@ -1,6 +1,5 @@
 import { insertFollow } from '@/db/repositories/followers-repository'
 import type { Follow, InsertFollow } from '@/domain/entities/follow'
-import type {} from '@/domain/entities/likes'
 
 type Overrides = Partial<Follow> & {
   followerId: string
