@@ -22,6 +22,7 @@ import { userEpisodesRoutes } from './user-episodes'
 import { likesRoutes } from './likes'
 import { userStatsRoutes } from './user-stats'
 import { imagesRoutes } from './images'
+import { followsRoutes } from './follow'
 
 export function routes(app: FastifyInstance) {
   if (config.app.APP_ENV === 'dev') {
@@ -31,7 +32,7 @@ export function routes(app: FastifyInstance) {
   }
 
   app.register(cors, {
-    origin: config.app.CLIENT_URL ?? '*',
+    origin: '*',
   })
 
   app.register(fastifyJwt, {
@@ -58,6 +59,7 @@ export function routes(app: FastifyInstance) {
   app.register(likesRoutes)
   app.register(userStatsRoutes)
   app.register(imagesRoutes)
+  app.register(followsRoutes)
 
   return
 }
