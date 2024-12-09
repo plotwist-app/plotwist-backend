@@ -9,5 +9,7 @@ export async function deleteFollowService({
   followedId,
   followerId,
 }: DeleteFollowServiceInput) {
-  return deleteFollow({ followedId, followerId })
+  const [deletedFollow] = await deleteFollow({ followedId, followerId })
+
+  return { follow: deletedFollow }
 }

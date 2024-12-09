@@ -10,10 +10,13 @@ export async function insertFollow({
   followedId,
   followerId,
 }: CreateFollowServiceInput) {
-  return db.insert(schema.followers).values({
-    followedId,
-    followerId,
-  })
+  return db
+    .insert(schema.followers)
+    .values({
+      followedId,
+      followerId,
+    })
+    .returning()
 }
 
 export async function getFollow({
@@ -43,6 +46,7 @@ export async function deleteFollow({
         eq(schema.followers.followerId, followerId)
       )
     )
+    .returning()
 }
 
 export async function selectFollowers({
