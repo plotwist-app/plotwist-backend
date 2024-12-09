@@ -1,4 +1,4 @@
-import { env } from '@/env'
+import { config } from '@/env'
 import { TMDB } from '@plotwist_app/tmdb'
 
-export const tmdb = TMDB(env.TMDB_ACCESS_TOKEN)
+export const tmdb = TMDB(config.services.TMDB_ACCESS_TOKEN)

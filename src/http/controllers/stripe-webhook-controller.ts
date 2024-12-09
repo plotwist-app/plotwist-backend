@@ -1,7 +1,7 @@
 import { stripe } from '@/domain/entities/stripe'
 import { completeSubscription } from '@/domain/services/subscriptions/complete-subscription'
 
-import { env } from '@/env'
+import { config } from '@/env'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import type Stripe from 'stripe'
 
@@ -20,7 +20,7 @@ export async function stripeWebhookController(
     event = stripe.webhooks.constructEvent(
       request.body as string,
       stripeSignature,
-      env.STRIPE_SECRET_KEY
+      config.services.STRIPE_SECRET_KEY
     )
   } catch (error) {
     return reply.status(400).send(`Webhook Error: ${error}`)

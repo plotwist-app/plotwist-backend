@@ -1,11 +1,11 @@
 import { r2Storage } from '@/domain/entities/r2-storage'
-import { env } from '@/env'
+import { config } from '@/env'
 import { DeleteObjectsCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
 
 export async function deleteOldImagesService(prefix: string) {
   try {
     const listCommand = new ListObjectsV2Command({
-      Bucket: env.CLOUDFLARE_BUCKET,
+      Bucket: config.cloudflare.CLOUDFLARE_BUCKET,
       Prefix: prefix,
     })
 
@@ -20,7 +20,7 @@ export async function deleteOldImagesService(prefix: string) {
     }))
 
     const deleteCommand = new DeleteObjectsCommand({
-      Bucket: env.CLOUDFLARE_BUCKET,
+      Bucket: config.cloudflare.CLOUDFLARE_BUCKET,
       Delete: {
         Objects: objectsToDelete,
         Quiet: true,
