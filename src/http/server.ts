@@ -8,7 +8,7 @@ import {
 import { transformSwaggerSchema } from './transform-schema'
 
 import { ZodError } from 'zod'
-import { env } from '../env'
+import { config } from '../env'
 import { routes } from './routes'
 
 export const app = fastify()
@@ -25,7 +25,7 @@ app.register(fastifySwagger, {
     },
     servers: [
       {
-        url: env.BASE_URL,
+        url: config.app.BASE_URL,
         description: 'Development server',
       },
     ],
@@ -70,9 +70,9 @@ routes(app)
 // Server
 app
   .listen({
-    port: env.PORT,
+    port: config.app.PORT,
     host: '0.0.0.0',
   })
   .then(() => {
-    console.log(`HTTP server running at ${env.BASE_URL}`)
+    console.log(`HTTP server running at ${config.app.BASE_URL}`)
   })
