@@ -4,6 +4,8 @@ import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createFollowBodySchema,
   deleteFollowBodySchema,
+  getFollowersQuerySchema,
+  getFollowersResponseSchema,
   getFollowQuerySchema,
   getFollowResponseSchema,
 } from '../schemas/follow'
@@ -11,6 +13,7 @@ import {
   createFollowController,
   deleteFollowController,
   getFollowController,
+  getFollowersController,
 } from '../controllers/follows-controller'
 
 const TAGS = ['FOLLOW']
@@ -71,6 +74,21 @@ export async function followsRoutes(app: FastifyInstance) {
         body: deleteFollowBodySchema,
       },
       handler: deleteFollowController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/followers',
+      schema: {
+        description: 'Get followers',
+        tags: TAGS,
+        querystring: getFollowersQuerySchema,
+        response: getFollowersResponseSchema,
+        operationId: 'getFollowers',
+      },
+      handler: getFollowersController,
     })
   )
 }

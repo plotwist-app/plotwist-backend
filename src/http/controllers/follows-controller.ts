@@ -2,11 +2,13 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createFollowBodySchema,
   deleteFollowBodySchema,
+  getFollowersQuerySchema,
   getFollowQuerySchema,
 } from '../schemas/follow'
 import { createFollowService } from '@/domain/services/follows/create-follow'
 import { getFollowService } from '@/domain/services/follows/get-follow'
 import { deleteFollowService } from '@/domain/services/follows/delete-follow'
+import { getFollowersService } from '@/domain/services/follows/get-followers'
 
 export async function createFollowController(
   request: FastifyRequest,
@@ -44,4 +46,18 @@ export async function deleteFollowController(
   await deleteFollowService({ followedId: userId, followerId: request.user.id })
 
   return reply.status(204).send()
+}
+
+export async function getFollowersController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { pageSize, ...query } = getFollowersQuerySchema.parse(request.query)
+
+  const result = await getFollowersService({
+    ...query,
+    pageSize: Number(pageSize),
+  })
+
+  return reply.status(200).send(result)
 }

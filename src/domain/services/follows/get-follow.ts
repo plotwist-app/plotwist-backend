@@ -1,4 +1,4 @@
-import { getFollow } from '@/db/repositories/follows-repository'
+import { getFollow } from '@/db/repositories/followers-repository'
 
 export type GetFollowServiceInput = {
   followerId: string
@@ -10,5 +10,6 @@ export async function getFollowService({
   followerId,
 }: GetFollowServiceInput) {
   const [follow] = await getFollow({ followedId, followerId })
+
   return { follow: follow || null }
 }

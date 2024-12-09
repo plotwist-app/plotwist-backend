@@ -1,4 +1,4 @@
-import { deleteFollow } from '@/db/repositories/follows-repository'
+import { deleteFollow } from '@/db/repositories/followers-repository'
 
 export type DeleteFollowServiceInput = {
   followerId: string

@@ -1,4 +1,4 @@
-import { insertFollow } from '@/db/repositories/follows-repository'
+import { insertFollow } from '@/db/repositories/followers-repository'
 
 export type CreateFollowServiceInput = {
   followerId: string
