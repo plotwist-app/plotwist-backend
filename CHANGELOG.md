@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Add followers endpoints [#58](https://github.com/plotwist-app/plotwist-backend/pull/58/)
 - Adds endpoint to create image [#54](https://github.com/plotwist-app/plotwist-backend/pull/54/)
 - Adds case-insensitive indexes to user email and username [#53](https://github.com/plotwist-app/plotwist-backend/pull/53/)
 - Add user best reviews and items status [#50](https://github.com/plotwist-app/plotwist-backend/pull/51/)
