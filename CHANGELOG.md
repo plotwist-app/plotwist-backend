@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### 1.3.0
+
+### Added
+
+- AWS SQS setup [(#57)](https://github.com/plotwist-app/plotwist-backend/pull/57)
+- Add followers endpoints [#58](https://github.com/plotwist-app/plotwist-backend/pull/58/)
+
+### Changed
+
+- Organized project envs to use as config in the project [(#57)](https://github.com/plotwist-app/plotwist-backend/pull/57)
+
 ### 1.2.2
 
 ### Fixed
