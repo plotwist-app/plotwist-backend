@@ -9,7 +9,7 @@ export async function createImageController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { folder } = createImageQuerySchema.parse(request.query)
+  const { folder, fileName } = createImageQuerySchema.parse(request.query)
   const uploadedFile = await request.file({
     limits: { fileSize: MAXIMUM_FILE_SIZE_IN_BYTES },
   })
@@ -21,12 +21,10 @@ export async function createImageController(
   const { file: contentStream, mimetype } = uploadedFile
 
   const timestamp = Date.now()
-  const fileName = `${request.user.id}-${timestamp}`
-
   await deleteOldImagesService(`${folder}/${request.user.id}`)
 
   const { url } = await uploadImageService({
-    path: `${folder}/${fileName}`,
+    path: `${folder}/${fileName || request.user.id}-${timestamp}`,
     contentStream,
     contentType: mimetype,
   })
