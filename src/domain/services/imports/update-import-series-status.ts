@@ -1,4 +1,4 @@
-import { updateImportSeriesStatus } from '@/db/repositories/import-series-repository'
+import { updateImportSeriesStatus as repository } from '@/db/repositories/import-series-repository'
 import { checkAndFinalizeImport } from '@/db/repositories/user-import-repository'
 import type { ImportStatusEnum } from '@/domain/value-objects/import-item-status-enum'
 
@@ -7,11 +7,11 @@ export type UpdateUserImportInterface = {
   newStatus: ImportStatusEnum
 }
 
-export async function updateImportItemStatus({
+export async function updateImportSeriesStatus({
   id,
   newStatus,
 }: UpdateUserImportInterface) {
-  const [result] = await updateImportSeriesStatus(id, newStatus)
+  const [result] = await repository(id, newStatus)
 
   checkAndFinalizeImport(result.importId)
 

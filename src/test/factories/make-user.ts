@@ -1,12 +1,13 @@
 import { insertUser } from '@/db/repositories/user-repository'
 import type { InsertUserModel, User } from '@/domain/entities/user'
 import { faker } from '@faker-js/faker'
+import { randomUUID } from 'node:crypto'
 
 type Overrides = Partial<InsertUserModel>
 
 export function makeRawUser(overrides: Overrides = {}) {
   return {
-    email: faker.internet.email(),
+    email: buildEmail(),
     password: faker.internet.password(),
     username: faker.internet.username(),
     ...overrides,
@@ -17,6 +18,13 @@ export async function makeUser(overrides: Overrides = {}): Promise<User> {
   const [user] = await insertUser(makeRawUser(overrides))
 
   return user
+}
+
+function buildEmail() {
+  const baseEmail = faker.internet.email()
+  const email = `${randomUUID()}${baseEmail}`
+
+  return email
 }
 
 export async function makeUserReturningId(
