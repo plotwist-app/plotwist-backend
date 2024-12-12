@@ -10,7 +10,9 @@ import {
   createListItemBodySchema,
   deleteListItemParamSchema,
   getListItemsParamsSchema,
+  updateListItemsBodySchema,
 } from '../schemas/list-item'
+import { updateListItemsService } from '@/domain/services/list-item/update-list-items'
 
 export async function createListItemController(
   request: FastifyRequest,
@@ -77,4 +79,14 @@ export async function deleteListItemController(
   }
 
   return reply.status(204).send()
+}
+
+export async function updateListItemController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { listItems } = updateListItemsBodySchema.parse(request.body)
+  const result = await updateListItemsService({ listItems })
+
+  return reply.status(200).send(result)
 }
