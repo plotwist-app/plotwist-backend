@@ -10,7 +10,5 @@ export async function updateListItemsService(
   const result = await updateListItems(input)
   const listItems = result.flat()
 
-  console.log({ listItems })
-
   return { listItems }
 }
