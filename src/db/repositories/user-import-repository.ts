@@ -16,7 +16,7 @@ import type {
 } from '@/domain/entities/import-movies'
 import type { PgTransaction } from 'drizzle-orm/pg-core'
 import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js'
-import { sql, type ExtractTablesWithRelations } from 'drizzle-orm'
+import { eq, sql, type ExtractTablesWithRelations } from 'drizzle-orm'
 import { GetUserImportItemsMapper } from '../mappers/user-import-mapper'
 
 type TrxType = PgTransaction<
@@ -114,7 +114,7 @@ export type GetImportResult = {
   movies: ImportMovie[]
 }
 
-export async function GetImport(id: string): Promise<GetImportResult> {
+export async function getImport(id: string): Promise<GetImportResult> {
   const [{ result }] = (await db.execute(sql`
      SELECT jsonb_build_object(
         'userImport', jsonb_build_object(
@@ -167,4 +167,35 @@ export async function GetImport(id: string): Promise<GetImportResult> {
   `)) as { result: GetImportResult }[]
 
   return GetUserImportItemsMapper(result)
+}
+
+export async function checkAndFinalizeImport(importId: string): Promise<void> {
+  await db.transaction(async trx => {
+    const [moviesStatusCheck] = await trx.execute(sql`
+      SELECT COUNT(*) AS incomplete_movies
+      FROM ${schema.importMovies}
+      WHERE ${schema.importMovies.importId} = ${importId}
+        AND ${schema.importMovies.importStatus} NOT IN ('COMPLETED', 'FAILED')
+    `)
+
+    const [seriesStatusCheck] = await trx.execute(sql`
+      SELECT COUNT(*) AS incomplete_series
+      FROM ${schema.importSeries}
+      WHERE ${schema.importSeries.importId} = ${importId}
+        AND ${schema.importSeries.importStatus} NOT IN ('COMPLETED', 'FAILED')
+    `)
+
+    const incompleteMovies = moviesStatusCheck.incomplete_movies
+    const incompleteSeries = seriesStatusCheck.incomplete_series
+
+    if (incompleteMovies === 0 && incompleteSeries === 0) {
+      await trx
+        .update(schema.userImports)
+        .set({
+          importStatus: 'COMPLETED',
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.userImports.id, importId))
+    }
+  })
 }
