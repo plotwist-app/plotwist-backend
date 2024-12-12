@@ -43,3 +43,12 @@ export const deleteListItemResponseSchema = {
     })
     .describe('Unauthorized.'),
 }
+
+export const updateListItemsBodySchema = z.object({
+  listItems: z.array(
+    z.object({
+      id: z.string(),
+      position: z.number(),
+    })
+  ),
+})

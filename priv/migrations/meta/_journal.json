@@ -253,6 +253,20 @@
       "when": 1733432371823,
       "tag": "20241205205931_rename_list_banner_column",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1734018963133,
+      "tag": "20241212155603_not_null_list_item_position",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1734024102065,
+      "tag": "20241212172142_nullable_position",
+      "breakpoints": true
     }
   ]
 }
