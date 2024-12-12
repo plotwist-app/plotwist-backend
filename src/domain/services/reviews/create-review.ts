@@ -3,10 +3,20 @@ import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import postgres from 'postgres'
 import type { InsertReviewModel } from '../../entities/review'
+import { insertUserActivity } from '@/db/repositories/user-activities'
 
-export async function createReview(params: InsertReviewModel) {
+export async function createReviewService(params: InsertReviewModel) {
   try {
     const [review] = await insertReview(params)
+
+    await insertUserActivity({
+      userId: review.userId,
+      activityType: 'CREATE_REVIEW',
+      entityId: review.id,
+      entityType: 'REVIEW',
+      metadata: JSON.stringify({ tmdbId: params.tmdbId }),
+    })
+
     return { review }
   } catch (error) {
     if (error instanceof postgres.PostgresError) {

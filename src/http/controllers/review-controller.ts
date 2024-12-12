@@ -9,7 +9,7 @@ import {
 } from '../schemas/reviews'
 
 import { DomainError } from '@/domain/errors/domain-error'
-import { createReview } from '@/domain/services/reviews/create-review'
+import { createReviewService } from '@/domain/services/reviews/create-review'
 import { deleteReviewService } from '@/domain/services/reviews/delete-review'
 
 import { getReviewsService } from '@/domain/services/reviews/get-reviews'
@@ -23,7 +23,7 @@ export async function createReviewController(
 ) {
   const body = createReviewBodySchema.parse(request.body)
 
-  const result = await createReview({
+  const result = await createReviewService({
     ...body,
     userId: request.user.id,
   })
