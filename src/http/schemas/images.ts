@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const createImageQuerySchema = z.object({
   folder: z.enum(['banner', 'avatar', 'list']),
+  fileName: z.string().optional(),
 })
 
 export const createImageResponseSchema = {
