@@ -65,7 +65,7 @@ export async function insertList(input: InsertListModel) {
 }
 
 export async function deleteList(id: string) {
-  return db.delete(schema.lists).where(eq(schema.lists.id, id))
+  return db.delete(schema.lists).where(eq(schema.lists.id, id)).returning()
 }
 
 export async function updateList(
