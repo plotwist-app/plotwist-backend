@@ -7,7 +7,10 @@ export type UpdateListItemsServiceInput = {
 export async function updateListItemsService(
   input: UpdateListItemsServiceInput
 ) {
-  const [listItem] = await updateListItems(input)
+  const result = await updateListItems(input)
+  const listItems = result.flat()
 
-  return { listItem }
+  console.log({ listItems })
+
+  return { listItems }
 }
