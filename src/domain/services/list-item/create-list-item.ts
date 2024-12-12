@@ -3,10 +3,26 @@ import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import postgres from 'postgres'
 import type { InsertListItem } from '../../entities/list-item'
 import { ListNotFoundError } from '../../errors/list-not-found-error'
+import { insertUserActivity } from '@/db/repositories/user-activities'
 
-export async function createListItemService(values: InsertListItem) {
+export async function createListItemService(
+  values: InsertListItem,
+  userId: string
+) {
   try {
     const [listItem] = await insertListItem(values)
+
+    insertUserActivity({
+      activityType: 'ADD_ITEM',
+      entityType: 'LIST',
+      entityId: listItem.listId,
+      userId,
+      metadata: JSON.stringify({
+        tmdbId: listItem.tmdbId,
+        mediaType: listItem.mediaType,
+      }),
+    })
+
     return { listItem }
   } catch (error) {
     if (error instanceof postgres.PostgresError) {

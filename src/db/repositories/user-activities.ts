@@ -1,7 +1,6 @@
 import type {
   DeleteUserActivity,
   InsertUserActivity,
-  SelectUserActivities,
 } from '@/domain/entities/user-activity'
 import { db } from '..'
 import { schema } from '../schema'
@@ -11,11 +10,18 @@ export async function insertUserActivity(values: InsertUserActivity) {
   return db.insert(schema.userActivities).values(values)
 }
 
-export async function selectUserActivities({ userId }: SelectUserActivities) {
+export async function selectUserActivities({ userId }: { userId: string }) {
   return db
     .select()
     .from(schema.userActivities)
     .where(eq(schema.userActivities.userId, userId))
+  // .leftJoin(
+  //   schema.users,
+  //   join =>
+  //     (eq(schema.userActivities.activityType, 'FOLLOW_USER') ||
+  //       eq(schema.userActivities.activityType, 'UNFOLLOW_USER')) &&
+  //     eq(sql`(metadata::jsonb->>'followedId')`, sql`${schema.users.id}::text`)
+  // )
 }
 
 export async function deleteUserActivity({

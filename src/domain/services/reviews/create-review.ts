@@ -14,7 +14,10 @@ export async function createReviewService(params: InsertReviewModel) {
       activityType: 'CREATE_REVIEW',
       entityId: review.id,
       entityType: 'REVIEW',
-      metadata: JSON.stringify({ tmdbId: params.tmdbId }),
+      metadata: JSON.stringify({
+        tmdbId: params.tmdbId,
+        mediaType: params.mediaType,
+      }),
     })
 
     return { review }
