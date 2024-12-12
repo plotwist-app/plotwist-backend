@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Add update list item position endpoint [#61](https://github.com/plotwist-app/plotwist-backend/pull/61)
+
 ### 1.3.0
 
 ### Added
