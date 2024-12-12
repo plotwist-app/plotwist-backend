@@ -27,13 +27,15 @@ export async function getListItem(id: string) {
 export async function updateListItems({
   listItems,
 }: UpdateListItemsServiceInput) {
-  const promises = listItems.map(({ id, position }) =>
-    db
-      .update(schema.listItems)
-      .set({ position })
-      .where(eq(schema.listItems.id, id))
-      .returning()
-  )
+  return db.transaction(async tx => {
+    const promises = listItems.map(({ id, position }) =>
+      tx
+        .update(schema.listItems)
+        .set({ position })
+        .where(eq(schema.listItems.id, id))
+        .returning()
+    )
 
-  return Promise.all(promises)
+    return await Promise.all(promises)
+  })
 }
