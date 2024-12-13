@@ -257,8 +257,22 @@
     {
       "idx": 36,
       "version": "7",
-      "when": 1733486281923,
-      "tag": "20241206115801_create_import_tables",
+      "when": 1734018963133,
+      "tag": "20241212155603_not_null_list_item_position",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "7",
+      "when": 1734024102065,
+      "tag": "20241212172142_nullable_position",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1734043270250,
+      "tag": "20241212224110_create_import_tables",
       "breakpoints": true
     }
   ]

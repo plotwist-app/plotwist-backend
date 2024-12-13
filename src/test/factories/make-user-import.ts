@@ -1,4 +1,4 @@
-import { insertUserImport } from '@/db/repositories/user-import'
+import { insertUserImport } from '@/db/repositories/user-import-repository'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
 
 import { randomUUID } from 'node:crypto'
@@ -11,8 +11,8 @@ type Overrides = Partial<InsertUserImportWithItems>
 export async function makeRawUserImport(
   overrides: Overrides
 ): Promise<InsertUserImportWithItems> {
-  const series = makeManyRawImportSeries(1, {})
-  const movies = makeManyRawImportMovies(1, {})
+  const series = overrides.series ?? makeManyRawImportSeries(1, {})
+  const movies = overrides.movies ?? makeManyRawImportMovies(1, {})
 
   return {
     id: overrides.id ?? randomUUID(),
