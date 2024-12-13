@@ -17,7 +17,6 @@ import type {
 import type { PgTransaction } from 'drizzle-orm/pg-core'
 import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js'
 import { eq, sql, type ExtractTablesWithRelations } from 'drizzle-orm'
-import { GetUserImportItemsMapper } from '../mappers/user-import-mapper'
 
 type TrxType = PgTransaction<
   PostgresJsQueryResultHKT,
@@ -115,58 +114,30 @@ export type GetImportResult = {
 }
 
 export async function getImport(id: string): Promise<GetImportResult> {
-  const [{ result }] = (await db.execute(sql`
-     SELECT jsonb_build_object(
-        'userImport', jsonb_build_object(
-          'id', ${schema.userImports.id},
-          'userId', ${schema.userImports.userId},
-          'itemsCount', ${schema.userImports.itemsCount},
-          'provider', ${schema.userImports.provider},
-          'importStatus', ${schema.userImports.importStatus},
-          'createdAt', TO_CHAR(${schema.userImports.createdAt}, 'YYYY-MM-DD"T"HH24:MI:SS.MSZ'),
-          'updatedAt', TO_CHAR(${schema.userImports.updatedAt}, 'YYYY-MM-DD"T"HH24:MI:SS.MSZ')
-        ),
-        'movies', COALESCE((
-          SELECT jsonb_agg(jsonb_build_object(
-            'id', ${schema.importMovies.id},
-            'name', ${schema.importMovies.name},
-            'endDate', ${schema.importMovies.endDate},
-            'userItemStatus', ${schema.importMovies.userItemStatus},
-            'importStatus', ${schema.importMovies.importStatus},
-            'tmdbId', ${schema.importMovies.tmdbId},
-            'importId', ${schema.importMovies.importId},
-            'createdAt', TO_CHAR(${schema.importMovies.createdAt}, 'YYYY-MM-DD"T"HH24:MI:SS.MSZ'),
-            'updatedAt', TO_CHAR(${schema.importMovies.updatedAt}, 'YYYY-MM-DD"T"HH24:MI:SS.MSZ')
-          ))
-          FROM ${schema.importMovies}
-          WHERE ${schema.importMovies.importId} = ${schema.userImports.id}
-        ), '[]'::jsonb),
-        'series', COALESCE((
-          SELECT jsonb_agg(jsonb_build_object(
-            'id', ${schema.importSeries.id},
-            'name', ${schema.importSeries.name},
-            'startDate', ${schema.importSeries.startDate},
-            'endDate', ${schema.importSeries.endDate},
-            'userItemStatus', ${schema.importSeries.userItemStatus},
-            'importStatus', ${schema.importSeries.importStatus},
-            'tmdbId', ${schema.importSeries.tmdbId},
-            'watchedEpisodes', ${schema.importSeries.watchedEpisodes},
-            'seriesEpisodes', ${schema.importSeries.seriesEpisodes},
-            'importId', ${schema.importSeries.importId},
-            'createdAt', TO_CHAR(${schema.importSeries.createdAt}, 'YYYY-MM-DD"T"HH24:MI:SS.MSZ'),
-            'updatedAt', TO_CHAR(${schema.importSeries.updatedAt}, 'YYYY-MM-DD"T"HH24:MI:SS.MSZ')
-          ))
-          FROM ${schema.importSeries}
-          WHERE ${schema.importSeries.importId} = ${schema.userImports.id}
-        ), '[]'::jsonb)
-      ) AS result
-    FROM 
-      ${schema.userImports}
-    WHERE 
-      ${schema.userImports.id} = ${id}
-  `)) as { result: GetImportResult }[]
+  const [userImport] = await db
+    .select()
+    .from(schema.userImports)
+    .where(eq(schema.userImports.id, id))
 
-  return GetUserImportItemsMapper(result)
+  if (!userImport) {
+    throw new Error(`User import with id ${id} not found`)
+  }
+
+  const movies = await db
+    .select()
+    .from(schema.importMovies)
+    .where(eq(schema.importMovies.importId, id))
+
+  const series = await db
+    .select()
+    .from(schema.importSeries)
+    .where(eq(schema.importSeries.importId, id))
+
+  return {
+    userImport,
+    movies,
+    series,
+  }
 }
 
 export async function checkAndFinalizeImport(importId: string): Promise<void> {
