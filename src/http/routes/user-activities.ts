@@ -3,9 +3,9 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { getUserActivitiesController } from '../controllers/user-activities-controller'
 import {
   getUserActivitiesParamsSchema,
+  getUserActivitiesQuerySchema,
   getUserActivitiesResponseSchema,
 } from '../schemas/user-activities'
-import { languageQuerySchema } from '../schemas/common'
 
 const TAGS = ['User activities']
 
@@ -18,7 +18,7 @@ export async function userActivitiesRoutes(app: FastifyInstance) {
         description: 'Get user activities',
         operationId: 'getUserActivities',
         tags: TAGS,
-        querystring: languageQuerySchema,
+        querystring: getUserActivitiesQuerySchema,
         params: getUserActivitiesParamsSchema,
         response: getUserActivitiesResponseSchema,
       },

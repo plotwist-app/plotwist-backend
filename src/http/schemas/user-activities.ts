@@ -1,10 +1,18 @@
 import { schema } from '@/db/schema'
 import { createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
+import { languageQuerySchema } from './common'
 
 export const getUserActivitiesParamsSchema = z.object({
   userId: z.string(),
 })
+
+export const getUserActivitiesQuerySchema = z
+  .object({
+    cursor: z.string().optional(),
+    pageSize: z.string().default('20'),
+  })
+  .merge(languageQuerySchema)
 
 const getUserActivity = createSelectSchema(schema.userActivities).omit({
   activityType: true,
@@ -42,7 +50,7 @@ export const getUserActivitiesResponseSchema = {
         }),
         z.object({
           ...getUserActivity,
-          activityType: z.enum(['CREATE_LIST']),
+          activityType: z.enum(['CREATE_LIST', 'LIKE_LIST']),
           entityType: z.enum(['LIST']),
           entityId: z.string(),
           additionalInfo: z.object({
@@ -62,6 +70,11 @@ export const getUserActivitiesResponseSchema = {
             tmdbId: z.number(),
             mediaType: z.enum(['TV_SHOW', 'MOVIE']),
             title: z.string(),
+            author: z.object({
+              id: z.string(),
+              username: z.string(),
+              avatarUrl: z.string().nullable(),
+            }),
           }),
         }),
         z.object({
@@ -72,6 +85,19 @@ export const getUserActivitiesResponseSchema = {
           additionalInfo: z.object({
             id: z.string(),
             reply: z.string(),
+            review: z.object({
+              id: z.string(),
+              review: z.string(),
+              rating: z.number(),
+              tmdbId: z.number(),
+              mediaType: z.enum(['TV_SHOW', 'MOVIE']),
+              title: z.string(),
+              author: z.object({
+                id: z.string(),
+                username: z.string(),
+                avatarUrl: z.string().nullable(),
+              }),
+            }),
           }),
         }),
         z.object({
@@ -80,7 +106,17 @@ export const getUserActivitiesResponseSchema = {
           entityType: z.null(),
           entityId: z.null(),
           additionalInfo: z.object({
-            episodes: z.array(z.object({})),
+            episodes: z.array(
+              z.object({
+                tmdbId: z.number(),
+                seasonNumber: z.number(),
+                episodeNumber: z.number(),
+                runtime: z.number(),
+                userId: z.string(),
+              })
+            ),
+            title: z.string(),
+            tmdbId: z.number(),
           }),
         }),
         z.object({
@@ -97,6 +133,7 @@ export const getUserActivitiesResponseSchema = {
         }),
       ])
     ),
+    nextCursor: z.string().nullable(),
   }),
 }
 

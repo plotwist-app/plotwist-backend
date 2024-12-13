@@ -6,7 +6,8 @@ import type { Language } from '@plotwist_app/tmdb'
 export type FormatUserActivitiesInput = {
   redis: FastifyRedis
   language: Language
-} & GetUserActivitiesResponseType
+  userActivities: GetUserActivitiesResponseType['userActivities']
+}
 
 export async function formatUserActivitiesService({
   userActivities,
@@ -35,6 +36,52 @@ export async function formatUserActivitiesService({
           additionalInfo: {
             ...activity.additionalInfo,
             title,
+          },
+        }
+      }
+
+      if (activity.activityType === 'WATCH_EPISODE') {
+        const { episodes } = activity.additionalInfo
+        const tmdbId = episodes[0].tmdbId
+
+        const { title } = await getTMDBDataService(redis, {
+          language,
+          mediaType: 'TV_SHOW',
+          tmdbId: tmdbId,
+        })
+
+        return {
+          ...activity,
+          additionalInfo: {
+            ...activity.additionalInfo,
+            title,
+            tmdbId,
+          },
+        }
+      }
+
+      if (
+        activity.activityType === 'LIKE_REPLY' ||
+        activity.activityType === 'CREATE_REPLY'
+      ) {
+        const {
+          review: { tmdbId, mediaType },
+        } = activity.additionalInfo
+
+        const { title } = await getTMDBDataService(redis, {
+          language,
+          mediaType: mediaType,
+          tmdbId: tmdbId,
+        })
+
+        return {
+          ...activity,
+          additionalInfo: {
+            ...activity.additionalInfo,
+            review: {
+              ...activity.additionalInfo.review,
+              title,
+            },
           },
         }
       }

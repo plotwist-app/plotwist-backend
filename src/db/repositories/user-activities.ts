@@ -1,22 +1,28 @@
 import type {
+  DeleteFollowUserActivity,
   DeleteUserActivity,
   InsertUserActivity,
+  SelectUserActivities,
 } from '@/domain/entities/user-activity'
 import { db } from '..'
 import { schema } from '../schema'
-import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
 
 export async function insertUserActivity(values: InsertUserActivity) {
   return db.insert(schema.userActivities).values(values)
 }
 
-export async function selectUserActivities({ userId }: { userId: string }) {
+export async function selectUserActivities({
+  userId,
+  pageSize,
+  cursor,
+}: SelectUserActivities) {
   return db
     .select({
       ...getTableColumns(schema.userActivities),
       additionalInfo: sql`
         CASE
-          WHEN ${schema.userActivities.activityType} IN ('FOLLOW_USER', 'UNFOLLOW_USER') THEN json_build_object(
+          WHEN ${schema.userActivities.activityType} IN ('FOLLOW_USER') THEN json_build_object(
             'id', ${schema.users.id},
             'username', ${schema.users.username},
             'avatarUrl', ${schema.users.avatarUrl}
@@ -33,26 +39,52 @@ export async function selectUserActivities({ userId }: { userId: string }) {
             'rating', ${schema.reviews.rating},
             'tmdbId', ${schema.reviews.tmdbId},
             'mediaType', ${schema.reviews.mediaType},
+            'author', (
+              SELECT json_build_object(
+                'id', ${schema.users.id},
+                'username', ${schema.users.username},
+                'avatarUrl', ${schema.users.avatarUrl}
+              )
+              FROM ${schema.users}
+              WHERE ${schema.users.id} = ${schema.reviews.userId}
+            )
           )
 
           WHEN ${schema.userActivities.activityType} IN ('LIKE_REPLY', 'CREATE_REPLY') THEN json_build_object(
             'id', ${schema.reviewReplies.id},
-            'reply', ${schema.reviewReplies.reply}
+            'reply', ${schema.reviewReplies.reply},
+            'review', (
+              SELECT json_build_object(
+                'id', ${schema.reviews.id},
+                'review', ${schema.reviews.review},
+                'rating', ${schema.reviews.rating},
+                'tmdbId', ${schema.reviews.tmdbId},
+                'mediaType', ${schema.reviews.mediaType},
+                'author', json_build_object(
+                  'id', ${schema.users.id},
+                  'username', ${schema.users.username},
+                  'avatarUrl', ${schema.users.avatarUrl}
+                )
+              )
+              FROM ${schema.reviews}
+              LEFT JOIN ${schema.users} ON ${schema.users.id} = ${schema.reviews.userId}
+              WHERE ${schema.reviews.id} = ${schema.reviewReplies.reviewId}
+            )
           )
 
           WHEN ${schema.userActivities.activityType} IN ('ADD_ITEM', 'DELETE_ITEM') THEN json_build_object(
-            'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
+           tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
             'mediaType', ${sql`(metadata::jsonb->>'mediaType')`},
             'listId', ${schema.lists.id},
             'listTitle', ${schema.lists.title}
           )
 
           WHEN ${schema.userActivities.activityType} IN ('WATCH_EPISODE') THEN json_build_object(
-            'episodes', ${sql`(metadata::jsonb)`}
+            'episodes', metadata
           )
 
           WHEN ${schema.userActivities.activityType} IN ('CHANGE_STATUS') THEN json_build_object(
-            'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
+              'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
             'mediaType', ${sql`(metadata::jsonb->>'mediaType')`},
             'status', ${sql`(metadata::jsonb->>'status')`}
           )
@@ -62,8 +94,19 @@ export async function selectUserActivities({ userId }: { userId: string }) {
       `.as('additionalInfo'),
     })
     .from(schema.userActivities)
-    .where(eq(schema.userActivities.userId, userId))
+    .where(
+      and(
+        eq(schema.userActivities.userId, userId),
+        cursor
+          ? lte(
+              sql`DATE_TRUNC('milliseconds', ${schema.userActivities.createdAt})`,
+              cursor
+            )
+          : undefined
+      )
+    )
     .orderBy(desc(schema.userActivities.createdAt))
+    .limit(pageSize + 1)
     .leftJoin(
       schema.users,
       sql`(${schema.userActivities.activityType} = 'FOLLOW_USER' OR ${schema.userActivities.activityType} = 'UNFOLLOW_USER') 
@@ -108,6 +151,23 @@ export async function deleteUserActivity({
         eq(schema.userActivities.entityId, entityId),
         eq(schema.userActivities.entityType, entityType),
         eq(schema.userActivities.userId, userId)
+      )
+    )
+}
+
+export async function deleteFollowUserActivity({
+  followedId,
+  followerId,
+  userId,
+}: DeleteFollowUserActivity) {
+  return db
+    .delete(schema.userActivities)
+    .where(
+      and(
+        eq(schema.userActivities.activityType, 'FOLLOW_USER'),
+        eq(schema.userActivities.userId, userId),
+        sql`jsonb_extract_path_text(${schema.userActivities.metadata}, 'followerId') = ${followerId}`,
+        sql`jsonb_extract_path_text(${schema.userActivities.metadata}, 'followedId') = ${followedId}`
       )
     )
 }

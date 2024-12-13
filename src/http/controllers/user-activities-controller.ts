@@ -2,11 +2,11 @@ import { getUserActivitiesService } from '@/domain/services/user-activities/get-
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   getUserActivitiesParamsSchema,
+  getUserActivitiesQuerySchema,
   type GetUserActivitiesResponseType,
 } from '../schemas/user-activities'
 import { formatUserActivitiesService } from '@/domain/services/user-activities/format-user-activities'
 import type { FastifyRedis } from '@fastify/redis'
-import { languageQuerySchema } from '../schemas/common'
 
 export async function getUserActivitiesController(
   request: FastifyRequest,
@@ -14,17 +14,21 @@ export async function getUserActivitiesController(
   redis: FastifyRedis
 ) {
   const { userId } = getUserActivitiesParamsSchema.parse(request.params)
-  const { language } = languageQuerySchema.parse(request.query)
+  const { language, pageSize, cursor } = getUserActivitiesQuerySchema.parse(
+    request.query
+  )
 
   const result = (await getUserActivitiesService({
     userId,
+    cursor,
+    pageSize: Number(pageSize),
   })) as GetUserActivitiesResponseType
 
-  const formattedResult = await formatUserActivitiesService({
+  const { userActivities } = await formatUserActivitiesService({
     userActivities: result.userActivities,
     language,
     redis,
   })
 
-  return reply.status(200).send(formattedResult)
+  return reply.status(200).send({ ...result, userActivities })
 }

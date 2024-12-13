@@ -7,10 +7,20 @@ type NonNullableRequired<T> = {
 
 export type UserActvity = InferSelectModel<typeof schema.userActivities>
 export type InsertUserActivity = InferInsertModel<typeof schema.userActivities>
-export type SelectUserActivities = Pick<UserActvity, 'userId'>
 export type DeleteUserActivity = NonNullableRequired<
   Pick<
     InsertUserActivity,
     'activityType' | 'entityId' | 'entityType' | 'userId'
   >
 >
+
+export type DeleteFollowUserActivity = {
+  followerId: string
+  followedId: string
+  userId: string
+}
+
+export type SelectUserActivities = Pick<UserActvity, 'userId'> & {
+  pageSize: number
+  cursor?: string
+}

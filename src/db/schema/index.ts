@@ -5,6 +5,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   primaryKey,
@@ -417,8 +418,6 @@ export const activityTypeEnum = pgEnum('activity_type', [
   'CREATE_REVIEW', // done
   'CREATE_REPLY', // done
   'FOLLOW_USER', // done
-  'UNFOLLOW_USER', // done
-  'UPDATE_PROFILE',
   'WATCH_EPISODE', // done
   'CHANGE_STATUS', // done
 ])
@@ -435,7 +434,7 @@ export const userActivities = pgTable(
     activityType: activityTypeEnum('activity_type').notNull(),
     entityId: uuid('entity_id'),
     entityType: likeEntityEnum('entity_type'),
-    metadata: varchar('metadata'),
+    metadata: jsonb('metadata'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   table => {
