@@ -8,14 +8,18 @@ import {
   deleteListItemParamSchema,
   getListItemsParamsSchema,
   getListItemsResponseSchema,
+  updateListItemsBodySchema,
 } from '../schemas/list-item'
 
 import {
   createListItemController,
   deleteListItemController,
   getListItemsController,
+  updateListItemController,
 } from '../controllers/list-item-controller'
 import { languageQuerySchema } from '../schemas/common'
+
+const TAGS = ['List item']
 
 export async function listItemRoute(app: FastifyInstance) {
   app.after(() =>
@@ -25,7 +29,7 @@ export async function listItemRoute(app: FastifyInstance) {
       onRequest: [verifyJwt],
       schema: {
         description: 'Create list item',
-        tags: ['List Item'],
+        tags: TAGS,
         body: createListItemBodySchema,
         response: createListItemResponseSchema,
         security: [
@@ -44,7 +48,7 @@ export async function listItemRoute(app: FastifyInstance) {
       url: '/list-items/by/:listId',
       schema: {
         description: 'Create list item',
-        tags: ['List Item'],
+        tags: TAGS,
         params: getListItemsParamsSchema,
         querystring: languageQuerySchema,
         response: getListItemsResponseSchema,
@@ -60,7 +64,7 @@ export async function listItemRoute(app: FastifyInstance) {
       onRequest: [verifyJwt],
       schema: {
         description: 'Delete list item',
-        tags: ['List Item'],
+        tags: TAGS,
         params: deleteListItemParamSchema,
         security: [
           {
@@ -69,6 +73,26 @@ export async function listItemRoute(app: FastifyInstance) {
         ],
       },
       handler: deleteListItemController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PATCH',
+      url: '/list-items',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Update list items position',
+        operationId: 'updateListItemsPositions',
+        tags: TAGS,
+        body: updateListItemsBodySchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: updateListItemController,
     })
   )
 }
