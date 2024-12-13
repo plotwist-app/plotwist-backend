@@ -14,12 +14,11 @@ export async function createListItemService(
 
     insertUserActivity({
       activityType: 'ADD_ITEM',
-      entityType: 'LIST',
-      entityId: listItem.listId,
       userId,
       metadata: JSON.stringify({
         tmdbId: listItem.tmdbId,
         mediaType: listItem.mediaType,
+        listId: listItem.listId,
       }),
     })
 
