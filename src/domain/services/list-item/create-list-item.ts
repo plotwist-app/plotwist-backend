@@ -12,7 +12,7 @@ export async function createListItemService(
   try {
     const [listItem] = await insertListItem(values)
 
-    insertUserActivity({
+    await insertUserActivity({
       activityType: 'ADD_ITEM',
       userId,
       entityId: listItem.listId,

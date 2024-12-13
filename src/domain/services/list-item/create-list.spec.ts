@@ -21,7 +21,7 @@ describe('create list item', () => {
 
   it('should be able to create a list item', async () => {
     const listItem = makeRawListItem({ listId: list.id })
-    const sut = await createListItemService(listItem)
+    const sut = await createListItemService(listItem, user.id)
 
     expect(sut).toEqual({
       listItem: expect.objectContaining({
@@ -32,7 +32,7 @@ describe('create list item', () => {
 
   it('should not be able able to create a list item with invalid list id', async () => {
     const listItem = makeRawListItem({ listId: faker.string.uuid() })
-    const sut = await createListItemService(listItem)
+    const sut = await createListItemService(listItem, user.id)
 
     expect(sut).toBeInstanceOf(ListNotFoundError)
   })
