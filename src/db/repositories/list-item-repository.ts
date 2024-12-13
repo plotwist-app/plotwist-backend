@@ -17,7 +17,10 @@ export async function selectListItems(listId: string) {
 }
 
 export async function deleteListItem(id: string) {
-  return db.delete(schema.listItems).where(eq(schema.listItems.id, id))
+  return db
+    .delete(schema.listItems)
+    .where(eq(schema.listItems.id, id))
+    .returning()
 }
 
 export async function getListItem(id: string) {

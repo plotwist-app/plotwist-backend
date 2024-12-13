@@ -31,7 +31,7 @@ export async function updateReviewReply(id: string, reply: string) {
 
 export async function selectReviewReplies(
   reviewId: string,
-  authenticatedUserId: string
+  authenticatedUserId?: string
 ) {
   return db
     .select({

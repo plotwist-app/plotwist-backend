@@ -4,6 +4,7 @@ import { hashPassword } from '@/utils/password'
 import postgres from 'postgres'
 import { EmailOrUsernameAlreadyRegisteredError } from '../../errors/email-or-username-already-registered-error'
 import { HashPasswordError } from '../../errors/hash-password-error'
+import { insertUserActivity } from '@/db/repositories/user-activities'
 
 export type CreateUserInterface = {
   username: string
@@ -29,6 +30,11 @@ export async function createUser({
       email,
       password: hashedPassword,
       username,
+    })
+
+    await insertUserActivity({
+      activityType: 'CREATE_ACCOUNT',
+      userId: user.id,
     })
 
     const { password: removedPassword, ...formattedUser } = user

@@ -65,7 +65,7 @@ export async function getReviewRepliesController(
   reply: FastifyReply
 ) {
   const { reviewId } = getReviewRepliesQuerySchema.parse(request.query)
-  const result = await getReviewRepliesService(reviewId, request.user.id)
+  const result = await getReviewRepliesService(reviewId, request.user?.id)
 
   return reply.status(200).send(result.reviewReplies)
 }
