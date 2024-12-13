@@ -19,10 +19,10 @@ export async function selectUserActivities({ userId }: { userId: string }) {
           WHEN ${schema.userActivities.activityType} IN ('FOLLOW_USER', 'UNFOLLOW_USER') THEN json_build_object(
             'id', ${schema.users.id},
             'username', ${schema.users.username},
-            'bannerUrl', ${schema.users.bannerUrl}
+            'avatarUrl', ${schema.users.avatarUrl}
           )
 
-          WHEN ${schema.userActivities.activityType} IN ('CREATE_LIST', 'DELETE_LIST', 'LIKE_LIST') THEN json_build_object(
+          WHEN ${schema.userActivities.activityType} IN ('CREATE_LIST', 'LIKE_LIST') THEN json_build_object(
             'id', ${schema.lists.id},
             'title', ${schema.lists.title}
           )
@@ -32,7 +32,7 @@ export async function selectUserActivities({ userId }: { userId: string }) {
             'review', ${schema.reviews.review},
             'rating', ${schema.reviews.rating},
             'tmdbId', ${schema.reviews.tmdbId},
-            'mediaType', ${schema.reviews.mediaType}
+            'mediaType', ${schema.reviews.mediaType},
           )
 
           WHEN ${schema.userActivities.activityType} IN ('LIKE_REPLY', 'CREATE_REPLY') THEN json_build_object(
@@ -73,7 +73,6 @@ export async function selectUserActivities({ userId }: { userId: string }) {
       schema.lists,
       sql`(
         ${schema.userActivities.activityType} = 'CREATE_LIST' 
-        OR ${schema.userActivities.activityType} = 'DELETE_LIST' 
         OR ${schema.userActivities.activityType} = 'LIKE_LIST'
         OR ${schema.userActivities.activityType} = 'ADD_ITEM'
         OR ${schema.userActivities.activityType} = 'DELETE_ITEM')

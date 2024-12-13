@@ -8,6 +8,8 @@ export const getUserActivitiesParamsSchema = z.object({
 
 const getUserActivity = createSelectSchema(schema.userActivities).omit({
   activityType: true,
+  entityType: true,
+  entityId: true,
 }).shape
 
 export const getUserActivitiesResponseSchema = {
@@ -17,25 +19,32 @@ export const getUserActivitiesResponseSchema = {
         z.object({
           ...getUserActivity,
           activityType: z.enum(['ADD_ITEM', 'DELETE_ITEM']),
+          entityType: z.enum(['LIST']),
+          entityId: z.string(),
           additionalInfo: z.object({
             tmdbId: z.number(),
-            mediaType: z.string(),
+            mediaType: z.enum(['TV_SHOW', 'MOVIE']),
             listId: z.string().nullable(),
             listTitle: z.string().nullable(),
+            title: z.string(),
           }),
         }),
         z.object({
           ...getUserActivity,
           activityType: z.enum(['FOLLOW_USER', 'UNFOLLOW_USER']),
+          entityType: z.null(),
+          entityId: z.null(),
           additionalInfo: z.object({
             id: z.string(),
             username: z.string(),
-            bannerUrl: z.string().nullable(),
+            avatarUrl: z.string().nullable(),
           }),
         }),
         z.object({
           ...getUserActivity,
-          activityType: z.enum(['CREATE_LIST', 'DELETE_LIST']),
+          activityType: z.enum(['CREATE_LIST']),
+          entityType: z.enum(['LIST']),
+          entityId: z.string(),
           additionalInfo: z.object({
             id: z.string(),
             title: z.string(),
@@ -44,17 +53,22 @@ export const getUserActivitiesResponseSchema = {
         z.object({
           ...getUserActivity,
           activityType: z.enum(['LIKE_REVIEW', 'CREATE_REVIEW']),
+          entityType: z.enum(['REVIEW']),
+          entityId: z.string(),
           additionalInfo: z.object({
             id: z.string(),
             review: z.string(),
             rating: z.number(),
             tmdbId: z.number(),
-            mediaType: z.string(),
+            mediaType: z.enum(['TV_SHOW', 'MOVIE']),
+            title: z.string(),
           }),
         }),
         z.object({
           ...getUserActivity,
           activityType: z.enum(['LIKE_REPLY', 'CREATE_REPLY']),
+          entityType: z.enum(['REPLY']),
+          entityId: z.string(),
           additionalInfo: z.object({
             id: z.string(),
             reply: z.string(),
@@ -63,6 +77,8 @@ export const getUserActivitiesResponseSchema = {
         z.object({
           ...getUserActivity,
           activityType: z.literal('WATCH_EPISODE'),
+          entityType: z.null(),
+          entityId: z.null(),
           additionalInfo: z.object({
             episodes: z.array(z.object({})),
           }),
@@ -70,13 +86,19 @@ export const getUserActivitiesResponseSchema = {
         z.object({
           ...getUserActivity,
           activityType: z.literal('CHANGE_STATUS'),
+          entityType: z.null(),
+          entityId: z.null(),
           additionalInfo: z.object({
             tmdbId: z.number(),
-            mediaType: z.string(),
+            mediaType: z.enum(['TV_SHOW', 'MOVIE']),
             status: z.string(),
+            title: z.string(),
           }),
         }),
       ])
     ),
   }),
 }
+
+const getUserActivitiesResponseType = getUserActivitiesResponseSchema[200]._type
+export type GetUserActivitiesResponseType = typeof getUserActivitiesResponseType

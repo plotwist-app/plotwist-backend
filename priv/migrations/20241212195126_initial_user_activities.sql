@@ -21,3 +21,29 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "user_activity_idx" ON "user_activities" USING btree ("user_id","created_at");
+
+
+CREATE OR REPLACE FUNCTION delete_user_activities()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM user_activities
+    WHERE entity_id = OLD.id;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER on_delete_lists
+AFTER DELETE ON lists
+FOR EACH ROW
+EXECUTE FUNCTION delete_user_activities();
+
+CREATE TRIGGER on_delete_reviews
+AFTER DELETE ON reviews
+FOR EACH ROW
+EXECUTE FUNCTION delete_user_activities();
+
+CREATE TRIGGER on_delete_replies
+AFTER DELETE ON review_replies
+FOR EACH ROW
+EXECUTE FUNCTION delete_user_activities();

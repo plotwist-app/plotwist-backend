@@ -5,6 +5,7 @@ import {
   getUserActivitiesParamsSchema,
   getUserActivitiesResponseSchema,
 } from '../schemas/user-activities'
+import { languageQuerySchema } from '../schemas/common'
 
 const TAGS = ['User activities']
 
@@ -17,10 +18,12 @@ export async function userActivitiesRoutes(app: FastifyInstance) {
         description: 'Get user activities',
         operationId: 'getUserActivities',
         tags: TAGS,
+        querystring: languageQuerySchema,
         params: getUserActivitiesParamsSchema,
         response: getUserActivitiesResponseSchema,
       },
-      handler: getUserActivitiesController,
+      handler: (request, reply) =>
+        getUserActivitiesController(request, reply, app.redis),
     })
   )
 }
