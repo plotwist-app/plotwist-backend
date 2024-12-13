@@ -19,7 +19,7 @@ export async function createFollowService({
     await insertUserActivity({
       activityType: 'FOLLOW_USER',
       userId: follow.followerId,
-      metadata: JSON.stringify(follow),
+      metadata: follow,
     })
 
     return { follow }

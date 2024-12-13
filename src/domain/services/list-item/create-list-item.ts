@@ -17,10 +17,10 @@ export async function createListItemService(
       userId,
       entityId: listItem.listId,
       entityType: 'LIST',
-      metadata: JSON.stringify({
+      metadata: {
         tmdbId: listItem.tmdbId,
         mediaType: listItem.mediaType,
-      }),
+      },
     })
 
     return { listItem }

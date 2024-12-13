@@ -73,7 +73,7 @@ export async function selectUserActivities({
           )
 
           WHEN ${schema.userActivities.activityType} IN ('ADD_ITEM', 'DELETE_ITEM') THEN json_build_object(
-           tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
+            'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
             'mediaType', ${sql`(metadata::jsonb->>'mediaType')`},
             'listId', ${schema.lists.id},
             'listTitle', ${schema.lists.title}
@@ -84,7 +84,7 @@ export async function selectUserActivities({
           )
 
           WHEN ${schema.userActivities.activityType} IN ('CHANGE_STATUS') THEN json_build_object(
-              'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
+            'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
             'mediaType', ${sql`(metadata::jsonb->>'mediaType')`},
             'status', ${sql`(metadata::jsonb->>'status')`}
           )
@@ -166,8 +166,8 @@ export async function deleteFollowUserActivity({
       and(
         eq(schema.userActivities.activityType, 'FOLLOW_USER'),
         eq(schema.userActivities.userId, userId),
-        sql`jsonb_extract_path_text(${schema.userActivities.metadata}, 'followerId') = ${followerId}`,
-        sql`jsonb_extract_path_text(${schema.userActivities.metadata}, 'followedId') = ${followedId}`
+        sql`(${schema.userActivities.metadata} ->> 'followerId')::text = ${followerId}::text`,
+        sql`(${schema.userActivities.metadata} ->> 'followedId')::text = ${followedId}::text`
       )
     )
 }

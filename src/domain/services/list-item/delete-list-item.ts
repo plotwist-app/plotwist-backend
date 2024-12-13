@@ -19,10 +19,10 @@ export async function deleteListItemService({
     userId,
     entityId: deletedListItem.listId,
     entityType: 'LIST',
-    metadata: JSON.stringify({
+    metadata: {
       tmdbId: deletedListItem.tmdbId,
       mediaType: deletedListItem.mediaType,
-    }),
+    },
   })
 
   return { deletedListItem }

@@ -12,7 +12,7 @@ export async function createUserEpisodesService(
     await insertUserActivity({
       activityType: 'WATCH_EPISODE',
       userId: values[0].userId,
-      metadata: JSON.stringify(values),
+      metadata: values,
     })
   }
 

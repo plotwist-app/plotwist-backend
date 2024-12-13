@@ -9,7 +9,7 @@ export async function upsertUserItemService(values: InsertUserItem) {
   await insertUserActivity({
     activityType: 'CHANGE_STATUS',
     userId: values.userId,
-    metadata: JSON.stringify(values),
+    metadata: values,
   })
 
   return { userItem: changeKeys.camelCase(userItem) as UserItem }
