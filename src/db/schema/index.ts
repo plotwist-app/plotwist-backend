@@ -420,6 +420,7 @@ export const activityTypeEnum = pgEnum('activity_type', [
   'FOLLOW_USER', // done
   'WATCH_EPISODE', // done
   'CHANGE_STATUS', // done
+  'CREATE_ACCOUNT', // done
 ])
 
 export const userActivities = pgTable(

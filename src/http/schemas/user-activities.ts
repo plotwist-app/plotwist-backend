@@ -131,6 +131,12 @@ export const getUserActivitiesResponseSchema = {
             title: z.string(),
           }),
         }),
+        z.object({
+          ...getUserActivity,
+          activityType: z.literal('CREATE_ACCOUNT'),
+          entityType: z.null(),
+          entityId: z.null(),
+        }),
       ])
     ),
     nextCursor: z.string().nullable(),

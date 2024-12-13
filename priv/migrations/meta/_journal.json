@@ -281,6 +281,13 @@
       "when": 1734124747806,
       "tag": "20241213211907_jsonb_metadata",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1734127478240,
+      "tag": "20241213220438_create_account_activity_type",
+      "breakpoints": true
     }
   ]
 }
