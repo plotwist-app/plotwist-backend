@@ -24,7 +24,7 @@ describe('delete list item', () => {
     const listItem = await makeListItem({ listId: list.id })
     const sut = await deleteListItemService({
       id: listItem.id,
-      authenticatedUserId: user.id,
+      userId: user.id,
     })
 
     expect(sut).toBeTruthy()
@@ -33,19 +33,9 @@ describe('delete list item', () => {
   it('should not be able to delete list item with invalid id', async () => {
     const sut = await deleteListItemService({
       id: faker.string.uuid(),
-      authenticatedUserId: user.id,
+      userId: user.id,
     })
 
     expect(sut).toBeInstanceOf(ListItemNotFoundError)
-  })
-
-  it('should not be able to delete list item with invalid user id', async () => {
-    const listItem = await makeListItem({ listId: list.id })
-    const sut = await deleteListItemService({
-      id: listItem.id,
-      authenticatedUserId: faker.string.uuid(),
-    })
-
-    expect(sut).toBeInstanceOf(UnauthorizedError)
   })
 })

@@ -25,6 +25,13 @@ export async function upsertUserItemController(
     request.body
   )
 
+  const result = await upsertUserItemService({
+    tmdbId,
+    mediaType,
+    status,
+    userId: request.user.id,
+  })
+
   if (mediaType === 'TV_SHOW' && status === 'WATCHED') {
     await createUserItemEpisodesService({
       redis,
@@ -32,13 +39,6 @@ export async function upsertUserItemController(
       userId: request.user.id,
     })
   }
-
-  const result = await upsertUserItemService({
-    tmdbId,
-    mediaType,
-    status,
-    userId: request.user.id,
-  })
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })

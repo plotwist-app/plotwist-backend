@@ -19,7 +19,7 @@ export async function createListItemController(
   reply: FastifyReply
 ) {
   const body = createListItemBodySchema.parse(request.body)
-  const result = await createListItemService({ ...body })
+  const result = await createListItemService({ ...body }, request.user.id)
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
@@ -71,7 +71,7 @@ export async function deleteListItemController(
 
   const result = await deleteListItemService({
     id,
-    authenticatedUserId: request.user.id,
+    userId: request.user.id,
   })
 
   if (result instanceof DomainError) {

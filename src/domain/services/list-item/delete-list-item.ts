@@ -1,32 +1,29 @@
-import {
-  deleteListItem,
-  getListItem,
-} from '@/db/repositories/list-item-repository'
-import { getListById } from '@/db/repositories/list-repository'
+import { deleteListItem } from '@/db/repositories/list-item-repository'
+import { insertUserActivity } from '@/db/repositories/user-activities'
 import { ListItemNotFoundError } from '@/domain/errors/list-item-not-found-error'
-import { ListNotFoundError } from '@/domain/errors/list-not-found-error'
-import { UnauthorizedError } from '@/domain/errors/unauthorized-error'
 
-type DeleteListItemInput = { id: string; authenticatedUserId: string }
+type DeleteListItemInput = { id: string; userId: string }
 
 export async function deleteListItemService({
   id,
-  authenticatedUserId,
+  userId,
 }: DeleteListItemInput) {
-  const [listItem] = await getListItem(id)
-  if (!listItem) {
+  const [deletedListItem] = await deleteListItem(id)
+
+  if (!deletedListItem) {
     return new ListItemNotFoundError()
   }
 
-  const [list] = await getListById(listItem.listId)
-  if (!list) {
-    return new ListNotFoundError()
-  }
+  await insertUserActivity({
+    activityType: 'DELETE_ITEM',
+    userId,
+    entityId: deletedListItem.listId,
+    entityType: 'LIST',
+    metadata: {
+      tmdbId: deletedListItem.tmdbId,
+      mediaType: deletedListItem.mediaType,
+    },
+  })
 
-  const isOwner = authenticatedUserId === list.userId
-  if (!isOwner) {
-    return new UnauthorizedError()
-  }
-
-  return await deleteListItem(id)
+  return { deletedListItem }
 }

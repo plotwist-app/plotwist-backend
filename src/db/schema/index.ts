@@ -5,6 +5,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   primaryKey,
@@ -407,6 +408,53 @@ export const likesRelations = relations(likes, ({ one }) => ({
   }),
 }))
 
+export const activityTypeEnum = pgEnum('activity_type', [
+  'CREATE_LIST', // done
+  'ADD_ITEM', // done
+  'DELETE_ITEM', // done
+  'LIKE_REVIEW', // done
+  'LIKE_REPLY', // done
+  'LIKE_LIST', // done
+  'CREATE_REVIEW', // done
+  'CREATE_REPLY', // done
+  'FOLLOW_USER', // done
+  'WATCH_EPISODE', // done
+  'CHANGE_STATUS', // done
+  'CREATE_ACCOUNT', // done
+])
+
+export const userActivities = pgTable(
+  'user_activities',
+  {
+    id: uuid('id')
+      .$defaultFn(() => randomUUID())
+      .primaryKey(),
+    userId: uuid('user_id')
+      .references(() => users.id, { onDelete: 'cascade' })
+      .notNull(),
+    activityType: activityTypeEnum('activity_type').notNull(),
+    entityId: uuid('entity_id'),
+    entityType: likeEntityEnum('entity_type'),
+    metadata: jsonb('metadata'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  table => {
+    return {
+      userActivityIdx: index('user_activity_idx').on(
+        table.userId,
+        table.createdAt
+      ),
+    }
+  }
+)
+
+export const userActivitiesRelations = relations(userActivities, ({ one }) => ({
+  user: one(users, {
+    fields: [userActivities.userId],
+    references: [users.id],
+  }),
+}))
+
 export const schema = {
   users,
   userItems,
@@ -420,4 +468,5 @@ export const schema = {
   userEpisodes,
   likes,
   followers,
+  userActivities,
 }
