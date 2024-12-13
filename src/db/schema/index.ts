@@ -408,20 +408,20 @@ export const likesRelations = relations(likes, ({ one }) => ({
 }))
 
 export const activityTypeEnum = pgEnum('activity_type', [
-  'CREATE_LIST',
-  'DELETE_LIST',
-  'ADD_ITEM',
-  'DELETE_ITEM',
-  'LIKE_REVIEW',
-  'LIKE_REPLY',
-  'LIKE_LIST',
-  'CREATE_REVIEW',
-  'CREATE_REPLY',
-  'FOLLOW_USER',
-  'UNFOLLOW_USER',
+  'CREATE_LIST', // done
+  'DELETE_LIST', // done
+  'ADD_ITEM', // done
+  'DELETE_ITEM', // done
+  'LIKE_REVIEW', // done
+  'LIKE_REPLY', // done
+  'LIKE_LIST', // done
+  'CREATE_REVIEW', // done
+  'CREATE_REPLY', // done
+  'FOLLOW_USER', // done
+  'UNFOLLOW_USER', // done
   'UPDATE_PROFILE',
-  'WATCH_EPISODE',
-  'CHANGE_STATUS',
+  'WATCH_EPISODE', // done
+  'CHANGE_STATUS', // done
 ])
 
 export const userActivities = pgTable(

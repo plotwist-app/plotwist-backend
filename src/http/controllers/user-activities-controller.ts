@@ -9,5 +9,7 @@ export async function getUserActivitiesController(
   const { userId } = getUserActivitiesParamsSchema.parse(request.params)
   const result = await getUserActivitiesService({ userId })
 
+  console.log({ result })
+
   return reply.status(200).send(result)
 }

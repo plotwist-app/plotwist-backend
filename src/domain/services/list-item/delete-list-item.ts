@@ -17,10 +17,11 @@ export async function deleteListItemService({
   await insertUserActivity({
     activityType: 'DELETE_ITEM',
     userId,
+    entityId: deletedListItem.listId,
+    entityType: 'LIST',
     metadata: JSON.stringify({
       tmdbId: deletedListItem.tmdbId,
       mediaType: deletedListItem.mediaType,
-      listId: deletedListItem.listId,
     }),
   })
 
