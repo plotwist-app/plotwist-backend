@@ -17,7 +17,9 @@ export async function upsertUserItem({
         INSERT INTO ${schema.userItems} (media_type, tmdb_id, user_id, status)
         VALUES (${mediaType}, ${tmdbId}, ${userId}, ${status})
         ON CONFLICT (media_type, tmdb_id, user_id)
-        DO UPDATE SET status = ${status}
+        DO UPDATE SET 
+          status = ${status},
+          updated_at = NOW() 
         RETURNING *
       `
   )
@@ -33,7 +35,7 @@ export async function selectUserItems({ userId, status }: GetUserItemsInput) {
         eq(schema.userItems.status, status)
       )
     )
-    .orderBy(desc(schema.userItems.addedAt))
+    .orderBy(desc(schema.userItems.updatedAt))
 }
 
 export async function deleteUserItem(id: string) {
