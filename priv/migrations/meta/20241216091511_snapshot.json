@@ -1,11 +1,6 @@
 {
-<<<<<<<< HEAD:priv/migrations/meta/20241213075509_snapshot.json
-  "id": "5ba5d68c-7145-452e-b8b9-ffb4658cd253",
-  "prevId": "d9c73dc0-9b09-4ccb-be7f-08aaafe773d1",
-========
-  "id": "a7bc6564-e223-4b36-b9e8-c2b98f01da83",
+  "id": "f7c565f9-23a1-4c3f-85c1-d5954d2e3816",
   "prevId": "642c67ac-5ab3-4eb6-af8a-df76cdf65740",
->>>>>>>> fcae0c0a9e016009b96801311dcd7c33688ef8c1:priv/migrations/meta/20241216090411_snapshot.json
   "version": "7",
   "dialect": "postgresql",
   "tables": {
