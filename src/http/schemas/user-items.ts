@@ -11,6 +11,7 @@ export const upsertUserItemResponseSchema = {
   201: z.object({
     userItem: createSelectSchema(schema.userItems).extend({
       addedAt: z.string(),
+      updatedAt: z.string(),
     }),
   }),
 }

@@ -258,10 +258,14 @@ export const userItems = pgTable(
       .references(() => users.id, { onDelete: 'cascade' })
       .notNull(),
     tmdbId: integer('tmdb_id').notNull(),
-    addedAt: timestamp('added_at').defaultNow().notNull(),
     position: integer('position'),
     mediaType: mediaTypeEnum('media_type').notNull(),
     status: statusEnum('status').notNull(),
+    addedAt: timestamp('added_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at')
+      .defaultNow()
+      .notNull()
+      .$onUpdateFn(() => sql`NOW()`),
   },
   userItems => ({
     uniqueUserItem: unique('user_items_userid_tmdbid_media_type_unique').on(
