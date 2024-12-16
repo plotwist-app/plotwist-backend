@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { createReview } from './create-review'
+import { createReviewService } from './create-review'
 
 import { makeRawReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
@@ -12,8 +12,7 @@ describe('create review', () => {
     const { id: userId } = await makeUser()
 
     const review = makeRawReview({ userId: userId })
-
-    const sut = await createReview(review)
+    const sut = await createReviewService(review)
 
     expect(sut).toEqual({
       review: expect.objectContaining(review),
@@ -22,7 +21,7 @@ describe('create review', () => {
 
   it('should be able to fail when user id does not exists', async () => {
     const review = makeRawReview({ userId: faker.string.uuid() })
-    const sut = await createReview(review)
+    const sut = await createReviewService(review)
 
     expect(sut).toBeInstanceOf(UserNotFoundError)
   })
