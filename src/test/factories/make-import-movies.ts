@@ -3,7 +3,6 @@ import type { ImportStatusEnum } from '@/domain/value-objects/import-item-status
 import type { UserItemStatus } from '@/domain/value-objects/item-status-enum'
 
 import { faker } from '@faker-js/faker'
-import { randomUUID } from 'node:crypto'
 
 type Overrides = Partial<InsertImportMovie>
 
@@ -11,7 +10,6 @@ export function makeRawImportMovies(overrides: Overrides) {
   const params = buildItemType()
   return {
     ...params,
-    id: overrides.id ?? randomUUID(),
     name: faker.book.title(),
     ...overrides,
   }

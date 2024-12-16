@@ -5,5 +5,5 @@ export type ImportMovie = InferSelectModel<typeof schema.importMovies>
 
 export type InsertImportMovie = Omit<
   InferInsertModel<typeof schema.importMovies>,
-  'importId'
+  'importId' | 'id'
 >

@@ -5,7 +5,7 @@ import { decodeLetterboxd } from '../services/imports/decoder/decode-letterboxd'
 
 const providerDispatchers: Record<
   ProvidersEnum,
-  (userId: string, uploadedFile: MultipartFile) => Promise<void>
+  (userId: string, uploadedFile: MultipartFile) => Promise<unknown>
 > = {
   MY_ANIME_LIST: decodeMyAnimeList,
   LETTERBOXD: decodeLetterboxd,

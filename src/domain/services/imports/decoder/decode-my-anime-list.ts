@@ -1,4 +1,6 @@
+import { insertUserImport } from '@/db/repositories/user-import-repository'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
+import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import type { InsertImportSeries } from '@/domain/entities/import-series'
 import { MALtoDomain } from '@/domain/helpers/convert_status'
 import { unzipFile } from '@/domain/helpers/unzip-file'
@@ -23,16 +25,19 @@ export async function decodeMyAnimeList(
     )
 
     const series = buildSeries(rawSeries)
+    const movies = buildMovies(rawMovies)
     const userImport: InsertUserImportWithItems = {
       itemsCount: 2,
       provider: 'MY_ANIME_LIST',
       userId,
       importStatus: 'NOT_STARTED',
-      movies: [],
+      movies,
       series,
     }
 
-    return
+    const result = await insertUserImport(userImport)
+
+    return result
   } catch (error) {
     return error
   }
@@ -62,4 +67,17 @@ function buildSeries(rawSeries: MALAnimes[]) {
   })
 
   return series
+}
+
+function buildMovies(rawMovies: MALAnimes[]) {
+  const movies: InsertImportMovie[] = rawMovies.map(item => {
+    return {
+      importStatus: 'NOT_STARTED',
+      name: item.series_title,
+      endDate: item.my_finish_date ?? null,
+      userItemStatus: MALtoDomain(item.my_status),
+    }
+  })
+
+  return movies
 }
