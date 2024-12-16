@@ -1,4 +1,4 @@
-import { insertUserImport } from '@/db/repositories/user-import'
+import { insertUserImport } from '@/db/repositories/user-import-repository'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
 

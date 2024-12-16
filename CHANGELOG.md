@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added 
+
+- Update and Get import services [(#60)](https://github.com/plotwist-app/plotwist-backend/pull/60)
+- Updae List item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
+
+### 1.4.0
+
+- Add user activities [#62](https://github.com/plotwist-app/plotwist-backend/pull/62)
 - Add update list item position endpoint [#61](https://github.com/plotwist-app/plotwist-backend/pull/61)
 
 ### 1.3.0
@@ -12,7 +20,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - AWS SQS setup [(#57)](https://github.com/plotwist-app/plotwist-backend/pull/57)
-- Add followers endpoints [#58](https://github.com/plotwist-app/plotwist-backend/pull/58/)
+- Add followers endpoints [(#58)](https://github.com/plotwist-app/plotwist-backend/pull/58/)
 
 ### Changed
 
@@ -22,50 +30,50 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
-- Ci file not pushing to AWS [#55](https://github.com/plotwist-app/plotwist-backend/pull/52/)
+- Ci file not pushing to AWS [(#55)](https://github.com/plotwist-app/plotwist-backend/pull/52/)
 
 ### 1.2.0
 
 ### Added
 
-- Infra in AWS with pulumi [#52](https://github.com/plotwist-app/plotwist-backend/pull/52/)
-- Adds endpoint to create image [#54](https://github.com/plotwist-app/plotwist-backend/pull/54/)
-- Adds case-insensitive indexes to user email and username [#53](https://github.com/plotwist-app/plotwist-backend/pull/53/)
-- Add user best reviews and items status [#50](https://github.com/plotwist-app/plotwist-backend/pull/51/)
-- Add user watched countries stats [#49](https://github.com/plotwist-app/plotwist-backend/pull/49)
-- Add user reviews count and vitest coverage [#47](https://github.com/plotwist-app/plotwist-backend/pull/47)
-- Add simple user stats (watched items total and following/followers total) [#43](https://github.com/plotwist-app/plotwist-backend/pull/43)
-- Add likeCount and userLike in select list by id [#42](https://github.com/plotwist-app/plotwist-backend/pull/42)
-- Add operations for like [#40](https://github.com/plotwist-app/plotwist-backend/pull/40)
-- Add operations for user episodes. [#39](https://github.com/plotwist-app/plotwist-backend/pull/39)
-- Add CRUD operations for social links. [#37](https://github.com/plotwist-app/plotwist-backend/pull/37)
-- Add CRUD operations for Review Replies. [#28](https://github.com/plotwist-app/plotwist-backend/pull/28)
+- Infra in AWS with pulumi [(#52)](https://github.com/plotwist-app/plotwist-backend/pull/52/)
+- Adds endpoint to create image [(#54)](https://github.com/plotwist-app/plotwist-backend/pull/54/)
+- Adds case-insensitive indexes to user email and username [(#53)](https://github.com/plotwist-app/plotwist-backend/pull/53/)
+- Add user best reviews and items status [(#50)](https://github.com/plotwist-app/plotwist-backend/pull/51/)
+- Add user watched countries stats [(#49)](https://github.com/plotwist-app/plotwist-backend/pull/49)
+- Add user reviews count and vitest coverage [(#47)](https://github.com/plotwist-app/plotwist-backend/pull/47)
+- Add simple user stats (watched items total and following/followers total) [(#43)](https://github.com/plotwist-app/plotwist-backend/pull/43)
+- Add likeCount and userLike in select list by id [(#42)](https://github.com/plotwist-app/plotwist-backend/pull/42)
+- Add operations for like [(#40)](https://github.com/plotwist-app/plotwist-backend/pull/40)
+- Add operations for user episodes. [(#39)](https://github.com/plotwist-app/plotwist-backend/pull/39)
+- Add CRUD operations for social links. [(#37)](https://github.com/plotwist-app/plotwist-backend/pull/37)
+- Add CRUD operations for Review Replies. [(#28)](https://github.com/plotwist-app/plotwist-backend/pull/28)
 
 ### Changed
 
-- Set CORS to use env variable [#42](https://github.com/plotwist-app/plotwist-backend/pull/42)
-- Do not show swagger in production environment [#42](https://github.com/plotwist-app/plotwist-backend/pull/42)
-- Format files with BiomeJs. [#28](https://github.com/plotwist-app/plotwist-backend/pull/28)
+- Set CORS to use env variable [(#42)](https://github.com/plotwist-app/plotwist-backend/pull/42)
+- Do not show swagger in production environment [(#42)](https://github.com/plotwist-app/plotwist-backend/pull/42)
+- Format files with BiomeJs. [(#28)](https://github.com/plotwist-app/plotwist-backend/pull/28)
 
 ## 1.0.0
 
 ### Added
 
-- Create unique endpoint de update user public information. [#35](https://github.com/plotwist-app/plotwist-backend/pull/35)
-- Create legacy user login flow. [#34](https://github.com/plotwist-app/plotwist-backend/pull/34)
-- Create GET detailed reviews route. [#33](https://github.com/plotwist-app/plotwist-backend/pull/33)
-- Create reviews POST, GET, PUT and DELETE routes. [#32](https://github.com/plotwist-app/plotwist-backend/pull/32)
-- Create `is_legacy` field in database [#31](https://github.com/plotwist-app/plotwist-backend/pull/31)
-- Create subscription webhook [#27](https://github.com/plotwist-app/plotwist-backend/pull/27)
-- Create list items create, read, update and delete endpoints [#26](https://github.com/plotwist-app/plotwist-backend/pull/26)
-- Create get list endpoint [#22](https://github.com/plotwist-app/plotwist-backend/pull/22)
-- Create edit list endpoint [#21](https://github.com/plotwist-app/plotwist-backend/pull/21)
-- Create delete list endpoint [#20](https://github.com/plotwist-app/plotwist-backend/pull/20)
+- Create unique endpoint de update user public information. [(#35)](https://github.com/plotwist-app/plotwist-backend/pull/35)
+- Create legacy user login flow. [(#34)](https://github.com/plotwist-app/plotwist-backend/pull/34)
+- Create GET detailed reviews route. [(#33)](https://github.com/plotwist-app/plotwist-backend/pull/33)
+- Create reviews POST, GET, PUT and DELETE routes. [(#32)](https://github.com/plotwist-app/plotwist-backend/pull/32)
+- Create `is_legacy` field in database [(#31)](https://github.com/plotwist-app/plotwist-backend/pull/31)
+- Create subscription webhook [(#27)](https://github.com/plotwist-app/plotwist-backend/pull/27)
+- Create list items create, read, update and delete endpoints [(#26)](https://github.com/plotwist-app/plotwist-backend/pull/26)
+- Create get list endpoint [(#22)](https://github.com/plotwist-app/plotwist-backend/pull/22)
+- Create edit list endpoint [(#21)](https://github.com/plotwist-app/plotwist-backend/pull/21)
+- Create delete list endpoint [(#20)](https://github.com/plotwist-app/plotwist-backend/pull/20)
 - Create reviews endpoint [(#19)](https://github.com/plotwist-app/plotwist-backend/pull/19)
 
 ### Changed
 
-- Changed createdAt field convention name in database only [#30](https://github.com/plotwist-app/plotwist-backend/pull/30)
+- Changed createdAt field convention name in database only [(#30)](https://github.com/plotwist-app/plotwist-backend/pull/30)
 - improve folders structure [(#24)](https://github.com/plotwist-app/plotwist-backend/pull/24)
 - Move domain folder to src root [(#23)](https://github.com/plotwist-app/plotwist-backend/pull/23)
 - Set some review fields on schema as required [(#19)](https://github.com/plotwist-app/plotwist-backend/pull/19)
@@ -74,7 +82,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- create and get lists endpoint [#18](https://github.com/plotwist-app/plotwist-backend/pull/18)
+- create and get lists endpoint [(#18)](https://github.com/plotwist-app/plotwist-backend/pull/18)
 - health check endpoint [(#16)](https://github.com/plotwist-app/plotwist-backend/pull/16)
 
 ### Changed
@@ -87,8 +95,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-- remove profiles table and change relations to users table [#14](https://github.com/plotwist-app/plotwist-backend/pull/14)
-- added response schemas in login and users routes [#13](https://github.com/plotwist-app/plotwist-backend/pull/13)
+- remove profiles table and change relations to users table [(#14)](https://github.com/plotwist-app/plotwist-backend/pull/14)
+- added response schemas in login and users routes [(#13)](https://github.com/plotwist-app/plotwist-backend/pull/13)
 - relations to users table and indexes [(#11)](https://github.com/plotwist-app/plotwist-backend/pull/11)
 - check username and email route [(#9)](https://github.com/plotwist-app/plotwist-backend/pull/9)
 - remove either and handle errors manually [(#8)](https://github.com/plotwist-app/plotwist-backend/pull/8)

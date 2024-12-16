@@ -2,7 +2,7 @@ import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import type {
   ImportStatusEnum,
   UserItemStatus,
-} from '@/domain/value_objects/import_item_status_enum'
+} from '@/domain/value-objects/import-item-status-enum'
 
 import { faker } from '@faker-js/faker'
 import { randomUUID } from 'node:crypto'

@@ -2,12 +2,21 @@ import { db } from '..'
 import { schema } from '../schema'
 import { randomUUID } from 'node:crypto'
 
-import type { InsertUserImportWithItems } from '@/domain/entities/import'
-import type { InsertImportSeries } from '@/domain/entities/import-series'
-import type { InsertImportMovie } from '@/domain/entities/import-movies'
+import type {
+  InsertUserImportWithItems,
+  UserImport,
+} from '@/domain/entities/import'
+import type {
+  ImportSeries,
+  InsertImportSeries,
+} from '@/domain/entities/import-series'
+import type {
+  ImportMovie,
+  InsertImportMovie,
+} from '@/domain/entities/import-movies'
 import type { PgTransaction } from 'drizzle-orm/pg-core'
 import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js'
-import type { ExtractTablesWithRelations } from 'drizzle-orm'
+import { eq, sql, type ExtractTablesWithRelations } from 'drizzle-orm'
 
 type TrxType = PgTransaction<
   PostgresJsQueryResultHKT,
@@ -37,7 +46,7 @@ export async function insertUserImport({
 
     const savedMovies = await saveMovies(movies, importId, trx)
 
-    const savedSeries = await saveMovies(series, importId, trx)
+    const savedSeries = await saveSeries(series, importId, trx)
 
     return { userImport, series: savedSeries, movies: savedMovies }
   })
@@ -96,4 +105,68 @@ async function saveSeries(
   }
 
   return []
+}
+
+export type GetImportResult = {
+  userImport: UserImport
+  series: ImportSeries[]
+  movies: ImportMovie[]
+}
+
+export async function getImport(id: string): Promise<GetImportResult> {
+  const [userImport] = await db
+    .select()
+    .from(schema.userImports)
+    .where(eq(schema.userImports.id, id))
+
+  if (!userImport) {
+    throw new Error(`User import with id ${id} not found`)
+  }
+
+  const movies = await db
+    .select()
+    .from(schema.importMovies)
+    .where(eq(schema.importMovies.importId, id))
+
+  const series = await db
+    .select()
+    .from(schema.importSeries)
+    .where(eq(schema.importSeries.importId, id))
+
+  return {
+    userImport,
+    movies,
+    series,
+  }
+}
+
+export async function checkAndFinalizeImport(importId: string): Promise<void> {
+  await db.transaction(async trx => {
+    const [moviesStatusCheck] = await trx.execute(sql`
+      SELECT COUNT(*) AS incomplete_movies
+      FROM ${schema.importMovies}
+      WHERE ${schema.importMovies.importId} = ${importId}
+        AND ${schema.importMovies.importStatus} NOT IN ('COMPLETED', 'FAILED')
+    `)
+
+    const [seriesStatusCheck] = await trx.execute(sql`
+      SELECT COUNT(*) AS incomplete_series
+      FROM ${schema.importSeries}
+      WHERE ${schema.importSeries.importId} = ${importId}
+        AND ${schema.importSeries.importStatus} NOT IN ('COMPLETED', 'FAILED')
+    `)
+
+    const incompleteMovies = moviesStatusCheck.incomplete_movies
+    const incompleteSeries = seriesStatusCheck.incomplete_series
+
+    if (incompleteMovies === 0 && incompleteSeries === 0) {
+      await trx
+        .update(schema.userImports)
+        .set({
+          importStatus: 'COMPLETED',
+          updatedAt: new Date(),
+        })
+        .where(eq(schema.userImports.id, importId))
+    }
+  })
 }
