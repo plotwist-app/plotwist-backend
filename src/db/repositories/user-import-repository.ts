@@ -55,13 +55,13 @@ export async function insertUserImport({
 }
 
 async function saveMovies(
-  movies: Omit<InsertImportMovie, 'importId'>[],
+  movies: InsertImportMovie[],
   importId: string,
   trx: TrxType
 ) {
   if (movies.length > 0) {
     const parsedMovies = movies.map(item => ({
-      id: item.id || randomUUID(),
+      id: randomUUID(),
       importId: importId,
       name: item.name,
       endDate: item.endDate,
@@ -80,13 +80,13 @@ async function saveMovies(
 }
 
 async function saveSeries(
-  series: Omit<InsertImportSeries, 'importId'>[],
+  series: InsertImportSeries[],
   importId: string,
   trx: TrxType
 ) {
   if (series.length > 0) {
     const parsedSeries = series.map(item => ({
-      id: item.id || randomUUID(),
+      id: randomUUID(),
       importId: importId,
       name: item.name,
       startDate: item.startDate,

@@ -17,8 +17,12 @@ type UserInfo = {
   user_total_plantowatch: number
 }
 
-export enum MalStatus {
+export enum MALStatus {
   COMPLETED = 'Completed',
+  WATCHING = 'Watching',
+  ON_HOLD = 'On-Hold',
+  DROPPED = 'Dropped',
+  PLAN_TO_WATCH = 'Plan to Watch',
 }
 
 export enum SeriesType {
@@ -39,7 +43,7 @@ export type MALAnimes = {
   my_score: number
   my_storage: string
   my_storage_value: number
-  my_status: MalStatus
+  my_status: MALStatus
   my_comments: string
   my_times_watched: number
   my_rewatch_value: string

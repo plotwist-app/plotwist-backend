@@ -1,5 +1,5 @@
 import type { MultipartFile } from '@fastify/multipart'
-import type { ProvidersEnum } from '../value_objects/providers'
+import type { ProvidersEnum } from '../value-objects/providers'
 import { decodeMyAnimeList } from '../services/imports/decoder/decode-my-anime-list'
 import { decodeLetterboxd } from '../services/imports/decoder/decode-letterboxd'
 

@@ -1,21 +1,15 @@
 import type { InsertImportSeries } from '@/domain/entities/import-series'
-import type {
-  ImportStatusEnum,
-  UserItemStatus,
-} from '@/domain/value-objects/import-item-status-enum'
+import type { ImportStatusEnum } from '@/domain/value-objects/import-item-status-enum'
+import type { UserItemStatus } from '@/domain/value-objects/item-status-enum'
 
 import { faker } from '@faker-js/faker'
-import { randomUUID } from 'node:crypto'
 
 type Overrides = Partial<InsertImportSeries>
 
-export function makeRawImportSeries(
-  overrides: Overrides
-): Omit<InsertImportSeries, 'importId'> {
+export function makeRawImportSeries(overrides: Overrides): InsertImportSeries {
   const params = buildItemType()
   return {
     ...params,
-    id: overrides.id ?? randomUUID(),
     name: faker.book.title(),
     ...overrides,
   }
@@ -34,7 +28,7 @@ export function makeManyRawImportSeries(
   return series
 }
 
-function buildItemType(): Omit<InsertImportSeries, 'id' | 'name' | 'importId'> {
+function buildItemType() {
   const importStatus: ImportStatusEnum = faker.helpers.arrayElement([
     'COMPLETED',
     'FAILED',

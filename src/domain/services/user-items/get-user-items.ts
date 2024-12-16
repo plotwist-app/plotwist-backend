@@ -1,5 +1,5 @@
 import { selectUserItems } from '@/db/repositories/user-item-repository'
-import type { UserItemStatus } from '@/domain/value-objects/import-item-status-enum'
+import type { UserItemStatus } from '@/domain/value-objects/item-status-enum'
 
 export type GetUserItemsInput = {
   userId: string

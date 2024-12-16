@@ -1,13 +1,13 @@
-import { InsertUserImportWithItems, UserImport } from '@/domain/entities/import'
-import { InsertSeriesImportWithoutImportId } from '@/domain/entities/import-series'
+import type { InsertUserImportWithItems } from '@/domain/entities/import'
+import type { InsertImportSeries } from '@/domain/entities/import-series'
+import { MALtoDomain } from '@/domain/helpers/convert_status'
 import { unzipFile } from '@/domain/helpers/unzip-file'
 import { convertXmlToJson } from '@/domain/helpers/xml-to-json'
 import {
-  MALAnimes,
-  MalStatus,
-  MyAnimeListImport,
+  type MALAnimes,
+  type MyAnimeListImport,
   SeriesType,
-} from '@/domain/value_objects/my-anime-list-import'
+} from '@/domain/value-objects/my-anime-list-import'
 import type { MultipartFile } from '@fastify/multipart'
 
 export async function decodeMyAnimeList(
@@ -22,13 +22,15 @@ export async function decodeMyAnimeList(
       parsedFile.myanimelist.anime
     )
 
-    console.log(rawMovies)
-    // const userImport: InsertUserImportWithItems = {
-    //   importStatus: 'NOT_STARTED',
-    //   itemsCount: items.length,
-    //   provider: 'MY_ANIME_LIST',
-    //   userId,
-    // }
+    const series = buildSeries(rawSeries)
+    const userImport: InsertUserImportWithItems = {
+      itemsCount: 2,
+      provider: 'MY_ANIME_LIST',
+      userId,
+      importStatus: 'NOT_STARTED',
+      movies: [],
+      series,
+    }
 
     return
   } catch (error) {
@@ -48,20 +50,16 @@ function separateByType(mediaArray: MALAnimes[]) {
 }
 
 function buildSeries(rawSeries: MALAnimes[]) {
-  const series = rawSeries.map(item => {
-    const userImport: InsertSeriesImportWithoutImportId = {
+  const series: InsertImportSeries[] = rawSeries.map(item => {
+    return {
       importStatus: 'NOT_STARTED',
       name: item.series_title,
       endDate: item.my_finish_date ?? null,
       startDate: item.my_start_date ?? null,
       watchedEpisodes: item.my_watched_episodes ?? null,
-      userItemStatus: item.my_status,
+      userItemStatus: MALtoDomain(item.my_status),
     }
   })
-}
 
-function convertStatus(status: MalStatus) {
-  if (status === MalStatus.COMPLETED) {
-    return 'COMPLETED'
-  }
+  return series
 }

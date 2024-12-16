@@ -8,6 +8,6 @@ export type UserImport = InferSelectModel<typeof schema.userImports>
 type InsertUserImport = InferInsertModel<typeof schema.userImports>
 
 export type InsertUserImportWithItems = InsertUserImport & {
-  movies: Omit<InsertImportMovie, 'importId'>[]
-  series: Omit<InsertImportSeries, 'importId'>[]
+  movies: InsertImportMovie[]
+  series: InsertImportSeries[]
 }

@@ -1,17 +1,13 @@
 import type { InsertImportMovie } from '@/domain/entities/import-movies'
-import type {
-  ImportStatusEnum,
-  UserItemStatus,
-} from '@/domain/value-objects/import-item-status-enum'
+import type { ImportStatusEnum } from '@/domain/value-objects/import-item-status-enum'
+import type { UserItemStatus } from '@/domain/value-objects/item-status-enum'
 
 import { faker } from '@faker-js/faker'
 import { randomUUID } from 'node:crypto'
 
 type Overrides = Partial<InsertImportMovie>
 
-export function makeRawImportMovies(
-  overrides: Overrides
-): Omit<InsertImportMovie, 'importId'> {
+export function makeRawImportMovies(overrides: Overrides) {
   const params = buildItemType()
   return {
     ...params,
@@ -34,7 +30,7 @@ export function makeManyRawImportMovies(
   return movies
 }
 
-function buildItemType(): Omit<InsertImportMovie, 'id' | 'name' | 'importId'> {
+function buildItemType() {
   const importStatus: ImportStatusEnum = faker.helpers.arrayElement([
     'COMPLETED',
     'FAILED',
