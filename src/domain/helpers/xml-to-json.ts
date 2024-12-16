@@ -1,10 +1,10 @@
 import { XMLParser, XMLValidator } from 'fast-xml-parser'
-import { CannotParseXML } from '../errors/cannot-convert-xml-to-json'
+import { CannotParseXMLError } from '../errors/cannot-convert-xml-to-json'
 
 export function convertXmlToJson(xmlContent: string) {
   const isValidXML = XMLValidator.validate(xmlContent)
   if (!isValidXML) {
-    throw new CannotParseXML()
+    throw new CannotParseXMLError()
   }
 
   const options = {

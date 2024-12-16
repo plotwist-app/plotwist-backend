@@ -70,10 +70,12 @@ async function saveMovies(
       tmdbId: item.tmdbId,
     }))
 
-    return await trx
+    const result = await trx
       .insert(schema.importMovies)
       .values(parsedMovies)
       .returning()
+
+    return result
   }
 
   return []

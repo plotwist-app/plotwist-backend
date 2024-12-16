@@ -2,6 +2,7 @@ import type { MultipartFile } from '@fastify/multipart'
 import type { ProvidersEnum } from '../value-objects/providers'
 import { decodeMyAnimeList } from '../services/imports/decoder/decode-my-anime-list'
 import { decodeLetterboxd } from '../services/imports/decoder/decode-letterboxd'
+import { CannotProcessImportFileError } from '../errors/cannot-process-file'
 
 const providerDispatchers: Record<
   ProvidersEnum,
@@ -21,5 +22,11 @@ export async function providerDispatcher(
     throw new Error(`No dispatcher found for provider: ${provider}`)
   }
 
-  await dispatcher(userId, uploadedFile)
+  const result = await dispatcher(userId, uploadedFile)
+
+  if (!result) {
+    throw new CannotProcessImportFileError()
+  }
+
+  return result
 }

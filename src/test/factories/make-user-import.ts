@@ -1,7 +1,6 @@
 import { insertUserImport } from '@/db/repositories/user-import-repository'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
 
-import { randomUUID } from 'node:crypto'
 import { makeUserReturningId } from './make-user'
 import { makeManyRawImportSeries } from './make-import-series'
 import { makeManyRawImportMovies } from './make-import-movies'
@@ -15,7 +14,6 @@ export async function makeRawUserImport(
   const movies = overrides.movies ?? makeManyRawImportMovies(1, {})
 
   return {
-    id: overrides.id ?? randomUUID(),
     itemsCount: series.length + movies.length,
     series,
     movies,

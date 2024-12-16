@@ -1,10 +1,15 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
-import { createImportController } from '../controllers/user-import-controller'
+import {
+  createImportController,
+  getDetailedImportController,
+} from '../controllers/user-import-controller'
 import {
   createImportRequestSchema,
   createImportResponseSchema,
+  getDetailedImportRequestSchema,
+  getDetailedImportResponseSchema,
 } from '../schemas/imports'
 
 export async function importRoutes(app: FastifyInstance) {
@@ -26,6 +31,26 @@ export async function importRoutes(app: FastifyInstance) {
         consumes: ['multipart/form-data'],
       },
       handler: createImportController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/import/:importId',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get detailed import',
+        tags: ['Imports'],
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        params: getDetailedImportRequestSchema,
+        response: getDetailedImportResponseSchema,
+      },
+      handler: getDetailedImportController,
     })
   )
 }

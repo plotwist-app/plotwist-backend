@@ -1,7 +1,7 @@
 import type { MultipartFile } from '@fastify/multipart'
 import { Readable } from 'node:stream'
 import { createGunzip } from 'node:zlib'
-import { CannotUnzipFile } from '../errors/cannot-unzip-file'
+import { CannotUnzipFileError } from '../errors/cannot-unzip-file'
 
 export async function unzipFile(uploadedFile: MultipartFile) {
   try {
@@ -18,6 +18,6 @@ export async function unzipFile(uploadedFile: MultipartFile) {
     const unzippedContent = Buffer.concat(chunks).toString('utf-8')
     return unzippedContent
   } catch (error) {
-    throw new CannotUnzipFile()
+    throw new CannotUnzipFileError()
   }
 }

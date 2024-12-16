@@ -27,7 +27,7 @@ export enum MALStatus {
 
 export enum SeriesType {
   MOVIE = 'Movie',
-  SERIES = 'Tv',
+  SERIES = 'TV',
 }
 
 export type MALAnimes = {

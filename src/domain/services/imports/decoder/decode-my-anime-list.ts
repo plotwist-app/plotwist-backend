@@ -1,4 +1,3 @@
-import { insertUserImport } from '@/db/repositories/user-import-repository'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
 import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import type { InsertImportSeries } from '@/domain/entities/import-series'
@@ -11,6 +10,7 @@ import {
   SeriesType,
 } from '@/domain/value-objects/my-anime-list-import'
 import type { MultipartFile } from '@fastify/multipart'
+import { createUserImport } from '../create-user-import'
 
 export async function decodeMyAnimeList(
   userId: string,
@@ -27,7 +27,7 @@ export async function decodeMyAnimeList(
     const series = buildSeries(rawSeries)
     const movies = buildMovies(rawMovies)
     const userImport: InsertUserImportWithItems = {
-      itemsCount: 2,
+      itemsCount: series.length + movies.length,
       provider: 'MY_ANIME_LIST',
       userId,
       importStatus: 'NOT_STARTED',
@@ -35,9 +35,7 @@ export async function decodeMyAnimeList(
       series,
     }
 
-    const result = await insertUserImport(userImport)
-
-    return result
+    return await createUserImport(userImport)
   } catch (error) {
     return error
   }
