@@ -39,7 +39,12 @@ export const languagesEnum = pgEnum('languages', [
 ])
 
 export const mediaTypeEnum = pgEnum('media_type', ['TV_SHOW', 'MOVIE'])
-export const statusEnum = pgEnum('status', ['WATCHLIST', 'WATCHED', 'WATCHING'])
+export const statusEnum = pgEnum('status', [
+  'WATCHLIST',
+  'WATCHED',
+  'WATCHING',
+  'DROPPED',
+])
 
 export const followers = pgTable(
   'followers',
