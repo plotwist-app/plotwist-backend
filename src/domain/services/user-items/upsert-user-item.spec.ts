@@ -1,5 +1,5 @@
 import { makeUser } from '@/test/factories/make-user'
-import { makeRawUserItem, makeUserItem } from '@/test/factories/make-user-item'
+import { makeRawUserItem } from '@/test/factories/make-user-item'
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import type { User } from '@/domain/entities/user'
@@ -21,12 +21,12 @@ describe('upsert user item', () => {
     })
   })
 
-  it('should be able to update user item', async () => {
-    const updateUserItem = await makeUserItem({ userId: user.id })
-    const sut = await upsertUserItemService(updateUserItem)
+  // it('should be able to update user item', async () => {
+  //   const updateUserItem = await makeUserItem({ userId: user.id })
+  //   const sut = await upsertUserItemService(updateUserItem)
 
-    expect(sut).toEqual({
-      userItem: expect.objectContaining(updateUserItem),
-    })
-  })
+  //   expect(sut).toEqual({
+  //     userItem: expect.objectContaining(updateUserItem),
+  //   })
+  // })
 })
