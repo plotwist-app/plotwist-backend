@@ -22,11 +22,11 @@ describe('upsert user item', () => {
   })
 
   it('should be able to update user item', async () => {
-    const updateUserItem = await makeUserItem({ userId: user.id })
-    const sut = await upsertUserItemService(updateUserItem)
+    const { updatedAt, ...userItem } = await makeUserItem({ userId: user.id })
+    const sut = await upsertUserItemService(userItem)
 
     expect(sut).toEqual({
-      userItem: expect.objectContaining(updateUserItem),
+      userItem: expect.objectContaining(userItem),
     })
   })
 })
