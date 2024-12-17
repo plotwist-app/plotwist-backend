@@ -7,13 +7,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added 
 
-- Update and Get import services [(#60)](https://github.com/plotwist-app/plotwist-backend/pull/60)
+- Save imported itens into DB [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
+- Finished My anime list provider import [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
+- Update and Get import services [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
 - Updae List item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
 
 ### 1.4.0
 
 - Add user activities [#62](https://github.com/plotwist-app/plotwist-backend/pull/62)
-- Add update list item position endpoint [#61](https://github.com/plotwist-app/plotwist-backend/pull/61)
+- Add update list item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
 
 ### 1.3.0
 
