@@ -44,7 +44,6 @@ export async function getDetailedImportController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  console.log(request.params)
   const { importId } = getDetailedImportRequestSchema.parse(request.params)
   const result = await GetUserImport(importId)
 
@@ -52,5 +51,5 @@ export async function getDetailedImportController(
     return reply.status(result.status).send({ message: result.message })
   }
 
-  return reply.status(200).send()
+  return reply.status(200).send(result)
 }

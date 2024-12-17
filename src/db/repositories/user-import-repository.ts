@@ -2,21 +2,13 @@ import { db } from '..'
 import { schema } from '../schema'
 import { randomUUID } from 'node:crypto'
 
-import type {
-  InsertUserImportWithItems,
-  UserImport,
-} from '@/domain/entities/import'
-import type {
-  ImportSeries,
-  InsertImportSeries,
-} from '@/domain/entities/import-series'
-import type {
-  ImportMovie,
-  InsertImportMovie,
-} from '@/domain/entities/import-movies'
+import type { InsertUserImportWithItems } from '@/domain/entities/import'
+import type { InsertImportSeries } from '@/domain/entities/import-series'
+import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import type { PgTransaction } from 'drizzle-orm/pg-core'
 import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js'
 import { eq, sql, type ExtractTablesWithRelations } from 'drizzle-orm'
+import { CannotInsertIntoImportTableError } from '@/domain/errors/cannot-insert-into-import-table'
 
 type TrxType = PgTransaction<
   PostgresJsQueryResultHKT,
@@ -59,26 +51,30 @@ async function saveMovies(
   importId: string,
   trx: TrxType
 ) {
-  if (movies.length > 0) {
-    const parsedMovies = movies.map(item => ({
-      id: randomUUID(),
-      importId: importId,
-      name: item.name,
-      endDate: item.endDate,
-      userItemStatus: item.userItemStatus,
-      importStatus: item.importStatus,
-      tmdbId: item.tmdbId,
-    }))
+  try {
+    if (movies.length > 0) {
+      const parsedMovies = movies.map(item => ({
+        id: randomUUID(),
+        importId: importId,
+        name: item.name,
+        endDate: item.endDate,
+        userItemStatus: item.userItemStatus,
+        importStatus: item.importStatus,
+        tmdbId: item.tmdbId,
+      }))
 
-    const result = await trx
-      .insert(schema.importMovies)
-      .values(parsedMovies)
-      .returning()
+      const result = await trx
+        .insert(schema.importMovies)
+        .values(parsedMovies)
+        .returning()
 
-    return result
+      return result
+    }
+
+    return []
+  } catch (error) {
+    throw new CannotInsertIntoImportTableError()
   }
-
-  return []
 }
 
 async function saveSeries(
@@ -86,36 +82,34 @@ async function saveSeries(
   importId: string,
   trx: TrxType
 ) {
-  if (series.length > 0) {
-    const parsedSeries = series.map(item => ({
-      id: randomUUID(),
-      importId: importId,
-      name: item.name,
-      startDate: item.startDate,
-      endDate: item.endDate,
-      userItemStatus: item.userItemStatus,
-      importStatus: item.importStatus,
-      tmdbId: item.tmdbId,
-      watchedEpisodes: item.watchedEpisodes,
-      seriesEpisodes: item.seriesEpisodes,
-    }))
+  try {
+    if (series.length > 0) {
+      const parsedSeries = series.map(item => ({
+        id: randomUUID(),
+        importId: importId,
+        name: item.name,
+        startDate: item.startDate,
+        endDate: item.endDate,
+        userItemStatus: item.userItemStatus,
+        importStatus: item.importStatus,
+        tmdbId: item.tmdbId,
+        watchedEpisodes: item.watchedEpisodes,
+        seriesEpisodes: item.seriesEpisodes,
+      }))
 
-    return await trx
-      .insert(schema.importSeries)
-      .values(parsedSeries)
-      .returning()
+      return await trx
+        .insert(schema.importSeries)
+        .values(parsedSeries)
+        .returning()
+    }
+
+    return []
+  } catch (error) {
+    throw new CannotInsertIntoImportTableError()
   }
-
-  return []
 }
 
-export type GetImportResult = {
-  userImport: UserImport
-  series: ImportSeries[]
-  movies: ImportMovie[]
-}
-
-export async function getImport(id: string): Promise<GetImportResult> {
+export async function getImport(id: string) {
   const [userImport] = await db
     .select()
     .from(schema.userImports)
@@ -135,11 +129,7 @@ export async function getImport(id: string): Promise<GetImportResult> {
     .from(schema.importSeries)
     .where(eq(schema.importSeries.importId, id))
 
-  return {
-    userImport,
-    movies,
-    series,
-  }
+  return { ...userImport, series, movies }
 }
 
 export async function checkAndFinalizeImport(importId: string): Promise<void> {

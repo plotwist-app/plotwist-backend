@@ -37,8 +37,8 @@ export type MALAnimes = {
   series_episodes: number
   my_id: number
   my_watched_episodes: number
-  my_start_date: Date
-  my_finish_date: Date
+  my_start_date: string
+  my_finish_date: string
   my_rated: string
   my_score: number
   my_storage: string

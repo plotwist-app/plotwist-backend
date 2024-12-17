@@ -57,8 +57,8 @@ function buildSeries(rawSeries: MALAnimes[]) {
     return {
       importStatus: 'NOT_STARTED',
       name: item.series_title,
-      endDate: item.my_finish_date ?? null,
-      startDate: item.my_start_date ?? null,
+      endDate: formatDate(item.my_finish_date),
+      startDate: formatDate(item.my_start_date),
       watchedEpisodes: item.my_watched_episodes ?? null,
       userItemStatus: MALtoDomain(item.my_status),
     }
@@ -72,10 +72,22 @@ function buildMovies(rawMovies: MALAnimes[]) {
     return {
       importStatus: 'NOT_STARTED',
       name: item.series_title,
-      endDate: item.my_finish_date ?? null,
+      endDate: formatDate(item.my_finish_date),
       userItemStatus: MALtoDomain(item.my_status),
     }
   })
 
   return movies
+}
+
+function formatDate(date: string) {
+  if (date === '0000-00-00') {
+    return null
+  }
+
+  if (!date) {
+    return null
+  }
+
+  return new Date(date)
 }
