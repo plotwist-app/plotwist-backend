@@ -295,13 +295,6 @@
       "when": 1734317579125,
       "tag": "20241216025259_update_at_user_item",
       "breakpoints": true
-    },
-    {
-      "idx": 42,
-      "version": "7",
-      "when": 1734339851519,
-      "tag": "20241216090411_create_import_tables",
-      "breakpoints": true
     }
   ]
 }

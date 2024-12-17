@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Added 
 
 - Update and Get import services [(#60)](https://github.com/plotwist-app/plotwist-backend/pull/60)
-- Updae List item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
+- Update List item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
 
 ### 1.4.0
 

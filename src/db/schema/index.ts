@@ -436,74 +436,6 @@ export const likesRelations = relations(likes, ({ one }) => ({
   }),
 }))
 
-export const userImports = pgTable('user_imports', {
-  id: uuid('id')
-    .$defaultFn(() => randomUUID())
-    .primaryKey(),
-  userId: uuid('user_id')
-    .references(() => users.id, { onDelete: 'cascade' })
-    .notNull(),
-  itemsCount: integer('items_count').notNull(),
-  importStatus: importStatusEnum('import_status').notNull(),
-  provider: providersEnum('provider').notNull(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-})
-
-export const userImportsRelations = relations(userImports, ({ one, many }) => ({
-  user: one(users, {
-    fields: [userImports.userId],
-    references: [users.id],
-  }),
-  ImportMovies: many(importMovies),
-  importSeries: many(importSeries),
-}))
-
-export const importMovies = pgTable('import_movies', {
-  id: uuid('id').primaryKey(),
-  importId: uuid('import_id')
-    .references(() => userImports.id, { onDelete: 'cascade' })
-    .notNull(),
-  name: varchar('name').notNull(),
-  endDate: timestamp('end_date', { withTimezone: true }),
-  userItemStatus: statusEnum('item_status').notNull(),
-  importStatus: importItemStatusEnum('import_status').notNull(),
-  tmdbId: integer('TMDB_ID'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-})
-
-export const importMoviesRelations = relations(importMovies, ({ one }) => ({
-  import: one(userImports, {
-    fields: [importMovies.importId],
-    references: [userImports.id],
-  }),
-}))
-
-export const importSeries = pgTable('import_series', {
-  id: uuid('id').primaryKey(),
-  importId: uuid('import_id')
-    .references(() => userImports.id, { onDelete: 'cascade' })
-    .notNull(),
-  name: varchar('name').notNull(),
-  startDate: timestamp('start_date', { withTimezone: true }),
-  endDate: timestamp('end_date', { withTimezone: true }),
-  userItemStatus: statusEnum('item_status').notNull(),
-  importStatus: importItemStatusEnum('import_status').notNull(),
-  tmdbId: integer('TMDB_ID'),
-  watchedEpisodes: integer('watched_episodes'),
-  seriesEpisodes: integer('series_episodes'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
-})
-
-export const importTVShowsRelations = relations(importSeries, ({ one }) => ({
-  import: one(userImports, {
-    fields: [importSeries.importId],
-    references: [userImports.id],
-  }),
-}))
-
 export const activityTypeEnum = pgEnum('activity_type', [
   'CREATE_LIST', // done
   'ADD_ITEM', // done
@@ -564,8 +496,5 @@ export const schema = {
   userEpisodes,
   likes,
   followers,
-  userImports,
-  importMovies,
-  importSeries,
   userActivities,
 }
