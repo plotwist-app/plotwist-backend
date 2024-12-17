@@ -1,9 +1,10 @@
 import { selectUserItems } from '@/db/repositories/user-item-repository'
+import type { getUserItemsQuerySchema } from '@/http/schemas/user-items'
 
-export type GetUserItemsInput = {
-  userId: string
-  status: 'WATCHED' | 'WATCHLIST' | 'WATCHING'
-}
+export type GetUserItemsInput = Omit<
+  typeof getUserItemsQuerySchema._type,
+  'language'
+>
 
 export async function getUserItemsService({
   userId,
