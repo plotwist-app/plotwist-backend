@@ -53,7 +53,6 @@ export async function getTMDBDataService(
   }
 
   const data = await tmdb.movies.details(tmdbId, language)
-  console.log({ data })
   await redis.set(cacheKey, JSON.stringify(data), 'EX', ONE_WEEK_IN_SECONDS)
 
   return {
