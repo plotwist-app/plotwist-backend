@@ -40,23 +40,14 @@ const authToken = aws.ecr.getAuthorizationTokenOutput({
   registryId: repository.repository.registryId,
 })
 
+const timestamp = new Date().toISOString().replace(/[-:.]/g, '')
+const imageTag = pulumi.interpolate`${repository.repository.repositoryUrl}:${timestamp}`
+
 const image = new docker_build.Image('aws-host-image', {
-  tags: [pulumi.interpolate`${repository.repository.repositoryUrl}:latest`],
+  tags: [imageTag],
   context: {
     location: '../',
   },
-  cacheFrom: [
-    {
-      registry: {
-        ref: pulumi.interpolate`${repository.repository.repositoryUrl}:latest`,
-      },
-    },
-  ],
-  cacheTo: [
-    {
-      inline: {},
-    },
-  ],
   platforms: ['linux/amd64'],
   push: true,
   registries: [
