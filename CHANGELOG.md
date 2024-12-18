@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### 1.4.0
 
+- Add droppped user item status ([#66])(https://github.com/plotwist-app/plotwist-backend/pull/66)
 - Add user activities [#62](https://github.com/plotwist-app/plotwist-backend/pull/62)
 - Add update list item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
 

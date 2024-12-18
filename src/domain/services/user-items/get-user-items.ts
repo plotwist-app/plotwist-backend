@@ -1,10 +1,10 @@
 import { selectUserItems } from '@/db/repositories/user-item-repository'
-import type { UserItemStatus } from '@/domain/value-objects/item-status-enum'
+import type { getUserItemsQuerySchema } from '@/http/schemas/user-items'
 
-export type GetUserItemsInput = {
-  userId: string
-  status: UserItemStatus
-}
+export type GetUserItemsInput = Omit<
+  typeof getUserItemsQuerySchema._type,
+  'language'
+>
 
 export async function getUserItemsService({
   userId,
