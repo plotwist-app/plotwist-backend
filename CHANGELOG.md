@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### 1.5.5
 
-- Remove docker cache from pulumi [(#65)](https://github.com/plotwist-app/plotwist-backend/pull/65)
+- Remove docker cache from pulumi [(#68)](https://github.com/plotwist-app/plotwist-backend/pull/68)
 
 ### 1.5.0
 
