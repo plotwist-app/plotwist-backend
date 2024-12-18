@@ -79,7 +79,7 @@ const loadBalancer = new awsx.classic.lb.ApplicationLoadBalancer(
 
 new aws.route53.Record('app-alias', {
   zoneId: zone.then(zone => zone.zoneId),
-  name: 'app',
+  name: 'backend',
   type: 'A',
   aliases: [
     {
