@@ -16,7 +16,7 @@ import {
   getFollowersController,
 } from '../controllers/follows-controller'
 
-const TAGS = ['Follow']
+const TAGS = ['Follows']
 
 export async function followsRoutes(app: FastifyInstance) {
   app.after(() =>

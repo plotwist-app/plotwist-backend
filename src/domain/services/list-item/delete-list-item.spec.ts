@@ -1,7 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest'
 
 import { ListItemNotFoundError } from '@/domain/errors/list-item-not-found-error'
-import { UnauthorizedError } from '@/domain/errors/unauthorized-error'
 import { makeList } from '@/test/factories/make-list'
 import { makeListItem } from '@/test/factories/make-list-item'
 import { makeUser } from '@/test/factories/make-user'
