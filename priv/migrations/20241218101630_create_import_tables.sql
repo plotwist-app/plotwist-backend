@@ -16,7 +16,6 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
-ALTER TYPE "status" ADD VALUE 'DROPPED';--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "import_movies" (
 	"id" uuid PRIMARY KEY NOT NULL,
 	"import_id" uuid NOT NULL,

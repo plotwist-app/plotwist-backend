@@ -40,7 +40,7 @@ export async function insertUserImport({
 
     const savedSeries = await saveSeries(series, importId, trx)
 
-    return { userImport, series: savedSeries, movies: savedMovies }
+    return { ...userImport, series: savedSeries, movies: savedMovies }
   })
 
   return transaction

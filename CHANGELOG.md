@@ -5,12 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### 1.5.0
+
 ### Added 
 
 - Save imported itens into DB [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
 - Finished My anime list provider import [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
 - Update and Get import services [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
-- Updae List item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
+- Update List item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
 
 ### 1.4.0
 

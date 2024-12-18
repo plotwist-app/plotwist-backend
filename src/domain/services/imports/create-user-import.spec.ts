@@ -27,15 +27,17 @@ describe('create user import', () => {
     const sut = await createUserImport(rawImport)
 
     expect(sut).toEqual({
-      userImport: expect.objectContaining({
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
-        importStatus: expect.stringContaining('NOT_STARTED'),
-      }),
+      id: expect.any(String),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+      provider: rawImport.provider,
+      itemsCount: series.length + movies.length,
+      importStatus: 'NOT_STARTED',
+      userId: userId,
       series: expect.arrayContaining(
         rawImport.series.map(item =>
           expect.objectContaining({
-            importStatus: expect.stringContaining('NOT_STARTED'),
+            importStatus: 'NOT_STARTED',
             createdAt: expect.any(Date),
             updatedAt: expect.any(Date),
           })
@@ -44,7 +46,7 @@ describe('create user import', () => {
       movies: expect.arrayContaining(
         rawImport.movies.map(item =>
           expect.objectContaining({
-            importStatus: expect.stringContaining('NOT_STARTED'),
+            importStatus: 'NOT_STARTED',
             createdAt: expect.any(Date),
             updatedAt: expect.any(Date),
           })
@@ -67,16 +69,18 @@ describe('create user import', () => {
     const sut = await createUserImport(rawImport)
 
     expect(sut).toEqual({
-      userImport: expect.objectContaining({
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
-        importStatus: expect.stringContaining('NOT_STARTED'),
-      }),
+      id: expect.any(String),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+      userId: userId,
+      importStatus: 'NOT_STARTED',
+      itemsCount: movies.length,
+      provider: rawImport.provider,
       series: [],
       movies: expect.arrayContaining(
         rawImport.movies.map(item =>
           expect.objectContaining({
-            importStatus: expect.stringContaining('NOT_STARTED'),
+            importStatus: 'NOT_STARTED',
             createdAt: expect.any(Date),
             updatedAt: expect.any(Date),
           })
@@ -99,16 +103,18 @@ describe('create user import', () => {
     const sut = await createUserImport(rawImport)
 
     expect(sut).toEqual({
-      userImport: expect.objectContaining({
-        createdAt: expect.any(Date),
-        updatedAt: expect.any(Date),
-        importStatus: expect.stringContaining('NOT_STARTED'),
-      }),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
+      id: expect.any(String),
+      importStatus: 'NOT_STARTED',
+      itemsCount: series.length,
+      provider: rawImport.provider,
+      userId: userId,
       movies: [],
       series: expect.arrayContaining(
         rawImport.movies.map(item =>
           expect.objectContaining({
-            importStatus: expect.stringContaining('NOT_STARTED'),
+            importStatus: 'NOT_STARTED',
             createdAt: expect.any(Date),
             updatedAt: expect.any(Date),
           })

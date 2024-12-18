@@ -17,7 +17,9 @@ describe('get user import', () => {
       series,
     })
 
-    const sut = await GetUserImport(result.userImport.id)
+    const sut = await GetUserImport(result.id)
+
+    console.log('sut:', sut)
 
     expect(sut).toEqual(result)
   })
@@ -33,7 +35,7 @@ describe('get user import', () => {
       movies: [],
     })
 
-    const sut = await GetUserImport(result.userImport.id)
+    const sut = await GetUserImport(result.id)
 
     expect(sut).toEqual(result)
   })
@@ -46,7 +48,7 @@ describe('get user import', () => {
       series: [],
     })
 
-    const sut = await GetUserImport(result.userImport.id)
+    const sut = await GetUserImport(result.id)
 
     expect(sut).toEqual(result)
   })
