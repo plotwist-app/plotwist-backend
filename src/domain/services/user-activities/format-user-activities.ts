@@ -14,8 +14,8 @@ export async function formatUserActivitiesService({
   redis,
   language,
 }: FormatUserActivitiesInput) {
-  for (const activity of userActivities) {
-    try {
+  const formatted = await Promise.all(
+    userActivities.map(async activity => {
       if (
         activity.activityType === 'ADD_ITEM' ||
         activity.activityType === 'DELETE_ITEM' ||
@@ -85,10 +85,10 @@ export async function formatUserActivitiesService({
           },
         }
       }
-    } catch (error) {
-      console.error(error)
-    }
 
-    return activity
-  }
+      return activity
+    })
+  )
+
+  return { userActivities: formatted }
 }
