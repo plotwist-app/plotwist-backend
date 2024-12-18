@@ -19,8 +19,6 @@ export async function getTMDBDataService(
   const cacheKey = `${mediaType}:${tmdbId}:${language}`
   const cachedResult = await redis.get(cacheKey)
 
-  console.log({ cachedResult })
-
   if (mediaType === 'TV_SHOW') {
     if (cachedResult) {
       const data = JSON.parse(cachedResult)
@@ -53,6 +51,7 @@ export async function getTMDBDataService(
   }
 
   const data = await tmdb.movies.details(tmdbId, language)
+  console.log({ data })
   await redis.set(cacheKey, JSON.stringify(data), 'EX', ONE_WEEK_IN_SECONDS)
 
   return {
