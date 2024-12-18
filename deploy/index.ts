@@ -134,6 +134,7 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
   cluster,
   desiredCount: 1,
   waitForSteadyState: false,
+  enableExecuteCommand: true,
   taskDefinitionArgs: {
     executionRole,
     container: {
