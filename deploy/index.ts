@@ -7,6 +7,31 @@ import * as aws from '@pulumi/aws'
 // @ts-ignore
 import * as awsx from '@pulumi/awsx'
 
+const zone = aws.route53.getZone({
+  name: 'plotwist.app',
+})
+
+const cert = new aws.acm.Certificate('aws-workshop-acm-certificate', {
+  domainName: 'api.plotwist.app',
+  validationMethod: 'DNS',
+})
+
+const validationRecord = new aws.route53.Record('aws-workshop-domain-record', {
+  zoneId: zone.then(zone => zone.zoneId),
+  name: cert.domainValidationOptions[0].resourceRecordName,
+  type: cert.domainValidationOptions[0].resourceRecordType,
+  records: [cert.domainValidationOptions[0].resourceRecordValue],
+  ttl: 60,
+})
+
+const validatedCert = new aws.acm.CertificateValidation(
+  'aws-workshop-acm-validation',
+  {
+    certificateArn: cert.arn,
+    validationRecordFqdns: [validationRecord.fqdn],
+  }
+)
+
 const repository = new awsx.ecr.Repository('aws-host-repository', {
   forceDelete: true,
 })
@@ -52,6 +77,19 @@ const loadBalancer = new awsx.classic.lb.ApplicationLoadBalancer(
   }
 )
 
+new aws.route53.Record('app-alias', {
+  zoneId: zone.then(zone => zone.zoneId),
+  name: 'app',
+  type: 'A',
+  aliases: [
+    {
+      name: loadBalancer.loadBalancer.dnsName,
+      zoneId: loadBalancer.loadBalancer.zoneId,
+      evaluateTargetHealth: true,
+    },
+  ],
+})
+
 const targetGroup = loadBalancer.createTargetGroup('aws-host-target-group', {
   port: 3000,
   protocol: 'HTTP',
@@ -66,9 +104,11 @@ const targetGroup = loadBalancer.createTargetGroup('aws-host-target-group', {
 })
 
 const httpListener = loadBalancer.createListener('aws-host-http-listener', {
-  port: 80,
-  protocol: 'HTTP',
+  port: 443,
   targetGroup,
+  protocol: 'HTTPS',
+  sslPolicy: 'ELBSecurityPolicy-2016-08',
+  certificateArn: validatedCert.certificateArn,
 })
 
 const executionRole = new aws.iam.Role('aws-workshop-execution-role', {
