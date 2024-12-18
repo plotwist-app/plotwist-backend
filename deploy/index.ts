@@ -12,7 +12,7 @@ const zone = aws.route53.getZone({
 })
 
 const cert = new aws.acm.Certificate('aws-workshop-acm-certificate', {
-  domainName: 'api.plotwist.app',
+  domainName: 'backend.plotwist.app',
   validationMethod: 'DNS',
 })
 
