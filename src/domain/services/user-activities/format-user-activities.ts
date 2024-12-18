@@ -14,90 +14,81 @@ export async function formatUserActivitiesService({
   redis,
   language,
 }: FormatUserActivitiesInput) {
-  try {
-    const formatted = await Promise.all(
-      userActivities.map(async activity => {
-        if (
-          activity.activityType === 'ADD_ITEM' ||
-          activity.activityType === 'DELETE_ITEM' ||
-          activity.activityType === 'CHANGE_STATUS' ||
-          activity.activityType === 'CREATE_REVIEW' ||
-          activity.activityType === 'LIKE_REVIEW'
-        ) {
-          const { mediaType, tmdbId } = activity.additionalInfo
+  for (const activity of userActivities) {
+    try {
+      if (
+        activity.activityType === 'ADD_ITEM' ||
+        activity.activityType === 'DELETE_ITEM' ||
+        activity.activityType === 'CHANGE_STATUS' ||
+        activity.activityType === 'CREATE_REVIEW' ||
+        activity.activityType === 'LIKE_REVIEW'
+      ) {
+        const { mediaType, tmdbId } = activity.additionalInfo
 
-          const { title } = await getTMDBDataService(redis, {
-            language,
-            mediaType,
-            tmdbId,
-          })
+        const { title } = await getTMDBDataService(redis, {
+          language,
+          mediaType,
+          tmdbId,
+        })
 
-          return {
-            ...activity,
-            additionalInfo: {
-              ...activity.additionalInfo,
-              title,
-            },
-          }
+        return {
+          ...activity,
+          additionalInfo: {
+            ...activity.additionalInfo,
+            title,
+          },
         }
-
-        if (activity.activityType === 'WATCH_EPISODE') {
-          const { episodes } = activity.additionalInfo
-          const tmdbId = episodes[0].tmdbId
-
-          const { title } = await getTMDBDataService(redis, {
-            language,
-            mediaType: 'TV_SHOW',
-            tmdbId: tmdbId,
-          })
-
-          return {
-            ...activity,
-            additionalInfo: {
-              ...activity.additionalInfo,
-              title,
-              tmdbId,
-            },
-          }
-        }
-
-        if (
-          activity.activityType === 'LIKE_REPLY' ||
-          activity.activityType === 'CREATE_REPLY'
-        ) {
-          const {
-            review: { tmdbId, mediaType },
-          } = activity.additionalInfo
-
-          const { title } = await getTMDBDataService(redis, {
-            language,
-            mediaType: mediaType,
-            tmdbId: tmdbId,
-          })
-
-          return {
-            ...activity,
-            additionalInfo: {
-              ...activity.additionalInfo,
-              review: {
-                ...activity.additionalInfo.review,
-                title,
-              },
-            },
-          }
-        }
-
-        return activity
-      })
-    )
-    return { userActivities: formatted }
-  } catch (error) {
-    if (error instanceof AggregateError) {
-      for (const errorItem of error.errors) {
-        console.error(JSON.stringify(errorItem))
       }
+
+      if (activity.activityType === 'WATCH_EPISODE') {
+        const { episodes } = activity.additionalInfo
+        const tmdbId = episodes[0].tmdbId
+
+        const { title } = await getTMDBDataService(redis, {
+          language,
+          mediaType: 'TV_SHOW',
+          tmdbId: tmdbId,
+        })
+
+        return {
+          ...activity,
+          additionalInfo: {
+            ...activity.additionalInfo,
+            title,
+            tmdbId,
+          },
+        }
+      }
+
+      if (
+        activity.activityType === 'LIKE_REPLY' ||
+        activity.activityType === 'CREATE_REPLY'
+      ) {
+        const {
+          review: { tmdbId, mediaType },
+        } = activity.additionalInfo
+
+        const { title } = await getTMDBDataService(redis, {
+          language,
+          mediaType: mediaType,
+          tmdbId: tmdbId,
+        })
+
+        return {
+          ...activity,
+          additionalInfo: {
+            ...activity.additionalInfo,
+            review: {
+              ...activity.additionalInfo.review,
+              title,
+            },
+          },
+        }
+      }
+    } catch (error) {
+      console.error(error)
     }
 
-    return { userActivities: [] }
+    return activity
   }
 }
