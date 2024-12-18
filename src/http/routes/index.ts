@@ -23,6 +23,7 @@ import { likesRoutes } from './likes'
 import { userStatsRoutes } from './user-stats'
 import { imagesRoutes } from './images'
 import { followsRoutes } from './follow'
+import { importRoutes } from './import'
 import { userActivitiesRoutes } from './user-activities'
 
 export function routes(app: FastifyInstance) {
@@ -61,6 +62,7 @@ export function routes(app: FastifyInstance) {
   app.register(userStatsRoutes)
   app.register(imagesRoutes)
   app.register(followsRoutes)
+  app.register(importRoutes)
   app.register(userActivitiesRoutes)
 
   return
