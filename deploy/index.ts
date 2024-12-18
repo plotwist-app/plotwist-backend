@@ -40,14 +40,13 @@ const authToken = aws.ecr.getAuthorizationTokenOutput({
   registryId: repository.repository.registryId,
 })
 
-const timestamp = new Date().toISOString().replace(/[-:.]/g, '')
-const imageTag = pulumi.interpolate`${repository.repository.repositoryUrl}:${timestamp}`
-
 const image = new docker_build.Image('aws-host-image', {
-  tags: [imageTag],
+  tags: [pulumi.interpolate`${repository.repository.repositoryUrl}:latest`],
   context: {
     location: '../',
   },
+  cacheFrom: [],
+  cacheTo: [],
   platforms: ['linux/amd64'],
   push: true,
   registries: [
@@ -135,6 +134,7 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
   cluster,
   desiredCount: 1,
   waitForSteadyState: false,
+  enableExecuteCommand: true,
   taskDefinitionArgs: {
     executionRole,
     container: {

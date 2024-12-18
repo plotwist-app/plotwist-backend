@@ -12,8 +12,10 @@ const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60
 
 export async function getTMDBDataService(
   redis: FastifyRedis,
-  { mediaType, language, tmdbId }: GetTMDBDataServiceInput
+  input: GetTMDBDataServiceInput
 ) {
+  const { mediaType, language, tmdbId } = input
+
   const cacheKey = `${mediaType}:${tmdbId}:${language}`
   const cachedResult = await redis.get(cacheKey)
 
