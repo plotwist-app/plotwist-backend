@@ -38,6 +38,7 @@
     "@plotwist_app/tmdb": "0.1.0",
     "@swc/core": "^1.10.0",
     "@vitest/coverage-v8": "^2.1.8",
+    "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "change-case": "^5.4.4",
     "date-fns": "^4.1.0",

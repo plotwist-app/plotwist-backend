@@ -92,7 +92,11 @@ export async function formatUserActivitiesService({
     )
     return { userActivities: formatted }
   } catch (error) {
-    console.log('Error formatting user activities:', JSON.stringify(error))
+    if (error instanceof AggregateError) {
+      for (const errorItem of error.errors) {
+        console.error(JSON.stringify(errorItem))
+      }
+    }
 
     return { userActivities: [] }
   }
