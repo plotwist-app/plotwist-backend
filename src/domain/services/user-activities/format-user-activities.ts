@@ -89,7 +89,6 @@ export async function formatUserActivitiesService({
 
         return activity
       } catch (error) {
-        console.error('Error formatting activity:', activity, error)
         return activity
       }
     })

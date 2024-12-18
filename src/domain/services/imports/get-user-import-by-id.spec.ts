@@ -19,8 +19,6 @@ describe('get user import', () => {
 
     const sut = await GetUserImport(result.id)
 
-    console.log('sut:', sut)
-
     expect(sut).toEqual(result)
   })
 
