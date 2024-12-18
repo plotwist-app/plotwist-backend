@@ -172,6 +172,26 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           name: 'TMDB_ACCESS_TOKEN',
           valueFrom: '/plotwist/prod/TMDB_ACCESS_TOKEN',
         },
+        {
+          name: 'CLOUDFLARE_BUCKET',
+          valueFrom: '/plotwist/prod/CLOUDFLARE_BUCKET',
+        },
+        {
+          name: 'CLOUDFLARE_ACCESS_KEY_ID',
+          valueFrom: '/plotwist/prod/CLOUDFLARE_ACCESS_KEY_ID',
+        },
+        {
+          name: 'CLOUDFLARE_SECRET_ACCESS_KEY',
+          valueFrom: '/plotwist/prod/CLOUDFLARE_SECRET_ACCESS_KEY',
+        },
+        {
+          name: 'CLOUDFLARE_ACCOUNT_ID',
+          valueFrom: '/plotwist/prod/CLOUDFLARE_ACCOUNT_ID',
+        },
+        {
+          name: 'CLOUDFLARE_PUBLIC_URL',
+          valueFrom: '/plotwist/prod/CLOUDFLARE_PUBLIC_URL',
+        },
       ],
     },
   },
