@@ -1,4 +1,4 @@
-import cors from '@fastify/cors'
+import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifyRedis from '@fastify/redis'
 import fastifySwaggerUi from '@fastify/swagger-ui'
@@ -33,8 +33,8 @@ export function routes(app: FastifyInstance) {
     })
   }
 
-  app.register(cors, {
-    origin: config.app.CLIENT_URL ?? '*',
+  app.register(fastifyCors, {
+    origin: '*',
   })
 
   app.register(fastifyJwt, {
