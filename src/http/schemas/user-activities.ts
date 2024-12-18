@@ -10,7 +10,7 @@ export const getUserActivitiesParamsSchema = z.object({
 export const getUserActivitiesQuerySchema = z
   .object({
     cursor: z.string().optional(),
-    pageSize: z.string().default('20'),
+    pageSize: z.string().default('10'),
   })
   .merge(languageQuerySchema)
 
