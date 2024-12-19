@@ -16,7 +16,7 @@ export async function createUserImport(params: InsertUserImportWithItems) {
     processAndPublish(result.movies, config.sqsQueues.importMoviesQueue)
     processAndPublish(result.series, config.sqsQueues.importSeriesQueue)
 
-    return 'inserted'
+    return result
   } catch (error) {
     if (error instanceof postgres.PostgresError) {
       if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {
