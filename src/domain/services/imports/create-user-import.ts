@@ -4,13 +4,18 @@ import type { InsertUserImportWithItems } from '@/domain/entities/import'
 
 import { FailedToInsertUserImport } from '@/domain/errors/failed-to-import-user-items'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
+import { createSqsClient } from '@/sqs'
 import postgres from 'postgres'
 
 export async function createUserImport(params: InsertUserImportWithItems) {
   try {
     const result = await insertUserImport(params)
 
-    return result
+    const awsInstance = createSqsClient()
+
+    console.log(awsInstance)
+
+    return 'inserted'
   } catch (error) {
     if (error instanceof postgres.PostgresError) {
       if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {

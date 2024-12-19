@@ -6,6 +6,7 @@ export const config = {
   app: loadAppEnvs(),
   services: loadServicesEnvs(),
   redis: loadRedisEnvs(),
+  sqs: loadSQSEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -53,6 +54,17 @@ function loadCloudFlareEnvs() {
     CLOUDFLARE_BUCKET: z.string(),
     CLOUDFLARE_ACCOUNT_ID: z.string(),
     CLOUDFLARE_PUBLIC_URL: z.string().url(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadSQSEnvs() {
+  const schema = z.object({
+    AWS_REGION: z.string(),
+    LOCALSTACK_ENDPOINT: z.string().url().optional(),
+    AWS_ACCESS_KEY_ID: z.string(),
+    AWS_SECRET_ACCESS_KEY: z.string(),
   })
 
   return schema.parse(process.env)
