@@ -1,5 +1,6 @@
+import type { QueueMessage } from '@/domain/entities/queue-message'
+
 export interface QueueService {
-  createQueue(queueName: string): Promise<string | undefined>
-  sendMessage(queueUrl: string, message: string): Promise<string | undefined>
+  publish(queueMessage: QueueMessage): Promise<void>
   receiveMessage(queueUrl: string): Promise<(string | undefined)[] | undefined>
 }

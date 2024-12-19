@@ -1,5 +1,5 @@
+import { initializeSQS } from './adapters/sqs'
 import { startServer } from './http/server'
-import { initializeSQS } from './sqs'
 
 await initializeSQS()
 

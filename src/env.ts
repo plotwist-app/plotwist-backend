@@ -7,6 +7,7 @@ export const config = {
   services: loadServicesEnvs(),
   redis: loadRedisEnvs(),
   sqs: loadSQSEnvs(),
+  sqsQueues: loadSQSQueues(),
 }
 
 function loadRedisEnvs() {
@@ -68,4 +69,11 @@ function loadSQSEnvs() {
   })
 
   return schema.parse(process.env)
+}
+
+function loadSQSQueues() {
+  return {
+    importMoviesQueue: 'import-movies-queue',
+    importSeriesQueue: 'import-series-queue',
+  }
 }
