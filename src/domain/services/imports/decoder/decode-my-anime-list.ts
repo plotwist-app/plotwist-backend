@@ -5,7 +5,6 @@ import type {
 import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import type { InsertImportSeries } from '@/domain/entities/import-series'
 import { MALtoDomain } from '@/domain/helpers/convert_status'
-import { unzipFile } from '@/domain/helpers/unzip-file'
 import { convertXmlToJson } from '@/domain/helpers/xml-to-json'
 import {
   type MALAnimes,
@@ -15,6 +14,7 @@ import {
 import type { MultipartFile } from '@fastify/multipart'
 import { createUserImport } from '../create-user-import'
 import { DomainError } from '@/domain/errors/domain-error'
+import { unzipFile } from '@/domain/helpers/decompress-gzip-file'
 
 export async function decodeMyAnimeList(
   userId: string,

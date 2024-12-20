@@ -8,6 +8,7 @@ export async function unzipFile(uploadedFile: MultipartFile) {
     const fileStream = Readable.from(uploadedFile.file)
 
     const gunzip = createGunzip()
+
     const unzippedStream = fileStream.pipe(gunzip)
 
     const chunks: Buffer[] = []
@@ -18,6 +19,7 @@ export async function unzipFile(uploadedFile: MultipartFile) {
     const unzippedContent = Buffer.concat(chunks).toString('utf-8')
     return unzippedContent
   } catch (error) {
+    console.log(error)
     throw new CannotUnzipFileError()
   }
 }
