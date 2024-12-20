@@ -1,4 +1,7 @@
-import type { InsertUserImportWithItems } from '@/domain/entities/import'
+import type {
+  DetailedUserImport,
+  InsertUserImportWithItems,
+} from '@/domain/entities/import'
 import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import type { InsertImportSeries } from '@/domain/entities/import-series'
 import { MALtoDomain } from '@/domain/helpers/convert_status'
@@ -11,11 +14,12 @@ import {
 } from '@/domain/value-objects/my-anime-list-import'
 import type { MultipartFile } from '@fastify/multipart'
 import { createUserImport } from '../create-user-import'
+import { DomainError } from '@/domain/errors/domain-error'
 
 export async function decodeMyAnimeList(
   userId: string,
   uploadedFile: MultipartFile
-) {
+): Promise<DetailedUserImport | DomainError> {
   try {
     const unzippedContent = await unzipFile(uploadedFile)
     const parsedFile: MyAnimeListImport = convertXmlToJson(unzippedContent)
@@ -37,7 +41,11 @@ export async function decodeMyAnimeList(
 
     return await createUserImport(userImport)
   } catch (error) {
-    return error
+    if (error instanceof DomainError) {
+      return error
+    }
+
+    return new DomainError('An unexpected error occurred', 500)
   }
 }
 

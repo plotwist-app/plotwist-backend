@@ -1,6 +1,12 @@
 import { initializeSQS } from './adapters/sqs'
 import { startServer } from './http/server'
 
-await initializeSQS()
+async function main() {
+  await initializeSQS()
 
-startServer()
+  startServer()
+}
+
+main().catch(err => {
+  console.error('Error initializing Plotwist', err)
+})
