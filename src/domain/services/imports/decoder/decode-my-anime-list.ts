@@ -10,7 +10,7 @@ import {
   type MALAnimes,
   type MyAnimeListImport,
   SeriesType,
-} from '@/domain/value-objects/my-anime-list-import'
+} from '@/@types/my-anime-list-import'
 import type { MultipartFile } from '@fastify/multipart'
 import { createUserImport } from '../create-user-import'
 import { DomainError } from '@/domain/errors/domain-error'

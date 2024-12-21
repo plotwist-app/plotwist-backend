@@ -1,11 +1,11 @@
 import type { MultipartFile } from '@fastify/multipart'
-import type { ProvidersEnum } from '../value-objects/providers'
 import type { DetailedUserImport } from '../entities/import'
 import type { DomainError } from '../errors/domain-error'
 
 import { decodeMyAnimeList } from '../services/imports/decoder/decode-my-anime-list'
 import { decodeLetterboxd } from '../services/imports/decoder/decode-letterboxd'
 import { CannotProcessImportFileError } from '../errors/cannot-process-file'
+import type { ProvidersEnum } from '@/@types/media-type-enum'
 
 const providerDispatchers: Record<
   ProvidersEnum,

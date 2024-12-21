@@ -1,5 +1,5 @@
-import type { UserItemStatus } from '../value-objects/item-status-enum'
-import { MALStatus } from '../value-objects/my-anime-list-import'
+import type { UserItemStatus } from '@/@types/item-status-enum'
+import { MALStatus } from '@/@types/my-anime-list-import'
 
 // My anime list to domain
 export function MALtoDomain(status: MALStatus): UserItemStatus {
