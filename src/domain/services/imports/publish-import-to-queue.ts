@@ -3,15 +3,15 @@ import type { DetailedUserImport } from '@/domain/entities/import'
 import type { QueueMessage } from '@/domain/entities/queue-message'
 import { config } from '@/env'
 
-export function publishToQueue(result: DetailedUserImport) {
-  processAndPublish(result.movies, config.sqsQueues.importMoviesQueue)
-  processAndPublish(result.series, config.sqsQueues.importSeriesQueue)
+export async function publishToQueue(result: DetailedUserImport) {
+  processAndPublish(result.movies, config.sqsQueues.IMPORT_MOVIES_QUEUE)
+  processAndPublish(result.series, config.sqsQueues.IMPORT_SERIES_QUEUE)
 }
 
-const processAndPublish = (
+async function processAndPublish(
   items: { id: string; name: string }[],
   queueUrl: string
-) => {
+) {
   if (items.length === 0) return
 
   const parsedMessages = items.map(item => ({
@@ -24,5 +24,5 @@ const processAndPublish = (
     queueUrl,
   }
 
-  publish(message)
+  await publish(message)
 }

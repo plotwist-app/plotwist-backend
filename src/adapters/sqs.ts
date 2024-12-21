@@ -8,17 +8,15 @@ import {
   SQSClient,
 } from '@aws-sdk/client-sqs'
 
-export async function initializeSQS() {
+export async function initializeSQS(sqsClient: SQSClient) {
   if (config.app.APP_ENV === 'production') {
     return
   }
 
   const queues = [
-    config.sqsQueues.importMoviesQueue,
-    config.sqsQueues.importSeriesQueue,
+    config.sqsQueues.IMPORT_MOVIES_QUEUE,
+    config.sqsQueues.IMPORT_SERIES_QUEUE,
   ]
-
-  const sqsClient = createSqsClient()
 
   for (const queueName of queues) {
     try {

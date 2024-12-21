@@ -72,8 +72,10 @@ function loadSQSEnvs() {
 }
 
 function loadSQSQueues() {
-  return {
-    importMoviesQueue: 'import-movies-queue',
-    importSeriesQueue: 'import-series-queue',
-  }
+  const schema = z.object({
+    IMPORT_MOVIES_QUEUE: z.string(),
+    IMPORT_SERIES_QUEUE: z.string(),
+  })
+
+  return schema.parse(process.env)
 }
