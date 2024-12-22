@@ -20,10 +20,7 @@ export async function consumeMessages(
             console.warn('Received message is not a string:', message)
           }
         }
-      } else {
-        console.info('No messages to process.')
       }
-
       await delay(2000)
     } catch (error) {
       console.error(`Error consuming messages from queue: ${queueUrl}`, error)

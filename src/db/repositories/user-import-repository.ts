@@ -109,15 +109,8 @@ async function saveSeries(
   }
 }
 
-export async function getImport(id: string) {
-  const [userImport] = await db
-    .select()
-    .from(schema.userImports)
-    .where(eq(schema.userImports.id, id))
-
-  if (!userImport) {
-    throw new Error(`User import with id ${id} not found`)
-  }
+export async function getDetailedUserImport(id: string) {
+  const userImport = await getUserImport(id)
 
   const movies = await db
     .select()
@@ -132,7 +125,7 @@ export async function getImport(id: string) {
   return { ...userImport, series, movies }
 }
 
-export async function checkAndFinalizeImport(importId: string): Promise<void> {
+export async function checkAndFinalizeImport(importId: string) {
   await db.transaction(async trx => {
     const [moviesStatusCheck] = await trx.execute(sql`
       SELECT COUNT(*) AS incomplete_movies
@@ -161,4 +154,13 @@ export async function checkAndFinalizeImport(importId: string): Promise<void> {
         .where(eq(schema.userImports.id, importId))
     }
   })
+}
+
+export async function getUserImport(id: string) {
+  const [userImport] = await db
+    .select()
+    .from(schema.userImports)
+    .where(eq(schema.userImports.id, id))
+
+  return userImport
 }
