@@ -24,6 +24,7 @@ export async function initializeSQS(sqsClient: SQSClient) {
       const command = new CreateQueueCommand({ QueueName: queueName })
 
       const result = await sqsClient.send(command)
+
       console.info(`Queue created or exists: ${result.QueueUrl}`)
     } catch (error) {
       console.error(`Failed to create queue ${queueName}:`, error)
@@ -97,7 +98,7 @@ async function receiveMessage(sqsClient: SQSClient, queueUrl: string) {
 export async function deleteMessage(
   sqsClient: SQSClient,
   queueUrl: string,
-  receiptHandle
+  receiptHandle: string
 ) {
   sqsClient.send(
     new DeleteMessageCommand({
