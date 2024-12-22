@@ -5,13 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Update `get-user-by-username` query tu handle capitalized usernames [#70](https://github.com/plotwist-app/plotwist-backend/pull/70)
+
 ### 1.5.5
 
 - Remove docker cache from pulumi [(#68)](https://github.com/plotwist-app/plotwist-backend/pull/68)
 
 ### 1.5.0
 
-### Added 
+### Added
 
 - Save imported itens into DB [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
 - Finished My anime list provider import [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
