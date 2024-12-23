@@ -19,7 +19,7 @@ export async function unzipFile(uploadedFile: MultipartFile) {
     const unzippedContent = Buffer.concat(chunks).toString('utf-8')
     return unzippedContent
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw new CannotUnzipFileError()
   }
 }
