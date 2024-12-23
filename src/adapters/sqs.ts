@@ -66,19 +66,19 @@ export async function publish({ messages, queueUrl }: QueueMessage) {
         Entries: batch,
       })
 
-      const result = await sqsClient.send(command)
+      const { Successful = [], Failed = [] } = await sqsClient.send(command)
 
-      if (result.Successful && result.Successful.length > 0) {
+      if (Successful.length) {
         console.info(
           'Batch sent successfully:',
-          result.Successful.map(msg => msg.Id)
+          Successful.map(msg => msg.Id)
         )
       } else {
         console.warn('No successful messages in batch.')
       }
 
-      if (result.Failed && result.Failed.length > 0) {
-        console.error('Failed messages:', result.Failed)
+      if (Failed.length) {
+        console.error('Failed messages:', Failed)
       }
     }
   } catch (error) {
