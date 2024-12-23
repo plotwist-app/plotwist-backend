@@ -180,6 +180,27 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           name: 'CLOUDFLARE_PUBLIC_URL',
           valueFrom: '/plotwist/prod/CLOUDFLARE_PUBLIC_URL',
         },
+        { name: 'AWS_REGION', valueFrom: '/plotwist/prod/AWS_REGION' },
+        {
+          name: 'LOCALSTACK_ENDPOINT',
+          valueFrom: '/plotwist/prod/LOCALSTACK_ENDPOINT',
+        },
+        {
+          name: 'AWS_ACCESS_KEY_ID',
+          valueFrom: '/plotwist/prod/AWS_ACCESS_KEY_ID',
+        },
+        {
+          name: 'AWS_SECRET_ACCESS_KEY',
+          valueFrom: '/plotwist/prod/AWS_SECRET_ACCESS_KEY',
+        },
+        {
+          name: 'IMPORT_MOVIES_QUEUE',
+          valueFrom: '/plotwist/prod/IMPORT_MOVIES_QUEUE',
+        },
+        {
+          name: 'IMPORT_SERIES_QUEUE',
+          valueFrom: '/plotwist/prod/IMPORT_SERIES_QUEUE',
+        },
       ],
     },
   },

@@ -1,6 +1,6 @@
 {
   "name": "plotwist-api",
-  "version": "1.7.1",
+  "version": "1.7.4",
   "main": "index.js",
   "type": "module",
   "scripts": {
