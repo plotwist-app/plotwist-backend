@@ -1,4 +1,4 @@
-import { selectUserItems } from '@/db/repositories/user-item-repository'
+import { selectAllUserItems } from '@/db/repositories/user-item-repository'
 import { getTMDBCredits } from '../tmdb/get-tmdb-credits'
 import type { FastifyRedis } from '@fastify/redis'
 
@@ -11,7 +11,7 @@ export async function getUserWatchedCastService({
   userId,
   redis,
 }: GetUserWatchedCastServiceInput) {
-  const watchedItems = await selectUserItems({ status: 'WATCHED', userId })
+  const watchedItems = await selectAllUserItems({ status: 'WATCHED', userId })
 
   const watchedItemsCast = await Promise.all(
     watchedItems.map(async ({ tmdbId, mediaType }) => {

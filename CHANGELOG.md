@@ -5,31 +5,44 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.7.1
+
+### Changed
+
+- Comment SQS startup in main file [(#76)](https://github.com/plotwist-app/plotwist-backend/pull/76)
+
+## 1.7.0
+
 ### Added
 
 - Send imports to SQS using Localstack for local developments [(#69)](https://github.com/plotwist-app/plotwist-backend/pull/69)
-- Add __metadata field to save raw import [(#72)](https://github.com/plotwist-app/plotwist-backend/pull/72)
+- Add metadata field to save raw import [(#72)](https://github.com/plotwist-app/plotwist-backend/pull/72)
+- Get user items pagination [#73](https://github.com/plotwist-app/plotwist-backend/pull/73)
 
-### 1.5.5
+### Changed
+
+- Update `get-user-by-username` query to handle capitalized usernames [#70](https://github.com/plotwist-app/plotwist-backend/pull/70)
+
+## 1.5.5
 
 - Remove docker cache from pulumi [(#68)](https://github.com/plotwist-app/plotwist-backend/pull/68)
 
-### 1.5.0
+## 1.5.0
 
-### Added 
+### Added
 
 - Save imported itens into DB [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
 - Finished My anime list provider import [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
 - Update and Get import services [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
 - Update List item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
 
-### 1.4.0
+## 1.4.0
 
 - Add droppped user item status ([#66])(https://github.com/plotwist-app/plotwist-backend/pull/66)
 - Add user activities [#62](https://github.com/plotwist-app/plotwist-backend/pull/62)
 - Add update list item position endpoint [(#61)](https://github.com/plotwist-app/plotwist-backend/pull/61)
 
-### 1.3.0
+## 1.3.0
 
 ### Added
 
@@ -40,7 +53,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Organized project envs to use as config in the project [(#57)](https://github.com/plotwist-app/plotwist-backend/pull/57)
 
-### 1.2.2
+## 1.2.2
 
 ### Fixed
 

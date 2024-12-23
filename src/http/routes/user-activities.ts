@@ -4,6 +4,7 @@ import { getUserActivitiesController } from '../controllers/user-activities-cont
 import {
   getUserActivitiesParamsSchema,
   getUserActivitiesQuerySchema,
+  getUserActivitiesResponseSchema,
 } from '../schemas/user-activities'
 
 const TAGS = ['User activities']
@@ -19,7 +20,7 @@ export async function userActivitiesRoutes(app: FastifyInstance) {
         tags: TAGS,
         querystring: getUserActivitiesQuerySchema,
         params: getUserActivitiesParamsSchema,
-        // response: getUserActivitiesResponseSchema,
+        response: getUserActivitiesResponseSchema,
       },
       handler: (request, reply) =>
         getUserActivitiesController(request, reply, app.redis),

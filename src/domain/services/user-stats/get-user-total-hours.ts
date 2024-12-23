@@ -1,16 +1,17 @@
 import type { FastifyRedis } from '@fastify/redis'
-import { getUserItemsService } from '../user-items/get-user-items'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import { getUserEpisodesService } from '../user-episodes/get-user-episodes'
+import { getAllUserItemsService } from '../user-items/get-all-user-items'
 
 export async function getUserTotalHoursService(
   userId: string,
   redis: FastifyRedis
 ) {
-  const watchedItems = await getUserItemsService({
+  const watchedItems = await getAllUserItemsService({
     userId,
     status: 'WATCHED',
   })
+
   const movieRuntimes = await getMovieRuntimes(watchedItems, redis)
   const movieTotalHours = sumRuntimes(movieRuntimes)
 
@@ -24,7 +25,7 @@ export async function getUserTotalHoursService(
 }
 
 async function getMovieRuntimes(
-  watchedItems: Awaited<ReturnType<typeof getUserItemsService>>,
+  watchedItems: Awaited<ReturnType<typeof getAllUserItemsService>>,
   redis: FastifyRedis
 ) {
   return Promise.all(
