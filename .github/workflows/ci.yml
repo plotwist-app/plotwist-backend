@@ -22,7 +22,6 @@ jobs:
         env:
           REDIS_PASSWORD: redis
           
-          
       localstack:
         image: localstack/localstack
         ports:
