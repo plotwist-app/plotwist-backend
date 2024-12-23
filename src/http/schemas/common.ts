@@ -6,3 +6,8 @@ export const languageQuerySchema = z.object({
     .optional()
     .default('en-US'),
 })
+
+export const paginationQuerySchema = z.object({
+  cursor: z.string().optional(),
+  pageSize: z.string().default('20'),
+})

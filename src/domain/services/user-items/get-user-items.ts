@@ -1,16 +1,13 @@
 import { selectUserItems } from '@/db/repositories/user-item-repository'
-import type { getUserItemsQuerySchema } from '@/http/schemas/user-items'
+import type { SelectUserItems } from '@/domain/entities/user-item'
 
-export type GetUserItemsInput = Omit<
-  typeof getUserItemsQuerySchema._type,
-  'language'
->
+export async function getUserItemsService(input: SelectUserItems) {
+  const userItems = await selectUserItems(input)
 
-export async function getUserItemsService({
-  userId,
-  status,
-}: GetUserItemsInput) {
-  const userItems = await selectUserItems({ userId, status })
+  const lastUserItem = userItems[input.pageSize]
+  const nextCursor = lastUserItem?.updatedAt.toISOString() || null
 
-  return { userItems }
+  const slicedUserItems = userItems.slice(0, input.pageSize)
+
+  return { userItems: slicedUserItems, nextCursor }
 }

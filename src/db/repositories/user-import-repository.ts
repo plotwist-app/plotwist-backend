@@ -73,6 +73,7 @@ async function saveMovies(
 
     return []
   } catch (error) {
+
     throw new CannotInsertIntoImportTableError()
   }
 }
@@ -105,6 +106,7 @@ async function saveSeries(
 
     return []
   } catch (error) {
+    console.log({error})
     throw new CannotInsertIntoImportTableError()
   }
 }

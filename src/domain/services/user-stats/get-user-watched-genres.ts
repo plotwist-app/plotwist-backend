@@ -1,4 +1,4 @@
-import { selectUserItems } from '@/db/repositories/user-item-repository'
+import { selectAllUserItems } from '@/db/repositories/user-item-repository'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
@@ -15,7 +15,7 @@ export async function getUserWatchedGenresService({
   redis,
   language,
 }: GetUserWatchedGenresServiceInput) {
-  const watchedItems = await selectUserItems({ userId, status: 'WATCHED' })
+  const watchedItems = await selectAllUserItems({ userId, status: 'WATCHED' })
   const genreCount = new Map()
 
   await Promise.all(
