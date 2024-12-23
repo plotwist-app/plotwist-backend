@@ -49,3 +49,19 @@ export const getUserItemResponseSchema = {
     userItem: createSelectSchema(schema.userItems).optional(),
   }),
 }
+
+export const getAllUserItemsQuerySchema = createInsertSchema(
+  schema.userItems
+).pick({ status: true, userId: true })
+
+export const getAllUserItemsResponseSchema = {
+  200: z.object({
+    userItems: z.array(
+      createSelectSchema(schema.userItems).pick({
+        id: true,
+        mediaType: true,
+        tmdbId: true,
+      })
+    ),
+  }),
+}

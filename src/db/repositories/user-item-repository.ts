@@ -1,10 +1,11 @@
 import type {
   InsertUserItem,
+  SelectAllUserItems,
   SelectUserItems,
 } from '@/domain/entities/user-item'
 import type { GetUserItemInput } from '@/domain/services/user-items/get-user-item'
 
-import { and, desc, eq, lte, sql } from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 
@@ -87,4 +88,26 @@ export async function selectUserItemStatus(userId: string) {
     .from(schema.userItems)
     .where(eq(schema.userItems.userId, userId))
     .groupBy(schema.userItems.status)
+}
+
+export async function selectAllUserItems({
+  status,
+  userId,
+}: SelectAllUserItems) {
+  const { id, tmdbId, mediaType } = getTableColumns(schema.userItems)
+
+  return db
+    .select({
+      id,
+      tmdbId,
+      mediaType,
+    })
+    .from(schema.userItems)
+    .where(
+      and(
+        eq(schema.userItems.userId, userId),
+        eq(schema.userItems.status, status)
+      )
+    )
+    .orderBy(desc(schema.userItems.updatedAt))
 }

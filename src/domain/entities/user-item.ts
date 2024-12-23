@@ -1,5 +1,8 @@
 import type { schema } from '@/db/schema'
-import type { getUserItemsQuerySchema } from '@/http/schemas/user-items'
+import type {
+  getAllUserItemsQuerySchema,
+  getUserItemsQuerySchema,
+} from '@/http/schemas/user-items'
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 
 export type UserItem = InferSelectModel<typeof schema.userItems>
@@ -15,3 +18,5 @@ export type SelectUserItems = Pick<
   cursor?: string
   pageSize: number
 }
+
+export type SelectAllUserItems = typeof getAllUserItemsQuerySchema._type

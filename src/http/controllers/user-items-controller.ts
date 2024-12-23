@@ -12,9 +12,11 @@ import {
   deleteUserItemParamsSchema,
   getUserItemQuerySchema,
   getUserItemsQuerySchema,
+  getAllUserItemsQuerySchema,
 } from '../schemas/user-items'
 import { createUserItemEpisodesService } from '@/domain/services/user-items/create-user-item-episodes'
 import { deleteUserItemEpisodesService } from '@/domain/services/user-items/delete-user-item-episodes'
+import { getAllUserItemsService } from '@/domain/services/user-items/get-all-user-items'
 
 export async function upsertUserItemController(
   request: FastifyRequest,
@@ -111,5 +113,15 @@ export async function getUserItemController(
     userId: request.user.id,
   })
 
-  return reply.status(200).send({ userItem: result.userItem })
+  return reply.status(200).send(result)
+}
+
+export async function getAllUserItemsController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { status, userId } = getAllUserItemsQuerySchema.parse(request.query)
+  const result = await getAllUserItemsService({ status, userId })
+
+  return reply.status(200).send(result)
 }

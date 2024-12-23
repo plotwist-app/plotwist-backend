@@ -9,10 +9,13 @@ import {
   getUserItemResponseSchema,
   getUserItemsQuerySchema,
   getUserItemsResponseSchema,
+  getAllUserItemsQuerySchema,
+  getAllUserItemsResponseSchema,
 } from '../schemas/user-items'
 
 import {
   deleteUserItemController,
+  getAllUserItemsController,
   getUserItemController,
   getUserItemsController,
   upsertUserItemController,
@@ -94,6 +97,21 @@ export async function userItemsRoutes(app: FastifyInstance) {
         ],
       },
       handler: getUserItemController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/items/all',
+      schema: {
+        description: 'Get user items',
+        tags: USER_ITEMS_TAGS,
+        querystring: getAllUserItemsQuerySchema,
+        response: getAllUserItemsResponseSchema,
+        operationId: 'getAllUserItems',
+      },
+      handler: getAllUserItemsController,
     })
   )
 }
