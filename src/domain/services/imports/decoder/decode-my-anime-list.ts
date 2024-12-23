@@ -70,6 +70,7 @@ function buildSeries(rawSeries: MALAnimes[]) {
       startDate: formatDate(item.my_start_date),
       watchedEpisodes: item.my_watched_episodes ?? null,
       userItemStatus: MALtoDomain(item.my_status),
+      __metadata: item,
     }
   })
 
@@ -83,6 +84,7 @@ function buildMovies(rawMovies: MALAnimes[]) {
       name: item.series_title,
       endDate: formatDate(item.my_finish_date),
       userItemStatus: MALtoDomain(item.my_status),
+      __metadata: item,
     }
   })
 
