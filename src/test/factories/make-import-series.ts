@@ -1,6 +1,6 @@
+import type { ImportStatusEnum } from '@/@types/import-item-status-enum'
 import type { InsertImportSeries } from '@/domain/entities/import-series'
-import type { ImportStatusEnum } from '@/domain/value-objects/import-item-status-enum'
-import type { UserItemStatus } from '@/domain/value-objects/item-status-enum'
+import type { UserItemStatus } from '@/@types/item-status-enum'
 
 import { faker } from '@faker-js/faker'
 

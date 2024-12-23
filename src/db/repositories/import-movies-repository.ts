@@ -1,4 +1,4 @@
-import type { ImportStatusEnum } from '@/domain/value-objects/import-item-status-enum'
+import type { ImportStatusEnum } from '@/@types/import-item-status-enum'
 import { db } from '..'
 import { schema } from '../schema'
 import { eq } from 'drizzle-orm'
