@@ -5,10 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Get user items pagination [#73](https://github.com/plotwist-app/plotwist-backend/pull/73)
+
 ### Added
 
 - Send imports to SQS using Localstack for local developments [(#69)](https://github.com/plotwist-app/plotwist-backend/pull/69)
-- Add __metadata field to save raw import [(#72)](https://github.com/plotwist-app/plotwist-backend/pull/72)
+- Add \_\_metadata field to save raw import [(#72)](https://github.com/plotwist-app/plotwist-backend/pull/72)
 
 ### 1.5.5
 
@@ -16,7 +18,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### 1.5.0
 
-### Added 
+### Added
 
 - Save imported itens into DB [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
 - Finished My anime list provider import [(#64)](https://github.com/plotwist-app/plotwist-backend/pull/64)
