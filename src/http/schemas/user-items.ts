@@ -1,7 +1,7 @@
 import { schema } from '@/db/schema'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
-import { languageQuerySchema } from './common'
+import { languageQuerySchema, paginationQuerySchema } from './common'
 
 export const upsertUserItemBodySchema = createInsertSchema(
   schema.userItems
@@ -19,15 +19,19 @@ export const upsertUserItemResponseSchema = {
 export const getUserItemsQuerySchema = createInsertSchema(schema.userItems)
   .pick({ status: true, userId: true })
   .merge(languageQuerySchema)
+  .merge(paginationQuerySchema)
 
 export const getUserItemsResponseSchema = {
-  200: z.array(
-    createSelectSchema(schema.userItems).extend({
-      title: z.string(),
-      posterPath: z.string().nullable(),
-      backdropPath: z.string().nullable(),
-    })
-  ),
+  200: z.object({
+    userItems: z.array(
+      createSelectSchema(schema.userItems).extend({
+        title: z.string(),
+        posterPath: z.string().nullable(),
+        backdropPath: z.string().nullable(),
+      })
+    ),
+    nextCursor: z.string().nullable(),
+  }),
 }
 
 export const deleteUserItemParamsSchema = z.object({

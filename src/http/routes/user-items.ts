@@ -51,6 +51,7 @@ export async function userItemsRoutes(app: FastifyInstance) {
         tags: USER_ITEMS_TAGS,
         querystring: getUserItemsQuerySchema,
         response: getUserItemsResponseSchema,
+        operationId: 'getUserItems',
       },
       handler: (request, reply) =>
         getUserItemsController(request, reply, app.redis),

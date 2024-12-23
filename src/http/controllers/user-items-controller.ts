@@ -52,17 +52,18 @@ export async function getUserItemsController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { language, status, userId } = getUserItemsQuerySchema.parse(
-    request.query
-  )
+  const { language, status, userId, pageSize, cursor } =
+    getUserItemsQuerySchema.parse(request.query)
 
-  const result = await getUserItemsService({
+  const { userItems, nextCursor } = await getUserItemsService({
     status,
     userId,
+    pageSize: Number(pageSize),
+    cursor,
   })
 
-  const formatted = await Promise.all(
-    result.userItems.map(async item => {
+  const formattedUserItems = await Promise.all(
+    userItems.map(async item => {
       const tmdbData = await getTMDBDataService(redis, {
         mediaType: item.mediaType,
         tmdbId: item.tmdbId,
@@ -73,7 +74,7 @@ export async function getUserItemsController(
     })
   )
 
-  return reply.status(200).send(formatted)
+  return reply.status(200).send({ userItems: formattedUserItems, nextCursor })
 }
 
 export async function deleteUserItemController(

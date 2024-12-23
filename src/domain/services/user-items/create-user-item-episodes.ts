@@ -42,6 +42,8 @@ export async function createUserItemEpisodesService({
       })
     )
 
+    console.log({ seasonEpisodes })
+
     const allEpisodesBody = seasonEpisodes
       .flat()
       .filter(ep => ep.runtime)

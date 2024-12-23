@@ -1,8 +1,10 @@
-import type { InsertUserItem } from '@/domain/entities/user-item'
+import type {
+  InsertUserItem,
+  SelectUserItems,
+} from '@/domain/entities/user-item'
 import type { GetUserItemInput } from '@/domain/services/user-items/get-user-item'
-import type { GetUserItemsInput } from '@/domain/services/user-items/get-user-items'
 
-import { and, desc, eq, sql } from 'drizzle-orm'
+import { and, desc, eq, lte, sql } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 
@@ -25,17 +27,29 @@ export async function upsertUserItem({
   )
 }
 
-export async function selectUserItems({ userId, status }: GetUserItemsInput) {
+export async function selectUserItems({
+  userId,
+  status,
+  pageSize,
+  cursor,
+}: SelectUserItems) {
   return db
     .select()
     .from(schema.userItems)
     .where(
       and(
+        cursor
+          ? lte(
+              sql`DATE_TRUNC('milliseconds', ${schema.userItems.updatedAt})`,
+              cursor
+            )
+          : undefined,
         eq(schema.userItems.userId, userId),
         eq(schema.userItems.status, status)
       )
     )
     .orderBy(desc(schema.userItems.updatedAt))
+    .limit(pageSize + 1)
 }
 
 export async function deleteUserItem(id: string) {
