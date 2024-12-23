@@ -27,9 +27,8 @@ jobs:
         ports:
           - 4566:4566
           - 4576:4576
-        environment:
-          - SERVICES=sqs
-          - DOCKER_HOST=unix:///var/run/docker.sock
+        env:
+          - SERVICES: sqs
 
     steps:
       - uses: actions/checkout@v4
