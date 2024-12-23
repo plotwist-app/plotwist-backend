@@ -74,6 +74,7 @@ export function startServer() {
       host: '0.0.0.0',
     })
     .then(() => {
+      console.log('Process env:', process.env)
       console.log(`HTTP server running at ${config.app.BASE_URL}`)
     })
 }

@@ -64,8 +64,8 @@ function loadSQSEnvs() {
   const schema = z.object({
     AWS_REGION: z.string(),
     LOCALSTACK_ENDPOINT: z.string().url().optional(),
-    AWS_ACCESS_KEY_ID: z.string(),
-    AWS_SECRET_ACCESS_KEY: z.string(),
+    AWS_ACCESS_KEY_ID: z.string().optional(),
+    AWS_SECRET_ACCESS_KEY: z.string().optional(),
   })
 
   return schema.parse(process.env)
