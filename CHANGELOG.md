@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.7.1
+
+### Changed
+
+- Comment SQS startup in main file [(#74)](https://github.com/plotwist-app/plotwist-backend/pull/74)
+
 ## 1.7.0
 
 ### Added
