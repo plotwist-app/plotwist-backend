@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Get user items pagination [#73](https://github.com/plotwist-app/plotwist-backend/pull/73)
+
 ### Added
 
 - Send imports to SQS using Localstack for local developments [(#69)](https://github.com/plotwist-app/plotwist-backend/pull/69)

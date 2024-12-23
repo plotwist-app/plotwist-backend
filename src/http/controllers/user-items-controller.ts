@@ -12,9 +12,11 @@ import {
   deleteUserItemParamsSchema,
   getUserItemQuerySchema,
   getUserItemsQuerySchema,
+  getAllUserItemsQuerySchema,
 } from '../schemas/user-items'
 import { createUserItemEpisodesService } from '@/domain/services/user-items/create-user-item-episodes'
 import { deleteUserItemEpisodesService } from '@/domain/services/user-items/delete-user-item-episodes'
+import { getAllUserItemsService } from '@/domain/services/user-items/get-all-user-items'
 
 export async function upsertUserItemController(
   request: FastifyRequest,
@@ -52,17 +54,18 @@ export async function getUserItemsController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { language, status, userId } = getUserItemsQuerySchema.parse(
-    request.query
-  )
+  const { language, status, userId, pageSize, cursor } =
+    getUserItemsQuerySchema.parse(request.query)
 
-  const result = await getUserItemsService({
+  const { userItems, nextCursor } = await getUserItemsService({
     status,
     userId,
+    pageSize: Number(pageSize),
+    cursor,
   })
 
-  const formatted = await Promise.all(
-    result.userItems.map(async item => {
+  const formattedUserItems = await Promise.all(
+    userItems.map(async item => {
       const tmdbData = await getTMDBDataService(redis, {
         mediaType: item.mediaType,
         tmdbId: item.tmdbId,
@@ -73,7 +76,7 @@ export async function getUserItemsController(
     })
   )
 
-  return reply.status(200).send(formatted)
+  return reply.status(200).send({ userItems: formattedUserItems, nextCursor })
 }
 
 export async function deleteUserItemController(
@@ -110,5 +113,15 @@ export async function getUserItemController(
     userId: request.user.id,
   })
 
-  return reply.status(200).send({ userItem: result.userItem })
+  return reply.status(200).send(result)
+}
+
+export async function getAllUserItemsController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { status, userId } = getAllUserItemsQuerySchema.parse(request.query)
+  const result = await getAllUserItemsService({ status, userId })
+
+  return reply.status(200).send(result)
 }

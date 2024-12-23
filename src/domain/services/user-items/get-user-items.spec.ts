@@ -19,6 +19,7 @@ describe('get user items', () => {
     const sut = await getUserItemsService({
       status: userItem.status,
       userId: user.id,
+      pageSize: 20,
     })
 
     expect(sut).toEqual({
@@ -27,6 +28,7 @@ describe('get user items', () => {
           status: userItem.status,
         }),
       ]),
+      nextCursor: null,
     })
   })
 })
