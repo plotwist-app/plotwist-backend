@@ -1,21 +1,26 @@
-import type { InsertUserImportWithItems } from '@/domain/entities/import'
+import type {
+  DetailedUserImport,
+  InsertUserImportWithItems,
+} from '@/domain/entities/import'
 import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import type { InsertImportSeries } from '@/domain/entities/import-series'
 import { MALtoDomain } from '@/domain/helpers/convert_status'
-import { unzipFile } from '@/domain/helpers/unzip-file'
 import { convertXmlToJson } from '@/domain/helpers/xml-to-json'
+
+import type { MultipartFile } from '@fastify/multipart'
+import { createUserImport } from '../create-user-import'
+import { DomainError } from '@/domain/errors/domain-error'
+import { unzipFile } from '@/domain/helpers/decompress-gzip-file'
 import {
   type MALAnimes,
   type MyAnimeListImport,
   SeriesType,
-} from '@/domain/value-objects/my-anime-list-import'
-import type { MultipartFile } from '@fastify/multipart'
-import { createUserImport } from '../create-user-import'
+} from '@/@types/my-anime-list-import'
 
 export async function decodeMyAnimeList(
   userId: string,
   uploadedFile: MultipartFile
-) {
+): Promise<DetailedUserImport | DomainError> {
   try {
     const unzippedContent = await unzipFile(uploadedFile)
     const parsedFile: MyAnimeListImport = convertXmlToJson(unzippedContent)
@@ -37,7 +42,11 @@ export async function decodeMyAnimeList(
 
     return await createUserImport(userImport)
   } catch (error) {
-    return error
+    if (error instanceof DomainError) {
+      return error
+    }
+
+    return new DomainError('An unexpected error occurred', 500)
   }
 }
 
@@ -61,6 +70,7 @@ function buildSeries(rawSeries: MALAnimes[]) {
       startDate: formatDate(item.my_start_date),
       watchedEpisodes: item.my_watched_episodes ?? null,
       userItemStatus: MALtoDomain(item.my_status),
+      __metadata: item,
     }
   })
 
@@ -74,6 +84,7 @@ function buildMovies(rawMovies: MALAnimes[]) {
       name: item.series_title,
       endDate: formatDate(item.my_finish_date),
       userItemStatus: MALtoDomain(item.my_status),
+      __metadata: item,
     }
   })
 

@@ -1,10 +1,7 @@
-// @ts-ignore
+// @ts-nocheck
 import * as pulumi from '@pulumi/pulumi'
-// @ts-ignore
 import * as docker_build from '@pulumi/docker-build'
-// @ts-ignore
 import * as aws from '@pulumi/aws'
-// @ts-ignore
 import * as awsx from '@pulumi/awsx'
 
 const zone = aws.route53.getZone({

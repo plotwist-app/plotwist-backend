@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch --env-file=.env src/http/server.ts",
-    "build": "dotenv -e .env -- tsup src/http/server.ts --out-dir dist --format esm,cjs --dts",
-    "start": "dotenv -e .env -- node dist/server.js",
+    "dev": "tsx watch --env-file=.env src/main.ts",
+    "build": "dotenv -e .env -- tsup src/main.ts --out-dir dist --format esm,cjs --dts",
+    "start": "dotenv -e .env -- node dist/main.js",
     "db:seed": "tsx --env-file=.env src/db/seed.ts",
     "db:generate": "dotenv -e .env -- drizzle-kit generate",
     "db:migrate": "dotenv -e .env -- drizzle-kit migrate",
@@ -38,6 +38,7 @@
     "@plotwist_app/tmdb": "0.1.2",
     "@swc/core": "^1.10.0",
     "@vitest/coverage-v8": "^2.1.8",
+    "adm-zip": "^0.5.16",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "change-case": "^5.4.4",
@@ -56,6 +57,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "@faker-js/faker": "^9.3.0",
+    "@types/adm-zip": "^0.5.7",
     "@types/bcrypt": "^5.0.2",
     "@types/ioredis-mock": "^8.2.5",
     "@types/node": "22.5.0",
