@@ -8,16 +8,14 @@ import postgres from 'postgres'
 
 export async function createUserImport(params: InsertUserImportWithItems) {
   try {
-    const result = await insertUserImport(params)
-
-    return result
+    return await insertUserImport(params)
   } catch (error) {
     if (error instanceof postgres.PostgresError) {
       if (error.code === PgIntegrityConstraintViolation.ForeignKeyViolation) {
         return new UserNotFoundError()
       }
-
-      return new FailedToInsertUserImport()
     }
+
+    throw new FailedToInsertUserImport()
   }
 }

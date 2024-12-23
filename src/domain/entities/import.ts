@@ -1,13 +1,13 @@
 import type { schema } from '@/db/schema'
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
-import type { InsertImportMovie } from './import-movies'
-import type { InsertImportSeries } from './import-series'
+import type { ImportMovie, InsertImportMovie } from './import-movies'
+import type { ImportSeries, InsertImportSeries } from './import-series'
 
 export type UserImport = InferSelectModel<typeof schema.userImports>
 
 export type DetailedUserImport = UserImport & {
-  movies: InsertImportMovie[]
-  series: InsertImportSeries[]
+  movies: ImportMovie[]
+  series: ImportSeries[]
 }
 
 type InsertUserImport = InferInsertModel<typeof schema.userImports>

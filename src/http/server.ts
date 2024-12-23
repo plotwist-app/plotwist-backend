@@ -13,66 +13,67 @@ import { routes } from './routes'
 
 export const app = fastify()
 
-app.setValidatorCompiler(validatorCompiler)
-app.setSerializerCompiler(serializerCompiler)
+export function startServer() {
+  app.setValidatorCompiler(validatorCompiler)
+  app.setSerializerCompiler(serializerCompiler)
 
-app.register(fastifySwagger, {
-  openapi: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Plotwist',
-      version: '0.1.0',
-    },
-    servers: [
-      {
-        url: config.app.BASE_URL,
-        description: 'Development server',
+  app.register(fastifySwagger, {
+    openapi: {
+      openapi: '3.0.0',
+      info: {
+        title: 'Plotwist',
+        version: '0.1.0',
       },
-    ],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
+      servers: [
+        {
+          url: config.app.BASE_URL,
+          description: 'Development server',
+        },
+      ],
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+          },
         },
       },
     },
-  },
-  transform: schema => {
-    try {
-      return transformSwaggerSchema(schema)
-    } catch (err) {
-      return schema
+    transform: schema => {
+      try {
+        return transformSwaggerSchema(schema)
+      } catch (err) {
+        return schema
+      }
+    },
+  })
+
+  app.setErrorHandler((error, _, reply) => {
+    if (error instanceof ZodError) {
+      return reply
+        .status(400)
+        .send({ message: 'Validation error.', issues: error.format() })
     }
-  },
-})
 
-app.setErrorHandler((error, _, reply) => {
-  if (error instanceof ZodError) {
-    return reply
-      .status(400)
-      .send({ message: 'Validation error.', issues: error.format() })
-  }
+    if (error.statusCode === 429) {
+      return reply
+        .code(429)
+        .send({ message: 'You hit the rate limit! Slow down please!' })
+    }
 
-  if (error.statusCode === 429) {
-    return reply
-      .code(429)
-      .send({ message: 'You hit the rate limit! Slow down please!' })
-  }
-
-  console.error({ error })
-  return reply.status(500).send({ message: 'Internal server error.' })
-})
-
-routes(app)
-
-// Server
-app
-  .listen({
-    port: config.app.PORT,
-    host: '0.0.0.0',
+    console.error({ error })
+    return reply.status(500).send({ message: 'Internal server error.' })
   })
-  .then(() => {
-    console.log(`HTTP server running at ${config.app.BASE_URL}`)
-  })
+
+  routes(app)
+
+  app
+    .listen({
+      port: config.app.PORT,
+      host: '0.0.0.0',
+    })
+    .then(() => {
+      console.log(`HTTP server running at ${config.app.BASE_URL}`)
+    })
+}

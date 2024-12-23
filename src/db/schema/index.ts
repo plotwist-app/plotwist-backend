@@ -469,6 +469,7 @@ export const importMovies = pgTable('import_movies', {
   userItemStatus: statusEnum('item_status').notNull(),
   importStatus: importItemStatusEnum('import_status').notNull(),
   tmdbId: integer('TMDB_ID'),
+  __metadata: jsonb('__metadata').$type<object>(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
@@ -493,6 +494,7 @@ export const importSeries = pgTable('import_series', {
   tmdbId: integer('TMDB_ID'),
   watchedEpisodes: integer('watched_episodes'),
   seriesEpisodes: integer('series_episodes'),
+  __metadata: jsonb('__metadata').$type<object>(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
