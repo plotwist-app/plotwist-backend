@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- Comment SQS startup in main file [(#74)](https://github.com/plotwist-app/plotwist-backend/pull/74)
+- Comment SQS startup in main file [(#76)](https://github.com/plotwist-app/plotwist-backend/pull/76)
 
 ## 1.7.0
 
