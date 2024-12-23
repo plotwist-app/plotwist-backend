@@ -25,15 +25,12 @@ jobs:
           
       localstack:
         image: localstack/localstack
-        container_name: localstack
         ports:
-          - "4566:4566"
-          - "4576:4576"
+          - 4566:4566
+          - 4576:4576
         environment:
           - SERVICES=sqs
           - DOCKER_HOST=unix:///var/run/docker.sock
-        volumes:
-          - localstack_data:/var/lib/localstack
 
     steps:
       - uses: actions/checkout@v4
