@@ -182,10 +182,6 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
         },
         { name: 'AWS_REGION', valueFrom: '/plotwist/prod/AWS_REGION' },
         {
-          name: 'LOCALSTACK_ENDPOINT',
-          valueFrom: '/plotwist/prod/LOCALSTACK_ENDPOINT',
-        },
-        {
           name: 'AWS_ACCESS_KEY_ID',
           valueFrom: '/plotwist/prod/AWS_ACCESS_KEY_ID',
         },
