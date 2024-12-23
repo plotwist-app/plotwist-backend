@@ -28,7 +28,10 @@ jobs:
           - 4566:4566
           - 4576:4576
         env:
-          - SERVICES: sqs
+          SERVICES: sqs
+          DEFAULT_REGION: sa-east-1
+          AWS_ACCESS_KEY_ID: localkey
+          AWS_SECRET_ACCESS_KEY: localsecret
 
     steps:
       - uses: actions/checkout@v4
