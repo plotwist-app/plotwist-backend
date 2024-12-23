@@ -11,6 +11,7 @@ export function makeRawImportSeries(overrides: Overrides): InsertImportSeries {
   return {
     ...params,
     name: faker.book.title(),
+    __metadata: buildMetadata(),
     ...overrides,
   }
 }
@@ -65,5 +66,33 @@ function buildItemType() {
     watchedEpisodes,
     userItemStatus,
     importStatus,
+  }
+}
+
+function buildMetadata() {
+  return {
+    series_animedb_id: 52034,
+    series_title: '"Oshi no Ko"',
+    series_type: 'TV',
+    series_episodes: 11,
+    my_id: 0,
+    my_watched_episodes: 11,
+    my_start_date: '2023-07-13',
+    my_finish_date: '2023-07-13',
+    my_rated: '',
+    my_score: 10,
+    my_storage: '',
+    my_storage_value: 0,
+    my_status: 'Completed',
+    my_comments: '',
+    my_times_watched: 0,
+    my_rewatch_value: '',
+    my_priority: 'LOW',
+    my_tags: '',
+    my_rewatching: 0,
+    my_rewatching_ep: 0,
+    my_discuss: 1,
+    my_sns: 'default',
+    update_on_import: 0,
   }
 }
