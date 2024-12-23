@@ -1,9 +1,9 @@
-// import { createSqsClient, initializeSQS } from './adapters/sqs'
+import { createSqsClient, initializeSQS } from './adapters/sqs'
 import { startServer } from './http/server'
 
 async function main() {
-  // const sqsClient = createSqsClient()
-  // await initializeSQS(sqsClient)
+  const sqsClient = createSqsClient()
+  await initializeSQS(sqsClient)
 
   startServer()
 }
