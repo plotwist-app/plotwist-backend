@@ -83,7 +83,7 @@ export function startServer() {
 }
 
 export function buildFastifyInstance() {
-  if (config.app.APP_ENV === 'production') {
+  if (config.featureFlags.ENABLE_CERTS) {
     const __filename = fileURLToPath(import.meta.url)
     const __dirname = path.dirname(__filename)
 
