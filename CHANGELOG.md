@@ -5,11 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Add mtls [(#79)](https://github.com/plotwist-app/plotwist-backend/pull/80) 
+
 ## 1.7.5 
 
 ### Changed
 
-- Add cors [(#78)](https://github.com/plotwist-app/plotwist-backend/pull/78) 
+- Add cors [(#78)](https://github.com/plotwist-app/plotwist-backend/pull/78)
 
 ## 1.7.4
 
