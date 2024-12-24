@@ -145,3 +145,7 @@ export const getUserActivitiesResponseSchema = {
 
 const getUserActivitiesResponseType = getUserActivitiesResponseSchema[200]._type
 export type GetUserActivitiesResponseType = typeof getUserActivitiesResponseType
+
+export const deleteUserActivityParamsSchema = z.object({
+  activityId: z.string(),
+})

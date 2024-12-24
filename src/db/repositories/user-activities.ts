@@ -171,3 +171,9 @@ export async function deleteFollowUserActivity({
       )
     )
 }
+
+export async function deleteUserActivityById(activityId: string) {
+  return db
+    .delete(schema.userActivities)
+    .where(eq(schema.userActivities.id, activityId))
+}
