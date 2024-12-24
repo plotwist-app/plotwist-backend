@@ -83,7 +83,7 @@ function loadSQSQueues() {
 
 function loadFeatureFlags() {
   const schema = z.object({
-    ENABLE_CERTS: z.boolean(),
+    ENABLE_CERTS: z.string(),
   })
 
   return schema.parse(process.env)
