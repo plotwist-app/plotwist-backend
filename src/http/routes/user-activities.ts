@@ -1,7 +1,11 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { getUserActivitiesController } from '../controllers/user-activities-controller'
 import {
+  deleteUserActivityController,
+  getUserActivitiesController,
+} from '../controllers/user-activities-controller'
+import {
+  deleteUserActivityParamsSchema,
   getUserActivitiesParamsSchema,
   getUserActivitiesQuerySchema,
   getUserActivitiesResponseSchema,
@@ -24,6 +28,20 @@ export async function userActivitiesRoutes(app: FastifyInstance) {
       },
       handler: (request, reply) =>
         getUserActivitiesController(request, reply, app.redis),
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'DELETE',
+      url: '/user/activities/:activityId',
+      schema: {
+        description: 'Delete user activity',
+        operationId: 'deleteUserActivity',
+        tags: TAGS,
+        params: deleteUserActivityParamsSchema,
+      },
+      handler: deleteUserActivityController,
     })
   )
 }
