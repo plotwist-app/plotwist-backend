@@ -117,7 +117,7 @@ describe('publishToQueue', () => {
     const receiveMovies = {
       QueueUrl: config.sqsQueues.IMPORT_MOVIES_QUEUE,
       MaxNumberOfMessages: 3,
-      WaitTimeSeconds: 1,
+      WaitTimeSeconds: 2,
     }
 
     const receiveSeries = {
