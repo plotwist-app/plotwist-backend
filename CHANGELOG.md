@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.8.6
+
+### Changed
+
+- Disable certs in prod [(#84)](https://github.com/plotwist-app/plotwist-backend/pull/84)
+
 ## 1.8.1
 
 ## Fixed
