@@ -31,7 +31,7 @@ describe('publishToQueue', () => {
     }
   })
 
-  it('should be able to send message to SQS', async () => {
+  it('should be able to send messages to SQS', async () => {
     const { id: userId } = await makeUser({})
 
     const movies = makeManyRawImportMovies(3, {})
