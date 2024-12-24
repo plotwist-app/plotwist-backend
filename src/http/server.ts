@@ -83,7 +83,7 @@ export function startServer() {
 }
 
 export function buildFastifyInstance() {
-  if (config.featureFlags.ENABLE_CERTS) {
+  if (config.featureFlags.ENABLE_CERTS === 'true') {
     const __filename = fileURLToPath(import.meta.url)
     const __dirname = path.dirname(__filename)
 
