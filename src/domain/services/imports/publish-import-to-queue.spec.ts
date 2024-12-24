@@ -31,7 +31,7 @@ describe('publishToQueue', () => {
     }
   })
 
-  it('should be able to send message to SQS', async () => {
+  it('should be able to send messages to SQS', async () => {
     const { id: userId } = await makeUser({})
 
     const movies = makeManyRawImportMovies(3, {})
@@ -43,7 +43,7 @@ describe('publishToQueue', () => {
     const receiveMovies = {
       QueueUrl: config.sqsQueues.IMPORT_MOVIES_QUEUE,
       MaxNumberOfMessages: 3,
-      WaitTimeSeconds: 5,
+      WaitTimeSeconds: 1,
     }
 
     const receivedMovies = await sqsClient.send(
@@ -55,7 +55,7 @@ describe('publishToQueue', () => {
     const receiveSeries = {
       QueueUrl: config.sqsQueues.IMPORT_SERIES_QUEUE,
       MaxNumberOfMessages: 8,
-      WaitTimeSeconds: 5,
+      WaitTimeSeconds: 1,
     }
 
     const receivedSeries = await sqsClient.send(
@@ -85,13 +85,13 @@ describe('publishToQueue', () => {
     const receiveMovies = {
       QueueUrl: config.sqsQueues.IMPORT_MOVIES_QUEUE,
       MaxNumberOfMessages: 1,
-      WaitTimeSeconds: 5,
+      WaitTimeSeconds: 1,
     }
 
     const receiveSeries = {
       QueueUrl: config.sqsQueues.IMPORT_SERIES_QUEUE,
       MaxNumberOfMessages: 3,
-      WaitTimeSeconds: 5,
+      WaitTimeSeconds: 1,
     }
 
     const receivedMovies = await sqsClient.send(
@@ -117,7 +117,7 @@ describe('publishToQueue', () => {
     const receiveMovies = {
       QueueUrl: config.sqsQueues.IMPORT_MOVIES_QUEUE,
       MaxNumberOfMessages: 3,
-      WaitTimeSeconds: 5,
+      WaitTimeSeconds: 1,
     }
 
     const receiveSeries = {
