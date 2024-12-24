@@ -15,7 +15,7 @@ import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
 
-const app: FastifyInstance = buildfastifyInstance()
+const app: FastifyInstance = buildFastifyInstance()
 
 export function startServer() {
   app.setValidatorCompiler(validatorCompiler)
@@ -82,7 +82,7 @@ export function startServer() {
     })
 }
 
-export function buildfastifyInstance() {
+export function buildFastifyInstance() {
   if (config.app.APP_ENV === 'production') {
     const __filename = fileURLToPath(import.meta.url)
     const __dirname = path.dirname(__filename)
