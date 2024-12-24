@@ -5,10 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.8.0
+
 ### Added
 
-- Delete user activity route [(#79)](https://github.com/plotwist-app/plotwist-backend/pull/79)
+- Added cert feature flag [(#81)](https://github.com/plotwist-app/plotwist-backend/pull/81)
 - Add mtls [(#80)](https://github.com/plotwist-app/plotwist-backend/pull/80) 
+- Delete user activity route [(#79)](https://github.com/plotwist-app/plotwist-backend/pull/79)
 
 ## 1.7.5
 
