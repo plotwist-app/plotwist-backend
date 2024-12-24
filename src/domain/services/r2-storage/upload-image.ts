@@ -1,5 +1,5 @@
 import { r2Storage } from '@/domain/entities/r2-storage'
-import { config } from '@/env'
+import { config } from '@/config'
 import { Upload } from '@aws-sdk/lib-storage'
 import type { Readable } from 'node:stream'
 

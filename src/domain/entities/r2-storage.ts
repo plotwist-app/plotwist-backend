@@ -1,4 +1,4 @@
-import { config } from '@/env'
+import { config } from '@/config'
 import { S3Client } from '@aws-sdk/client-s3'
 
 export const r2Storage = new S3Client({

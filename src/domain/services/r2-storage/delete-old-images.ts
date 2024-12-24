@@ -1,5 +1,5 @@
 import { r2Storage } from '@/domain/entities/r2-storage'
-import { config } from '@/env'
+import { config } from '@/config'
 import { DeleteObjectsCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
 
 export async function deleteOldImagesService(prefix: string) {

@@ -1,5 +1,5 @@
 import type { QueueMessage } from '@/domain/entities/queue-message'
-import { config } from '@/env'
+import { config } from '@/config'
 import type { QueueService } from '@/ports/queue-service'
 import {
   CreateQueueCommand,

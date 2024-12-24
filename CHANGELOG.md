@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
 - Delete user activity route [(#79)](https://github.com/plotwist-app/plotwist-backend/pull/79)
+- Add mtls [(#80)](https://github.com/plotwist-app/plotwist-backend/pull/80) 
 
 ## 1.7.5
 

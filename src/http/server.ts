@@ -1,17 +1,21 @@
+import type { FastifyInstance } from 'fastify/types/instance'
 import fastifySwagger from '@fastify/swagger'
 import fastify from 'fastify'
+
+import * as fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import { ZodError } from 'zod'
+import { config } from '../config'
+import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
 
-import { ZodError } from 'zod'
-import { config } from '../env'
-import { routes } from './routes'
-
-export const app = fastify()
+const app: FastifyInstance = buildFastifyInstance()
 
 export function startServer() {
   app.setValidatorCompiler(validatorCompiler)
@@ -74,7 +78,29 @@ export function startServer() {
       host: '0.0.0.0',
     })
     .then(() => {
-      console.log('Process env:', process.env)
-      console.log(`HTTP server running at ${config.app.BASE_URL}`)
+      console.info(`HTTP server running at ${config.app.BASE_URL}`)
     })
+}
+
+export function buildFastifyInstance() {
+  if (config.app.APP_ENV === 'production') {
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__filename)
+
+    const CERT_CA = path.join(__dirname, '../../certs/ca.pem')
+    const CERT_KEY = path.join(__dirname, '../../certs/server.key')
+    const CERT_CRT = path.join(__dirname, '../../certs/server.crt')
+
+    return fastify({
+      https: {
+        key: fs.readFileSync(CERT_KEY),
+        cert: fs.readFileSync(CERT_CRT),
+        ca: fs.readFileSync(CERT_CA),
+        requestCert: true,
+        rejectUnauthorized: true,
+      },
+    })
+  }
+
+  return fastify()
 }

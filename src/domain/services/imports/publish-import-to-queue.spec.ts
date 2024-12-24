@@ -4,7 +4,7 @@ import { makeUserImport } from '@/test/factories/make-user-import'
 import { publishToQueue } from './publish-import-to-queue'
 import { createSqsClient, initializeSQS } from '@/adapters/sqs'
 import { DeleteQueueCommand, ReceiveMessageCommand } from '@aws-sdk/client-sqs'
-import { config } from '@/env'
+import { config } from '@/config'
 import { makeManyRawImportMovies } from '@/test/factories/make-import-movies'
 import { makeManyRawImportSeries } from '@/test/factories/make-import-series'
 
@@ -43,7 +43,7 @@ describe('publishToQueue', () => {
     const receiveMovies = {
       QueueUrl: config.sqsQueues.IMPORT_MOVIES_QUEUE,
       MaxNumberOfMessages: 3,
-      WaitTimeSeconds: 1,
+      WaitTimeSeconds: 5,
     }
 
     const receivedMovies = await sqsClient.send(
@@ -55,7 +55,7 @@ describe('publishToQueue', () => {
     const receiveSeries = {
       QueueUrl: config.sqsQueues.IMPORT_SERIES_QUEUE,
       MaxNumberOfMessages: 8,
-      WaitTimeSeconds: 1,
+      WaitTimeSeconds: 5,
     }
 
     const receivedSeries = await sqsClient.send(
@@ -85,13 +85,13 @@ describe('publishToQueue', () => {
     const receiveMovies = {
       QueueUrl: config.sqsQueues.IMPORT_MOVIES_QUEUE,
       MaxNumberOfMessages: 1,
-      WaitTimeSeconds: 0.1,
+      WaitTimeSeconds: 5,
     }
 
     const receiveSeries = {
       QueueUrl: config.sqsQueues.IMPORT_SERIES_QUEUE,
       MaxNumberOfMessages: 3,
-      WaitTimeSeconds: 1,
+      WaitTimeSeconds: 5,
     }
 
     const receivedMovies = await sqsClient.send(
@@ -117,7 +117,7 @@ describe('publishToQueue', () => {
     const receiveMovies = {
       QueueUrl: config.sqsQueues.IMPORT_MOVIES_QUEUE,
       MaxNumberOfMessages: 3,
-      WaitTimeSeconds: 1,
+      WaitTimeSeconds: 5,
     }
 
     const receiveSeries = {
