@@ -7,6 +7,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Delete user activity route [(#79)](https://github.com/plotwist-app/plotwist-backend/pull/79)
 
+## 1.7.5
+
+### Changed
+
+- Add cors [(#78)](https://github.com/plotwist-app/plotwist-backend/pull/78)
+
+## 1.7.4
+
+### Fixed
+
+- Chore add missing deploy envs [(#77)](https://github.com/plotwist-app/plotwist-backend/pull/77)
+
 ## 1.7.1
 
 ### Changed
