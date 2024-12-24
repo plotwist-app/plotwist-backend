@@ -4,7 +4,7 @@ import { makeUserImport } from '@/test/factories/make-user-import'
 import { publishToQueue } from './publish-import-to-queue'
 import { createSqsClient, initializeSQS } from '@/adapters/sqs'
 import { DeleteQueueCommand, ReceiveMessageCommand } from '@aws-sdk/client-sqs'
-import { config } from '@/env'
+import { config } from '@/config'
 import { makeManyRawImportMovies } from '@/test/factories/make-import-movies'
 import { makeManyRawImportSeries } from '@/test/factories/make-import-series'
 

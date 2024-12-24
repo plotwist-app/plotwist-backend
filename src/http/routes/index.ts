@@ -6,8 +6,6 @@ import fastifyMultipart from '@fastify/multipart'
 
 import type { FastifyInstance } from 'fastify'
 
-import { config } from '../../env'
-
 import { healthCheck } from './healthcheck'
 import { listItemRoute } from './list-item'
 import { listsRoute } from './lists'
@@ -25,6 +23,7 @@ import { imagesRoutes } from './images'
 import { followsRoutes } from './follow'
 import { importRoutes } from './import'
 import { userActivitiesRoutes } from './user-activities'
+import { config } from '@/config'
 
 export function routes(app: FastifyInstance) {
   if (config.app.APP_ENV === 'dev') {
