@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.8.1
+
+## Fixed
+
+- pnpm lock file [(#82)](https://github.com/plotwist-app/plotwist-backend/pull/82)
+
 ## 1.8.0
 
 ### Added
