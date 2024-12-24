@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- Disable certs in prod [(#84)](https://github.com/plotwist-app/plotwist-backend/pull/84)
+- Disable certs in prod [(#83)](https://github.com/plotwist-app/plotwist-backend/pull/83)
 
 ## 1.8.1
 
