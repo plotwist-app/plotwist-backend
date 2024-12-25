@@ -16,6 +16,8 @@ export async function createUserImport(params: InsertUserImportWithItems) {
       }
     }
 
+    console.log(error)
+
     throw new FailedToInsertUserImport()
   }
 }

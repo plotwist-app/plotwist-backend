@@ -4,6 +4,7 @@ import type { QueueService } from '@/ports/queue-service'
 import {
   CreateQueueCommand,
   DeleteMessageCommand,
+  type Message,
   ReceiveMessageCommand,
   SendMessageBatchCommand,
   SQSClient,
@@ -88,17 +89,25 @@ export async function publish({ messages, queueUrl }: QueueMessage) {
   }
 }
 
-async function receiveMessage(sqsClient: SQSClient, queueUrl: string) {
+export async function receiveMessage(
+  queueUrl: string
+): Promise<{ body: string | undefined; receiptHandle: string | undefined }[]> {
+  const sqsClient = createSqsClient()
+
   const params = { QueueUrl: queueUrl, MaxNumberOfMessages: 10 }
   const result = await sqsClient.send(new ReceiveMessageCommand(params))
-  return result.Messages?.map(msg => msg.Body)
+
+  return (
+    result.Messages?.map((msg: Message) => ({
+      body: msg.Body,
+      receiptHandle: msg.ReceiptHandle,
+    })) || []
+  )
 }
 
-export async function deleteMessage(
-  sqsClient: SQSClient,
-  queueUrl: string,
-  receiptHandle: string
-) {
+export async function deleteMessage(queueUrl: string, receiptHandle: string) {
+  const sqsClient = createSqsClient()
+
   sqsClient.send(
     new DeleteMessageCommand({
       QueueUrl: queueUrl,
@@ -109,7 +118,9 @@ export async function deleteMessage(
 
 const SqsAdapter: QueueService = {
   publish: queueMessage => publish(queueMessage),
-  receiveMessage: queueUrl => receiveMessage(createSqsClient(), queueUrl),
+  receiveMessage: queueUrl => receiveMessage(queueUrl),
+  deleteMessage: (queueUrl, receiptHandle) =>
+    deleteMessage(queueUrl, receiptHandle),
 }
 
 export { SqsAdapter }

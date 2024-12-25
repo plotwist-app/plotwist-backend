@@ -1,4 +1,4 @@
-import { config } from '@/env'
+import { config } from '@/config'
 import { consumeMessages } from './consumer'
 import { searchTMDBMovie } from '@/domain/services/tmdb/search-tmdb-movie'
 import type { SQSClient } from '@aws-sdk/client-sqs'

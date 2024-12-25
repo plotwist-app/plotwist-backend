@@ -316,6 +316,13 @@
       "when": 1734958033691,
       "tag": "20241223124713_alter-import-table-add-metadata-field",
       "breakpoints": true
+    },
+    {
+      "idx": 45,
+      "version": "7",
+      "when": 1735142309238,
+      "tag": "20241225155829_alter-import-table-set-metadata-as-required",
+      "breakpoints": true
     }
   ]
 }

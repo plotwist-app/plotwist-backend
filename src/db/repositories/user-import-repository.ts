@@ -61,6 +61,7 @@ async function saveMovies(
         userItemStatus: item.userItemStatus,
         importStatus: item.importStatus,
         tmdbId: item.tmdbId,
+        __metadata: item.__metadata,
       }))
 
       const result = await trx
@@ -73,7 +74,6 @@ async function saveMovies(
 
     return []
   } catch (error) {
-
     throw new CannotInsertIntoImportTableError()
   }
 }
@@ -96,6 +96,7 @@ async function saveSeries(
         tmdbId: item.tmdbId,
         watchedEpisodes: item.watchedEpisodes,
         seriesEpisodes: item.seriesEpisodes,
+        __metadata: item.__metadata,
       }))
 
       return await trx
@@ -106,7 +107,7 @@ async function saveSeries(
 
     return []
   } catch (error) {
-    console.log({error})
+    console.log({ error })
     throw new CannotInsertIntoImportTableError()
   }
 }
