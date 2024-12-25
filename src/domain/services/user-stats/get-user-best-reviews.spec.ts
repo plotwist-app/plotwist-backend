@@ -11,12 +11,14 @@ describe('get user best reviews', () => {
       userId: user.id,
       rating: 5,
       mediaType: 'TV_SHOW',
+      tmdbId: 2316 // The Office
     })
 
     const movieReview = await makeReview({
       userId: user.id,
       rating: 5,
       mediaType: 'MOVIE',
+      tmdbId: 414906 // The Batman
     })
 
     const sut = await getUserBestReviewsService({

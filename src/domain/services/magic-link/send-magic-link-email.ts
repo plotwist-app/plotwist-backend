@@ -1,5 +1,5 @@
 import { resend } from '@/domain/entities/resend'
-import { config } from '@/env'
+import { config } from '@/config'
 
 type SendMagicLinkEmailServiceInput = {
   email: string

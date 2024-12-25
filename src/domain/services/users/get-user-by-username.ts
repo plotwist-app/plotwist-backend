@@ -1,6 +1,6 @@
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import { eq, getTableColumns } from 'drizzle-orm'
+import { getTableColumns, sql } from 'drizzle-orm'
 import { UserNotFoundError } from '../../errors/user-not-found'
 
 type GetUserByUsernameInput = {
@@ -13,7 +13,7 @@ export async function getUserByUsername({ username }: GetUserByUsernameInput) {
   const [user] = await db
     .select(columns)
     .from(schema.users)
-    .where(eq(schema.users.username, username))
+    .where(sql`LOWER(${schema.users.username}) = LOWER(${username})`)
 
   if (!user) {
     return new UserNotFoundError()

@@ -2,7 +2,7 @@ import type { ProvidersEnum } from '@/@types/media-type-enum'
 import { publish } from '@/adapters/sqs'
 import type { DetailedUserImport } from '@/domain/entities/import'
 import type { QueueMessage } from '@/domain/entities/queue-message'
-import { config } from '@/env'
+import { config } from '@/config'
 import { randomUUID } from 'node:crypto'
 
 export async function publishToQueue(result: DetailedUserImport) {

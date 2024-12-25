@@ -8,6 +8,7 @@ export const config = {
   redis: loadRedisEnvs(),
   sqs: loadSQSEnvs(),
   sqsQueues: loadSQSQueues(),
+  featureFlags: loadFeatureFlags(),
 }
 
 function loadRedisEnvs() {
@@ -75,6 +76,14 @@ function loadSQSQueues() {
   const schema = z.object({
     IMPORT_MOVIES_QUEUE: z.string(),
     IMPORT_SERIES_QUEUE: z.string(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadFeatureFlags() {
+  const schema = z.object({
+    ENABLE_CERTS: z.string(),
   })
 
   return schema.parse(process.env)

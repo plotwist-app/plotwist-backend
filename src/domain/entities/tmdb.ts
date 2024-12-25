@@ -1,4 +1,4 @@
-import { config } from '@/env'
+import { config } from '@/config'
 import { TMDB } from '@plotwist_app/tmdb'
 import https from 'https'
 
