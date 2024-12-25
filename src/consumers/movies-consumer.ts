@@ -15,12 +15,15 @@ import { updateImportMoviesStatus } from '@/db/repositories/import-movies-reposi
 import { getImportMovieById } from '@/domain/services/imports/get-import-movie-by-id'
 import type { MALAnimes } from '@/@types/my-anime-list-import'
 import { SqsAdapter } from '@/adapters/sqs'
+import { searchAnimeById } from '@/adapters/my-anime-list'
+import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 
 type ImportMovieMessage = {
   id: string
   name: string
   idempotencyKey: string
   provider: ProvidersEnum
+  userId: string
 }
 export async function startMovieConsumer() {
   const movieQueueUrl = config.sqsQueues.IMPORT_MOVIES_QUEUE
@@ -29,27 +32,31 @@ export async function startMovieConsumer() {
     receiptHandle: string
   ) => {
     try {
-      const parsedMessage: ImportMovieMessage = JSON.parse(message)
+      const { id, name, provider, userId }: ImportMovieMessage =
+        JSON.parse(message)
 
-      const movie = await getImportMovieById(parsedMessage.id)
+      const movie = await getImportMovieById(id)
 
-      const tmdbResult = await searchTMDBMovie(parsedMessage.name)
+      const tmdbResult = await searchTMDBMovie(name)
 
-      const recoveredMovie = await handleResult(
-        movie,
-        parsedMessage.provider,
-        tmdbResult
-      )
+      const tmdbId = await handleResult(movie, provider, tmdbResult)
 
-      if (!recoveredMovie) {
-        await updateImportMoviesStatus(parsedMessage.id, 'FAILED')
+      if (!tmdbId) {
+        await updateImportMoviesStatus(id, 'FAILED')
+
+        return await SqsAdapter.deleteMessage(movieQueueUrl, receiptHandle)
       }
 
-      if (recoveredMovie === 'wait') {
-        return
-      }
+      await upsertUserItemService({
+        mediaType: 'MOVIE',
+        status: movie.userItemStatus,
+        tmdbId: tmdbId,
+        userId,
+      })
 
-      await SqsAdapter.deleteMessage(movieQueueUrl, receiptHandle)
+      await updateImportMoviesStatus(id, 'COMPLETED')
+
+      return await SqsAdapter.deleteMessage(movieQueueUrl, receiptHandle)
     } catch (error) {
       console.error('Erro ao processar mensagem:', error)
     }
@@ -65,20 +72,19 @@ async function handleResult(
     MovieWithMediaType | TvSerieWithMediaType | PersonWithMediaType
   >
 ) {
-  if (tmdbResult.total_results === 1) {
-    return tmdbResult.results[0]
-  }
-
   if (tmdbResult.total_results === 0) {
     return null
+  }
+
+  if (tmdbResult.total_results === 1) {
+    return tmdbResult.results[0].id
   }
 
   switch (provider) {
     case 'MY_ANIME_LIST':
       return await handleMyAnimeList(movie, tmdbResult)
     case 'LETTERBOXD':
-      await console.log()
-      break
+      return await handleMyAnimeList(movie, tmdbResult)
   }
 }
 
@@ -90,9 +96,21 @@ async function handleMyAnimeList(
 ) {
   const metadata = movie.__metadata as MALAnimes
 
-  console.log(metadata)
+  const { start_date } = await searchAnimeById(
+    metadata.series_animedb_id.toString()
+  )
 
-  console.log(tmdbResult)
+  const filter = tmdbResult.results.filter(
+    result => result.release_date === start_date
+  )
 
-  return 'wait'
+  if (filter.length === 0) {
+    return null
+  }
+
+  if (filter.length === 1) {
+    return filter[0].id
+  }
+
+  return null
 }

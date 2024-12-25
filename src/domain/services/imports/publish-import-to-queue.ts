@@ -1,27 +1,26 @@
-import type { ProvidersEnum } from '@/@types/media-type-enum'
 import { publish } from '@/adapters/sqs'
 import type { DetailedUserImport } from '@/domain/entities/import'
 import type { QueueMessage } from '@/domain/entities/queue-message'
 import { config } from '@/config'
 import { randomUUID } from 'node:crypto'
 
-export async function publishToQueue(result: DetailedUserImport) {
+export async function publishToQueue(userImport: DetailedUserImport) {
   processAndPublish(
-    result.movies,
+    userImport.movies,
     config.sqsQueues.IMPORT_MOVIES_QUEUE,
-    result.provider
+    userImport
   )
   processAndPublish(
-    result.series,
+    userImport.series,
     config.sqsQueues.IMPORT_SERIES_QUEUE,
-    result.provider
+    userImport
   )
 }
 
 async function processAndPublish(
   items: { id: string; name: string }[],
   queueUrl: string,
-  provider: ProvidersEnum
+  { provider, userId }: DetailedUserImport
 ) {
   if (items.length === 0) return
 
@@ -30,6 +29,7 @@ async function processAndPublish(
     name,
     idempotencyKey: randomUUID(),
     provider,
+    userId,
   }))
 
   const message: QueueMessage = {

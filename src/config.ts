@@ -9,6 +9,7 @@ export const config = {
   sqs: loadSQSEnvs(),
   sqsQueues: loadSQSQueues(),
   featureFlags: loadFeatureFlags(),
+  myAnimeList: loadMALEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -84,6 +85,14 @@ function loadSQSQueues() {
 function loadFeatureFlags() {
   const schema = z.object({
     ENABLE_CERTS: z.string(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadMALEnvs() {
+  const schema = z.object({
+    MAL_CLIENT_ID: z.string(),
   })
 
   return schema.parse(process.env)
