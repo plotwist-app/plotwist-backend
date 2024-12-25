@@ -13,3 +13,12 @@ export async function updateImportSeriesStatus(
     .where(eq(schema.importSeries.id, id))
     .returning()
 }
+
+export async function getImportSeries(id: string) {
+  const [series] = await db
+    .select()
+    .from(schema.importSeries)
+    .where(eq(schema.importSeries.id, id))
+
+  return series
+}

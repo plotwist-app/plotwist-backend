@@ -1,37 +1,121 @@
+import type { ProvidersEnum } from '@/@types/media-type-enum'
+import type { ListResponse } from '@plotwist_app/tmdb/dist/utils/list-response'
+
 import { config } from '@/config'
 import { consumeMessages } from './consumer'
-import { searchTMDBMovie } from '@/domain/services/tmdb/search-tmdb-movie'
-import type { SQSClient } from '@aws-sdk/client-sqs'
 
-export async function startSeriesConsumer(sqsClient: SQSClient) {
+import type { MALAnimes } from '@/@types/my-anime-list-import'
+import { SqsAdapter } from '@/adapters/sqs'
+import { searchAnimeById } from '@/adapters/my-anime-list'
+import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
+import { updateImportSeriesStatus } from '@/db/repositories/import-series-repository'
+import type { ImportSeries } from '@/domain/entities/import-series'
+import { getImportSeriesById } from '@/domain/services/imports/get-import-series-by-id'
+import { searchTMDBMovie } from '@/domain/services/tmdb/search-tmdb-movie'
+import type { TvSerieWithMediaType } from '@plotwist_app/tmdb'
+
+type ImportseriesMessage = {
+  id: string
+  name: string
+  idempotencyKey: string
+  provider: ProvidersEnum
+  userId: string
+}
+export async function startSeriesConsumer() {
   const seriesQueueUrl = config.sqsQueues.IMPORT_SERIES_QUEUE
-  const processSeriesMessage = async (
+
+  const processseriesMessage = async (
     message: string,
     receiptHandle: string
   ) => {
-    const parsedMessage: { id: string; name: string } = JSON.parse(message)
+    try {
+      const { id, name, provider, userId }: ImportseriesMessage =
+        JSON.parse(message)
 
-    // const series = await getImportseriesById(parsedMessage.id)
+      const series = await getImportSeriesById(id)
 
-    const value = await searchTMDBMovie(parsedMessage.name)
+      const tmdbId = await processSeries(series, name, provider)
 
-    console.log(value)
+      if (!tmdbId) {
+        return await failProcessing(seriesQueueUrl, receiptHandle, id)
+      }
 
-    // await deleteMessage(sqsClient, seriesQueueUrl, receiptHandle)
-
-    // const userImport = await getUserImportById(series.importId)
-
-    // recuperar o series import
-    // recuperar o user import id
-    // setar o user import como processando
-  }
-  await consumeMessages(seriesQueueUrl, async (messageBody: string) => {
-    const parsedMessage = JSON.parse(messageBody)
-    if (parsedMessage.ReceiptHandle && parsedMessage.Body) {
-      await processSeriesMessage(
-        parsedMessage.Body,
-        parsedMessage.ReceiptHandle
+      await completeProcessing(
+        seriesQueueUrl,
+        receiptHandle,
+        tmdbId,
+        series,
+        userId
       )
+    } catch (error) {
+      console.error('Failed to process message:', error)
     }
+  }
+
+  await consumeMessages(seriesQueueUrl, processseriesMessage)
+}
+
+async function processSeries(
+  series: ImportSeries,
+  name: string,
+  provider: ProvidersEnum
+) {
+  const tmdbResult = await searchTMDBMovie(name)
+
+  return await handleResult(series, provider, tmdbResult)
+}
+
+async function failProcessing(
+  queueUrl: string,
+  receiptHandle: string,
+  seriesId: string
+) {
+  await updateImportSeriesStatus(seriesId, 'FAILED')
+  await SqsAdapter.deleteMessage(queueUrl, receiptHandle)
+}
+
+async function completeProcessing(
+  queueUrl: string,
+  receiptHandle: string,
+  tmdbId: number,
+  series: ImportSeries,
+  userId: string
+) {
+  await upsertUserItemService({
+    mediaType: 'TV_SHOW',
+    status: series.userItemStatus,
+    tmdbId,
+    userId,
   })
+  await updateImportSeriesStatus(series.id, 'COMPLETED')
+  await SqsAdapter.deleteMessage(queueUrl, receiptHandle)
+}
+async function handleResult(
+  series: ImportSeries,
+  provider: ProvidersEnum,
+  tmdbResult: ListResponse<TvSerieWithMediaType>
+) {
+  if (tmdbResult.total_results === 0) return null
+
+  if (tmdbResult.total_results === 1) return tmdbResult.results[0].id
+
+  switch (provider) {
+    case 'MY_ANIME_LIST':
+      return await handleMyAnimeList(series, tmdbResult)
+  }
+}
+
+async function handleMyAnimeList(
+  series: ImportSeries,
+  tmdbResult: ListResponse<TvSerieWithMediaType>
+) {
+  const { series_animedb_id, series_episodes } = series.__metadata as MALAnimes
+
+  const anime = await searchAnimeById(series_animedb_id.toString())
+
+  const matchedResults = tmdbResult.results.filter(
+    result => result.first_air_date === anime.start_date
+  )
+
+  return matchedResults.length === 1 ? matchedResults[0].id : null
 }

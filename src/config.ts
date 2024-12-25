@@ -41,7 +41,7 @@ function loadDatabaseEnvs() {
 function loadAppEnvs() {
   const schema = z.object({
     APP_ENV: z.enum(['dev', 'test', 'production']).optional().default('dev'),
-    CLIENT_URL: z.string().nullable(),
+    CLIENT_URL: z.string(),
     PORT: z.coerce.number().default(3333),
     BASE_URL: z.string().default('http://localhost:3333'),
     JWT_SECRET: z.string(),
