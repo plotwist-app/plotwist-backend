@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { userSchema } from '@/models/user'
+import { userSchema } from '../models/user'
 
 export const userSubject = z.tuple([
   z.union([
