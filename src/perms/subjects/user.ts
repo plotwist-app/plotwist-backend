@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { userSchema } from '../models/user'
+import { userModelSchema } from '../models/user'
 
 export const userSubject = z.tuple([
   z.union([
@@ -14,7 +14,7 @@ export const userSubject = z.tuple([
     z.literal('get_personal_stats'),
     z.literal('get_recommendations'),
   ]),
-  z.union([z.literal('user'), userSchema]),
+  z.union([z.literal('user'), userModelSchema]),
 ])
 
 export type UserSubject = z.infer<typeof userSubject>
