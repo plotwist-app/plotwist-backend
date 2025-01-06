@@ -61,7 +61,12 @@ async function processMovie(
   provider: ProvidersEnum
 ) {
   const tmdbResult = await searchTMDBMovie(name)
-  return await handleResult(movie, provider, tmdbResult)
+  const moviesOnly = {
+    ...tmdbResult,
+    results: tmdbResult.results.filter(item => item.media_type === 'movie')
+  } satisfies ListResponse<MovieWithMediaType>
+  
+  return await handleResult(movie, provider, moviesOnly)
 }
 
 async function failProcessing(
