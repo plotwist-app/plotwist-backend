@@ -14,7 +14,7 @@ export async function consumeMessages(
           messages.map(msg => ({
             Body: msg.body,
             ReceiptHandle: msg.receiptHandle,
-          })) as Message[],
+          })) satisfies Message[],
           processMessage
         )
       }

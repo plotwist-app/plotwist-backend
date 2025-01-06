@@ -23,7 +23,7 @@ export async function decodeMyAnimeList(
 ): Promise<DetailedUserImport | DomainError> {
   try {
     const unzippedContent = await unzipFile(uploadedFile)
-    const parsedFile: MyAnimeListImport = convertXmlToJson(unzippedContent)
+    const parsedFile = convertXmlToJson<MyAnimeListImport>(unzippedContent)
 
     const { movies: rawMovies, series: rawSeries } = separateByType(
       parsedFile.myanimelist.anime
@@ -31,14 +31,14 @@ export async function decodeMyAnimeList(
 
     const series = buildSeries(rawSeries)
     const movies = buildMovies(rawMovies)
-    const userImport: InsertUserImportWithItems = {
+    const userImport = {
       itemsCount: series.length + movies.length,
       provider: 'MY_ANIME_LIST',
       userId,
       importStatus: 'NOT_STARTED',
       movies,
       series,
-    }
+    } satisfies InsertUserImportWithItems
 
     return await createUserImport(userImport)
   } catch (error) {
@@ -62,7 +62,7 @@ function separateByType(mediaArray: MALAnimes[]) {
 }
 
 function buildSeries(rawSeries: MALAnimes[]) {
-  const series: InsertImportSeries[] = rawSeries.map(item => {
+  const series = rawSeries.map(item => {
     return {
       importStatus: 'NOT_STARTED',
       name: item.series_title,
@@ -71,21 +71,21 @@ function buildSeries(rawSeries: MALAnimes[]) {
       watchedEpisodes: item.my_watched_episodes ?? null,
       userItemStatus: MALtoDomain(item.my_status),
       __metadata: item,
-    }
+    } satisfies InsertImportSeries
   })
 
   return series
 }
 
 function buildMovies(rawMovies: MALAnimes[]) {
-  const movies: InsertImportMovie[] = rawMovies.map(item => {
+  const movies = rawMovies.map(item => {
     return {
       importStatus: 'NOT_STARTED',
       name: item.series_title,
       endDate: formatDate(item.my_finish_date),
       userItemStatus: MALtoDomain(item.my_status),
       __metadata: item,
-    }
+    } as InsertImportMovie
   })
 
   return movies
