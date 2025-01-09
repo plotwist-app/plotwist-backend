@@ -8,7 +8,7 @@ type GetTMDBDataServiceInput = {
   language: Language
 }
 
-const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60
+const THIRTY_DAYS_IN_SECONDS = 30 * 24 * 60 * 60
 
 export async function getTMDBDataService(
   redis: FastifyRedis,
@@ -31,7 +31,7 @@ export async function getTMDBDataService(
     }
 
     const data = await tmdb.tv.details(tmdbId, language)
-    await redis.set(cacheKey, JSON.stringify(data), 'EX', ONE_WEEK_IN_SECONDS)
+    await redis.set(cacheKey, JSON.stringify(data), 'EX', THIRTY_DAYS_IN_SECONDS)
 
     return {
       title: data.name,
@@ -51,7 +51,7 @@ export async function getTMDBDataService(
   }
 
   const data = await tmdb.movies.details(tmdbId, language)
-  await redis.set(cacheKey, JSON.stringify(data), 'EX', ONE_WEEK_IN_SECONDS)
+  await redis.set(cacheKey, JSON.stringify(data), 'EX', THIRTY_DAYS_IN_SECONDS)
 
   return {
     title: data.title,

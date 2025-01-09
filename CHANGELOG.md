@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.8.7
+
+### Changed
+
+- Set TMDB cache to 30 days [(#85)](https://github.com/plotwist-app/plotwist-backend/pull/85)
+
 ## 1.8.6
 
 ### Changed
