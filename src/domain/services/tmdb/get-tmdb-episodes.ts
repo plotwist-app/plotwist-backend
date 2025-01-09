@@ -17,7 +17,7 @@ type Season = Omit<SeasonDetails, 'episodes'> & {
   >
 }
 
-const ONE_WEEK_IN_SECONDS = 7 * 24 * 60 * 60
+const THIRTY_DAYS_IN_SECONDS = 30 * 24 * 60 * 60
 
 export async function getTMDBEpisodesService(
   redis: FastifyRedis,
@@ -51,7 +51,7 @@ export async function getTMDBEpisodesService(
     ),
   }
 
-  await redis.set(cacheKey, JSON.stringify(season), 'EX', ONE_WEEK_IN_SECONDS)
+  await redis.set(cacheKey, JSON.stringify(season), 'EX', THIRTY_DAYS_IN_SECONDS)
 
   return {
     episodes: season.episodes,
