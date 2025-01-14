@@ -5,6 +5,7 @@ import {
   getMeController,
   getUserByIdController,
   getUserByUsernameController,
+  getUserPreferencesController,
   isEmailAvailableController,
   isUsernameAvailableController,
   updateUserController,
@@ -21,6 +22,7 @@ import {
   getUserByIdParamsSchema,
   getUserByUsernameParamsSchema,
   getUserByUsernameResponseSchema,
+  getUserPreferencesResponseSchema,
   isEmailAvailableQuerySchema,
   isEmailAvailableResponseSchema,
   updateUserBodySchema,
@@ -133,11 +135,7 @@ export async function usersRoute(app: FastifyInstance) {
         tags: [usersTag],
         body: updateUserBodySchema,
         response: updateUserResponseSchema,
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
+        security: [{ bearerAuth: [] }],
       },
       handler: updateUserController,
     })
@@ -167,9 +165,32 @@ export async function usersRoute(app: FastifyInstance) {
         tags: [usersTag],
         body: updateUserPreferencesBodySchema,
         response: updateUserPreferencesResponseSchema,
-        security: [{}],
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
       handler: updateUserPreferencesController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/preferences',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get user preferences',
+        tags: [usersTag],
+        response: getUserPreferencesResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: getUserPreferencesController,
     })
   )
 }

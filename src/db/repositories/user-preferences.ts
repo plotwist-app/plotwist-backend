@@ -1,6 +1,7 @@
 import { db } from '@/db'
 import type { UpdateUserPreferencesParams } from '@/domain/entities/user-preferences'
 import { userPreferences } from '../schema'
+import { eq } from 'drizzle-orm'
 
 export async function updateUserPreferences(
   params: UpdateUserPreferencesParams
@@ -18,4 +19,11 @@ export async function updateUserPreferences(
       },
     })
     .returning()
+}
+
+export async function selectUserPreferences(userId: string) {
+  return await db
+    .select()
+    .from(userPreferences)
+    .where(eq(userPreferences.userId, userId))
 }

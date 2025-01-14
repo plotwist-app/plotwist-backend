@@ -19,6 +19,7 @@ import { checkAvailableUsername } from '@/domain/services/users/is-username-avai
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
 import { updateUserPreferencesService } from '@/domain/services/user-preferences/update-user-preferences'
+import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -148,4 +149,13 @@ export async function updateUserPreferencesController(
   }
 
   return reply.status(200).send(result)
+}
+
+export async function getUserPreferencesController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const result = await getUserPreferencesService(request.user.id)
+
+  return reply.status(200).send({ userPreferences: result })
 }

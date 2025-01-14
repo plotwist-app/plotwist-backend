@@ -115,3 +115,9 @@ export const updateUserPreferencesResponseSchema = {
     userPreferences: createSelectSchema(schema.userPreferences),
   }),
 }
+
+export const getUserPreferencesResponseSchema = {
+  200: z.object({
+    userPreferences: createSelectSchema(schema.userPreferences),
+  }),
+}
