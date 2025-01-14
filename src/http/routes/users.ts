@@ -27,6 +27,7 @@ import {
   updateUserPasswordBodySchema,
   updateUserPasswordResponseSchema,
   updateUserPreferencesBodySchema,
+  updateUserPreferencesResponseSchema,
   updateUserResponseSchema,
 } from '../schemas/users'
 
@@ -165,11 +166,7 @@ export async function usersRoute(app: FastifyInstance) {
         description: 'Update user preferences',
         tags: [usersTag],
         body: updateUserPreferencesBodySchema,
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
+        security: [{}],
       },
       handler: updateUserPreferencesController,
     })

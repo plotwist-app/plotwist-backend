@@ -323,6 +323,13 @@
       "when": 1736819259261,
       "tag": "20250114014739_user_preferences_fk_key",
       "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1736819809335,
+      "tag": "20250114015649_unique_user_preferences",
+      "breakpoints": true
     }
   ]
 }

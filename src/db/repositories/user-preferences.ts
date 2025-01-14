@@ -11,5 +11,11 @@ export async function updateUserPreferences(
       userId: params.userId,
       watchProviders: params.watchProviders,
     })
+    .onConflictDoUpdate({
+      target: [userPreferences.userId],
+      set: {
+        watchProviders: params.watchProviders,
+      },
+    })
     .returning()
 }

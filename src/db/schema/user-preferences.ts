@@ -6,7 +6,8 @@ export const userPreferences = pgTable('user_preferences', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id')
     .references(() => users.id, { onDelete: 'cascade' })
-    .notNull(),
+    .notNull()
+    .unique(),
   watchProviders: integer('watch_providers').array(),
 })
 

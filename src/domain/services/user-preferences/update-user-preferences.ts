@@ -10,5 +10,5 @@ export async function updateUserPreferencesService({
     watchProviders,
   })
 
-  return userPreferences
+  return { userPreferences }
 }
