@@ -11,6 +11,7 @@ describe('get user preferences service', () => {
     await updateUserPreferencesService({
       userId: user.id,
       watchProviders: watchProviders,
+      watchRegion: 'US',
     })
 
     const sut = await getUserPreferencesService({
@@ -22,6 +23,7 @@ describe('get user preferences service', () => {
         id: expect.any(String),
         userId: user.id,
         watchProviders: watchProviders,
+        watchRegion: 'US',
       }),
     })
   })

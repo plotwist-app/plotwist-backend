@@ -10,6 +10,7 @@ describe('update user preferences service', () => {
     const sut = await updateUserPreferencesService({
       userId: user.id,
       watchProviders: watchProviders,
+      watchRegion: 'US',
     })
 
     expect(sut).toEqual({
@@ -17,6 +18,7 @@ describe('update user preferences service', () => {
         id: expect.any(String),
         userId: user.id,
         watchProviders: watchProviders,
+        watchRegion: 'US',
       }),
     })
   })
