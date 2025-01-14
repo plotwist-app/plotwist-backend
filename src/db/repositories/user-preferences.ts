@@ -5,8 +5,11 @@ import { userPreferences } from '../schema'
 export async function updateUserPreferences(
   params: UpdateUserPreferencesParams
 ) {
-  return await db.insert(userPreferences).values({
-    userId: params.userId,
-    watchProviders: params.watchProviders,
-  })
+  return await db
+    .insert(userPreferences)
+    .values({
+      userId: params.userId,
+      watchProviders: params.watchProviders,
+    })
+    .returning()
 }

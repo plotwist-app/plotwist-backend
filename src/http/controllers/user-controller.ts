@@ -147,5 +147,5 @@ export async function updateUserPreferencesController(
     return reply.status(result.status).send({ message: result.message })
   }
 
-  return reply.status(200).send()
+  return reply.status(200).send(result)
 }
