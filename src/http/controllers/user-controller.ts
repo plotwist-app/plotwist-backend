@@ -155,7 +155,7 @@ export async function getUserPreferencesController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const result = await getUserPreferencesService(request.user.id)
+  const result = await getUserPreferencesService({ userId: request.user.id })
 
   return reply.status(200).send({ userPreferences: result })
 }

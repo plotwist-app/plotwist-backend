@@ -1,48 +1,39 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { getUserPreferencesService } from './get-user-preferences'
-import { selectUserPreferences } from '@/db/repositories/user-preferences'
-
-vi.mock('@/db/repositories/user-preferences')
+import { makeUser } from '@/test/factories/make-user'
+import { updateUserPreferencesService } from './update-user-preferences'
 
 describe('get user preferences service', () => {
-  let sut: typeof getUserPreferencesService
-
-  beforeEach(() => {
-    sut = getUserPreferencesService
-    vi.resetAllMocks()
-  })
-
   it('should be able to get user preferences', async () => {
-    const inputUserId = 'user-1'
+    const user = await makeUser()
+    const watchProviders = [1, 2, 3]
 
-    const mockUserPreferences = {
-      id: 'pref-1',
-      userId: inputUserId,
-      watchProviders: [1, 2, 3],
-    }
-
-    vi.mocked(selectUserPreferences).mockResolvedValueOnce([
-      mockUserPreferences,
-    ])
-
-    const result = await sut({
-      userId: inputUserId,
+    await updateUserPreferencesService({
+      userId: user.id,
+      watchProviders: watchProviders,
     })
 
-    expect(selectUserPreferences).toHaveBeenCalledWith(inputUserId)
-    expect(result.userPreferences).toEqual(mockUserPreferences)
+    const sut = await getUserPreferencesService({
+      userId: user.id,
+    })
+
+    expect(sut).toEqual({
+      userPreferences: expect.objectContaining({
+        id: expect.any(String),
+        userId: user.id,
+        watchProviders: watchProviders,
+      }),
+    })
   })
 
   it('should be able to return null when user has no preferences', async () => {
-    const inputUserId = 'user-1'
-
-    vi.mocked(selectUserPreferences).mockResolvedValueOnce([])
-
-    const result = await sut({
-      userId: inputUserId,
+    const user = await makeUser()
+    const sut = await getUserPreferencesService({
+      userId: user.id,
     })
 
-    expect(selectUserPreferences).toHaveBeenCalledWith(inputUserId)
-    expect(result.userPreferences).toBeNull()
+    expect(sut).toEqual({
+      userPreferences: null,
+    })
   })
 })
