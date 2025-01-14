@@ -162,6 +162,7 @@ export async function usersRoute(app: FastifyInstance) {
       onRequest: [verifyJwt],
       schema: {
         description: 'Update user preferences',
+        operationId: 'updateUserPreferences',
         tags: [usersTag],
         body: updateUserPreferencesBodySchema,
         response: updateUserPreferencesResponseSchema,
@@ -182,6 +183,7 @@ export async function usersRoute(app: FastifyInstance) {
       onRequest: [verifyJwt],
       schema: {
         description: 'Get user preferences',
+        operationId: 'getUserPreferences',
         tags: [usersTag],
         response: getUserPreferencesResponseSchema,
         security: [
