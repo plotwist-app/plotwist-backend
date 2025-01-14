@@ -16,6 +16,7 @@ import {
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
+import { userPreferences } from './user-preferences'
 
 export const listVisibilityEnum = pgEnum('list_visibility', [
   'PUBLIC',
@@ -570,4 +571,7 @@ export const schema = {
   importMovies,
   importSeries,
   userActivities,
+  userPreferences,
 }
+
+export * from './user-preferences'

@@ -9,6 +9,7 @@ import {
   isUsernameAvailableController,
   updateUserController,
   updateUserPasswordController,
+  updateUserPreferencesController,
 } from '../controllers/user-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
@@ -25,6 +26,7 @@ import {
   updateUserBodySchema,
   updateUserPasswordBodySchema,
   updateUserPasswordResponseSchema,
+  updateUserPreferencesBodySchema,
   updateUserResponseSchema,
 } from '../schemas/users'
 
@@ -151,6 +153,25 @@ export async function usersRoute(app: FastifyInstance) {
         response: updateUserPasswordResponseSchema,
       },
       handler: updateUserPasswordController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PATCH',
+      url: '/user/preferences',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Update user preferences',
+        tags: [usersTag],
+        body: updateUserPreferencesBodySchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: updateUserPreferencesController,
     })
   )
 }
