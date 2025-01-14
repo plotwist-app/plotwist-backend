@@ -1,7 +1,13 @@
 import { selectUserPreferences } from '@/db/repositories/user-preferences'
 
-export async function getUserPreferencesService(userId: string) {
-  const userPreferences = await selectUserPreferences(userId)
+export type GetUserPreferencesParams = {
+  userId: string
+}
 
-  return userPreferences
+export async function getUserPreferencesService({
+  userId,
+}: GetUserPreferencesParams) {
+  const [userPreferences] = await selectUserPreferences(userId)
+
+  return { userPreferences: userPreferences ?? null }
 }
