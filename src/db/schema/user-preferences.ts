@@ -8,7 +8,7 @@ export const userPreferences = pgTable('user_preferences', {
     .references(() => users.id, { onDelete: 'cascade' })
     .notNull()
     .unique(),
-  watchProviders: integer('watch_providers').array(),
+  watchProvidersIds: integer('watch_providers_ids').array(),
   watchRegion: text('watch_region'),
 })
 

@@ -1,5 +1,5 @@
 export type UpdateUserPreferencesParams = {
   userId: string
-  watchProviders: number[]
+  watchProvidersIds: number[]
   watchRegion: string
 }

@@ -8,14 +8,12 @@ export async function updateUserPreferences(
 ) {
   return await db
     .insert(userPreferences)
-    .values({
-      userId: params.userId,
-      watchProviders: params.watchProviders,
-    })
+    .values(params)
     .onConflictDoUpdate({
       target: [userPreferences.userId],
       set: {
-        watchProviders: params.watchProviders,
+        watchProvidersIds: params.watchProvidersIds,
+        watchRegion: params.watchRegion,
       },
     })
     .returning()
