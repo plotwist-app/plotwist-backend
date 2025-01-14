@@ -166,6 +166,7 @@ export async function usersRoute(app: FastifyInstance) {
         description: 'Update user preferences',
         tags: [usersTag],
         body: updateUserPreferencesBodySchema,
+        response: updateUserPreferencesResponseSchema,
         security: [{}],
       },
       handler: updateUserPreferencesController,

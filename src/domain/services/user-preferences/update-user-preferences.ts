@@ -5,7 +5,7 @@ export async function updateUserPreferencesService({
   userId,
   watchProviders,
 }: UpdateUserPreferencesParams) {
-  const userPreferences = await updateUserPreferences({
+  const [userPreferences] = await updateUserPreferences({
     userId,
     watchProviders,
   })
