@@ -157,5 +157,5 @@ export async function getUserPreferencesController(
 ) {
   const result = await getUserPreferencesService({ userId: request.user.id })
 
-  return reply.status(200).send({ userPreferences: result })
+  return reply.status(200).send(result)
 }

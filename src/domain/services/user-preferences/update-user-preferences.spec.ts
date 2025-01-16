@@ -5,11 +5,11 @@ import { makeUser } from '@/test/factories/make-user'
 describe('update user preferences service', () => {
   it('should be able to update user preferences', async () => {
     const user = await makeUser()
-    const watchProviders = [1, 2, 3]
+    const watchProvidersIds = [1, 2, 3]
 
     const sut = await updateUserPreferencesService({
       userId: user.id,
-      watchProviders: watchProviders,
+      watchProvidersIds,
       watchRegion: 'US',
     })
 
@@ -17,7 +17,7 @@ describe('update user preferences service', () => {
       userPreferences: expect.objectContaining({
         id: expect.any(String),
         userId: user.id,
-        watchProviders: watchProviders,
+        watchProvidersIds,
         watchRegion: 'US',
       }),
     })

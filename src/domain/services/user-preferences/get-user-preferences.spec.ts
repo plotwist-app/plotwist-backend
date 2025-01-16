@@ -6,11 +6,11 @@ import { updateUserPreferencesService } from './update-user-preferences'
 describe('get user preferences service', () => {
   it('should be able to get user preferences', async () => {
     const user = await makeUser()
-    const watchProviders = [1, 2, 3]
+    const watchProvidersIds = [1, 2, 3]
 
     await updateUserPreferencesService({
       userId: user.id,
-      watchProviders: watchProviders,
+      watchProvidersIds,
       watchRegion: 'US',
     })
 
@@ -22,7 +22,7 @@ describe('get user preferences service', () => {
       userPreferences: expect.objectContaining({
         id: expect.any(String),
         userId: user.id,
-        watchProviders: watchProviders,
+        watchProvidersIds,
         watchRegion: 'US',
       }),
     })

@@ -107,7 +107,7 @@ export const updateUserPasswordResponseSchema = {
 }
 
 export const updateUserPreferencesBodySchema = z.object({
-  watchProviders: z.array(z.number()),
+  watchProvidersIds: z.array(z.number()),
   watchRegion: z.string(),
 })
 
