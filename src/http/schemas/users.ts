@@ -105,3 +105,20 @@ export const updateUserPasswordResponseSchema = {
     status: z.enum(['password_set']),
   }),
 }
+
+export const updateUserPreferencesBodySchema = z.object({
+  watchProvidersIds: z.array(z.number()),
+  watchRegion: z.string(),
+})
+
+export const updateUserPreferencesResponseSchema = {
+  200: z.object({
+    userPreferences: createSelectSchema(schema.userPreferences),
+  }),
+}
+
+export const getUserPreferencesResponseSchema = {
+  200: z.object({
+    userPreferences: createSelectSchema(schema.userPreferences),
+  }),
+}
