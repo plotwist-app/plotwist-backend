@@ -4,6 +4,7 @@ import {
   createReviewBodySchema,
   getReviewQuerySchema,
   getReviewsQuerySchema,
+  getReviewSummaryQuerySchema,
   reviewParamsSchema,
   updateReviewBodySchema,
 } from '../schemas/reviews'
@@ -16,6 +17,7 @@ import { getReviewsService } from '@/domain/services/reviews/get-reviews'
 import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { getReviewService } from '@/domain/services/reviews/get-review'
+import { getReviewSummaryService } from '@/domain/services/reviews/get-review-summary'
 
 export async function createReviewController(
   request: FastifyRequest,
@@ -120,6 +122,23 @@ export async function getReviewController(
     mediaType,
     tmdbId: Number(tmdbId),
     userId: request.user.id,
+  })
+
+  return reply.status(200).send(result)
+}
+
+export async function getReviewSummaryController(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  redis: FastifyRedis
+) {
+  const { tmdbId, mediaType, language } = getReviewSummaryQuerySchema.parse(
+    request.query
+  )
+
+  const result = await getReviewSummaryService({
+    redis,
+    values: { tmdbId, mediaType, language },
   })
 
   return reply.status(200).send(result)

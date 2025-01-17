@@ -95,3 +95,14 @@ export const getReviewResponseSchema = {
     review: createSelectSchema(schema.reviews).nullable(),
   }),
 }
+
+export const getReviewSummaryQuerySchema = createSelectSchema(schema.reviews)
+  .pick({
+    mediaType: true,
+  })
+  .merge(
+    z.object({
+      tmdbId: z.string(),
+    })
+  )
+  .merge(languageQuerySchema)
