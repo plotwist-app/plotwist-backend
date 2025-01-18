@@ -85,6 +85,9 @@ function loadSQSQueues() {
 function loadFeatureFlags() {
   const schema = z.object({
     ENABLE_CERTS: z.string(),
+    ENABLE_IMPORT_MOVIES: z.string(),
+    ENABLE_IMPORT_SERIES: z.string(),
+    ENABLE_SQS: z.string(),
   })
 
   return schema.parse(process.env)

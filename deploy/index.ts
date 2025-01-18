@@ -201,6 +201,18 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           name: 'ENABLE_CERTS',
           valueFrom: '/plotwist/prod/ENABLE_CERTS',
         },
+        {
+          name: 'ENABLE_SQS',
+          valueFrom: '/plotwist/prod/ENABLE_SQS',
+        },
+        {
+          name: 'ENABLE_IMPORT_MOVIES',
+          valueFrom: '/plotwist/prod/ENABLE_IMPORT_MOVIES',
+        },
+        {
+          name: 'ENABLE_IMPORT_SERIES',
+          valueFrom: '/plotwist/prod/ENABLE_IMPORT_SERIES',
+        },
       ],
     },
   },
