@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.9.0
+
+### Added
+
 - Add user preferences [(#86)](https://github.com/plotwist-app/plotwist-backend/pull/86)
 
 ## 1.8.7
