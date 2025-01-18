@@ -2,7 +2,6 @@ import { publish } from '@/adapters/sqs'
 import type { DetailedUserImport } from '@/domain/entities/import'
 import type { QueueMessage } from '@/domain/entities/queue-message'
 import { config } from '@/config'
-import { randomUUID } from 'node:crypto'
 
 export async function publishToQueue(userImport: DetailedUserImport) {
   processAndPublish(
@@ -27,7 +26,6 @@ async function processAndPublish(
   const parsedMessages = items.map(({ id, name }) => ({
     id,
     name,
-    idempotencyKey: randomUUID(),
     provider,
     userId,
   }))

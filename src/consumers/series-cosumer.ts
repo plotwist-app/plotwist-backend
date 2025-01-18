@@ -17,7 +17,6 @@ import type { TvSerieWithMediaType } from '@plotwist_app/tmdb'
 type ImportseriesMessage = {
   id: string
   name: string
-  idempotencyKey: string
   provider: ProvidersEnum
   userId: string
 }
@@ -63,9 +62,9 @@ async function processSeries(
   const tmdbResult = await searchTMDBMovie(name)
   const seriesOnly = {
     ...tmdbResult,
-    results: tmdbResult.results.filter(item => item.media_type === 'tv')
+    results: tmdbResult.results.filter(item => item.media_type === 'tv'),
   } satisfies ListResponse<TvSerieWithMediaType>
-  
+
   return await handleResult(series, provider, seriesOnly)
 }
 

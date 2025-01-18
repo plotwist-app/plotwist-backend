@@ -17,7 +17,6 @@ import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-
 type ImportMovieMessage = {
   id: string
   name: string
-  idempotencyKey: string
   provider: ProvidersEnum
   userId: string
 }
@@ -63,9 +62,9 @@ async function processMovie(
   const tmdbResult = await searchTMDBMovie(name)
   const moviesOnly = {
     ...tmdbResult,
-    results: tmdbResult.results.filter(item => item.media_type === 'movie')
+    results: tmdbResult.results.filter(item => item.media_type === 'movie'),
   } satisfies ListResponse<MovieWithMediaType>
-  
+
   return await handleResult(movie, provider, moviesOnly)
 }
 

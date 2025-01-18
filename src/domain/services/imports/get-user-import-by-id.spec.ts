@@ -1,7 +1,14 @@
-import * as repository from '@/db/repositories/user-import-repository'
+import { describe, expect, it } from 'vitest'
 
-export async function getUserImport(id: string) {
-  const result = await repository.getUserImport(id)
+import { makeUserImport } from '@/test/factories/make-user-import'
+import { getUserImportById } from './get-user-import-by-id'
 
-  return result
-}
+describe('get user import by id', () => {
+  it('should be able to get user import by id', async () => {
+    const userImport = await makeUserImport({})
+
+    const sut = await getUserImportById(userImport.id)
+
+    expect(sut.id).toEqual(userImport.id)
+  })
+})
