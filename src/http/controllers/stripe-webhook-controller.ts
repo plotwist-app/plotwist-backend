@@ -32,7 +32,7 @@ export async function stripeWebhookController(
       break
 
     default:
-      console.log(`Unhandled event type ${event.type}`)
+      console.error(`Unhandled event type ${event.type}`)
   }
 
   return reply.status(200).send({ received: true })

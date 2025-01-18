@@ -29,7 +29,6 @@ export async function searchAnimeById(animedbId: string) {
     })
     return response.data as AnimeDetails
   } catch (error) {
-    console.log(error)
     throw new Error('Failed to fetch informations')
   }
 }
