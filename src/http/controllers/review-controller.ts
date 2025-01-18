@@ -132,13 +132,11 @@ export async function getReviewSummaryController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { tmdbId, mediaType, language } = getReviewSummaryQuerySchema.parse(
-    request.query
-  )
+  const values = getReviewSummaryQuerySchema.parse(request.query)
 
   const result = await getReviewSummaryService({
     redis,
-    values: { tmdbId, mediaType, language },
+    values,
   })
 
   return reply.status(200).send(result)

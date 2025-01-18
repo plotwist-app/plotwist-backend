@@ -9,6 +9,7 @@ export const config = {
   sqs: loadSQSEnvs(),
   sqsQueues: loadSQSQueues(),
   featureFlags: loadFeatureFlags(),
+  openai: loadOpenAIEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -84,6 +85,14 @@ function loadSQSQueues() {
 function loadFeatureFlags() {
   const schema = z.object({
     ENABLE_CERTS: z.string(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadOpenAIEnvs() {
+  const schema = z.object({
+    OPENAI_API_KEY: z.string(),
   })
 
   return schema.parse(process.env)

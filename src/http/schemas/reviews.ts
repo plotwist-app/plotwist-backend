@@ -96,13 +96,15 @@ export const getReviewResponseSchema = {
   }),
 }
 
-export const getReviewSummaryQuerySchema = createSelectSchema(schema.reviews)
-  .pick({
-    mediaType: true,
+export const getReviewSummaryQuerySchema = z
+  .object({
+    tmdbId: z.string(),
+    mediaType: z.enum(['MOVIE']),
   })
-  .merge(
-    z.object({
-      tmdbId: z.string(),
-    })
-  )
   .merge(languageQuerySchema)
+
+export const getReviewSummaryResponseSchema = {
+  200: z.object({
+    summary: z.string().nullable(),
+  }),
+}

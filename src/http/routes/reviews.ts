@@ -20,6 +20,7 @@ import {
   getReviewsQuerySchema,
   getReviewsResponseSchema,
   getReviewSummaryQuerySchema,
+  getReviewSummaryResponseSchema,
   reviewParamsSchema,
   updateReviewBodySchema,
   updateReviewResponse,
@@ -140,6 +141,7 @@ export async function reviewsRoute(app: FastifyInstance) {
         description: 'Get review summary',
         tags: [reviewsTag],
         querystring: getReviewSummaryQuerySchema,
+        response: getReviewSummaryResponseSchema,
       },
       handler: (request, reply) =>
         getReviewSummaryController(request, reply, app.redis),
