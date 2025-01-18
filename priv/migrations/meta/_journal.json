@@ -320,8 +320,29 @@
     {
       "idx": 45,
       "version": "7",
-      "when": 1735142309238,
-      "tag": "20241225155829_alter-import-table-set-metadata-as-required",
+      "when": 1736819259261,
+      "tag": "20250114014739_user_preferences_fk_key",
+      "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1736819809335,
+      "tag": "20250114015649_unique_user_preferences",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1736862365230,
+      "tag": "20250114134605_watch_providers_ids",
+      "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1737212488035,
+      "tag": "20250118150128_set_metadata_fields_as_required",
       "breakpoints": true
     }
   ]

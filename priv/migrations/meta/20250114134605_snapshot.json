@@ -1,6 +1,6 @@
 {
-  "id": "c3133fde-6486-4409-90e8-cb7a565ed4c8",
-  "prevId": "d172b970-88c9-4df5-b2a6-d4166722b2bd",
+  "id": "734e8043-4ec2-4e5b-a73b-deca064677cb",
+  "prevId": "50ac8e7d-a115-4117-8907-e08ff7d22c77",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -120,7 +120,7 @@
           "name": "__metadata",
           "type": "jsonb",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -226,7 +226,7 @@
           "name": "__metadata",
           "type": "jsonb",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -1289,6 +1289,63 @@
           "nullsNotDistinct": false,
           "columns": [
             "email"
+          ]
+        }
+      }
+    },
+    "public.user_preferences": {
+      "name": "user_preferences",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "watch_providers_ids": {
+          "name": "watch_providers_ids",
+          "type": "integer[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "watch_region": {
+          "name": "watch_region",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_preferences_user_id_users_id_fk": {
+          "name": "user_preferences_user_id_users_id_fk",
+          "tableFrom": "user_preferences",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_preferences_user_id_unique": {
+          "name": "user_preferences_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "user_id"
           ]
         }
       }

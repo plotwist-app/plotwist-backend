@@ -5,10 +5,12 @@ import {
   getMeController,
   getUserByIdController,
   getUserByUsernameController,
+  getUserPreferencesController,
   isEmailAvailableController,
   isUsernameAvailableController,
   updateUserController,
   updateUserPasswordController,
+  updateUserPreferencesController,
 } from '../controllers/user-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
@@ -20,11 +22,14 @@ import {
   getUserByIdParamsSchema,
   getUserByUsernameParamsSchema,
   getUserByUsernameResponseSchema,
+  getUserPreferencesResponseSchema,
   isEmailAvailableQuerySchema,
   isEmailAvailableResponseSchema,
   updateUserBodySchema,
   updateUserPasswordBodySchema,
   updateUserPasswordResponseSchema,
+  updateUserPreferencesBodySchema,
+  updateUserPreferencesResponseSchema,
   updateUserResponseSchema,
 } from '../schemas/users'
 
@@ -130,11 +135,7 @@ export async function usersRoute(app: FastifyInstance) {
         tags: [usersTag],
         body: updateUserBodySchema,
         response: updateUserResponseSchema,
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
+        security: [{ bearerAuth: [] }],
       },
       handler: updateUserController,
     })
@@ -151,6 +152,47 @@ export async function usersRoute(app: FastifyInstance) {
         response: updateUserPasswordResponseSchema,
       },
       handler: updateUserPasswordController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'PATCH',
+      url: '/user/preferences',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Update user preferences',
+        operationId: 'updateUserPreferences',
+        tags: [usersTag],
+        body: updateUserPreferencesBodySchema,
+        response: updateUserPreferencesResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: updateUserPreferencesController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/user/preferences',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get user preferences',
+        operationId: 'getUserPreferences',
+        tags: [usersTag],
+        response: getUserPreferencesResponseSchema,
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: getUserPreferencesController,
     })
   )
 }

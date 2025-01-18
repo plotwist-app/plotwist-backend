@@ -7,6 +7,7 @@ import {
   isEmailAvailableQuerySchema,
   updateUserBodySchema,
   updateUserPasswordBodySchema,
+  updateUserPreferencesBodySchema,
 } from '../schemas/users'
 
 import { DomainError } from '@/domain/errors/domain-error'
@@ -17,6 +18,8 @@ import { isEmailAvailable } from '@/domain/services/users/is-email-available'
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
+import { updateUserPreferencesService } from '@/domain/services/user-preferences/update-user-preferences'
+import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -128,4 +131,31 @@ export async function updateUserPasswordController(
   const { status } = await updatePasswordService({ password, token })
 
   return reply.status(200).send({ status: status })
+}
+
+export async function updateUserPreferencesController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const values = updateUserPreferencesBodySchema.parse(request.body)
+
+  const result = await updateUserPreferencesService({
+    userId: request.user.id,
+    ...values,
+  })
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send(result)
+}
+
+export async function getUserPreferencesController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const result = await getUserPreferencesService({ userId: request.user.id })
+
+  return reply.status(200).send(result)
 }
