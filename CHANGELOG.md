@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## Added
+
+- Consume SQS messages [(#71)](https://github.com/plotwist-app/plotwist-backend/pull/71)
+
 ## 1.9.0
 
 ### Added
