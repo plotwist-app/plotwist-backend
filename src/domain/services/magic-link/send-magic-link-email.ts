@@ -5,11 +5,13 @@ import { emailServiceFactory } from '@/factories/resend-factory'
 type SendMagicLinkEmailServiceInput = {
   email: string
   token: string
+  url?: string
 }
 
 export async function sendMagicLinkEmailService({
   email,
   token,
+  url,
 }: SendMagicLinkEmailServiceInput) {
   const link = `${config.app.CLIENT_URL}/reset-password?token=${token}`
 
