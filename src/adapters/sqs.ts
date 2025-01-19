@@ -89,7 +89,7 @@ async function publish({ messages, queueUrl }: QueueMessage) {
   }
 }
 
-export async function receiveMessage(
+async function receiveMessage(
   queueUrl: string
 ): Promise<{ body: string | undefined; receiptHandle: string | undefined }[]> {
   const sqsClient = createSqsClient()
@@ -105,7 +105,7 @@ export async function receiveMessage(
   )
 }
 
-export async function deleteMessage(queueUrl: string, receiptHandle: string) {
+async function deleteMessage(queueUrl: string, receiptHandle: string) {
   const sqsClient = createSqsClient()
 
   sqsClient.send(

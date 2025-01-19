@@ -10,9 +10,10 @@ import { updateImportMoviesStatus } from '@/db/repositories/import-movies-reposi
 
 import { getImportMovieById } from '@/domain/services/imports/get-import-movie-by-id'
 import type { MALAnimes } from '@/@types/my-anime-list-import'
-import { SqsAdapter } from '@/adapters/sqs'
 import { searchAnimeById } from '@/adapters/my-anime-list'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
+import type { QueueService } from '@/ports/queue-service'
+import { queueServiceFactory } from '@/factories/queue-service-factory'
 
 type ImportMovieMessage = {
   id: string
@@ -35,8 +36,15 @@ export async function startMovieConsumer() {
 
       const tmdbId = await processMovie(movie, name, provider)
 
+      const messageAdapter = queueServiceFactory('SQS')
+
       if (!tmdbId) {
-        return await failProcessing(movieQueueUrl, receiptHandle, id)
+        return await failProcessing(
+          movieQueueUrl,
+          receiptHandle,
+          id,
+          messageAdapter
+        )
       }
 
       await completeProcessing(
@@ -44,7 +52,8 @@ export async function startMovieConsumer() {
         receiptHandle,
         tmdbId,
         movie,
-        userId
+        userId,
+        messageAdapter
       )
     } catch (error) {
       console.error('Failed to process message:', error)
@@ -71,10 +80,11 @@ async function processMovie(
 async function failProcessing(
   queueUrl: string,
   receiptHandle: string,
-  movieId: string
+  movieId: string,
+  messageAdapter: QueueService
 ) {
   await updateImportMoviesStatus(movieId, 'FAILED')
-  await SqsAdapter.deleteMessage(queueUrl, receiptHandle)
+  await messageAdapter.deleteMessage(queueUrl, receiptHandle)
 }
 
 async function completeProcessing(
@@ -82,7 +92,8 @@ async function completeProcessing(
   receiptHandle: string,
   tmdbId: number,
   movie: ImportMovie,
-  userId: string
+  userId: string,
+  messageAdapter: QueueService
 ) {
   await upsertUserItemService({
     mediaType: 'MOVIE',
@@ -92,8 +103,9 @@ async function completeProcessing(
   })
 
   await updateImportMoviesStatus(movie.id, 'COMPLETED')
-  await SqsAdapter.deleteMessage(queueUrl, receiptHandle)
+  await messageAdapter.deleteMessage(queueUrl, receiptHandle)
 }
+
 async function handleResult(
   movie: ImportMovie,
   provider: ProvidersEnum,
