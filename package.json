@@ -20,7 +20,7 @@
     "mail:dev": "email dev --dir src/mail/templates",
     "typecheck": "tsc --noEmit",
     "lint": "npx biome lint --write ./src",
-    "postinstall": "npx puppeteer browsers install"
+    "postinstall": "npx puppeteer browsers install chrome"
   },
   "keywords": [],
   "author": "",
