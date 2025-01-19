@@ -1,11 +1,12 @@
+import type { UploadImageInput } from '@/@types/r2-storage'
 import { config } from '@/config'
+import type { CloudStorage } from '@/ports/r2-storage'
 import {
   DeleteObjectsCommand,
   ListObjectsV2Command,
   S3Client,
 } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
-import type { Readable } from 'node:stream'
 
 export const r2Storage = new S3Client({
   region: 'auto',
@@ -16,7 +17,7 @@ export const r2Storage = new S3Client({
   },
 })
 
-export async function deleteOldImagesService(prefix: string) {
+async function deleteOldImages(prefix: string) {
   try {
     const listCommand = new ListObjectsV2Command({
       Bucket: config.cloudflare.CLOUDFLARE_BUCKET,
@@ -47,13 +48,7 @@ export async function deleteOldImagesService(prefix: string) {
   }
 }
 
-type UploadImageInput = {
-  path: string
-  contentType: string
-  contentStream: Readable
-}
-
-export async function uploadImageService({
+async function uploadImage({
   path,
   contentType,
   contentStream,
@@ -76,3 +71,10 @@ export async function uploadImageService({
     url: new URL(key, config.cloudflare.CLOUDFLARE_PUBLIC_URL).toString(),
   }
 }
+
+const R2Storage: CloudStorage = {
+  deleteOldImages: prefix => deleteOldImages(prefix),
+  uploadImage: uploadImageInput => uploadImage(uploadImageInput),
+}
+
+export { R2Storage }
