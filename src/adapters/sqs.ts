@@ -8,6 +8,17 @@ import {
   SQSClient,
 } from '@aws-sdk/client-sqs'
 
+export const createSqsClient = () => {
+  return new SQSClient({
+    region: config.sqs.AWS_REGION,
+    endpoint: config.sqs.LOCALSTACK_ENDPOINT || undefined,
+    credentials: {
+      accessKeyId: config.sqs.AWS_ACCESS_KEY_ID,
+      secretAccessKey: config.sqs.AWS_SECRET_ACCESS_KEY,
+    },
+  })
+}
+
 export async function initializeSQS(sqsClient: SQSClient) {
   if (config.app.APP_ENV === 'production') {
     return
@@ -33,18 +44,7 @@ export async function initializeSQS(sqsClient: SQSClient) {
   console.info('All queues have been created.')
 }
 
-export const createSqsClient = () => {
-  return new SQSClient({
-    region: config.sqs.AWS_REGION,
-    endpoint: config.sqs.LOCALSTACK_ENDPOINT || undefined,
-    credentials: {
-      accessKeyId: config.sqs.AWS_ACCESS_KEY_ID,
-      secretAccessKey: config.sqs.AWS_SECRET_ACCESS_KEY,
-    },
-  })
-}
-
-export async function publish({ messages, queueUrl }: QueueMessage) {
+async function publish({ messages, queueUrl }: QueueMessage) {
   const sqsClient = createSqsClient()
   const MAX_BATCH_SIZE = 10 // SQS LIMIT
 
@@ -93,9 +93,10 @@ async function receiveMessage(sqsClient: SQSClient, queueUrl: string) {
   return result.Messages?.map(msg => msg.Body)
 }
 
-const SqsAdapter: QueueService = {
+const SQSAdapter: QueueService = {
   publish: queueMessage => publish(queueMessage),
   receiveMessage: queueUrl => receiveMessage(createSqsClient(), queueUrl),
+  initialize: () => initializeSQS(createSqsClient()),
 }
 
-export { SqsAdapter }
+export { SQSAdapter }

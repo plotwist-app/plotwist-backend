@@ -1,7 +1,7 @@
-import { publish } from '@/adapters/sqs'
 import type { DetailedUserImport } from '@/domain/entities/import'
 import type { QueueMessage } from '@/domain/entities/queue-message'
 import { config } from '@/config'
+import { queueServiceFactory } from '@/factories/queue-service-factory'
 
 export async function publishToQueue(result: DetailedUserImport) {
   processAndPublish(result.movies, config.sqsQueues.IMPORT_MOVIES_QUEUE)
@@ -14,6 +14,8 @@ async function processAndPublish(
 ) {
   if (items.length === 0) return
 
+  const queueService = queueServiceFactory('SQS')
+
   const parsedMessages = items.map(item => ({
     id: item.id,
     name: item.name,
@@ -24,5 +26,5 @@ async function processAndPublish(
     queueUrl,
   }
 
-  await publish(message)
+  await queueService.publish(message)
 }
