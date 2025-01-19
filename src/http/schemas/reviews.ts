@@ -95,3 +95,16 @@ export const getReviewResponseSchema = {
     review: createSelectSchema(schema.reviews).nullable(),
   }),
 }
+
+export const getReviewSummaryQuerySchema = z
+  .object({
+    tmdbId: z.string(),
+    mediaType: z.enum(['MOVIE']),
+  })
+  .merge(languageQuerySchema)
+
+export const getReviewSummaryResponseSchema = {
+  200: z.object({
+    summary: z.string().nullable(),
+  }),
+}

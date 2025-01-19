@@ -10,6 +10,7 @@ export const config = {
   sqsQueues: loadSQSQueues(),
   featureFlags: loadFeatureFlags(),
   myAnimeList: loadMALEnvs(),
+  openai: loadOpenAIEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -96,6 +97,14 @@ function loadFeatureFlags() {
 function loadMALEnvs() {
   const schema = z.object({
     MAL_CLIENT_ID: z.string(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadOpenAIEnvs() {
+  const schema = z.object({
+    OPENAI_API_KEY: z.string(),
   })
 
   return schema.parse(process.env)
