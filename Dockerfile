@@ -52,10 +52,8 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 api
 
-# Garantir que o usuário api tenha acesso ao Chrome
-RUN addgroup api chrome && \
-  addgroup api audio && \
-  addgroup api video
+RUN addgroup -S chrome 
+RUN adduser api chrome && adduser api audio && adduser api video
 
 RUN mkdir dist
 RUN chown api:nodejs dist

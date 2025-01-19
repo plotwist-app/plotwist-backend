@@ -15,13 +15,13 @@ export async function scrapeRottenTomatoesReviews({
 }: GetRottenTomatoesReviewsInput) {
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath: '/usr/bin/chromium-browser',
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
       '--disable-gpu',
     ],
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   })
 
   try {
@@ -80,6 +80,10 @@ export async function getRottenTomatoesReviewsService(
 ): Promise<RottenTomatoesReview[]> {
   const cacheKey = `REVIEWS:${title}:${mediaType}`
   const cachedReviews = await redis.get(cacheKey)
+
+  if (cachedReviews) {
+    return JSON.parse(cachedReviews)
+  }
 
   const reviews = await scrapeRottenTomatoesReviews({ title, mediaType })
   await redis.set(cacheKey, JSON.stringify(reviews), 'EX', CACHE_EXPIRATION)
