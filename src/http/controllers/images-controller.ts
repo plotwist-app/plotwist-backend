@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { createImageQuerySchema } from '../schemas/images'
-import { R2Storage } from '@/adapters/r2-storage'
+import { createCloudStorage } from '@/factories/cloud-storage-factory'
 
 const MAXIMUM_FILE_SIZE_IN_BYTES = 1024 * 1024 * 4 // 4mb
 
@@ -17,12 +17,14 @@ export async function createImageController(
     return reply.status(400).send({ message: 'Invalid file provided.' })
   }
 
+  const cloudStorage = createCloudStorage('R2')
+
   const { file: contentStream, mimetype } = uploadedFile
 
   const timestamp = Date.now()
-  await R2Storage.deleteOldImages(`${folder}/${request.user.id}`)
+  await cloudStorage.deleteOldImages(`${folder}/${request.user.id}`)
 
-  const { url } = await R2Storage.uploadImage({
+  const { url } = await cloudStorage.uploadImage({
     path: `${folder}/${fileName || request.user.id}-${timestamp}`,
     contentStream,
     contentType: mimetype,

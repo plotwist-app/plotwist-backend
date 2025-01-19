@@ -1,6 +1,6 @@
 import type { UploadImageInput } from '@/@types/r2-storage'
 import { config } from '@/config'
-import type { CloudStorage } from '@/ports/r2-storage'
+import type { CloudStorage } from '@/ports/cloud-storage'
 import {
   DeleteObjectsCommand,
   ListObjectsV2Command,
@@ -8,7 +8,7 @@ import {
 } from '@aws-sdk/client-s3'
 import { Upload } from '@aws-sdk/lib-storage'
 
-export const r2Storage = new S3Client({
+const r2Storage = new S3Client({
   region: 'auto',
   endpoint: `https://${config.cloudflare.CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com`,
   credentials: {
