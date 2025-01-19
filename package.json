@@ -55,6 +55,7 @@
     "openai": "^4.78.1",
     "postgres": "3.4.4",
     "puppeteer": "^24.1.0",
+    "puppeteer-core": "^24.1.0",
     "resend": "^4.0.1",
     "stripe": "^17.4.0",
     "typeid-js": "1.0.0"

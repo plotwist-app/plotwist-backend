@@ -14,8 +14,8 @@ export async function scrapeRottenTomatoesReviews({
   title,
 }: GetRottenTomatoesReviewsInput) {
   const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    headless: false,
+    args: ['--no-sandbox'],
   })
 
   try {
