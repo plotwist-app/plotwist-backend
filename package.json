@@ -19,7 +19,8 @@
     "format": "biome check src --write",
     "mail:dev": "email dev --dir src/mail/templates",
     "typecheck": "tsc --noEmit",
-    "lint": "npx biome lint --write ./src"
+    "lint": "npx biome lint --write ./src",
+    "postinstall": "npx puppeteer browsers install"
   },
   "keywords": [],
   "author": "",

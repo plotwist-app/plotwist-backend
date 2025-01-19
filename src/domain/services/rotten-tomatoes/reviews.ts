@@ -15,7 +15,7 @@ export async function scrapeRottenTomatoesReviews({
 }: GetRottenTomatoesReviewsInput) {
   const browser = await puppeteer.launch({
     headless: false,
-    args: ['--no-sandbox'],
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   })
 
   try {
@@ -48,8 +48,6 @@ export async function scrapeRottenTomatoesReviews({
     )
     reviews.push(...criticReviews)
 
-    console.log({ criticReviews })
-
     const userReviewsUrl = `${firstResultUrl}/reviews?type=user`
     await page.goto(userReviewsUrl)
     await page
@@ -61,6 +59,7 @@ export async function scrapeRottenTomatoesReviews({
       elements => elements.map(el => ({ text: el.textContent?.trim() || '' }))
     )
     reviews.push(...audienceReviews)
+
 
     return reviews.filter(review => review.text !== '')
   } finally {
@@ -76,10 +75,6 @@ export async function getRottenTomatoesReviewsService(
 ): Promise<RottenTomatoesReview[]> {
   const cacheKey = `REVIEWS:${title}:${mediaType}`
   const cachedReviews = await redis.get(cacheKey)
-
-  if (cachedReviews) {
-    return JSON.parse(cachedReviews) as RottenTomatoesReview[]
-  }
 
   const reviews = await scrapeRottenTomatoesReviews({ title, mediaType })
   await redis.set(cacheKey, JSON.stringify(reviews), 'EX', CACHE_EXPIRATION)
