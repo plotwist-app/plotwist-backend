@@ -1,7 +1,9 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { createImageQuerySchema } from '../schemas/images'
-import { deleteOldImagesService } from '@/domain/services/r2-storage/delete-old-images'
-import { uploadImageService } from '@/domain/services/r2-storage/upload-image'
+import {
+  deleteOldImagesService,
+  uploadImageService,
+} from '@/adapters/r2-storage'
 
 const MAXIMUM_FILE_SIZE_IN_BYTES = 1024 * 1024 * 4 // 4mb
 
