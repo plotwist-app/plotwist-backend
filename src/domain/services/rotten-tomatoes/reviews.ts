@@ -14,7 +14,7 @@ export async function scrapeRottenTomatoesReviews({
   title,
 }: GetRottenTomatoesReviewsInput) {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   })
 
@@ -59,7 +59,6 @@ export async function scrapeRottenTomatoesReviews({
       elements => elements.map(el => ({ text: el.textContent?.trim() || '' }))
     )
     reviews.push(...audienceReviews)
-
 
     return reviews.filter(review => review.text !== '')
   } finally {
