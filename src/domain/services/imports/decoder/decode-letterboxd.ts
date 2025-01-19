@@ -24,7 +24,7 @@ export async function decodeLetterboxd(
 
     const userImport: InsertUserImportWithItems = {
       itemsCount: movies.length,
-      provider: 'MY_ANIME_LIST',
+      provider: 'LETTERBOXD',
       userId,
       importStatus: 'NOT_STARTED',
       movies,
@@ -69,6 +69,7 @@ function buildMovies(rawMovies: WatchedRecord[], status: UserItemStatus) {
       name: item.Name,
       endDate: formatDate(item.Date),
       userItemStatus: status,
+      __metadata: item,
     }
   })
 

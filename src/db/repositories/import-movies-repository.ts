@@ -13,3 +13,12 @@ export async function updateImportMoviesStatus(
     .where(eq(schema.importMovies.id, id))
     .returning()
 }
+
+export async function getImportMovie(id: string) {
+  const [movie] = await db
+    .select()
+    .from(schema.importMovies)
+    .where(eq(schema.importMovies.id, id))
+
+  return movie
+}

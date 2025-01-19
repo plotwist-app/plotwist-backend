@@ -61,6 +61,7 @@ async function saveMovies(
         userItemStatus: item.userItemStatus,
         importStatus: item.importStatus,
         tmdbId: item.tmdbId,
+        __metadata: item.__metadata,
       }))
 
       const result = await trx
@@ -73,7 +74,6 @@ async function saveMovies(
 
     return []
   } catch (error) {
-
     throw new CannotInsertIntoImportTableError()
   }
 }
@@ -96,6 +96,7 @@ async function saveSeries(
         tmdbId: item.tmdbId,
         watchedEpisodes: item.watchedEpisodes,
         seriesEpisodes: item.seriesEpisodes,
+        __metadata: item.__metadata,
       }))
 
       return await trx
@@ -106,20 +107,12 @@ async function saveSeries(
 
     return []
   } catch (error) {
-    console.log({error})
     throw new CannotInsertIntoImportTableError()
   }
 }
 
-export async function getImport(id: string) {
-  const [userImport] = await db
-    .select()
-    .from(schema.userImports)
-    .where(eq(schema.userImports.id, id))
-
-  if (!userImport) {
-    throw new Error(`User import with id ${id} not found`)
-  }
+export async function getDetailedUserImport(id: string) {
+  const userImport = await getUserImport(id)
 
   const movies = await db
     .select()
@@ -134,7 +127,7 @@ export async function getImport(id: string) {
   return { ...userImport, series, movies }
 }
 
-export async function checkAndFinalizeImport(importId: string): Promise<void> {
+export async function checkAndFinalizeImport(importId: string) {
   await db.transaction(async trx => {
     const [moviesStatusCheck] = await trx.execute(sql`
       SELECT COUNT(*) AS incomplete_movies
@@ -163,4 +156,13 @@ export async function checkAndFinalizeImport(importId: string): Promise<void> {
         .where(eq(schema.userImports.id, importId))
     }
   })
+}
+
+export async function getUserImport(id: string) {
+  const [userImport] = await db
+    .select()
+    .from(schema.userImports)
+    .where(eq(schema.userImports.id, id))
+
+  return userImport
 }

@@ -1,7 +1,7 @@
-import { client, } from '.'
+import { client } from '.'
 
 async function main() {
-  console.log('🌱 Database seeded!')
+  console.info('🌱 Database seeded!')
 }
 
 main()
