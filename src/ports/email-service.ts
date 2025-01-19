@@ -1,3 +1,5 @@
+import type { EmailMessage } from '@/domain/entities/email-message'
+
 export interface EmailService {
-  sendEmail(email: string[], subject: string, html: string): Promise<void>
+  sendEmail(emailMessage: EmailMessage): Promise<void>
 }

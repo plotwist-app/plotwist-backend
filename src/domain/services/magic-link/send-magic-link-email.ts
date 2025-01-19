@@ -1,4 +1,5 @@
 import { config } from '@/config'
+import type { EmailMessage } from '@/domain/entities/email-message'
 import { emailServiceFactory } from '@/factories/resend-factory'
 
 type SendMagicLinkEmailServiceInput = {
@@ -20,5 +21,11 @@ export async function sendMagicLinkEmailService({
 
   const emailService = emailServiceFactory('Resend')
 
-  await emailService.sendEmail(to, subject, html)
+  const emailMessage: EmailMessage = {
+    to,
+    subject,
+    html,
+  }
+
+  await emailService.sendEmail(emailMessage)
 }
