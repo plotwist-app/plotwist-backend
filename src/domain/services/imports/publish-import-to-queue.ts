@@ -3,20 +3,31 @@ import type { DetailedUserImport } from '@/domain/entities/import'
 import type { QueueMessage } from '@/domain/entities/queue-message'
 import { config } from '@/config'
 
-export async function publishToQueue(result: DetailedUserImport) {
-  processAndPublish(result.movies, config.sqsQueues.IMPORT_MOVIES_QUEUE)
-  processAndPublish(result.series, config.sqsQueues.IMPORT_SERIES_QUEUE)
+export async function publishToQueue(userImport: DetailedUserImport) {
+  processAndPublish(
+    userImport.movies,
+    config.sqsQueues.IMPORT_MOVIES_QUEUE,
+    userImport
+  )
+  processAndPublish(
+    userImport.series,
+    config.sqsQueues.IMPORT_SERIES_QUEUE,
+    userImport
+  )
 }
 
 async function processAndPublish(
   items: { id: string; name: string }[],
-  queueUrl: string
+  queueUrl: string,
+  { provider, userId }: DetailedUserImport
 ) {
   if (items.length === 0) return
 
-  const parsedMessages = items.map(item => ({
-    id: item.id,
-    name: item.name,
+  const parsedMessages = items.map(({ id, name }) => ({
+    id,
+    name,
+    provider,
+    userId,
   }))
 
   const message: QueueMessage = {

@@ -4,9 +4,9 @@ import {
   getDetailedImportRequestSchema,
 } from '../schemas/imports'
 import { providerDispatcher } from '@/domain/dispatchers/import-dispatcher'
-import { GetUserImport } from '@/domain/services/imports/get-user-import-by-id'
 import { DomainError } from '@/domain/errors/domain-error'
 import { publishToQueue } from '@/domain/services/imports/publish-import-to-queue'
+import { getDetailedUserImportById } from '@/domain/services/imports/get-detailed-user-import-by-id'
 
 const MAXIMUM_FILE_SIZE_IN_BYTES = 1024 * 1024 * 4 // 4mb
 
@@ -48,7 +48,7 @@ export async function getDetailedImportController(
   reply: FastifyReply
 ) {
   const { importId } = getDetailedImportRequestSchema.parse(request.params)
-  const result = await GetUserImport(importId)
+  const result = await getDetailedUserImportById(importId)
 
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })

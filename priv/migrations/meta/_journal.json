@@ -337,6 +337,13 @@
       "when": 1736862365230,
       "tag": "20250114134605_watch_providers_ids",
       "breakpoints": true
+    },
+    {
+      "idx": 48,
+      "version": "7",
+      "when": 1737212488035,
+      "tag": "20250118150128_set_metadata_fields_as_required",
+      "breakpoints": true
     }
   ]
 }

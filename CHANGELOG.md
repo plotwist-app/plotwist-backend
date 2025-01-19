@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## Added
+
+- Consume SQS messages [(#71)](https://github.com/plotwist-app/plotwist-backend/pull/71)
 - Add review summary [(#87)](https://github.com/plotwist-app/plotwist-backend/pull/87)
 
 ## 1.9.0
