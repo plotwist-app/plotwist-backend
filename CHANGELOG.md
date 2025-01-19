@@ -5,12 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-## 1.10.1
-
-- Add service to run in docker compose file too [(#88)](https://github.com/plotwist-app/plotwist-backend/pull/89)
-
 ## 1.10.0
 
+### Added
+
+- Add service to run in docker compose file too [(#88)](https://github.com/plotwist-app/plotwist-backend/pull/89)
+- Consume SQS messages [(#71)](https://github.com/plotwist-app/plotwist-backend/pull/71)
 - Add review summary [(#87)](https://github.com/plotwist-app/plotwist-backend/pull/87)
 
 ## 1.9.0

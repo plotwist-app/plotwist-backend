@@ -15,7 +15,6 @@ export async function createUserImport(params: InsertUserImportWithItems) {
         return new UserNotFoundError()
       }
     }
-
     throw new FailedToInsertUserImport()
   }
 }

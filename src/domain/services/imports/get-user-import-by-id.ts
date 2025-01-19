@@ -1,7 +1,7 @@
-import { getImport } from '@/db/repositories/user-import-repository'
+import { getUserImport } from '@/db/repositories/user-import-repository'
 
-export async function GetUserImport(id: string) {
-  const result = await getImport(id)
+export async function getUserImportById(id: string) {
+  const result = await getUserImport(id)
 
   return result
 }

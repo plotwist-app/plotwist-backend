@@ -9,6 +9,7 @@ export const config = {
   sqs: loadSQSEnvs(),
   sqsQueues: loadSQSQueues(),
   featureFlags: loadFeatureFlags(),
+  myAnimeList: loadMALEnvs(),
   openai: loadOpenAIEnvs(),
 }
 
@@ -41,7 +42,7 @@ function loadDatabaseEnvs() {
 function loadAppEnvs() {
   const schema = z.object({
     APP_ENV: z.enum(['dev', 'test', 'production']).optional().default('dev'),
-    CLIENT_URL: z.string().nullable(),
+    CLIENT_URL: z.string(),
     PORT: z.coerce.number().default(3333),
     BASE_URL: z.string().default('http://localhost:3333'),
     JWT_SECRET: z.string(),
@@ -85,6 +86,17 @@ function loadSQSQueues() {
 function loadFeatureFlags() {
   const schema = z.object({
     ENABLE_CERTS: z.string(),
+    ENABLE_IMPORT_MOVIES: z.string(),
+    ENABLE_IMPORT_SERIES: z.string(),
+    ENABLE_SQS: z.string(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadMALEnvs() {
+  const schema = z.object({
+    MAL_CLIENT_ID: z.string(),
   })
 
   return schema.parse(process.env)
