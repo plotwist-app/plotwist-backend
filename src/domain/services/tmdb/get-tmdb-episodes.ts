@@ -1,4 +1,4 @@
-import { tmdb } from '@/domain/entities/tmdb'
+import { tmdb } from '@/adapters/tmdb'
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language, SeasonDetails } from '@plotwist_app/tmdb'
 
@@ -51,7 +51,12 @@ export async function getTMDBEpisodesService(
     ),
   }
 
-  await redis.set(cacheKey, JSON.stringify(season), 'EX', THIRTY_DAYS_IN_SECONDS)
+  await redis.set(
+    cacheKey,
+    JSON.stringify(season),
+    'EX',
+    THIRTY_DAYS_IN_SECONDS
+  )
 
   return {
     episodes: season.episodes,
