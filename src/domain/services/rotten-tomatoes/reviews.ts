@@ -13,6 +13,7 @@ export type GetRottenTomatoesReviewsInput = {
 export async function scrapeRottenTomatoesReviews({
   title,
 }: GetRottenTomatoesReviewsInput) {
+  console.log('Scraping Rotten Tomatoes reviews for', title)
   const browser = await puppeteer.launch({
     headless: true,
     args: [
@@ -26,10 +27,27 @@ export async function scrapeRottenTomatoesReviews({
 
   try {
     const page = await browser.newPage()
+    await page.setRequestInterception(true)
+
+    page.on('request', request => {
+      console.log(`Request: ${request.url()}`)
+      request.continue()
+    })
+
+    page.on('error', err => {
+      console.error('Page error:', err)
+    })
+
+    page.on('console', msg => {
+      console.log('Browser console:', msg.text())
+    })
+
+    console.log('Navigating to Rotten Tomatoes search page')
     await page.goto(
       `https://www.rottentomatoes.com/search?search=${encodeURIComponent(title)}`
     )
 
+    console.log('Waiting for search results...')
     await page.waitForSelector('search-page-media-row')
 
     const firstResultUrl = await page.$eval(
@@ -66,7 +84,12 @@ export async function scrapeRottenTomatoesReviews({
     )
     reviews.push(...audienceReviews)
 
+    console.log('Reviews scraped:', reviews)
+
     return reviews.filter(review => review.text !== '')
+  } catch (error) {
+    console.error('Error scraping Rotten Tomatoes reviews:', error)
+    return []
   } finally {
     await browser.close()
   }
