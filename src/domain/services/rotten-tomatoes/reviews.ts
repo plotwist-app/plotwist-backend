@@ -1,3 +1,4 @@
+import { config } from '@/config'
 import type { FastifyRedis } from '@fastify/redis'
 import puppeteer from 'puppeteer'
 
@@ -10,10 +11,18 @@ export type GetRottenTomatoesReviewsInput = {
   mediaType: 'MOVIE' | 'TV'
 }
 
+const BRIGHT_DATA_CONFIG = {
+  username: config.brightData.BRIGHT_DATA_USERNAME,
+  password: config.brightData.BRIGHT_DATA_PASSWORD,
+  host: config.brightData.BRIGHT_DATA_HOST,
+  port: config.brightData.BRIGHT_DATA_PORT,
+}
+
 export async function scrapeRottenTomatoesReviews({
   title,
 }: GetRottenTomatoesReviewsInput) {
-  console.log('Scraping Rotten Tomatoes reviews for', title)
+  console.log('Starting scrape for title:', title)
+
   const browser = await puppeteer.launch({
     headless: true,
     args: [
@@ -21,28 +30,30 @@ export async function scrapeRottenTomatoesReviews({
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
       '--disable-gpu',
+      `--proxy-server=http://${BRIGHT_DATA_CONFIG.host}:${BRIGHT_DATA_CONFIG.port}`,
     ],
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   })
 
   try {
     const page = await browser.newPage()
+
+    await page.authenticate({
+      username: BRIGHT_DATA_CONFIG.username,
+      password: BRIGHT_DATA_CONFIG.password,
+    })
+
+    const delay = (ms: number) =>
+      new Promise(resolve => setTimeout(resolve, ms))
+
+    console.log('Testing proxy connection...')
+    await page.goto('https://lumtest.com/myip.json', { timeout: 30000 })
+    const ipCheckContent = await page.content()
+    console.log('Proxy IP check:', ipCheckContent)
+
+    await delay(500)
     await page.setRequestInterception(true)
 
-    page.on('request', request => {
-      console.log(`Request: ${request.url()}`)
-      request.continue()
-    })
-
-    page.on('error', err => {
-      console.error('Page error:', err)
-    })
-
-    page.on('console', msg => {
-      console.log('Browser console:', msg.text())
-    })
-
-    console.log('Navigating to Rotten Tomatoes search page')
     await page.goto(
       `https://www.rottentomatoes.com/search?search=${encodeURIComponent(title)}`
     )
@@ -88,7 +99,7 @@ export async function scrapeRottenTomatoesReviews({
 
     return reviews.filter(review => review.text !== '')
   } catch (error) {
-    console.error('Error scraping Rotten Tomatoes reviews:', error)
+    console.error('Scraping error:', error)
     return []
   } finally {
     await browser.close()
@@ -96,6 +107,23 @@ export async function scrapeRottenTomatoesReviews({
 }
 
 const CACHE_EXPIRATION = 60 * 60 * 24 * 90 // 90 days
+
+async function retryWithBackoff(
+  fn: () => Promise<RottenTomatoesReview[]>,
+  maxRetries = 3
+): Promise<RottenTomatoesReview[]> {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn()
+    } catch (error) {
+      console.error(`Attempt ${i + 1} failed:`, error)
+      if (i === maxRetries - 1) throw error
+      // Exponential backoff: 2s, 4s, 8s...
+      await new Promise(resolve => setTimeout(resolve, 2 ** i * 1000))
+    }
+  }
+  return []
+}
 
 export async function getRottenTomatoesReviewsService(
   redis: FastifyRedis,
@@ -108,7 +136,9 @@ export async function getRottenTomatoesReviewsService(
     return JSON.parse(cachedReviews)
   }
 
-  const reviews = await scrapeRottenTomatoesReviews({ title, mediaType })
+  const reviews = await retryWithBackoff(() =>
+    scrapeRottenTomatoesReviews({ title, mediaType })
+  )
   await redis.set(cacheKey, JSON.stringify(reviews), 'EX', CACHE_EXPIRATION)
 
   return reviews
