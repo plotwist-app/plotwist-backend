@@ -48,7 +48,7 @@ services:
 
   localstack:
     image: localstack/localstack
-    container_name: localstack
+    container_name: plotwist_localstack
     ports:
       - "4566:4566"
       - "4576:4576"
@@ -60,9 +60,19 @@ services:
     networks:
       - plotwist_network
 
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    ports:
+      - "4318:4318"
+      - "14268:14268"
+      - "55681:55681"
+    command: [ "tempo", "all-in-one" ]
+
 volumes:
   postgres_data:
   redis-data:
+  grafana_data:
   localstack_data:
     driver: local
 
