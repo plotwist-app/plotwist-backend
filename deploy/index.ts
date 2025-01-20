@@ -225,6 +225,22 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           name: 'MAL_CLIENT_SECRET',
           valueFrom: '/plotwist/prod/MAL_CLIENT_SECRET',
         },
+        {
+          name: 'BRIGHT_DATA_USERNAME',
+          valueFrom: '/plotwist/prod/BRIGHT_DATA_USERNAME',
+        },
+        {
+          name: 'BRIGHT_DATA_PASSWORD',
+          valueFrom: '/plotwist/prod/BRIGHT_DATA_PASSWORD',
+        },
+        {
+          name: 'BRIGHT_DATA_HOST',
+          valueFrom: '/plotwist/prod/BRIGHT_DATA_HOST',
+        },
+        {
+          name: 'BRIGHT_DATA_PORT',
+          valueFrom: '/plotwist/prod/BRIGHT_DATA_PORT',
+        },
       ],
     },
   },

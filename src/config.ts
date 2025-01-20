@@ -11,6 +11,7 @@ export const config = {
   featureFlags: loadFeatureFlags(),
   myAnimeList: loadMALEnvs(),
   openai: loadOpenAIEnvs(),
+  brightData: loadBrightDataEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -105,6 +106,17 @@ function loadMALEnvs() {
 function loadOpenAIEnvs() {
   const schema = z.object({
     OPENAI_API_KEY: z.string(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadBrightDataEnvs() {
+  const schema = z.object({
+    BRIGHT_DATA_USERNAME: z.string(),
+    BRIGHT_DATA_PASSWORD: z.string(),
+    BRIGHT_DATA_HOST: z.string(),
+    BRIGHT_DATA_PORT: z.string(),
   })
 
   return schema.parse(process.env)
