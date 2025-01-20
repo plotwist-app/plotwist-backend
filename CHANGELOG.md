@@ -5,10 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-## Added
+## 1.10.0
 
-- Consume SQS messages [(#71)](https://github.com/plotwist-app/plotwist-backend/pull/71)
+### Changed
+
+- Move third party services to adapters [(#90)](https://github.com/plotwist-app/plotwist-backend/pull/90)
+
+### Added
+
+- Add service to run in docker compose file too [(#88)](https://github.com/plotwist-app/plotwist-backend/pull/89)
 - Add review summary [(#87)](https://github.com/plotwist-app/plotwist-backend/pull/87)
+- Consume SQS messages [(#71)](https://github.com/plotwist-app/plotwist-backend/pull/71)
+
+### Fixed
+
+- Add missing consumer envs [(#92)](https://github.com/plotwist-app/plotwist-backend/pull/92)
 
 ## 1.9.0
 
