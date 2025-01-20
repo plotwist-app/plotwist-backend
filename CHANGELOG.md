@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## 1.10.0
 
+### Changed
+
+- Move third party services to adapters [(#90)](https://github.com/plotwist-app/plotwist-backend/pull/90)
+
 ### Added
 
 - Add service to run in docker compose file too [(#88)](https://github.com/plotwist-app/plotwist-backend/pull/89)

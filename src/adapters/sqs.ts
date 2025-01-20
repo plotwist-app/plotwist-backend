@@ -10,6 +10,17 @@ import {
   SQSClient,
 } from '@aws-sdk/client-sqs'
 
+export const createSqsClient = () => {
+  return new SQSClient({
+    region: config.sqs.AWS_REGION,
+    endpoint: config.sqs.LOCALSTACK_ENDPOINT || undefined,
+    credentials: {
+      accessKeyId: config.sqs.AWS_ACCESS_KEY_ID,
+      secretAccessKey: config.sqs.AWS_SECRET_ACCESS_KEY,
+    },
+  })
+}
+
 export async function initializeSQS(sqsClient: SQSClient) {
   if (config.app.APP_ENV === 'production') {
     return
@@ -35,18 +46,7 @@ export async function initializeSQS(sqsClient: SQSClient) {
   console.info('All queues have been created.')
 }
 
-export const createSqsClient = () => {
-  return new SQSClient({
-    region: config.sqs.AWS_REGION,
-    endpoint: config.sqs.LOCALSTACK_ENDPOINT || undefined,
-    credentials: {
-      accessKeyId: config.sqs.AWS_ACCESS_KEY_ID,
-      secretAccessKey: config.sqs.AWS_SECRET_ACCESS_KEY,
-    },
-  })
-}
-
-export async function publish({ messages, queueUrl }: QueueMessage) {
+async function publish({ messages, queueUrl }: QueueMessage) {
   const sqsClient = createSqsClient()
   const MAX_BATCH_SIZE = 10 // SQS LIMIT
 
@@ -89,7 +89,7 @@ export async function publish({ messages, queueUrl }: QueueMessage) {
   }
 }
 
-export async function receiveMessage(
+async function receiveMessage(
   queueUrl: string
 ): Promise<{ body: string | undefined; receiptHandle: string | undefined }[]> {
   const sqsClient = createSqsClient()
@@ -105,7 +105,7 @@ export async function receiveMessage(
   )
 }
 
-export async function deleteMessage(queueUrl: string, receiptHandle: string) {
+async function deleteMessage(queueUrl: string, receiptHandle: string) {
   const sqsClient = createSqsClient()
 
   sqsClient.send(
@@ -116,11 +116,12 @@ export async function deleteMessage(queueUrl: string, receiptHandle: string) {
   )
 }
 
-const SqsAdapter: QueueService = {
+const SQSAdapter: QueueService = {
   publish: queueMessage => publish(queueMessage),
   receiveMessage: queueUrl => receiveMessage(queueUrl),
+  initialize: () => initializeSQS(createSqsClient()),
   deleteMessage: (queueUrl, receiptHandle) =>
     deleteMessage(queueUrl, receiptHandle),
 }
 
-export { SqsAdapter }
+export { SQSAdapter }

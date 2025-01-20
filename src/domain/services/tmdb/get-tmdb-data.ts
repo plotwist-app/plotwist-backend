@@ -1,4 +1,4 @@
-import { tmdb } from '@/domain/entities/tmdb'
+import { tmdb } from '@/adapters/tmdb'
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
 
@@ -31,7 +31,12 @@ export async function getTMDBDataService(
     }
 
     const data = await tmdb.tv.details(tmdbId, language)
-    await redis.set(cacheKey, JSON.stringify(data), 'EX', THIRTY_DAYS_IN_SECONDS)
+    await redis.set(
+      cacheKey,
+      JSON.stringify(data),
+      'EX',
+      THIRTY_DAYS_IN_SECONDS
+    )
 
     return {
       title: data.name,

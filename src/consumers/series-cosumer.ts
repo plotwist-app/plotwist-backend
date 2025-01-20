@@ -5,7 +5,6 @@ import { config } from '@/config'
 import { consumeMessages } from './consumer'
 
 import type { MALAnimes } from '@/@types/my-anime-list-import'
-import { SqsAdapter } from '@/adapters/sqs'
 import { searchAnimeById } from '@/adapters/my-anime-list'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import { updateImportSeriesStatus } from '@/db/repositories/import-series-repository'
@@ -13,6 +12,8 @@ import type { ImportSeries } from '@/domain/entities/import-series'
 import { getImportSeriesById } from '@/domain/services/imports/get-import-series-by-id'
 import { searchTMDBMovie } from '@/domain/services/tmdb/search-tmdb-movie'
 import type { TvSerieWithMediaType } from '@plotwist_app/tmdb'
+import { queueServiceFactory } from '@/factories/queue-service-factory'
+import type { QueueService } from '@/ports/queue-service'
 
 type ImportseriesMessage = {
   id: string
@@ -35,8 +36,15 @@ export async function startSeriesConsumer() {
 
       const tmdbId = await processSeries(series, name, provider)
 
+      const messageAdapter = queueServiceFactory('SQS')
+
       if (!tmdbId) {
-        return await failProcessing(seriesQueueUrl, receiptHandle, id)
+        return await failProcessing(
+          seriesQueueUrl,
+          receiptHandle,
+          id,
+          messageAdapter
+        )
       }
 
       await completeProcessing(
@@ -44,7 +52,8 @@ export async function startSeriesConsumer() {
         receiptHandle,
         tmdbId,
         series,
-        userId
+        userId,
+        messageAdapter
       )
     } catch (error) {
       console.error('Failed to process message:', error)
@@ -71,10 +80,11 @@ async function processSeries(
 async function failProcessing(
   queueUrl: string,
   receiptHandle: string,
-  seriesId: string
+  seriesId: string,
+  messageAdapter: QueueService
 ) {
   await updateImportSeriesStatus(seriesId, 'FAILED')
-  await SqsAdapter.deleteMessage(queueUrl, receiptHandle)
+  await messageAdapter.deleteMessage(queueUrl, receiptHandle)
 }
 
 async function completeProcessing(
@@ -82,7 +92,8 @@ async function completeProcessing(
   receiptHandle: string,
   tmdbId: number,
   series: ImportSeries,
-  userId: string
+  userId: string,
+  messageAdapter: QueueService
 ) {
   await upsertUserItemService({
     mediaType: 'TV_SHOW',
@@ -91,7 +102,7 @@ async function completeProcessing(
     userId,
   })
   await updateImportSeriesStatus(series.id, 'COMPLETED')
-  await SqsAdapter.deleteMessage(queueUrl, receiptHandle)
+  await messageAdapter.deleteMessage(queueUrl, receiptHandle)
 }
 async function handleResult(
   series: ImportSeries,

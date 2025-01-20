@@ -1,5 +1,6 @@
-import { resend } from '@/domain/entities/resend'
 import { config } from '@/config'
+import type { EmailMessage } from '@/domain/entities/email-message'
+import { emailServiceFactory } from '@/factories/resend-factory'
 
 type SendMagicLinkEmailServiceInput = {
   email: string
@@ -14,10 +15,19 @@ export async function sendMagicLinkEmailService({
 }: SendMagicLinkEmailServiceInput) {
   const link = `${config.app.CLIENT_URL}/reset-password?token=${token}`
 
-  await resend.emails.send({
-    from: 'Plotwist <dev@plotwist.app>',
-    to: [email],
-    subject: 'Login to Your Account',
-    html: `Please use the following link to login and set your new password: <a href="${link}">Login</a>`,
-  })
+  const html = `Please use the following link to login and set your new password: <a href="${link}">Login</a>`
+
+  const subject = 'Login to Your Account'
+
+  const to = [email]
+
+  const emailService = emailServiceFactory('Resend')
+
+  const emailMessage: EmailMessage = {
+    to,
+    subject,
+    html,
+  }
+
+  await emailService.sendEmail(emailMessage)
 }
