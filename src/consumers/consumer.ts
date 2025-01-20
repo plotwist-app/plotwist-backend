@@ -1,5 +1,5 @@
 import type { Message } from '@aws-sdk/client-sqs'
-import { SqsAdapter } from '@/adapters/sqs'
+import { SQSAdapter } from '@/adapters/sqs'
 
 export async function consumeMessages(
   queueUrl: string,
@@ -7,7 +7,7 @@ export async function consumeMessages(
 ) {
   while (true) {
     try {
-      const messages = await SqsAdapter.receiveMessage(queueUrl)
+      const messages = await SQSAdapter.receiveMessage(queueUrl)
 
       if (messages && messages.length > 0) {
         handleMessages(

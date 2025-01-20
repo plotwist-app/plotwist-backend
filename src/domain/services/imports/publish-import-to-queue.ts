@@ -1,7 +1,7 @@
-import { publish } from '@/adapters/sqs'
 import type { DetailedUserImport } from '@/domain/entities/import'
 import type { QueueMessage } from '@/domain/entities/queue-message'
 import { config } from '@/config'
+import { queueServiceFactory } from '@/factories/queue-service-factory'
 
 export async function publishToQueue(userImport: DetailedUserImport) {
   processAndPublish(
@@ -23,6 +23,8 @@ async function processAndPublish(
 ) {
   if (items.length === 0) return
 
+  const queueService = queueServiceFactory('SQS')
+
   const parsedMessages = items.map(({ id, name }) => ({
     id,
     name,
@@ -35,5 +37,5 @@ async function processAndPublish(
     queueUrl,
   }
 
-  await publish(message)
+  await queueService.publish(message)
 }
