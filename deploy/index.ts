@@ -217,6 +217,14 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           name: 'OPENAI_API_KEY',
           valueFrom: '/plotwist/prod/OPENAI_API_KEY',
         },
+        {
+          name: 'MAL_CLIENT_ID',
+          valueFrom: '/plotwist/prod/MAL_CLIENT_ID',
+        },
+        {
+          name: 'MAL_CLIENT_SECRET',
+          valueFrom: '/plotwist/prod/MAL_CLIENT_SECRET',
+        },
       ],
     },
   },
