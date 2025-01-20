@@ -17,6 +17,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Add review summary [(#87)](https://github.com/plotwist-app/plotwist-backend/pull/87)
 - Consume SQS messages [(#71)](https://github.com/plotwist-app/plotwist-backend/pull/71)
 
+### Fixed
+
+- Add missing consumer envs [(#92)](https://github.com/plotwist-app/plotwist-backend/pull/92)
+
 ## 1.9.0
 
 ### Added
