@@ -1,11 +1,11 @@
+import { startTracing } from './monitoring/tracing'
 import { startServer } from './http/server'
-// import { startMonitoring } from './monitoring/monitoring'
 import { startWorkers } from './workers/worker'
 
 async function main() {
-  startWorkers()
-  startServer()
-  // await startMonitoring()
+  await startTracing()
+  await startWorkers()
+  await startServer()
 }
 
 main().catch(err => {

@@ -113,7 +113,7 @@ function loadOpenAIEnvs() {
 
 function loadMonitoringEnvs() {
   const schema = z.object({
-    TEMPO_URL: z.string().url(),
+    JAEGER_URL: z.string().url(),
   })
 
   return schema.parse(process.env)
