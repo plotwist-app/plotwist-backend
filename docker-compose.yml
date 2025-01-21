@@ -60,20 +60,45 @@ services:
     networks:
       - plotwist_network
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: plotwist_grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_DATASOURCES_DEFAULT_TYPE=tempo
+      - GF_DATASOURCES_DEFAULT_NAME=Tempo
+      - GF_DATASOURCES_DEFAULT_URL=http://tempo:3200
+    depends_on:
+      - tempo
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - plotwist_network
+
   tempo:
     image: grafana/tempo:latest
-    container_name: tempo
+    container_name: plotwist_tempo
+    user: root
     ports:
+      - "3200:3200"
+      - "4317:4317"
       - "4318:4318"
-      - "14268:14268"
-      - "55681:55681"
-    command: [ "tempo", "all-in-one" ]
+    volumes:
+      - tempo_data:/tmp/tempo
+      - ./tempo.yaml:/etc/tempo.yaml
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    networks:
+      - plotwist_network
 
 volumes:
   postgres_data:
   redis-data:
   grafana_data:
   localstack_data:
+  tempo_data:
     driver: local
 
 networks:

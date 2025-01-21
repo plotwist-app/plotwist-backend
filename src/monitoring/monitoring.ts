@@ -1,7 +1,7 @@
 import { startTracing } from './tracing'
 
-function startMonitoring() {
-  startTracing()
+async function startMonitoring() {
+  await startTracing()
   // startMetrics()
 }
 

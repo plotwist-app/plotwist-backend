@@ -11,6 +11,7 @@ export const config = {
   featureFlags: loadFeatureFlags(),
   myAnimeList: loadMALEnvs(),
   openai: loadOpenAIEnvs(),
+  monitoring: loadMonitoringEnvs(),
 }
 
 function loadRedisEnvs() {
@@ -105,6 +106,14 @@ function loadMALEnvs() {
 function loadOpenAIEnvs() {
   const schema = z.object({
     OPENAI_API_KEY: z.string(),
+  })
+
+  return schema.parse(process.env)
+}
+
+function loadMonitoringEnvs() {
+  const schema = z.object({
+    TEMPO_URL: z.string().url(),
   })
 
   return schema.parse(process.env)
