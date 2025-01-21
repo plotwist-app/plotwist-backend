@@ -1,9 +1,9 @@
-import { startTracing } from './monitoring/tracing'
+// import { startTracing } from './monitoring/opentelemetry'
 import { startServer } from './http/server'
 import { startWorkers } from './workers/worker'
 
 async function main() {
-  await startTracing()
+  // await startTracing()
   await startWorkers()
   await startServer()
 }

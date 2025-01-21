@@ -86,8 +86,29 @@ services:
       - "16686:16686"
       - "14268:14268"
       - "9411:9411"
+      - "4318:4318"
     networks:
       - plotwist_network
+  # loki:
+  #   container_name: plotwist_loki
+  #   image: grafana/loki:latest
+  #   ports:
+  #     - "3100:3100"
+  #   command: -config.file=/etc/loki/local-config.yaml
+  #   networks:
+  #     - plotwist_network
+
+  # prometheus:
+  #   container_name: plotwist_prometheus
+  #   image: prom/prometheus:latest
+  #   ports:
+  #     - "9090:9090"
+  #   volumes:
+  #     - ./config/prometheus:/etc/prometheus
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #   networks:
+  #     - plotwist_network
 
 volumes:
   postgres_data:

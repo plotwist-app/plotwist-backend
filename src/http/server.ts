@@ -14,11 +14,10 @@ import { ZodError } from 'zod'
 import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
-// import { spanMiddleware } from './middlewares/span'
-
-const app: FastifyInstance = buildFastifyInstance()
 
 export async function startServer() {
+  const app: FastifyInstance = buildFastifyInstance()
+
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
 
@@ -70,8 +69,6 @@ export async function startServer() {
     console.error({ error })
     return reply.status(500).send({ message: 'Internal server error.' })
   })
-
-  // app.register(spanMiddleware)
 
   routes(app)
 
