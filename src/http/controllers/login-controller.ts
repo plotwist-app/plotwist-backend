@@ -1,9 +1,6 @@
 import { loginService } from '@/domain/services/login'
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { loginBodySchema } from '../schemas/login'
-import { trace } from '@opentelemetry/api'
-
-const tracer = trace.getTracer('plotwist-backend')
 
 export async function loginController(
   request: FastifyRequest,
