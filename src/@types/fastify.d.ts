@@ -7,10 +7,3 @@ declare module '@fastify/jwt' {
     }
   }
 }
-
-declare module 'fastify' {
-  interface FastifyRequest {
-    span?: Span
-    routerPath?: string
-  }
-}

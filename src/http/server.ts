@@ -14,7 +14,6 @@ import { ZodError } from 'zod'
 import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
-import { spanMiddleware } from './middlewares/span'
 
 const app: FastifyInstance = buildFastifyInstance()
 
@@ -72,8 +71,6 @@ export function startServer() {
   })
 
   routes(app)
-
-  spanMiddleware(app)
 
   app
     .listen({
