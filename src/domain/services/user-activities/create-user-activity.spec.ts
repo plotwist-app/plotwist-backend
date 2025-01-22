@@ -6,6 +6,7 @@ import { schema } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 import { randomUUID } from 'node:crypto'
 import { makeUser } from '@/test/factories/make-user'
+import { DomainError } from '@/domain/errors/domain-error'
 
 describe('createUserActivity', () => {
   it('should create a like activity for a review', async () => {
@@ -115,6 +116,8 @@ describe('createUserActivity', () => {
 
     activity.userId = 'invalid-uuid'
 
-    await expect(createUserActivity(activity)).rejects.toThrow()
+    const result = await createUserActivity(activity)
+
+    expect(result).toBeInstanceOf(DomainError)
   })
 })
