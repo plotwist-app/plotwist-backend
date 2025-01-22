@@ -8,6 +8,7 @@ import { createUserEpisodesService } from '@/domain/services/user-episodes/creat
 import { DomainError } from '@/domain/errors/domain-error'
 import { getUserEpisodesService } from '@/domain/services/user-episodes/get-user-episodes'
 import { deleteUserEpisodesService } from '@/domain/services/user-episodes/delete-user-episodes'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 
 export async function createUserEpisodesController(
   request: FastifyRequest,
@@ -22,6 +23,21 @@ export async function createUserEpisodesController(
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await Promise.all(
+    result.userEpisodes.map(episode =>
+      createUserActivity({
+        userId: request.user.id,
+        activityType: 'WATCH_EPISODE',
+        metadata: {
+          episodeId: episode.id,
+          tmdbId: episode.tmdbId,
+          seasonNumber: episode.seasonNumber,
+          episodeNumber: episode.episodeNumber,
+        },
+      })
+    )
+  )
 
   return reply.status(201).send(result.userEpisodes)
 }

@@ -8,7 +8,7 @@ import {
 } from '../schemas/user-activities'
 import { formatUserActivitiesService } from '@/domain/services/user-activities/format-user-activities'
 import type { FastifyRedis } from '@fastify/redis'
-import { deleteUserActivityService } from '@/domain/services/user-activities/delete-user-activity'
+import { deleteUserActivityByIdService } from '@/domain/services/user-activities/delete-user-activity'
 
 export async function getUserActivitiesController(
   request: FastifyRequest,
@@ -40,7 +40,7 @@ export async function deleteUserActivityController(
   reply: FastifyReply
 ) {
   const { activityId } = deleteUserActivityParamsSchema.parse(request.params)
-  await deleteUserActivityService(activityId)
+  await deleteUserActivityByIdService(activityId)
 
   return reply.status(204).send()
 }

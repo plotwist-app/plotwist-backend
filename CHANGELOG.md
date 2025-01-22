@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Add user activities delete service methods and tests [(#95)](https://github.com/plotwist-app/plotwist-backend/pull/95)
+
+### Changed
+
+- Moved user activities to controllers to respect SOLID principles [(#95)](https://github.com/plotwist-app/plotwist-backend/pull/95)
 - Add season and episode number to user activities [(#94)](https://github.com/plotwist-app/plotwist-backend/pull/94)
 - Add season and episode number to reviews [(#94)](https://github.com/plotwist-app/plotwist-backend/pull/94)
 

@@ -12,6 +12,7 @@ import {
   updateReviewReplyBodySchema,
   updateReviewReplyParamsSchema,
 } from '../schemas/review-replies'
+import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
 
 export async function createReviewReplyController(
   request: FastifyRequest,
@@ -56,6 +57,13 @@ export async function deleteReviewReplyController(
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await deleteUserActivityByEntityService({
+    activityType: 'CREATE_REPLY',
+    entityType: 'REPLY',
+    entityId: id,
+    userId: result.reviewReply.userId,
+  })
 
   return reply.status(204).send()
 }

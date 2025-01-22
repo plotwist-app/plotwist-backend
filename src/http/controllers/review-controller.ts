@@ -16,6 +16,8 @@ import { getReviewsService } from '@/domain/services/reviews/get-reviews'
 import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { getReviewService } from '@/domain/services/reviews/get-review'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
+import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
 
 export async function createReviewController(
   request: FastifyRequest,
@@ -31,6 +33,19 @@ export async function createReviewController(
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await createUserActivity({
+    userId: result.review.userId,
+    activityType: 'CREATE_REVIEW',
+    entityId: result.review.id,
+    entityType: 'REVIEW',
+    metadata: {
+      tmdbId: body.tmdbId,
+      mediaType: body.mediaType,
+      seasonNumber: body.seasonNumber,
+      episodeNumber: body.episodeNumber,
+    },
+  })
 
   return reply.status(201).send({ review: result.review })
 }
@@ -73,6 +88,13 @@ export async function deleteReviewController(
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await deleteUserActivityByEntityService({
+    activityType: 'CREATE_REVIEW',
+    entityType: 'REVIEW',
+    entityId: result.id,
+    userId: result.userId,
+  })
 
   return reply.status(204).send()
 }
