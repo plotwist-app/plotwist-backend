@@ -4,6 +4,7 @@ import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-
 import { deleteUserItemService } from '@/domain/services/user-items/delete-user-item'
 import { getUserItemService } from '@/domain/services/user-items/get-user-item'
 import { getUserItemsService } from '@/domain/services/user-items/get-user-items'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 
 import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
@@ -45,6 +46,17 @@ export async function upsertUserItemController(
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await createUserActivity({
+    userId: request.user.id,
+    activityType: 'CHANGE_STATUS',
+    metadata: {
+      tmdbId,
+      mediaType,
+      status,
+      userItemId: result.userItem.id,
+    },
+  })
 
   return reply.status(201).send({ userItem: result.userItem })
 }

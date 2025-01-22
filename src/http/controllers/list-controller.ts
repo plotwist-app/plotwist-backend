@@ -5,6 +5,7 @@ import { getListService } from '@/domain/services/lists/get-list'
 import { getListsServices } from '@/domain/services/lists/get-lists'
 import { updateListService } from '@/domain/services/lists/update-list'
 import { updateListBannerService } from '@/domain/services/lists/update-list-banner'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createListBodySchema,
@@ -34,6 +35,15 @@ export async function createListController(
   if (result instanceof Error) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await createUserActivity({
+    userId: request.user.id,
+    activityType: 'CREATE_LIST',
+    metadata: {
+      listId: result.list.id,
+      title: result.list.title,
+    },
+  })
 
   return reply.status(201).send({ list: result.list })
 }

@@ -7,6 +7,7 @@ import {
 import { createLikeService } from '@/domain/services/likes/create-like'
 import { deleteLikeService } from '@/domain/services/likes/delete-like'
 import { getLikesService } from '@/domain/services/likes/get-likes'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 
 export async function createLikeController(
   request: FastifyRequest,
@@ -17,6 +18,21 @@ export async function createLikeController(
     entityId,
     entityType,
     userId: request.user.id,
+  })
+
+  await createUserActivity({
+    userId: request.user.id,
+    activityType:
+      entityType === 'REVIEW'
+        ? 'LIKE_REVIEW'
+        : entityType === 'REPLY'
+          ? 'LIKE_REPLY'
+          : 'LIKE_LIST',
+    metadata: {
+      entityId,
+      entityType,
+      likeId: like.id,
+    },
   })
 
   return reply.status(201).send({ like })

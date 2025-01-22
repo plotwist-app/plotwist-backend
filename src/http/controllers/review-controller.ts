@@ -18,6 +18,7 @@ import { updateReviewService } from '@/domain/services/reviews/update-review'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { getReviewService } from '@/domain/services/reviews/get-review'
 import { getReviewSummaryService } from '@/domain/services/reviews/get-review-summary'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 
 export async function createReviewController(
   request: FastifyRequest,
@@ -33,6 +34,16 @@ export async function createReviewController(
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await createUserActivity({
+    userId: request.user.id,
+    activityType: 'CREATE_REVIEW',
+    metadata: {
+      mediaType: body.mediaType,
+      tmdbId: body.tmdbId,
+      reviewId: result.review.id,
+    },
+  })
 
   return reply.status(201).send({ review: result.review })
 }
