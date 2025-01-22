@@ -46,8 +46,6 @@ export async function insertUser({
     })
     .returning()
 
-  console.log('user inserted')
-
   span.setAttribute('user.id', user.id)
   span.setStatus({ code: 1 })
   span.end()
