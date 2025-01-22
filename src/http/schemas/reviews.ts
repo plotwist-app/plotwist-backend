@@ -32,6 +32,8 @@ export const getReviewsQuerySchema = languageQuerySchema.extend({
     .enum(['TODAY', 'THIS_WEEK', 'THIS_MONTH', 'ALL_TIME'])
     .optional()
     .default('ALL_TIME'),
+  seasonNumber: z.string().optional(),
+  episodeNumber: z.string().optional(),
 })
 
 const review = createSelectSchema(schema.reviews).extend({
@@ -88,6 +90,8 @@ export const getReviewQuerySchema = createSelectSchema(schema.reviews)
   })
   .extend({
     tmdbId: z.string(),
+    seasonNumber: z.string().optional(),
+    episodeNumber: z.string().optional(),
   })
 
 export const getReviewResponseSchema = {

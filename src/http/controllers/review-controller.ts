@@ -41,16 +41,25 @@ export async function getReviewsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { mediaType, tmdbId, userId, limit, interval } =
-    getReviewsQuerySchema.parse(request.query)
+  const {
+    mediaType,
+    tmdbId,
+    userId,
+    limit,
+    interval,
+    seasonNumber,
+    episodeNumber,
+  } = getReviewsQuerySchema.parse(request.query)
 
   const result = await getReviewsService({
     mediaType,
     userId,
-    tmdbId: Number(tmdbId),
-    limit: Number(limit),
     authenticatedUserId: request.user?.id,
     interval,
+    tmdbId: Number(tmdbId),
+    limit: Number(limit),
+    seasonNumber: seasonNumber ? Number(seasonNumber) : undefined,
+    episodeNumber: episodeNumber ? Number(episodeNumber) : undefined,
   })
 
   return reply.status(200).send(result.reviews)
@@ -116,12 +125,15 @@ export async function getReviewController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { mediaType, tmdbId } = getReviewQuerySchema.parse(request.query)
+  const { mediaType, tmdbId, seasonNumber, episodeNumber } =
+    getReviewQuerySchema.parse(request.query)
 
   const result = await getReviewService({
     mediaType,
-    tmdbId: Number(tmdbId),
     userId: request.user.id,
+    tmdbId: Number(tmdbId),
+    seasonNumber: Number(seasonNumber),
+    episodeNumber: Number(episodeNumber),
   })
 
   return reply.status(200).send(result)
