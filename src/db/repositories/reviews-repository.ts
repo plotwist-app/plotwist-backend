@@ -21,14 +21,9 @@ export async function insertReview(params: InsertReviewModel) {
 }
 
 function buildSeasonEpisodeFilter(
-  tmdbId?: number,
   seasonNumber?: number,
   episodeNumber?: number
 ) {
-  if (!tmdbId) {
-    return undefined
-  }
-
   if (!seasonNumber) {
     return and(
       sql`${schema.reviews.seasonNumber} IS NULL`,
@@ -113,7 +108,9 @@ export async function selectReviews({
         userId ? eq(schema.reviews.userId, userId) : undefined,
         startDate ? gte(schema.reviews.createdAt, startDate) : undefined,
         endDate ? lte(schema.reviews.createdAt, endDate) : undefined,
-        buildSeasonEpisodeFilter(tmdbId, seasonNumber, episodeNumber)
+        tmdbId
+          ? buildSeasonEpisodeFilter(seasonNumber, episodeNumber)
+          : undefined
       )
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))
@@ -161,6 +158,8 @@ export async function selectReview({
   mediaType,
   tmdbId,
   userId,
+  seasonNumber,
+  episodeNumber,
 }: GetReviewInput) {
   return db
     .select()
@@ -169,7 +168,10 @@ export async function selectReview({
       and(
         eq(schema.reviews.mediaType, mediaType),
         eq(schema.reviews.tmdbId, tmdbId),
-        eq(schema.reviews.userId, userId)
+        eq(schema.reviews.userId, userId),
+        tmdbId
+          ? buildSeasonEpisodeFilter(seasonNumber, episodeNumber)
+          : undefined
       )
     )
 }
