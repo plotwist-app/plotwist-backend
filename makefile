@@ -31,7 +31,7 @@ compose-down:
 	docker compose down
 	
 .PHONY: compose-up
-compose-up: compose-down
+compose-up:
 	@echo "up docker compose"
 	docker compose up -d
 	docker compose stop app
