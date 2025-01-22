@@ -21,9 +21,14 @@ export async function insertReview(params: InsertReviewModel) {
 }
 
 function buildSeasonEpisodeFilter(
+  tmdbId?: number,
   seasonNumber?: number,
   episodeNumber?: number
 ) {
+  if (!tmdbId) {
+    return undefined
+  }
+
   if (!seasonNumber) {
     return and(
       sql`${schema.reviews.seasonNumber} IS NULL`,
@@ -56,13 +61,6 @@ export async function selectReviews({
   seasonNumber,
   episodeNumber,
 }: GetReviewsServiceInput) {
-  const seasonEpisodeFilter = buildSeasonEpisodeFilter(
-    seasonNumber,
-    episodeNumber
-  )
-
-  console.log(seasonEpisodeFilter)
-
   const orderCriteria = [
     orderBy === 'likeCount'
       ? desc(
@@ -115,7 +113,7 @@ export async function selectReviews({
         userId ? eq(schema.reviews.userId, userId) : undefined,
         startDate ? gte(schema.reviews.createdAt, startDate) : undefined,
         endDate ? lte(schema.reviews.createdAt, endDate) : undefined,
-        buildSeasonEpisodeFilter(seasonNumber, episodeNumber)
+        buildSeasonEpisodeFilter(tmdbId, seasonNumber, episodeNumber)
       )
     )
     .leftJoin(schema.users, eq(schema.reviews.userId, schema.users.id))

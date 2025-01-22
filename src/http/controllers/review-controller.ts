@@ -96,15 +96,8 @@ export async function getDetailedReviewsController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const {
-    limit,
-    language,
-    orderBy,
-    userId,
-    interval,
-    seasonNumber,
-    episodeNumber,
-  } = getReviewsQuerySchema.parse(request.query)
+  const { limit, language, orderBy, userId, interval } =
+    getReviewsQuerySchema.parse(request.query)
 
   const result = await getReviewsService({
     orderBy,

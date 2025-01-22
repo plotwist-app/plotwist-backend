@@ -39,6 +39,8 @@ export async function selectUserActivities({
             'rating', ${schema.reviews.rating},
             'tmdbId', ${schema.reviews.tmdbId},
             'mediaType', ${schema.reviews.mediaType},
+            'seasonNumber', ${schema.reviews.seasonNumber},
+            'episodeNumber', ${schema.reviews.episodeNumber},
             'author', (
               SELECT json_build_object(
                 'id', ${schema.users.id},
@@ -60,6 +62,8 @@ export async function selectUserActivities({
                 'rating', ${schema.reviews.rating},
                 'tmdbId', ${schema.reviews.tmdbId},
                 'mediaType', ${schema.reviews.mediaType},
+                'seasonNumber', ${schema.reviews.seasonNumber},
+                'episodeNumber', ${schema.reviews.episodeNumber},
                 'author', json_build_object(
                   'id', ${schema.users.id},
                   'username', ${schema.users.username},
