@@ -208,6 +208,8 @@ export const reviews = pgTable('reviews', {
   rating: real('rating').notNull(),
   hasSpoilers: boolean('has_spoilers').notNull().default(false),
   language: languagesEnum('language'),
+  seasonNumber: integer('season_number'),
+  episodeNumber: integer('episode_number'),
 })
 
 export const reviewsRelations = relations(reviews, ({ one, many }) => ({
