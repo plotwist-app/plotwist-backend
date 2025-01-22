@@ -7,9 +7,20 @@ import type {
 import { db } from '..'
 import { schema } from '../schema'
 import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
+import { trace } from '@opentelemetry/api'
 
 export async function insertUserActivity(values: InsertUserActivity) {
-  return db.insert(schema.userActivities).values(values)
+  const tracer = trace.getTracer('user-activities')
+
+  const span = tracer.startSpan('insertUserActivity', {
+    attributes: {
+      'user.id': values.userId,
+    },
+  })
+
+  await db.insert(schema.userActivities).values(values)
+
+  span.end()
 }
 
 export async function selectUserActivities({

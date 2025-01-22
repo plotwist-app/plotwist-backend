@@ -20,6 +20,8 @@ import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
 import { updateUserPreferencesService } from '@/domain/services/user-preferences/update-user-preferences'
 import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
+import { trace } from '@opentelemetry/api'
+import { insertUserActivity } from '@/db/repositories/user-activities'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -29,10 +31,26 @@ export async function createUserController(
 
   const result = await createUser({ username, email, password })
 
+  const tracer = trace.getTracer('user-controller')
+  const span = tracer.startSpan('createUserController', {
+    attributes: {
+      'user.username': username,
+      'user.email': email,
+    },
+  })
+
   if (result instanceof DomainError) {
+    span.setAttributes({ 'error.message': result.message })
+    span.end()
     return reply.status(result.status).send({ message: result.message })
   }
 
+  await insertUserActivity({
+    activityType: 'CREATE_ACCOUNT',
+    userId: result.user.id,
+  })
+
+  span.end()
   return reply.status(201).send({ user: result.user })
 }
 

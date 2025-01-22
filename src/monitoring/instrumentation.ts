@@ -30,6 +30,7 @@ try {
       getNodeAutoInstrumentations({
         '@opentelemetry/instrumentation-fs': { enabled: false },
         '@opentelemetry/instrumentation-http': { enabled: true },
+        '@opentelemetry/instrumentation-fastify': { enabled: true },
       }),
     ],
   })
