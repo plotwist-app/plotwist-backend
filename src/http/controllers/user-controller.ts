@@ -20,6 +20,7 @@ import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
 import { updateUserPreferencesService } from '@/domain/services/user-preferences/update-user-preferences'
 import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -32,6 +33,11 @@ export async function createUserController(
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await createUserActivity({
+    userId: result.user.id,
+    activityType: 'CREATE_ACCOUNT',
+  })
 
   return reply.status(201).send({ user: result.user })
 }
