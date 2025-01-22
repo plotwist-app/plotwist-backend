@@ -96,14 +96,21 @@ export async function getDetailedReviewsController(
   reply: FastifyReply,
   redis: FastifyRedis
 ) {
-  const { limit, language, orderBy, userId, interval } =
-    getReviewsQuerySchema.parse(request.query)
-
-  const result = await getReviewsService({
-    limit: Number(limit),
+  const {
+    limit,
+    language,
     orderBy,
     userId,
     interval,
+    seasonNumber,
+    episodeNumber,
+  } = getReviewsQuerySchema.parse(request.query)
+
+  const result = await getReviewsService({
+    orderBy,
+    userId,
+    interval,
+    limit: Number(limit),
   })
 
   const mergedReviews = await Promise.all(

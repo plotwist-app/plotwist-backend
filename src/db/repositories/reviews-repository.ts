@@ -25,7 +25,10 @@ function buildSeasonEpisodeFilter(
   episodeNumber?: number
 ) {
   if (!seasonNumber) {
-    return undefined
+    return and(
+      sql`${schema.reviews.seasonNumber} IS NULL`,
+      sql`${schema.reviews.episodeNumber} IS NULL`
+    )
   }
 
   if (!episodeNumber) {
