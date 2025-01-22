@@ -1,8 +1,8 @@
 import type { getReviewSummaryQuerySchema } from '@/http/schemas/reviews'
 import type { FastifyRedis } from '@fastify/redis'
-import { getRottenTomatoesReviewsService } from '../rotten-tomatoes/reviews'
-import { generateReviewSummary } from '../open-ai/generate-review-summary'
+import { generateReviewSummaryService } from '../open-ai/generate-review-summary'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'
+import { getReviewsService } from './get-reviews'
 
 type GetReviewSummaryServiceParams = {
   redis: FastifyRedis
@@ -37,16 +37,21 @@ export async function getReviewSummaryService({
     values,
   })
 
-  const reviews = await getRottenTomatoesReviewsService(redis, {
-    title,
+  const { reviews } = await getReviewsService({
+    interval: 'ALL_TIME',
     mediaType,
+    tmdbId: Number(tmdbId),
   })
 
   if (reviews.length === 0) {
     return { summary: null }
   }
 
-  const summary = await generateReviewSummary(reviews, language)
+  const summary = await generateReviewSummaryService({
+    reviews,
+    language,
+    title,
+  })
   await redis.set(summaryCacheKey, summary, 'EX', CACHE_EXPIRATION)
 
   return { summary }
