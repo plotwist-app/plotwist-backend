@@ -10,6 +10,8 @@ import { getFollowService } from '@/domain/services/follows/get-follow'
 import { deleteFollowService } from '@/domain/services/follows/delete-follow'
 import { getFollowersService } from '@/domain/services/follows/get-followers'
 import { DomainError } from '@/domain/errors/domain-error'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
+import { deleteFollowUserActivityService } from '@/domain/services/user-activities/delete-user-activity'
 
 export async function createFollowController(
   request: FastifyRequest,
@@ -25,6 +27,14 @@ export async function createFollowController(
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await createUserActivity({
+    userId: request.user.id,
+    activityType: 'FOLLOW_USER',
+    metadata: {
+      followedId: userId,
+    },
+  })
 
   return reply.send(201).send(result)
 }
@@ -48,7 +58,16 @@ export async function deleteFollowController(
   reply: FastifyReply
 ) {
   const { userId } = deleteFollowBodySchema.parse(request.body)
-  await deleteFollowService({ followedId: userId, followerId: request.user.id })
+  const { follow } = await deleteFollowService({
+    followedId: userId,
+    followerId: request.user.id,
+  })
+
+  await deleteFollowUserActivityService(
+    follow.followedId,
+    follow.followerId,
+    request.user.id
+  )
 
   return reply.status(204).send()
 }

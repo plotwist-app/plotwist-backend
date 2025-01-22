@@ -11,7 +11,7 @@ import {
 
 export type GetReviewsServiceInput = Omit<
   typeof getReviewsQuerySchema._type,
-  'tmdbId' | 'language' | 'limit'
+  'tmdbId' | 'language' | 'limit' | 'seasonNumber' | 'episodeNumber'
 > & {
   tmdbId?: number
   authenticatedUserId?: string
@@ -19,6 +19,8 @@ export type GetReviewsServiceInput = Omit<
 
   startDate?: Date
   endDate?: Date
+  seasonNumber?: number
+  episodeNumber?: number
 }
 
 function getIntervalDate(interval: GetReviewsServiceInput['interval']) {

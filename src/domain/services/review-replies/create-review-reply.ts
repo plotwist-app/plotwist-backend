@@ -1,5 +1,4 @@
 import { insertReviewReply } from '@/db/repositories/review-replies-repository'
-import { insertUserActivity } from '@/db/repositories/user-activities'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import type { InsertReviewReplyModel } from '@/domain/entities/review-reply'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'
@@ -9,13 +8,6 @@ import postgres from 'postgres'
 export async function createReviewReplyService(params: InsertReviewReplyModel) {
   try {
     const [reviewReply] = await insertReviewReply(params)
-
-    await insertUserActivity({
-      activityType: 'CREATE_REPLY',
-      entityType: 'REPLY',
-      userId: reviewReply.userId,
-      entityId: reviewReply.id,
-    })
 
     return { reviewReply }
   } catch (error) {

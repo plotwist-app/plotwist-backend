@@ -21,7 +21,7 @@ import { updatePasswordService } from '@/domain/services/users/update-user-passw
 import { updateUserPreferencesService } from '@/domain/services/user-preferences/update-user-preferences'
 import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
 import { trace } from '@opentelemetry/api'
-import { insertUserActivity } from '@/db/repositories/user-activities'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -45,12 +45,11 @@ export async function createUserController(
     return reply.status(result.status).send({ message: result.message })
   }
 
-  await insertUserActivity({
-    activityType: 'CREATE_ACCOUNT',
+  await createUserActivity({
     userId: result.user.id,
+    activityType: 'CREATE_ACCOUNT',
   })
 
-  span.end()
   return reply.status(201).send({ user: result.user })
 }
 

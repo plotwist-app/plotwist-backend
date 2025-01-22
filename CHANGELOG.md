@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Add user activities delete service methods and tests [(#95)](https://github.com/plotwist-app/plotwist-backend/pull/95)
+
+### Changed
+
+- Moved user activities to controllers to respect SOLID principles [(#95)](https://github.com/plotwist-app/plotwist-backend/pull/95)
+- Add season and episode number to user activities [(#94)](https://github.com/plotwist-app/plotwist-backend/pull/94)
+- Add season and episode number to reviews [(#94)](https://github.com/plotwist-app/plotwist-backend/pull/94)
+
 ## 1.10.0
 
 ### Changed
@@ -16,6 +26,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Add service to run in docker compose file too [(#88)](https://github.com/plotwist-app/plotwist-backend/pull/89)
 - Add review summary [(#87)](https://github.com/plotwist-app/plotwist-backend/pull/87)
 - Consume SQS messages [(#71)](https://github.com/plotwist-app/plotwist-backend/pull/71)
+
+### Fixed
+
+- Add missing consumer envs [(#92)](https://github.com/plotwist-app/plotwist-backend/pull/92)
 
 ## 1.9.0
 

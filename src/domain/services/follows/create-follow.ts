@@ -1,5 +1,4 @@
 import { insertFollow } from '@/db/repositories/followers-repository'
-import { insertUserActivity } from '@/db/repositories/user-activities'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
 import { FollowAlreadyRegisteredError } from '@/domain/errors/follow-already-registered'
 import postgres from 'postgres'
@@ -15,12 +14,6 @@ export async function createFollowService({
 }: CreateFollowServiceInput) {
   try {
     const [follow] = await insertFollow({ followedId, followerId })
-
-    await insertUserActivity({
-      activityType: 'FOLLOW_USER',
-      userId: follow.followerId,
-      metadata: follow,
-    })
 
     return { follow }
   } catch (error) {

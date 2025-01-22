@@ -4,7 +4,6 @@ import type { InferInsertModel } from 'drizzle-orm'
 import { UserNotFoundError } from '../../errors/user-not-found'
 import postgres from 'postgres'
 import { PgIntegrityConstraintViolation } from '@/db/utils/postgres-errors'
-import { insertUserActivity } from '@/db/repositories/user-activities'
 
 export type CreateListInput = InferInsertModel<typeof schema.lists>
 
@@ -16,13 +15,6 @@ export async function createList({
 }: CreateListInput) {
   try {
     const [list] = await insertList({ title, description, visibility, userId })
-
-    await insertUserActivity({
-      activityType: 'CREATE_LIST',
-      entityId: list.id,
-      userId: list.userId,
-      entityType: 'LIST',
-    })
 
     return { list }
   } catch (error) {

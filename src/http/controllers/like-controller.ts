@@ -7,6 +7,9 @@ import {
 import { createLikeService } from '@/domain/services/likes/create-like'
 import { deleteLikeService } from '@/domain/services/likes/delete-like'
 import { getLikesService } from '@/domain/services/likes/get-likes'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
+import { likeAcvityType } from '@/@types/user-activity'
+import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
 
 export async function createLikeController(
   request: FastifyRequest,
@@ -19,6 +22,16 @@ export async function createLikeController(
     userId: request.user.id,
   })
 
+  await createUserActivity({
+    userId: request.user.id,
+    activityType: likeAcvityType[entityType],
+    metadata: {
+      entityId,
+      entityType,
+      likeId: like.id,
+    },
+  })
+
   return reply.status(201).send({ like })
 }
 
@@ -28,7 +41,14 @@ export async function deleteLikeController(
 ) {
   const { id } = deleteLikeParamsSchema.parse(request.params)
 
-  await deleteLikeService(id)
+  const { like } = await deleteLikeService(id)
+
+  await deleteUserActivityByEntityService({
+    activityType: likeAcvityType[like.entityType],
+    entityType: like.entityType,
+    entityId: like.entityId,
+    userId: request.user.id,
+  })
 
   return reply.status(204).send()
 }
