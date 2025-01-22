@@ -19,6 +19,7 @@ export default defineConfig({
         'src/main.ts',
         'src/@types/**',
         'src/utils/**',
+        'src/test/factories/**',
         'src/ports/**',
         'src/domain/errors/**',
         'src/http/schemas/**',

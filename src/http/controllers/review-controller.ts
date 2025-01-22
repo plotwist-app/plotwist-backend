@@ -19,6 +19,7 @@ import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import { getReviewService } from '@/domain/services/reviews/get-review'
 import { getReviewSummaryService } from '@/domain/services/reviews/get-review-summary'
 import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
+import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
 
 export async function createReviewController(
   request: FastifyRequest,
@@ -77,6 +78,13 @@ export async function deleteReviewController(
   if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
+
+  await deleteUserActivityByEntityService({
+    activityType: 'CREATE_REVIEW',
+    entityType: 'REVIEW',
+    entityId: result.id,
+    userId: result.userId,
+  })
 
   return reply.status(204).send()
 }
