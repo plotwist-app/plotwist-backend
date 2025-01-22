@@ -24,6 +24,7 @@ import { followsRoutes } from './follow'
 import { importRoutes } from './import'
 import { userActivitiesRoutes } from './user-activities'
 import { config } from '@/config'
+import { rollTheDice } from '@/monitoring/dice'
 
 export function routes(app: FastifyInstance) {
   if (config.app.APP_ENV === 'dev') {
@@ -64,7 +65,16 @@ export function routes(app: FastifyInstance) {
   app.register(importRoutes)
   app.register(userActivitiesRoutes)
 
-  return
+  app.route<{
+    Params: { rolls: string }
+  }>({
+    method: 'GET',
+    url: '/rolldice/:rolls',
+    handler: (request, reply) => {
+      const rolls = Number.parseInt(request.params.rolls)
+      reply.send(JSON.stringify(rollTheDice(rolls, 1, 6)))
+    },
+  })
 }
 
 function getCorsOrigin() {

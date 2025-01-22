@@ -60,6 +60,18 @@ services:
     networks:
       - plotwist_network
 
+  grafana-agent:
+    container_name: plotwist_agent
+    image: grafana/agent:latest
+    volumes:
+      - ./config/grafana-agent.yaml:/etc/grafana-agent.yaml
+    command: run --server.http.listen-addr=0.0.0.0:12345 /etc/grafana-agent.yaml
+    ports:
+      - "12345:12345"
+      - "4318:4318" # OTLP HTTP
+    networks:
+      - plotwist_network
+
   grafana:
     image: grafana/grafana:latest
     container_name: plotwist_grafana
@@ -68,8 +80,9 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
     depends_on:
-      - jaeger
+      - grafana-agent
     volumes:
       - ./config/provisioning:/etc/grafana/provisioning
     networks:
