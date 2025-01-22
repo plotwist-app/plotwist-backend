@@ -1,17 +1,5 @@
 FROM node:20-alpine AS base
 
-RUN apk add --no-cache \
-  chromium \
-  nss \
-  freetype \
-  freetype-dev \
-  harfbuzz \
-  ca-certificates \
-  ttf-freefont \
-  nodejs
-
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 # ---------
 
@@ -51,8 +39,6 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 api
 
-RUN addgroup -S chrome 
-RUN adduser api chrome && adduser api audio && adduser api video
 
 RUN mkdir dist
 RUN chown api:nodejs dist

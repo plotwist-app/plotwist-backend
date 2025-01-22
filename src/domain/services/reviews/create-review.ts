@@ -17,6 +17,8 @@ export async function createReviewService(params: InsertReviewModel) {
       metadata: {
         tmdbId: params.tmdbId,
         mediaType: params.mediaType,
+        seasonNumber: params.seasonNumber,
+        episodeNumber: params.episodeNumber,
       },
     })
 

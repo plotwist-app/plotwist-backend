@@ -5,6 +5,8 @@ export type GetReviewInput = {
   mediaType: (typeof getReviewQuerySchema._type)['mediaType']
   tmdbId: number
   userId: string
+  seasonNumber?: number
+  episodeNumber?: number
 }
 
 export async function getReviewService(input: GetReviewInput) {
