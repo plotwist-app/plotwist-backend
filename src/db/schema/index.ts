@@ -510,18 +510,18 @@ export const importTVShowsRelations = relations(importSeries, ({ one }) => ({
 }))
 
 export const activityTypeEnum = pgEnum('activity_type', [
-  'CREATE_LIST', // done
-  'ADD_ITEM', // done
-  'DELETE_ITEM', // done
-  'LIKE_REVIEW', // done
-  'LIKE_REPLY', // done
-  'LIKE_LIST', // done
-  'CREATE_REVIEW', // done
-  'CREATE_REPLY', // done
-  'FOLLOW_USER', // done
-  'WATCH_EPISODE', // done
-  'CHANGE_STATUS', // done
-  'CREATE_ACCOUNT', // done
+  'CREATE_LIST',
+  'ADD_ITEM',
+  'DELETE_ITEM',
+  'LIKE_REVIEW',
+  'LIKE_REPLY',
+  'LIKE_LIST',
+  'CREATE_REVIEW',
+  'CREATE_REPLY',
+  'FOLLOW_USER',
+  'WATCH_EPISODE',
+  'CHANGE_STATUS',
+  'CREATE_ACCOUNT',
 ])
 
 export const userActivities = pgTable(

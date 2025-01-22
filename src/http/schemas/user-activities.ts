@@ -99,6 +99,8 @@ export const getUserActivitiesResponseSchema = {
                 username: z.string(),
                 avatarUrl: z.string().nullable(),
               }),
+              seasonNumber: z.number().nullable(),
+              episodeNumber: z.number().nullable(),
             }),
           }),
         }),
