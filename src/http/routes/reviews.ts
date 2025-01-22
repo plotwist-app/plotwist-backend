@@ -7,7 +7,6 @@ import {
   getDetailedReviewsController,
   getReviewController,
   getReviewsController,
-  getReviewSummaryController,
   updateReviewController,
 } from '../controllers/review-controller'
 import { verifyJwt } from '../middlewares/verify-jwt'
@@ -19,8 +18,6 @@ import {
   getReviewResponseSchema,
   getReviewsQuerySchema,
   getReviewsResponseSchema,
-  getReviewSummaryQuerySchema,
-  getReviewSummaryResponseSchema,
   reviewParamsSchema,
   updateReviewBodySchema,
   updateReviewResponse,
@@ -130,21 +127,6 @@ export async function reviewsRoute(app: FastifyInstance) {
         response: getReviewResponseSchema,
       },
       handler: getReviewController,
-    })
-  )
-
-  app.after(() =>
-    app.withTypeProvider<ZodTypeProvider>().route({
-      method: 'GET',
-      url: '/review/summary',
-      schema: {
-        description: 'Get review summary',
-        tags: [reviewsTag],
-        querystring: getReviewSummaryQuerySchema,
-        response: getReviewSummaryResponseSchema,
-      },
-      handler: (request, reply) =>
-        getReviewSummaryController(request, reply, app.redis),
     })
   )
 }
