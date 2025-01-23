@@ -23,6 +23,13 @@ export async function getUserWatchedCastService({
   )
 
   const flattedCast = watchedItemsCast.flat()
+  const filteredCast = flattedCast.filter(
+    actor =>
+      actor.known_for_department === 'Acting' &&
+      // Filter characters that are voiced
+      ['(', ')'].every(char => !actor.character.includes(char))
+  )
+
   const totalWatchedItems = watchedItems.length
 
   const actorCount: Record<
@@ -30,7 +37,7 @@ export async function getUserWatchedCastService({
     { name: string; count: number; profilePath: string | null }
   > = {}
 
-  for (const actor of flattedCast) {
+  for (const actor of filteredCast) {
     const actorId = actor.id
 
     if (!actorCount[actorId]) {
