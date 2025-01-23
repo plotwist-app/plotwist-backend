@@ -24,20 +24,11 @@ export async function createUserEpisodesController(
     return reply.status(result.status).send({ message: result.message })
   }
 
-  await Promise.all(
-    result.userEpisodes.map(episode =>
-      createUserActivity({
-        userId: request.user.id,
-        activityType: 'WATCH_EPISODE',
-        metadata: {
-          episodeId: episode.id,
-          tmdbId: episode.tmdbId,
-          seasonNumber: episode.seasonNumber,
-          episodeNumber: episode.episodeNumber,
-        },
-      })
-    )
-  )
+  await createUserActivity({
+    userId: request.user.id,
+    activityType: 'WATCH_EPISODE',
+    metadata: body,
+  })
 
   return reply.status(201).send(result.userEpisodes)
 }
