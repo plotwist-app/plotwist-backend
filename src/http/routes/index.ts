@@ -63,6 +63,8 @@ export function routes(app: FastifyInstance) {
   app.register(followsRoutes)
   app.register(importRoutes)
   app.register(userActivitiesRoutes)
+
+  return
 }
 
 function getCorsOrigin() {
