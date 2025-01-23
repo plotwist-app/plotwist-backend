@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Make possible login with email or username [(#101)](https://github.com/plotwist-app/plotwist-backend/pull/101)
 - Add user network activities [(#100)](https://github.com/plotwist-app/plotwist-backend/pull/100)
 
 ## 1.10.4

@@ -4,8 +4,7 @@ import { makeRawUser, makeUser } from '@/test/factories/make-user'
 import { hashPassword } from '@/utils/password'
 import { faker } from '@faker-js/faker'
 
-import { InvalidEmailError } from '../errors/invalid-email-error'
-import { InvalidPasswordError } from '../errors/invalid-password-error'
+import { InvalidCredentialsError } from '@/domain/errors/invalid-credentials-error'
 import { loginService } from './login'
 
 describe('login', () => {
@@ -14,7 +13,7 @@ describe('login', () => {
     const hashedPassword = await hashPassword(password)
 
     const user = await makeUser({ password: hashedPassword })
-    const sut = await loginService({ email: user.email, password })
+    const sut = await loginService({ login: user.email, password })
 
     expect(sut).toBeTruthy()
     expect(sut).toEqual({
@@ -24,23 +23,37 @@ describe('login', () => {
     })
   })
 
+  it('should be able to login with username', async () => {
+    const password = faker.internet.password()
+    const hashedPassword = await hashPassword(password)
+
+    const user = await makeUser({ password: hashedPassword })
+    const sut = await loginService({ login: user.username, password })
+
+    expect(sut).toBeTruthy()
+    expect(sut).toEqual({
+      user: expect.objectContaining({
+        username: user.username,
+      }),
+    })
+  })
+
   it('should not be able to login with non-existent user', async () => {
     const user = makeRawUser()
     const sut = await loginService({
-      email: user.email,
+      login: user.email,
       password: user.password,
     })
 
-    expect(sut).toBeInstanceOf(InvalidEmailError)
+    expect(sut).toBeInstanceOf(InvalidCredentialsError)
   })
 
   it('should not be able to login with invalid credentials', async () => {
-    const user = await makeUser()
     const sut = await loginService({
-      email: user.email,
-      password: user.password,
+      login: 'invalid@email.com',
+      password: 'invalid password',
     })
 
-    expect(sut).toBeInstanceOf(InvalidPasswordError)
+    expect(sut).toBeInstanceOf(InvalidCredentialsError)
   })
 })

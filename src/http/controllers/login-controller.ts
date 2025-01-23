@@ -1,21 +1,22 @@
-import { loginService } from '@/domain/services/login'
+import { loginService } from '@/domain/services/login/login'
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { loginBodySchema } from '../schemas/login'
+import { DomainError } from '@/domain/errors/domain-error'
 
 export async function loginController(
   request: FastifyRequest,
   reply: FastifyReply,
   app: FastifyInstance
 ) {
-  const { email, password } = loginBodySchema.parse(request.body)
+  const { login, password } = loginBodySchema.parse(request.body)
 
   const result = await loginService({
-    email,
+    login,
     password,
     url: `${request.protocol}://${request.hostname}`,
   })
 
-  if (result instanceof Error) {
+  if (result instanceof DomainError) {
     return reply.status(result.status).send({ message: result.message })
   }
 
