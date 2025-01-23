@@ -8,7 +8,10 @@ import {
   deleteUserActivityParamsSchema,
   getUserActivitiesParamsSchema,
   getUserActivitiesQuerySchema,
+  getUserNetworkActivitiesQuerySchema,
 } from '../schemas/user-activities'
+
+import { getUserNetworkActivitiesService } from '@/domain/services/user-activities/get-network-activities'
 
 export async function getUserActivitiesController(
   request: FastifyRequest,
@@ -21,7 +24,7 @@ export async function getUserActivitiesController(
   )
 
   const result = (await getUserActivitiesService({
-    userId,
+    userIds: [userId],
     cursor,
     pageSize: Number(pageSize),
   })) as GetUserActivitiesResponseType
@@ -43,4 +46,27 @@ export async function deleteUserActivityController(
   await deleteUserActivityByIdService(activityId)
 
   return reply.status(204).send()
+}
+
+export async function getUserNetworkActivitiesController(
+  request: FastifyRequest,
+  reply: FastifyReply,
+  redis: FastifyRedis
+) {
+  const { userId, cursor, pageSize, language } =
+    getUserNetworkActivitiesQuerySchema.parse(request.query)
+
+  const result = (await getUserNetworkActivitiesService({
+    userId,
+    cursor,
+    pageSize: Number(pageSize),
+  })) as GetUserActivitiesResponseType
+
+  const { userActivities } = await formatUserActivitiesService({
+    userActivities: result.userActivities,
+    language,
+    redis,
+  })
+
+  return reply.status(200).send({ ...result, userActivities })
 }
