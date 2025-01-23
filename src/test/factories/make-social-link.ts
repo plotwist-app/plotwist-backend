@@ -1,7 +1,7 @@
 import { insertSocialLink } from '@/db/repositories/social-links-repository'
 import type {
-  SocialLink,
   InsertSocialLink,
+  SocialLink,
 } from '@/domain/entities/social-link'
 import { faker } from '@faker-js/faker'
 

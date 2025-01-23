@@ -1,12 +1,12 @@
+import { providerDispatcher } from '@/domain/dispatchers/import-dispatcher'
+import { DomainError } from '@/domain/errors/domain-error'
+import { getDetailedUserImportById } from '@/domain/services/imports/get-detailed-user-import-by-id'
+import { publishToQueue } from '@/domain/services/imports/publish-import-to-queue'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createImportRequestSchema,
   getDetailedImportRequestSchema,
 } from '../schemas/imports'
-import { providerDispatcher } from '@/domain/dispatchers/import-dispatcher'
-import { DomainError } from '@/domain/errors/domain-error'
-import { publishToQueue } from '@/domain/services/imports/publish-import-to-queue'
-import { getDetailedUserImportById } from '@/domain/services/imports/get-detailed-user-import-by-id'
 
 const MAXIMUM_FILE_SIZE_IN_BYTES = 1024 * 1024 * 4 // 4mb
 

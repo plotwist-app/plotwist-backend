@@ -1,7 +1,7 @@
 import { makeReview } from '@/test/factories/make-review'
+import { makeReviewReply } from '@/test/factories/make-review-reply'
 import { makeUser } from '@/test/factories/make-user'
 import { getReviewRepliesService } from './get-review-replies'
-import { makeReviewReply } from '@/test/factories/make-review-reply'
 
 describe('fetchReviewReplies', () => {
   it('should return review replies for a given reviewId', async () => {

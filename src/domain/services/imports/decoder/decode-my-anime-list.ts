@@ -7,15 +7,15 @@ import type { InsertImportSeries } from '@/domain/entities/import-series'
 import { MALtoDomain } from '@/domain/helpers/convert_status'
 import { convertXmlToJson } from '@/domain/helpers/xml-to-json'
 
-import type { MultipartFile } from '@fastify/multipart'
-import { createUserImport } from '../create-user-import'
-import { DomainError } from '@/domain/errors/domain-error'
-import { unzipFile } from '@/domain/helpers/decompress-gzip-file'
 import {
   type MALAnimes,
   type MyAnimeListImport,
   SeriesType,
 } from '@/@types/my-anime-list-import'
+import { DomainError } from '@/domain/errors/domain-error'
+import { unzipFile } from '@/domain/helpers/decompress-gzip-file'
+import type { MultipartFile } from '@fastify/multipart'
+import { createUserImport } from '../create-user-import'
 
 export async function decodeMyAnimeList(
   userId: string,

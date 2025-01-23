@@ -6,14 +6,14 @@ import { consumeMessages } from './consumer'
 
 import type { MALAnimes } from '@/@types/my-anime-list-import'
 import { searchAnimeById } from '@/adapters/my-anime-list'
-import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import { updateImportSeriesStatus } from '@/db/repositories/import-series-repository'
 import type { ImportSeries } from '@/domain/entities/import-series'
 import { getImportSeriesById } from '@/domain/services/imports/get-import-series-by-id'
 import { searchTMDBMovie } from '@/domain/services/tmdb/search-tmdb-movie'
-import type { TvSerieWithMediaType } from '@plotwist_app/tmdb'
+import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
 import { queueServiceFactory } from '@/factories/queue-service-factory'
 import type { QueueService } from '@/ports/queue-service'
+import type { TvSerieWithMediaType } from '@plotwist_app/tmdb'
 
 type ImportseriesMessage = {
   id: string

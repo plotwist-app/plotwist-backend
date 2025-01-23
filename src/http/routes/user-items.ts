@@ -2,15 +2,15 @@ import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
-  upsertUserItemBodySchema,
-  upsertUserItemResponseSchema,
   deleteUserItemParamsSchema,
+  getAllUserItemsQuerySchema,
+  getAllUserItemsResponseSchema,
   getUserItemQuerySchema,
   getUserItemResponseSchema,
   getUserItemsQuerySchema,
   getUserItemsResponseSchema,
-  getAllUserItemsQuerySchema,
-  getAllUserItemsResponseSchema,
+  upsertUserItemBodySchema,
+  upsertUserItemResponseSchema,
 } from '../schemas/user-items'
 
 import {

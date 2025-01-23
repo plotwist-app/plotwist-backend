@@ -1,16 +1,17 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
-  getUserStatsController,
-  getUserTotalHoursController,
-  getUserReviewsCountController,
-  getUserMostWatchedSeriesController,
-  getUserWatchedGenresController,
-  getUserWatchedCastController,
-  getUserWatchedCountriesController,
   getUserBestReviewsController,
   getUserItemsStatusController,
+  getUserMostWatchedSeriesController,
+  getUserReviewsCountController,
+  getUserStatsController,
+  getUserTotalHoursController,
+  getUserWatchedCastController,
+  getUserWatchedCountriesController,
+  getUserWatchedGenresController,
 } from '../controllers/user-stats'
+import { languageQuerySchema } from '../schemas/common'
 import {
   getUserBestReviewsResponseSchema,
   getUserDefaultSchema,
@@ -23,7 +24,6 @@ import {
   getUserWatchedCountriesResponseSchema,
   getUserWatchedGenresResponseSchema,
 } from '../schemas/user-stats'
-import { languageQuerySchema } from '../schemas/common'
 
 const USER_STATS_TAG = ['User stats']
 

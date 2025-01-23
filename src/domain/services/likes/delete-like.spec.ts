@@ -1,8 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
+import { makeLike } from '@/test/factories/make-like'
 import { makeReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
-import { makeLike } from '@/test/factories/make-like'
 
 import type { User } from '@/domain/entities/user'
 import { deleteLikeService } from './delete-like'

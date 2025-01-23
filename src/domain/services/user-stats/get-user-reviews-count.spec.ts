@@ -1,5 +1,5 @@
-import { makeUser } from '@/test/factories/make-user'
 import { makeReview } from '@/test/factories/make-review'
+import { makeUser } from '@/test/factories/make-user'
 import { getUserReviewsCountService } from './get-user-reviews-count'
 
 describe('get user reviews count', () => {

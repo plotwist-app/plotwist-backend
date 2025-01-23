@@ -1,20 +1,20 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { verifyJwt } from '../middlewares/verify-jwt'
-import {
-  createFollowBodySchema,
-  deleteFollowBodySchema,
-  getFollowersQuerySchema,
-  getFollowersResponseSchema,
-  getFollowQuerySchema,
-  getFollowResponseSchema,
-} from '../schemas/follow'
 import {
   createFollowController,
   deleteFollowController,
   getFollowController,
   getFollowersController,
 } from '../controllers/follows-controller'
+import { verifyJwt } from '../middlewares/verify-jwt'
+import {
+  createFollowBodySchema,
+  deleteFollowBodySchema,
+  getFollowQuerySchema,
+  getFollowResponseSchema,
+  getFollowersQuerySchema,
+  getFollowersResponseSchema,
+} from '../schemas/follow'
 
 const TAGS = ['Follows']
 

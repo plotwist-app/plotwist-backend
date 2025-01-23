@@ -1,10 +1,10 @@
-import { describe, expect, it, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
 import { makeUser } from '@/test/factories/make-user'
 
 import type { User } from '@/domain/entities/user'
-import { createFollowService } from './create-follow'
 import { FollowAlreadyRegisteredError } from '@/domain/errors/follow-already-registered'
+import { createFollowService } from './create-follow'
 
 let follower: User
 let followed: User

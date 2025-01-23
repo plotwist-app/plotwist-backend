@@ -11,6 +11,9 @@ import {
 } from '../schemas/users'
 
 import { DomainError } from '@/domain/errors/domain-error'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
+import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
+import { updateUserPreferencesService } from '@/domain/services/user-preferences/update-user-preferences'
 import { createUser } from '@/domain/services/users/create-user'
 import { getUserById } from '@/domain/services/users/get-by-id'
 import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
@@ -18,9 +21,6 @@ import { isEmailAvailable } from '@/domain/services/users/is-email-available'
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
-import { updateUserPreferencesService } from '@/domain/services/user-preferences/update-user-preferences'
-import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
-import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
 
 export async function createUserController(
   request: FastifyRequest,

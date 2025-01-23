@@ -1,3 +1,5 @@
+import type { UserItemStatus } from '@/@types/item-status-enum'
+import type { WatchedRecord } from '@/@types/letterboxd'
 import type {
   DetailedUserImport,
   InsertUserImportWithItems,
@@ -5,8 +7,6 @@ import type {
 import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import { DomainError } from '@/domain/errors/domain-error'
 import { processAndConvertZipFile } from '@/domain/helpers/csv-to-json'
-import type { UserItemStatus } from '@/@types/item-status-enum'
-import type { WatchedRecord } from '@/@types/letterboxd'
 import type { MultipartFile } from '@fastify/multipart'
 import { createUserImport } from '../create-user-import'
 

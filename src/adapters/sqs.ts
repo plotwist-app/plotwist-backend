@@ -1,13 +1,13 @@
-import type { QueueMessage } from '@/domain/entities/queue-message'
 import { config } from '@/config'
+import type { QueueMessage } from '@/domain/entities/queue-message'
 import type { QueueService } from '@/ports/queue-service'
 import {
   CreateQueueCommand,
   DeleteMessageCommand,
   type Message,
   ReceiveMessageCommand,
-  SendMessageBatchCommand,
   SQSClient,
+  SendMessageBatchCommand,
 } from '@aws-sdk/client-sqs'
 
 export const createSqsClient = () => {

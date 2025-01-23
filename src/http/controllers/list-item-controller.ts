@@ -2,6 +2,7 @@ import { DomainError } from '@/domain/errors/domain-error'
 import { createListItemService } from '@/domain/services/list-item/create-list-item'
 import { deleteListItemService } from '@/domain/services/list-item/delete-list-item'
 import { getListItemsService } from '@/domain/services/list-item/get-list-items'
+import { updateListItemsService } from '@/domain/services/list-item/update-list-items'
 import { getTMDBDataService } from '@/domain/services/tmdb/get-tmdb-data'
 import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
@@ -12,7 +13,6 @@ import {
   getListItemsParamsSchema,
   updateListItemsBodySchema,
 } from '../schemas/list-item'
-import { updateListItemsService } from '@/domain/services/list-item/update-list-items'
 
 export async function createListItemController(
   request: FastifyRequest,

@@ -1,6 +1,6 @@
+import { makeUser } from '@/test/factories/make-user'
 import { describe, expect, it } from 'vitest'
 import { getUserPreferencesService } from './get-user-preferences'
-import { makeUser } from '@/test/factories/make-user'
 import { updateUserPreferencesService } from './update-user-preferences'
 
 describe('get user preferences service', () => {
