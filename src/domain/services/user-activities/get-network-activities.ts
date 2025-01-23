@@ -11,7 +11,7 @@ export async function getUserNetworkActivitiesService(
   input: GetUserNetworkActivitiesServiceInput
 ) {
   const following = await selectFollowers({
-    followedId: input.userId,
+    followerId: input.userId,
     cursor: input.cursor,
     pageSize: input.pageSize,
   })
@@ -24,7 +24,7 @@ export async function getUserNetworkActivitiesService(
   }
 
   const activities = await selectUserActivities({
-    userIds: following.map(follower => follower.followerId),
+    userIds: following.map(follower => follower.followedId),
     cursor: input.cursor,
     pageSize: input.pageSize,
   })
