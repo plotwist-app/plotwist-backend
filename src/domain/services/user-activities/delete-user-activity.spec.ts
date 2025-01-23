@@ -23,14 +23,14 @@ describe('delete user activity', () => {
 
     const { userActivities } = await getUserActivitiesService({
       pageSize: 20,
-      userId: user.id,
+      userIds: [user.id],
     })
 
     await deleteUserActivityByIdService(userActivities[0].id)
 
     const sut = await getUserActivitiesService({
       pageSize: 20,
-      userId: user.id,
+      userIds: [user.id],
     })
 
     expect(sut.userActivities).toHaveLength(0)
@@ -51,7 +51,7 @@ describe('delete user activity by entity', () => {
 
     const { userActivities } = await getUserActivitiesService({
       pageSize: 20,
-      userId: user.id,
+      userIds: [user.id],
     })
 
     await deleteUserActivityByEntityService({
@@ -63,7 +63,7 @@ describe('delete user activity by entity', () => {
 
     const sut = await getUserActivitiesService({
       pageSize: 20,
-      userId: user.id,
+      userIds: [user.id],
     })
 
     expect(sut.userActivities).toHaveLength(0)
@@ -92,7 +92,7 @@ describe('delete follow user activity', () => {
 
     const sut = await getUserActivitiesService({
       pageSize: 20,
-      userId: user.id,
+      userIds: [user.id],
     })
 
     expect(sut.userActivities).toHaveLength(0)

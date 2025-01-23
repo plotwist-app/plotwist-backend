@@ -3,12 +3,14 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import {
   deleteUserActivityController,
   getUserActivitiesController,
+  getUserNetworkActivitiesController,
 } from '../controllers/user-activities-controller'
 import {
   deleteUserActivityParamsSchema,
   getUserActivitiesParamsSchema,
   getUserActivitiesQuerySchema,
   getUserActivitiesResponseSchema,
+  getUserNetworkActivitiesQuerySchema,
 } from '../schemas/user-activities'
 
 const TAGS = ['User activities']
@@ -44,4 +46,20 @@ export async function userActivitiesRoutes(app: FastifyInstance) {
       handler: deleteUserActivityController,
     })
   )
+
+  app.after(() => {
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/network/activities',
+      schema: {
+        description: 'Get network activities',
+        operationId: 'getNetworkActivities',
+        tags: TAGS,
+        querystring: getUserNetworkActivitiesQuerySchema,
+        response: getUserActivitiesResponseSchema,
+      },
+      handler: (request, reply) =>
+        getUserNetworkActivitiesController(request, reply, app.redis),
+    })
+  })
 }

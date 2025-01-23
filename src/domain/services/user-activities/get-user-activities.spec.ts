@@ -9,7 +9,7 @@ describe('get user activities', () => {
     const user = await makeUser()
 
     await Promise.all(
-      Array.from({ length: 21 }, async (_, index) => {
+      Array.from({ length: 21 }, async () => {
         return await createUserActivity({
           userId: user.id,
           activityType: 'WATCH_EPISODE',
@@ -21,7 +21,7 @@ describe('get user activities', () => {
 
     const sut = await getUserActivitiesService({
       pageSize: 20,
-      userId: user.id,
+      userIds: [user.id],
     })
 
     expect(sut.userActivities).toHaveLength(20)

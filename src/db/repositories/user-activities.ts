@@ -4,141 +4,179 @@ import type {
   InsertUserActivity,
   SelectUserActivities,
 } from '@/domain/entities/user-activity'
-import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, inArray, lte, sql } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
+import { alias } from 'drizzle-orm/pg-core'
 
 export async function insertUserActivity(values: InsertUserActivity) {
   return db.insert(schema.userActivities).values(values)
 }
 
 export async function selectUserActivities({
-  userId,
+  userIds,
   pageSize,
   cursor,
 }: SelectUserActivities) {
+  const additionalInfoCase = buildAdditionalInfoCase()
+
+  const owner = alias(schema.users, 'owner')
+
   return db
     .select({
       ...getTableColumns(schema.userActivities),
-      additionalInfo: sql`
-        CASE
-          WHEN ${schema.userActivities.activityType} IN ('FOLLOW_USER') THEN json_build_object(
-            'id', ${schema.users.id},
-            'username', ${schema.users.username},
-            'avatarUrl', ${schema.users.avatarUrl}
-          )
-
-          WHEN ${schema.userActivities.activityType} IN ('CREATE_LIST', 'LIKE_LIST') THEN json_build_object(
-            'id', ${schema.lists.id},
-            'title', ${schema.lists.title}
-          )
-
-          WHEN ${schema.userActivities.activityType} IN ('LIKE_REVIEW', 'CREATE_REVIEW') THEN json_build_object(
-            'id', ${schema.reviews.id},
-            'review', ${schema.reviews.review},
-            'rating', ${schema.reviews.rating},
-            'tmdbId', ${schema.reviews.tmdbId},
-            'mediaType', ${schema.reviews.mediaType},
-            'seasonNumber', ${schema.reviews.seasonNumber},
-            'episodeNumber', ${schema.reviews.episodeNumber},
-            'author', (
-              SELECT json_build_object(
-                'id', ${schema.users.id},
-                'username', ${schema.users.username},
-                'avatarUrl', ${schema.users.avatarUrl}
-              )
-              FROM ${schema.users}
-              WHERE ${schema.users.id} = ${schema.reviews.userId}
-            )
-          )
-
-          WHEN ${schema.userActivities.activityType} IN ('LIKE_REPLY', 'CREATE_REPLY') THEN json_build_object(
-            'id', ${schema.reviewReplies.id},
-            'reply', ${schema.reviewReplies.reply},
-            'review', (
-              SELECT json_build_object(
-                'id', ${schema.reviews.id},
-                'review', ${schema.reviews.review},
-                'rating', ${schema.reviews.rating},
-                'tmdbId', ${schema.reviews.tmdbId},
-                'mediaType', ${schema.reviews.mediaType},
-                'seasonNumber', ${schema.reviews.seasonNumber},
-                'episodeNumber', ${schema.reviews.episodeNumber},
-                'author', json_build_object(
-                  'id', ${schema.users.id},
-                  'username', ${schema.users.username},
-                  'avatarUrl', ${schema.users.avatarUrl}
-                )
-              )
-              FROM ${schema.reviews}
-              LEFT JOIN ${schema.users} ON ${schema.users.id} = ${schema.reviews.userId}
-              WHERE ${schema.reviews.id} = ${schema.reviewReplies.reviewId}
-            )
-          )
-
-          WHEN ${schema.userActivities.activityType} IN ('ADD_ITEM', 'DELETE_ITEM') THEN json_build_object(
-            'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
-            'mediaType', ${sql`(metadata::jsonb->>'mediaType')`},
-            'listId', ${schema.lists.id},
-            'listTitle', ${schema.lists.title}
-          )
-
-          WHEN ${schema.userActivities.activityType} IN ('WATCH_EPISODE') THEN json_build_object(
-            'episodes', metadata
-          )
-
-          WHEN ${schema.userActivities.activityType} IN ('CHANGE_STATUS') THEN json_build_object(
-            'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
-            'mediaType', ${sql`(metadata::jsonb->>'mediaType')`},
-            'status', ${sql`(metadata::jsonb->>'status')`}
-          )
-
-          ELSE NULL
-        END
-      `.as('additionalInfo'),
+      additionalInfo: additionalInfoCase,
+      owner: {
+        id: owner.id,
+        username: owner.username,
+        avatarUrl: owner.avatarUrl,
+      },
     })
     .from(schema.userActivities)
-    .where(
-      and(
-        eq(schema.userActivities.userId, userId),
-        cursor
-          ? lte(
-              sql`DATE_TRUNC('milliseconds', ${schema.userActivities.createdAt})`,
-              cursor
-            )
-          : undefined
-      )
-    )
+    .where(buildWhereClause(userIds, cursor))
     .orderBy(desc(schema.userActivities.createdAt))
     .limit(pageSize + 1)
-    .leftJoin(
-      schema.users,
-      sql`(${schema.userActivities.activityType} = 'FOLLOW_USER' OR ${schema.userActivities.activityType} = 'UNFOLLOW_USER') 
-      AND ${sql`(metadata::jsonb->>'followedId')`} = ${schema.users.id}::text`
+    .leftJoin(schema.users, buildUsersJoinCondition())
+    .leftJoin(schema.lists, buildListsJoinCondition())
+    .leftJoin(schema.reviews, buildReviewsJoinCondition())
+    .leftJoin(schema.reviewReplies, buildRepliesJoinCondition())
+    .leftJoin(owner, eq(schema.userActivities.userId, owner.id))
+}
+
+function buildAdditionalInfoCase() {
+  return sql`
+    CASE
+      WHEN ${schema.userActivities.activityType} IN ('FOLLOW_USER') THEN 
+        ${buildUserInfo()}
+      WHEN ${schema.userActivities.activityType} IN ('CREATE_LIST', 'LIKE_LIST') THEN 
+        ${buildListInfo()}
+      WHEN ${schema.userActivities.activityType} IN ('LIKE_REVIEW', 'CREATE_REVIEW') THEN 
+        ${buildReviewInfo()}
+      WHEN ${schema.userActivities.activityType} IN ('LIKE_REPLY', 'CREATE_REPLY') THEN 
+        ${buildReplyInfo()}
+      WHEN ${schema.userActivities.activityType} IN ('ADD_ITEM', 'DELETE_ITEM') THEN 
+        ${buildItemInfo()}
+      WHEN ${schema.userActivities.activityType} IN ('WATCH_EPISODE') THEN 
+        json_build_object('episodes', metadata)
+      WHEN ${schema.userActivities.activityType} IN ('CHANGE_STATUS') THEN 
+        ${buildStatusInfo()}
+      ELSE NULL
+    END
+  `
+}
+
+function buildUserInfo() {
+  return sql`json_build_object(
+    'id', ${schema.users.id},
+    'username', ${schema.users.username},
+    'avatarUrl', ${schema.users.avatarUrl}
+  )`
+}
+
+function buildListInfo() {
+  return sql`json_build_object(
+    'id', ${schema.lists.id},
+    'title', ${schema.lists.title}
+  )`
+}
+
+function buildReviewInfo() {
+  return sql`json_build_object(
+    'id', ${schema.reviews.id},
+    'review', ${schema.reviews.review},
+    'rating', ${schema.reviews.rating},
+    'tmdbId', ${schema.reviews.tmdbId},
+    'mediaType', ${schema.reviews.mediaType},
+    'seasonNumber', ${schema.reviews.seasonNumber},
+    'episodeNumber', ${schema.reviews.episodeNumber},
+    'author', (
+      SELECT ${buildUserInfo()}
+      FROM ${schema.users}
+      WHERE ${schema.users.id} = ${schema.reviews.userId}
     )
-    .leftJoin(
-      schema.lists,
-      sql`(
-        ${schema.userActivities.activityType} = 'CREATE_LIST' 
-        OR ${schema.userActivities.activityType} = 'LIKE_LIST'
-        OR ${schema.userActivities.activityType} = 'ADD_ITEM'
-        OR ${schema.userActivities.activityType} = 'DELETE_ITEM')
-        AND ${schema.userActivities.entityId} = ${schema.lists.id}`
+  )`
+}
+
+function buildReplyInfo() {
+  return sql`json_build_object(
+    'id', ${schema.reviewReplies.id},
+    'reply', ${schema.reviewReplies.reply},
+    'review', (
+      SELECT json_build_object(
+        'id', ${schema.reviews.id},
+        'review', ${schema.reviews.review},
+        'rating', ${schema.reviews.rating},
+        'tmdbId', ${schema.reviews.tmdbId},
+        'mediaType', ${schema.reviews.mediaType},
+        'seasonNumber', ${schema.reviews.seasonNumber},
+        'episodeNumber', ${schema.reviews.episodeNumber},
+        'author', ${buildUserInfo()}
+      )
+      FROM ${schema.reviews}
+      LEFT JOIN ${schema.users} ON ${schema.users.id} = ${schema.reviews.userId}
+      WHERE ${schema.reviews.id} = ${schema.reviewReplies.reviewId}
     )
-    .leftJoin(
-      schema.reviews,
-      sql`(
-        ${schema.userActivities.activityType} = 'LIKE_REVIEW'
-        OR ${schema.userActivities.activityType} = 'CREATE_REVIEW')
-        AND ${schema.userActivities.entityId} = ${schema.reviews.id}`
-    )
-    .leftJoin(
-      schema.reviewReplies,
-      sql`(
-        ${schema.userActivities.activityType} = 'LIKE_REPLY'
-        OR ${schema.userActivities.activityType} = 'CREATE_REPLY')
-        AND ${schema.userActivities.entityId} = ${schema.reviewReplies.id}`
-    )
+  )`
+}
+
+function buildItemInfo() {
+  return sql`json_build_object(
+    'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
+    'mediaType', ${sql`(metadata::jsonb->>'mediaType')`},
+    'listId', ${schema.lists.id},
+    'listTitle', ${schema.lists.title}
+  )`
+}
+
+function buildStatusInfo() {
+  return sql`json_build_object(
+    'tmdbId', ${sql`(metadata::jsonb->>'tmdbId')::integer`},
+    'mediaType', ${sql`(metadata::jsonb->>'mediaType')`},
+    'status', ${sql`(metadata::jsonb->>'status')`}
+  )`
+}
+
+function buildWhereClause(
+  userIds: string[] | undefined,
+  cursor: string | undefined
+) {
+  return and(
+    userIds ? inArray(schema.userActivities.userId, userIds) : undefined,
+    cursor
+      ? lte(
+          sql`DATE_TRUNC('milliseconds', ${schema.userActivities.createdAt})`,
+          cursor
+        )
+      : undefined
+  )
+}
+
+function buildUsersJoinCondition() {
+  return sql`(${schema.userActivities.activityType} = 'FOLLOW_USER' OR ${schema.userActivities.activityType} = 'UNFOLLOW_USER') 
+    AND ${sql`(metadata::jsonb->>'followedId')`} = ${schema.users.id}::text`
+}
+
+function buildListsJoinCondition() {
+  return sql`(
+    ${schema.userActivities.activityType} = 'CREATE_LIST' 
+    OR ${schema.userActivities.activityType} = 'LIKE_LIST'
+    OR ${schema.userActivities.activityType} = 'ADD_ITEM'
+    OR ${schema.userActivities.activityType} = 'DELETE_ITEM')
+    AND ${schema.userActivities.entityId} = ${schema.lists.id}`
+}
+
+function buildReviewsJoinCondition() {
+  return sql`(
+    ${schema.userActivities.activityType} = 'LIKE_REVIEW'
+    OR ${schema.userActivities.activityType} = 'CREATE_REVIEW')
+    AND ${schema.userActivities.entityId} = ${schema.reviews.id}`
+}
+
+function buildRepliesJoinCondition() {
+  return sql`(
+    ${schema.userActivities.activityType} = 'LIKE_REPLY'
+    OR ${schema.userActivities.activityType} = 'CREATE_REPLY')
+    AND ${schema.userActivities.entityId} = ${schema.reviewReplies.id}`
 }
 
 export async function deleteUserActivity({

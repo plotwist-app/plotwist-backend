@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Add user network activities [(#100)](https://github.com/plotwist-app/plotwist-backend/pull/100)
+
 ## 1.10.4
 
 ### Fixed
