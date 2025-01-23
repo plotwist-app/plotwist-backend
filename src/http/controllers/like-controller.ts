@@ -23,13 +23,10 @@ export async function createLikeController(
   })
 
   await createUserActivity({
+    activityType: likeAcvityType[like.entityType],
     userId: request.user.id,
-    activityType: likeAcvityType[entityType],
-    metadata: {
-      entityId,
-      entityType,
-      likeId: like.id,
-    },
+    entityId: like.entityId,
+    entityType: like.entityType,
   })
 
   return reply.status(201).send({ like })

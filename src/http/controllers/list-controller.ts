@@ -37,12 +37,10 @@ export async function createListController(
   }
 
   await createUserActivity({
-    userId: request.user.id,
     activityType: 'CREATE_LIST',
-    metadata: {
-      listId: result.list.id,
-      title: result.list.title,
-    },
+    entityId: result.list.id,
+    userId: result.list.userId,
+    entityType: 'LIST',
   })
 
   return reply.status(201).send({ list: result.list })
