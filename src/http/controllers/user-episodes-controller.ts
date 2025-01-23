@@ -29,11 +29,20 @@ export async function createUserEpisodesController(
       createUserActivity({
         userId: request.user.id,
         activityType: 'WATCH_EPISODE',
+        entityId: null,
+        entityType: null,
         metadata: {
-          episodeId: episode.id,
+          episodes: [
+            {
+              tmdbId: episode.tmdbId,
+              seasonNumber: episode.seasonNumber,
+              episodeNumber: episode.episodeNumber,
+              runtime: episode.runtime,
+              userId: request.user.id,
+            },
+          ],
+          title: '',
           tmdbId: episode.tmdbId,
-          seasonNumber: episode.seasonNumber,
-          episodeNumber: episode.episodeNumber,
         },
       })
     )
