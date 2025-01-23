@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const loginBodySchema = z.object({
-  email: z.string().email('Invalid email format'),
+  login: z.string().email('Invalid login format').optional(),
   password: z
     .string()
     .min(8, 'Password must be at least 8 characters long')
@@ -18,5 +18,5 @@ export const loginResponseSchema = {
     .object({
       message: z.string(),
     })
-    .describe('Invalid email or password.'),
+    .describe('Invalid login or password.'),
 }

@@ -8,7 +8,7 @@ export async function loginRoute(app: FastifyInstance) {
     method: 'POST',
     url: '/login',
     schema: {
-      description: 'User login with email and password',
+      description: 'User login with email or username and password',
       tags: ['Auth'],
       body: loginBodySchema,
       response: loginResponseSchema,
