@@ -50,6 +50,7 @@ export async function createUserController(
     activityType: 'CREATE_ACCOUNT',
   })
 
+  span.end()
   return reply.status(201).send({ user: result.user })
 }
 
