@@ -31,9 +31,7 @@ export async function createFollowController(
   await createUserActivity({
     userId: request.user.id,
     activityType: 'FOLLOW_USER',
-    metadata: {
-      followedId: userId,
-    },
+    metadata: result.follow,
   })
 
   return reply.send(201).send(result)
