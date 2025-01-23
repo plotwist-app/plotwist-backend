@@ -116,7 +116,6 @@ export const getUserActivitiesResponseSchema = {
                 seasonNumber: z.number(),
                 episodeNumber: z.number(),
                 runtime: z.number(),
-                userId: z.string(),
               })
             ),
             title: z.string(),
