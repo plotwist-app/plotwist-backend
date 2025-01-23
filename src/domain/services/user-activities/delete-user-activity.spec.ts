@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
+import { randomUUID } from 'node:crypto'
 import { makeUser } from '@/test/factories/make-user'
-import { getUserActivitiesService } from './get-user-activities'
+import { createUserActivity } from './create-user-activity'
 import {
   deleteFollowUserActivityService,
   deleteUserActivityByEntityService,
   deleteUserActivityByIdService,
 } from './delete-user-activity'
-import { createUserActivity } from './create-user-activity'
-import { randomUUID } from 'node:crypto'
+import { getUserActivitiesService } from './get-user-activities'
 
 describe('delete user activity', () => {
   it('should be able to delete user activity', async () => {

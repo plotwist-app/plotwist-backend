@@ -1,7 +1,7 @@
-import { makeUser } from '@/test/factories/make-user'
 import { makeReview } from '@/test/factories/make-review'
-import { getUserBestReviewsService } from './get-user-best-reviews'
+import { makeUser } from '@/test/factories/make-user'
 import { redisClient } from '@/test/mocks/redis'
+import { getUserBestReviewsService } from './get-user-best-reviews'
 
 describe('get user best reviews', () => {
   it('should be able to get user best reviews', async () => {
@@ -11,14 +11,14 @@ describe('get user best reviews', () => {
       userId: user.id,
       rating: 5,
       mediaType: 'TV_SHOW',
-      tmdbId: 2316 // The Office
+      tmdbId: 2316, // The Office
     })
 
     const movieReview = await makeReview({
       userId: user.id,
       rating: 5,
       mediaType: 'MOVIE',
-      tmdbId: 414906 // The Batman
+      tmdbId: 414906, // The Batman
     })
 
     const sut = await getUserBestReviewsService({

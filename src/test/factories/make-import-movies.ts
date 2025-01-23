@@ -1,6 +1,6 @@
-import type { InsertImportMovie } from '@/domain/entities/import-movies'
 import type { ImportStatusEnum } from '@/@types/import-item-status-enum'
 import type { UserItemStatus } from '@/@types/item-status-enum'
+import type { InsertImportMovie } from '@/domain/entities/import-movies'
 
 import { faker } from '@faker-js/faker'
 

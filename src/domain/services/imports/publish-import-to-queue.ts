@@ -1,6 +1,6 @@
+import { config } from '@/config'
 import type { DetailedUserImport } from '@/domain/entities/import'
 import type { QueueMessage } from '@/domain/entities/queue-message'
-import { config } from '@/config'
 import { queueServiceFactory } from '@/factories/queue-service-factory'
 
 export async function publishToQueue(userImport: DetailedUserImport) {

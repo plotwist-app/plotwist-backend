@@ -4,9 +4,9 @@ import type {
   InsertUserActivity,
   SelectUserActivities,
 } from '@/domain/entities/user-activity'
+import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
-import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
 
 export async function insertUserActivity(values: InsertUserActivity) {
   return db.insert(schema.userActivities).values(values)

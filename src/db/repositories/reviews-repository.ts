@@ -5,6 +5,7 @@ import type { GetReviewInput } from '@/domain/services/reviews/get-review'
 import type { GetReviewsServiceInput } from '@/domain/services/reviews/get-reviews'
 import type { UpdateReviewInput } from '@/domain/services/reviews/update-review'
 import {
+  type SQL,
   and,
   count,
   desc,
@@ -12,7 +13,6 @@ import {
   getTableColumns,
   gte,
   lte,
-  type SQL,
   sql,
 } from 'drizzle-orm'
 

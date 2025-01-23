@@ -4,11 +4,11 @@ import { createUserImport } from './create-user-import'
 
 import { makeUser } from '@/test/factories/make-user'
 
-import { makeRawUserImport } from '@/test/factories/make-user-import'
 import { randomUUID } from 'node:crypto'
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { makeManyRawImportMovies } from '@/test/factories/make-import-movies'
 import { makeManyRawImportSeries } from '@/test/factories/make-import-series'
+import { makeRawUserImport } from '@/test/factories/make-user-import'
 
 describe('create user import', () => {
   it('should be able to create an user import with series and movies', async () => {

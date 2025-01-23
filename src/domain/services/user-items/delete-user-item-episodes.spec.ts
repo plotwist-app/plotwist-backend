@@ -4,9 +4,9 @@ import { beforeAll, describe, expect, it } from 'vitest'
 
 import type { User } from '@/domain/entities/user'
 import type { UserItem } from '@/domain/entities/user-item'
-import { deleteUserItemEpisodesService } from './delete-user-item-episodes'
 import { makeUserEpisode } from '@/test/factories/make-user-episode'
 import { getUserEpisodesService } from '../user-episodes/get-user-episodes'
+import { deleteUserItemEpisodesService } from './delete-user-item-episodes'
 
 let user: User
 let userItem: UserItem

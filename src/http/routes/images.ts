@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { verifyJwt } from '../middlewares/verify-jwt'
 import { createImageController } from '../controllers/images-controller'
+import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createImageQuerySchema,
   createImageResponseSchema,

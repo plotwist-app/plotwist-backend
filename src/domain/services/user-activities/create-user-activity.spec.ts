@@ -1,11 +1,11 @@
-import { describe, expect, it } from 'vitest'
-import { createUserActivity } from './create-user-activity'
-import type { InsertUserActivity } from '@/domain/entities/user-activity'
+import { randomUUID } from 'node:crypto'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import { eq } from 'drizzle-orm'
-import { randomUUID } from 'node:crypto'
+import type { InsertUserActivity } from '@/domain/entities/user-activity'
 import { makeUser } from '@/test/factories/make-user'
+import { eq } from 'drizzle-orm'
+import { describe, expect, it } from 'vitest'
+import { createUserActivity } from './create-user-activity'
 
 describe('createUserActivity', () => {
   it('should create a like activity for a review', async () => {

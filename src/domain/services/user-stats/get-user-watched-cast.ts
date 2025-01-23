@@ -1,6 +1,6 @@
 import { selectAllUserItems } from '@/db/repositories/user-item-repository'
-import { getTMDBCredits } from '../tmdb/get-tmdb-credits'
 import type { FastifyRedis } from '@fastify/redis'
+import { getTMDBCredits } from '../tmdb/get-tmdb-credits'
 
 type GetUserWatchedCastServiceInput = {
   userId: string

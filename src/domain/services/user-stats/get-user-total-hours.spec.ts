@@ -1,7 +1,7 @@
 import { makeUser } from '@/test/factories/make-user'
 import { makeUserItem } from '@/test/factories/make-user-item'
-import { createUserItemEpisodesService } from '../user-items/create-user-item-episodes'
 import { redisClient } from '@/test/mocks/redis'
+import { createUserItemEpisodesService } from '../user-items/create-user-item-episodes'
 import { getUserTotalHoursService } from './get-user-total-hours'
 
 const CHERNOBYL = {

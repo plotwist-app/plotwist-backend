@@ -1,18 +1,18 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createUserEpisodesController,
   deleteUserEpisodesController,
   getUserEpisodesController,
 } from '../controllers/user-episodes-controller'
+import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createUserEpisodesBodySchema,
   createUserEpisodesResponseSchema,
+  deleteUserEpisodesBodySchema,
   deleteUserEpisodesResponseSchema,
   getUserEpisodesQuerySchema,
   getUserEpisodesResponseSchema,
-  deleteUserEpisodesBodySchema,
 } from '../schemas/user-episodes'
 
 const USER_EPISODES_TAGS = ['User episodes']

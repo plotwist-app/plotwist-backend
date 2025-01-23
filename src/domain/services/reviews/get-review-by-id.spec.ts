@@ -1,4 +1,4 @@
-import { describe, expect, it, } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import { randomUUID } from 'node:crypto'
 import { ReviewNotFoundError } from '@/domain/errors/review-not-found-error'

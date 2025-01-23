@@ -1,9 +1,9 @@
-import { describe, expect, it, beforeAll } from 'vitest'
-import { makeUser } from '@/test/factories/make-user'
-import { upsertSocialLinksService } from './upsert-social-links'
-import { faker } from '@faker-js/faker'
-import { getSocialLinksService } from './get-social-links'
 import type { User } from '@/domain/entities/user'
+import { makeUser } from '@/test/factories/make-user'
+import { faker } from '@faker-js/faker'
+import { beforeAll, describe, expect, it } from 'vitest'
+import { getSocialLinksService } from './get-social-links'
+import { upsertSocialLinksService } from './upsert-social-links'
 
 let user: User
 

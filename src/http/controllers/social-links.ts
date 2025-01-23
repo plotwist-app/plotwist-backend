@@ -1,10 +1,10 @@
+import { getSocialLinksService } from '@/domain/services/social-links/get-social-links'
+import { upsertSocialLinksService } from '@/domain/services/social-links/upsert-social-links'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   getSocialLinksQuerySchema,
   socialLinksBodySchema,
 } from '../schemas/social-links'
-import { upsertSocialLinksService } from '@/domain/services/social-links/upsert-social-links'
-import { getSocialLinksService } from '@/domain/services/social-links/get-social-links'
 
 export async function upsertSocialLinksController(
   request: FastifyRequest,

@@ -1,8 +1,8 @@
-import { makeUser } from '@/test/factories/make-user'
-import { describe, expect, it, beforeAll } from 'vitest'
-import { createUserEpisodesService } from './create-user-episodes'
-import { makeRawUserEpisode } from '@/test/factories/make-user-episode'
 import type { User } from '@/domain/entities/user'
+import { makeUser } from '@/test/factories/make-user'
+import { makeRawUserEpisode } from '@/test/factories/make-user-episode'
+import { beforeAll, describe, expect, it } from 'vitest'
+import { createUserEpisodesService } from './create-user-episodes'
 
 let user: User
 

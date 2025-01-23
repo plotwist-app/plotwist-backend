@@ -1,4 +1,4 @@
-import { selectAllUserItems,  } from '@/db/repositories/user-item-repository'
+import { selectAllUserItems } from '@/db/repositories/user-item-repository'
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
 import { getTMDBMovieService } from '../tmdb/get-tmdb-movie'

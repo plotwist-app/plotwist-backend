@@ -1,6 +1,6 @@
 import type { FastifyRedis } from '@fastify/redis'
-import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 import { getTMDBEpisodesService } from '../tmdb/get-tmdb-episodes'
+import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 import { createUserEpisodesService } from '../user-episodes/create-user-episodes'
 
 const DEFAULT_LANGUAGE = 'en-US'

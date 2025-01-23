@@ -3,17 +3,17 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
 
 import {
+  createLikeController,
+  deleteLikeController,
+  getLikesController,
+} from '../controllers/like-controller'
+import {
   createLikeBodySchema,
   createLikeResponseSchema,
   deleteLikeParamsSchema,
   getLikesParamsSchema,
   getLikesResponseSchema,
 } from '../schemas/likes'
-import {
-  createLikeController,
-  deleteLikeController,
-  getLikesController,
-} from '../controllers/like-controller'
 
 export async function likesRoutes(app: FastifyInstance) {
   app.after(() =>

@@ -1,7 +1,7 @@
 import { selectMostWatched } from '@/db/repositories/user-episode'
-import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 import type { FastifyRedis } from '@fastify/redis'
 import type { Language } from '@plotwist_app/tmdb'
+import { getTMDBTvSeriesService } from '../tmdb/get-tmdb-tv-series'
 
 type GetUserMostWatchedSeriesServiceInput = {
   userId: string

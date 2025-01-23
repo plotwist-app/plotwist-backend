@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest'
-import { makeUser } from '@/test/factories/make-user'
-import { getUserActivitiesService } from './get-user-activities'
 import { randomUUID } from 'node:crypto'
+import { makeUser } from '@/test/factories/make-user'
+import { describe, expect, it } from 'vitest'
 import { createUserActivity } from './create-user-activity'
+import { getUserActivitiesService } from './get-user-activities'
 
 describe('get user activities', () => {
   it('should be able to get user activities', async () => {

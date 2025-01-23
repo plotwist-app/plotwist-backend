@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest'
 
 import { makeUser } from '@/test/factories/make-user'
 
+import { makeManyRawImportSeries } from '@/test/factories/make-import-series'
 import { makeUserImport } from '@/test/factories/make-user-import'
 import { updateImportMoviesStatus } from './update-import-movies-status'
-import { makeManyRawImportSeries } from '@/test/factories/make-import-series'
 
 describe('update import series status', () => {
   it('should be able to import movie status', async () => {
