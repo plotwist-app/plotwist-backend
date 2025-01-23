@@ -14,11 +14,19 @@ export const getUserActivitiesQuerySchema = z
   })
   .merge(languageQuerySchema)
 
-const getUserActivity = createSelectSchema(schema.userActivities).omit({
-  activityType: true,
-  entityType: true,
-  entityId: true,
-}).shape
+const getUserActivity = createSelectSchema(schema.userActivities)
+  .omit({
+    activityType: true,
+    entityType: true,
+    entityId: true,
+  })
+  .extend({
+    owner: z.object({
+      id: z.string(),
+      username: z.string(),
+      avatarUrl: z.string().nullable(),
+    }),
+  }).shape
 
 export const getUserActivitiesResponseSchema = {
   200: z.object({
@@ -152,3 +160,11 @@ export type GetUserActivitiesResponseType = typeof getUserActivitiesResponseType
 export const deleteUserActivityParamsSchema = z.object({
   activityId: z.string(),
 })
+
+export const getUserNetworkActivitiesQuerySchema = z
+  .object({
+    cursor: z.string().optional(),
+    pageSize: z.string().default('10'),
+    userId: z.string(),
+  })
+  .merge(languageQuerySchema)
