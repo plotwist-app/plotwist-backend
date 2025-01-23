@@ -5,7 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Filter characters that are voiced [(#101)](https://github.com/plotwist-app/plotwist-backend/pull/101)
+- Filter characters that are voiced [(#102)](https://github.com/plotwist-app/plotwist-backend/pull/102)
+
 - Add user network activities [(#100)](https://github.com/plotwist-app/plotwist-backend/pull/100)
 
 ## 1.10.4
