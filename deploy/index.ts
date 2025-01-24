@@ -225,6 +225,10 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           name: 'MAL_CLIENT_SECRET',
           valueFrom: '/plotwist/prod/MAL_CLIENT_SECRET',
         },
+        {
+          name: 'JAEGER_URL',
+          valueFrom: '/plotwist/prod/JAEGER_URL',
+        },
       ],
     },
   },

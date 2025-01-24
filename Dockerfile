@@ -55,4 +55,4 @@ EXPOSE 3333
 ENV PORT=3333
 ENV HOSTNAME="0.0.0.0"
 
-ENTRYPOINT ["node", "main.js"]
+ENTRYPOINT ["node", "--import", "./monitoring/instrumentation.js", "main.js"]

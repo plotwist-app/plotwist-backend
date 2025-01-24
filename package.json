@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch --env-file=.env --import ./src/monitoring/instrumentation.ts src/main.ts",
-    "build": "dotenv -e .env -- tsup src/main.ts --out-dir dist --format esm,cjs --dts",
+    "build": "dotenv -e .env -- tsup src/main.ts src/monitoring/instrumentation.ts --out-dir dist --format esm,cjs --dts",
     "start": "dotenv -e .env -- node dist/main.js",
     "db:seed": "tsx --env-file=.env src/db/seed.ts",
     "db:generate": "dotenv -e .env -- drizzle-kit generate",
