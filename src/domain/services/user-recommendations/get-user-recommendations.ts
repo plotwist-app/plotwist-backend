@@ -24,7 +24,7 @@ type GetUserRecommendationsServiceParams = {
   userId: string
 }
 
-const MAX_RECOMMENDATIONS = 10
+const MAX_RECOMMENDATIONS = 25
 
 async function getRecommendations(
   params: Pick<
@@ -96,14 +96,19 @@ async function verifyRecommendations(
       const watchProvidersByRegion =
         watchProviders?.[watchRegion as keyof WatchLocale]
 
-      const isAvailable =
-        watchProvidersByRegion?.flatrate?.some(({ provider_id }) =>
-          watchProvidersIds.length
-            ? watchProvidersIds.includes(provider_id)
-            : true
-        ) ?? false
+      const isAvailable = Boolean(
+        watchProvidersByRegion?.flatrate?.some(provider => {
+          if (watchProvidersIds.length === 0) {
+            if (recommendation.id === 212907) {
+              console.log({ watchProviders })
+            }
 
-      console.log({ isAvailable, watchProvidersIds })
+            return true
+          }
+
+          return watchProvidersIds.includes(provider.provider_id)
+        })
+      )
 
       return {
         recommendation,
@@ -112,11 +117,16 @@ async function verifyRecommendations(
     })
   )
 
+  const isNotWatchedByUser = (
+    recommendation: (typeof verificationResults)[0]['recommendation']
+  ) => {
+    return !userItems.some(item => item.tmdbId === recommendation.id)
+  }
+
   return verificationResults
     .filter(
       ({ isAvailable, recommendation }) =>
-        isAvailable &&
-        !userItems.some(item => item.tmdbId === recommendation.id)
+        isAvailable && isNotWatchedByUser(recommendation)
     )
     .map(({ recommendation }) => recommendation)
 }
