@@ -99,10 +99,6 @@ async function verifyRecommendations(
       const isAvailable = Boolean(
         watchProvidersByRegion?.flatrate?.some(provider => {
           if (watchProvidersIds.length === 0) {
-            if (recommendation.id === 212907) {
-              console.log({ watchProviders })
-            }
-
             return true
           }
 
