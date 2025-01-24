@@ -33,7 +33,6 @@ compose-down:
 .PHONY: compose-up
 compose-up:
 	@echo "up docker compose"
-	docker compose up -d
-	docker compose stop app
+	docker compose up -d --scale app=0
 	
 	

@@ -18,7 +18,7 @@ export async function getUserNetworkActivitiesService(
 
   if (following.length === 0) {
     return {
-      activities: [],
+      userActivities: [],
       nextCursor: null,
     }
   }
