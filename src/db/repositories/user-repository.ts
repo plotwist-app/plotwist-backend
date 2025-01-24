@@ -2,6 +2,7 @@ import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertUserModel } from '@/domain/entities/user'
 import type { UpdateUserInput } from '@/domain/services/users/update-user'
+import { trace } from '@opentelemetry/api'
 import { eq, sql } from 'drizzle-orm'
 
 export async function getUserByEmail(email: string) {
@@ -27,7 +28,16 @@ export async function insertUser({
   password,
   username,
 }: InsertUserModel) {
-  return db
+  const tracer = trace.getTracer('user-repository')
+
+  const span = tracer.startSpan('insertUser', {
+    attributes: {
+      'user.username': username,
+      'user.email': email,
+    },
+  })
+
+  const [user] = await db
     .insert(schema.users)
     .values({
       username,
@@ -35,6 +45,12 @@ export async function insertUser({
       password,
     })
     .returning()
+
+  span.setAttribute('user.id', user.id)
+  span.setStatus({ code: 1 })
+  span.end()
+
+  return user
 }
 
 export async function updateUserSubscription(

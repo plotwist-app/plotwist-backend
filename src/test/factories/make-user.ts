@@ -15,9 +15,7 @@ export function makeRawUser(overrides: Overrides = {}) {
 }
 
 export async function makeUser(overrides: Overrides = {}): Promise<User> {
-  const [user] = await insertUser(makeRawUser(overrides))
-
-  return user
+  return await insertUser(makeRawUser(overrides))
 }
 
 function buildEmail() {

@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertUserActivity } from '@/domain/entities/user-activity'
+import { DomainError } from '@/domain/errors/domain-error'
 import { makeUser } from '@/test/factories/make-user'
 import { eq } from 'drizzle-orm'
 import { describe, expect, it } from 'vitest'
@@ -115,6 +116,8 @@ describe('createUserActivity', () => {
 
     activity.userId = 'invalid-uuid'
 
-    await expect(createUserActivity(activity)).rejects.toThrow()
+    const result = await createUserActivity(activity)
+
+    expect(result).toBeInstanceOf(DomainError)
   })
 })

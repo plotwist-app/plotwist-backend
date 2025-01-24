@@ -21,6 +21,7 @@ import { isEmailAvailable } from '@/domain/services/users/is-email-available'
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
+import { trace } from '@opentelemetry/api'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -30,7 +31,17 @@ export async function createUserController(
 
   const result = await createUser({ username, email, password })
 
+  const tracer = trace.getTracer('user-controller')
+  const span = tracer.startSpan('createUserController', {
+    attributes: {
+      'user.username': username,
+      'user.email': email,
+    },
+  })
+
   if (result instanceof DomainError) {
+    span.setAttributes({ 'error.message': result.message })
+    span.end()
     return reply.status(result.status).send({ message: result.message })
   }
 
@@ -39,6 +50,7 @@ export async function createUserController(
     activityType: 'CREATE_ACCOUNT',
   })
 
+  span.end()
   return reply.status(201).send({ user: result.user })
 }
 

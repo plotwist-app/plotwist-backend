@@ -1,6 +1,6 @@
-import { db } from '..'
-import { eq, or } from 'drizzle-orm'
 import { schema } from '@/db/schema'
+import { eq, or } from 'drizzle-orm'
+import { db } from '..'
 
 export async function findUserByEmailOrUsername(login?: string) {
   const [user] = await db

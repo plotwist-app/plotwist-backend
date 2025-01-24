@@ -48,7 +48,7 @@ services:
 
   localstack:
     image: localstack/localstack
-    container_name: localstack
+    container_name: plotwist_localstack
     ports:
       - "4566:4566"
       - "4576:4576"
@@ -60,11 +60,24 @@ services:
     networks:
       - plotwist_network
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: plotwist_grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./config/provisioning:/etc/grafana/provisioning
+    networks:
+      - plotwist_network
+
 volumes:
   postgres_data:
   redis-data:
   localstack_data:
-    driver: local
+
 
 networks:
   plotwist_network:

@@ -4,13 +4,24 @@ import type {
   InsertUserActivity,
   SelectUserActivities,
 } from '@/domain/entities/user-activity'
+import { trace } from '@opentelemetry/api'
 import { and, desc, eq, getTableColumns, inArray, lte, sql } from 'drizzle-orm'
+import { alias } from 'drizzle-orm/pg-core'
 import { db } from '..'
 import { schema } from '../schema'
-import { alias } from 'drizzle-orm/pg-core'
 
 export async function insertUserActivity(values: InsertUserActivity) {
-  return db.insert(schema.userActivities).values(values)
+  const tracer = trace.getTracer('user-activities')
+
+  const span = tracer.startSpan('insertUserActivity', {
+    attributes: {
+      'user.id': values.userId,
+    },
+  })
+
+  await db.insert(schema.userActivities).values(values)
+
+  span.end()
 }
 
 export async function selectUserActivities({

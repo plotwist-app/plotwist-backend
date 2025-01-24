@@ -15,9 +15,9 @@ import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
 
-const app: FastifyInstance = buildFastifyInstance()
+export async function startServer() {
+  const app: FastifyInstance = buildFastifyInstance()
 
-export function startServer() {
   app.setValidatorCompiler(validatorCompiler)
   app.setSerializerCompiler(serializerCompiler)
 

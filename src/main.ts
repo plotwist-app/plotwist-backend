@@ -1,9 +1,9 @@
 import { startServer } from './http/server'
-import { startWorkers } from './worker'
+import { startWorkers } from './workers/worker'
 
 async function main() {
-  startWorkers()
-  startServer()
+  await startWorkers()
+  await startServer()
 }
 
 main().catch(err => {

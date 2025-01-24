@@ -1,11 +1,11 @@
+import { findUserByEmailOrUsername } from '@/db/repositories/login-repository'
+import { InvalidPasswordError } from '@/domain/errors/invalid-password-error'
 import type { loginBodySchema } from '@/http/schemas/login'
 import { comparePassword } from '@/utils/password'
 import type { z } from 'zod'
 import { InvalidCredentialsError } from '../../errors/invalid-credentials-error'
-import { findUserByEmailOrUsername } from '@/db/repositories/login-repository'
 import { generateMagicLinkTokenService } from '../magic-link/generate-magic-link'
 import { sendMagicLinkEmailService } from '../magic-link/send-magic-link-email'
-import { InvalidPasswordError } from '@/domain/errors/invalid-password-error'
 
 type LoginInput = z.infer<typeof loginBodySchema>
 
