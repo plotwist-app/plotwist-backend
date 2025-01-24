@@ -113,7 +113,10 @@ function loadOpenAIEnvs() {
 
 function loadMonitoringEnvs() {
   const schema = z.object({
-    JAEGER_URL: z.string().url(),
+    GRAFANA_CLOUD_URL: z.string().url(),
+    GRAFANA_CLOUD_API_KEY: z.string(),
+    GRAFANA_CLOUD_METRICS_URL: z.string().url(),
+    GRAFANA_CLOUD_TRACES_URL: z.string().url(),
   })
 
   return schema.parse(process.env)
