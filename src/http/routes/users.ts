@@ -8,6 +8,7 @@ import {
   getUserPreferencesController,
   isEmailAvailableController,
   isUsernameAvailableController,
+  searchUsersByUsernameController,
   updateUserController,
   updateUserPasswordController,
   updateUserPreferencesController,
@@ -25,6 +26,8 @@ import {
   getUserPreferencesResponseSchema,
   isEmailAvailableQuerySchema,
   isEmailAvailableResponseSchema,
+  searchUsersByUsernameQuerySchema,
+  searchUsersByUsernameResponseSchema,
   updateUserBodySchema,
   updateUserPasswordBodySchema,
   updateUserPasswordResponseSchema,
@@ -193,6 +196,20 @@ export async function usersRoute(app: FastifyInstance) {
         ],
       },
       handler: getUserPreferencesController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/users/search',
+      schema: {
+        description: 'Get users by username',
+        tags: [usersTag],
+        querystring: searchUsersByUsernameQuerySchema,
+        response: searchUsersByUsernameResponseSchema,
+      },
+      handler: searchUsersByUsernameController,
     })
   )
 }

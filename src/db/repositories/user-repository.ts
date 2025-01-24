@@ -2,7 +2,7 @@ import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertUserModel } from '@/domain/entities/user'
 import type { UpdateUserInput } from '@/domain/services/users/update-user'
-import { eq, sql } from 'drizzle-orm'
+import { eq, like, sql } from 'drizzle-orm'
 
 export async function getUserByEmail(email: string) {
   return db
@@ -64,4 +64,15 @@ export async function updateUserPassword(userId: string, password: string) {
       isLegacy: false,
     })
     .where(eq(schema.users.id, userId))
+}
+
+export async function listUsersByUsernameLike(username: string) {
+  return db
+    .select({
+      id: schema.users.id,
+      username: schema.users.username,
+      avatarUrl: schema.users.avatarUrl,
+    })
+    .from(schema.users)
+    .where(like(schema.users.username, `%${username}%`))
 }

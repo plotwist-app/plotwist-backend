@@ -4,6 +4,7 @@ import {
   createUserBodySchema,
   getUserByIdParamsSchema,
   getUserByUsernameParamsSchema,
+  searchUsersByUsernameQuerySchema,
   isEmailAvailableQuerySchema,
   updateUserBodySchema,
   updateUserPasswordBodySchema,
@@ -21,6 +22,7 @@ import { isEmailAvailable } from '@/domain/services/users/is-email-available'
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
+import { searchUsersByUsername } from '@/domain/services/users/search-users-by-username'
 
 export async function createUserController(
   request: FastifyRequest,
@@ -164,4 +166,19 @@ export async function getUserPreferencesController(
   const result = await getUserPreferencesService({ userId: request.user.id })
 
   return reply.status(200).send(result)
+}
+
+export async function searchUsersByUsernameController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { username } = searchUsersByUsernameQuerySchema.parse(request.query)
+
+  const result = await searchUsersByUsername(username)
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send({ users: result })
 }

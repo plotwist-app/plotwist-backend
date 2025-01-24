@@ -122,3 +122,19 @@ export const getUserPreferencesResponseSchema = {
     userPreferences: createSelectSchema(schema.userPreferences).nullable(),
   }),
 }
+
+export const searchUsersByUsernameQuerySchema = z.object({
+  username: z.string(),
+})
+
+export const searchUsersByUsernameResponseSchema = {
+  200: z.object({
+    users: z.array(
+      z.object({
+        id: z.string().optional(),
+        username: z.string().optional(),
+        avatarUrl: z.string().nullable(),
+      })
+    ),
+  }),
+}
