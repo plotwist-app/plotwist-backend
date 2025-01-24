@@ -1,14 +1,14 @@
+import { randomUUID } from 'node:crypto'
 import { db } from '..'
 import { schema } from '../schema'
-import { randomUUID } from 'node:crypto'
 
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
-import type { InsertImportSeries } from '@/domain/entities/import-series'
 import type { InsertImportMovie } from '@/domain/entities/import-movies'
+import type { InsertImportSeries } from '@/domain/entities/import-series'
+import { CannotInsertIntoImportTableError } from '@/domain/errors/cannot-insert-into-import-table'
+import { type ExtractTablesWithRelations, eq, sql } from 'drizzle-orm'
 import type { PgTransaction } from 'drizzle-orm/pg-core'
 import type { PostgresJsQueryResultHKT } from 'drizzle-orm/postgres-js'
-import { eq, sql, type ExtractTablesWithRelations } from 'drizzle-orm'
-import { CannotInsertIntoImportTableError } from '@/domain/errors/cannot-insert-into-import-table'
 
 type TrxType = PgTransaction<
   PostgresJsQueryResultHKT,

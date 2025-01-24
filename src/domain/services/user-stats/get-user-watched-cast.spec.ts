@@ -1,8 +1,8 @@
 import { makeUser } from '@/test/factories/make-user'
 
+import { makeUserItem } from '@/test/factories/make-user-item'
 import { redisClient } from '@/test/mocks/redis'
 import { getUserWatchedCastService } from './get-user-watched-cast'
-import { makeUserItem } from '@/test/factories/make-user-item'
 
 const ADAM_SANDLER_MOVIES = [9339, 1824] // Click, 50 First Dates
 

@@ -1,7 +1,7 @@
 import { db } from '@/db'
 import type { UpdateUserPreferencesParams } from '@/domain/entities/user-preferences'
-import { userPreferences } from '../schema'
 import { eq } from 'drizzle-orm'
+import { userPreferences } from '../schema'
 
 export async function updateUserPreferences(
   params: UpdateUserPreferencesParams

@@ -1,17 +1,17 @@
+import { DomainError } from '@/domain/errors/domain-error'
+import { createFollowService } from '@/domain/services/follows/create-follow'
+import { deleteFollowService } from '@/domain/services/follows/delete-follow'
+import { getFollowService } from '@/domain/services/follows/get-follow'
+import { getFollowersService } from '@/domain/services/follows/get-followers'
+import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
+import { deleteFollowUserActivityService } from '@/domain/services/user-activities/delete-user-activity'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   createFollowBodySchema,
   deleteFollowBodySchema,
-  getFollowersQuerySchema,
   getFollowQuerySchema,
+  getFollowersQuerySchema,
 } from '../schemas/follow'
-import { createFollowService } from '@/domain/services/follows/create-follow'
-import { getFollowService } from '@/domain/services/follows/get-follow'
-import { deleteFollowService } from '@/domain/services/follows/delete-follow'
-import { getFollowersService } from '@/domain/services/follows/get-followers'
-import { DomainError } from '@/domain/errors/domain-error'
-import { createUserActivity } from '@/domain/services/user-activities/create-user-activity'
-import { deleteFollowUserActivityService } from '@/domain/services/user-activities/delete-user-activity'
 
 export async function createFollowController(
   request: FastifyRequest,
@@ -31,9 +31,7 @@ export async function createFollowController(
   await createUserActivity({
     userId: request.user.id,
     activityType: 'FOLLOW_USER',
-    metadata: {
-      followedId: userId,
-    },
+    metadata: result.follow,
   })
 
   return reply.send(201).send(result)

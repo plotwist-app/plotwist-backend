@@ -5,6 +5,7 @@ import { createReviewReplyService } from '@/domain/services/review-replies/creat
 import { deleteReviewReply } from '@/domain/services/review-replies/delete-review-reply'
 import { getReviewRepliesService } from '@/domain/services/review-replies/get-review-replies'
 import { updateReviewReply } from '@/domain/services/review-replies/update-review-reply'
+import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
 import {
   createReviewReplyBodySchema,
   deleteReviewReplyParamsSchema,
@@ -12,7 +13,6 @@ import {
   updateReviewReplyBodySchema,
   updateReviewReplyParamsSchema,
 } from '../schemas/review-replies'
-import { deleteUserActivityByEntityService } from '@/domain/services/user-activities/delete-user-activity'
 
 export async function createReviewReplyController(
   request: FastifyRequest,

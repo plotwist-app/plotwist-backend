@@ -1,7 +1,7 @@
 import { makeUser } from '@/test/factories/make-user'
 
-import { redisClient } from '@/test/mocks/redis'
 import { makeUserItem } from '@/test/factories/make-user-item'
+import { redisClient } from '@/test/mocks/redis'
 import { getUserWatchedGenresService } from './get-user-watched-genres'
 
 const SCIENCE_FICTION_MOVIES = [157336] // Interestellar

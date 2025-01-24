@@ -5,6 +5,35 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## 1.10.5
+
+### Fixed
+
+- Filter characters that are voiced [(#102)](https://github.com/plotwist-app/plotwist-backend/pull/102)
+
+## 1.10.4
+
+- Make possible login with email or username [(#101)](https://github.com/plotwist-app/plotwist-backend/pull/101)
+- Add user network activities [(#100)](https://github.com/plotwist-app/plotwist-backend/pull/100)
+
+### Changed
+
+- Filter characters that are voiced [(#102)](https://github.com/plotwist-app/plotwist-backend/pull/102)
+
+## 1.10.4
+
+### Fixed
+
+- Fix user episode activity [(#99)](https://github.com/plotwist-app/plotwist-backend/pull/99)
+
+## 1.10.3
+
+### Fixed
+
+- Fix user episode activity [(#95)](https://github.com/plotwist-app/plotwist-backend/pull/98)
+
+## 1.10.2
+
 ### Added
 
 - Add user activities delete service methods and tests [(#95)](https://github.com/plotwist-app/plotwist-backend/pull/95)
@@ -12,6 +41,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Moved user activities to controllers to respect SOLID principles [(#95)](https://github.com/plotwist-app/plotwist-backend/pull/95)
+
+## 1.10.1
+
+### Changed
+
 - Add season and episode number to user activities [(#94)](https://github.com/plotwist-app/plotwist-backend/pull/94)
 - Add season and episode number to reviews [(#94)](https://github.com/plotwist-app/plotwist-backend/pull/94)
 

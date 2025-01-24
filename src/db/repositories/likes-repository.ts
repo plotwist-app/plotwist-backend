@@ -1,7 +1,7 @@
 import type { InsertLike } from '@/domain/entities/likes'
+import { eq, getTableColumns } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
-import { eq, getTableColumns } from 'drizzle-orm'
 
 export async function insertLike(values: InsertLike) {
   return db.insert(schema.likes).values(values).returning()

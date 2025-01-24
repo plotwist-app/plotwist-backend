@@ -1,6 +1,6 @@
+import { makeUser } from '@/test/factories/make-user'
 import { describe, expect, it } from 'vitest'
 import { updateUserPreferencesService } from './update-user-preferences'
-import { makeUser } from '@/test/factories/make-user'
 
 describe('update user preferences service', () => {
   it('should be able to update user preferences', async () => {

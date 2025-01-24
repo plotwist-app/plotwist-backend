@@ -1,10 +1,10 @@
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createImportController,
   getDetailedImportController,
 } from '../controllers/user-import-controller'
+import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   createImportRequestSchema,
   createImportResponseSchema,

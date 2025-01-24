@@ -1,11 +1,11 @@
-import { describe, expect, it, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
 import { makeUser } from '@/test/factories/make-user'
 
-import type { User } from '@/domain/entities/user'
-import { getFollowService } from './get-follow'
 import { randomUUID } from 'node:crypto'
+import type { User } from '@/domain/entities/user'
 import { makeFollow } from '@/test/factories/make-follow'
+import { getFollowService } from './get-follow'
 
 let follower: User
 let followed: User

@@ -1,24 +1,19 @@
-import { db } from '@/db'
-import { schema } from '@/db/schema'
 import type { loginBodySchema } from '@/http/schemas/login'
 import { comparePassword } from '@/utils/password'
-import { eq } from 'drizzle-orm'
 import type { z } from 'zod'
-import { InvalidEmailError } from '../errors/invalid-email-error'
-import { InvalidPasswordError } from '../errors/invalid-password-error'
-import { generateMagicLinkTokenService } from './magic-link/generate-magic-link'
-import { sendMagicLinkEmailService } from './magic-link/send-magic-link-email'
+import { InvalidCredentialsError } from '../../errors/invalid-credentials-error'
+import { findUserByEmailOrUsername } from '@/db/repositories/login-repository'
+import { generateMagicLinkTokenService } from '../magic-link/generate-magic-link'
+import { sendMagicLinkEmailService } from '../magic-link/send-magic-link-email'
+import { InvalidPasswordError } from '@/domain/errors/invalid-password-error'
 
 type LoginInput = z.infer<typeof loginBodySchema>
 
-export async function loginService({ email, password, url }: LoginInput) {
-  const [user] = await db
-    .select()
-    .from(schema.users)
-    .where(eq(schema.users.email, email))
+export async function loginService({ login, password, url }: LoginInput) {
+  const user = await findUserByEmailOrUsername(login)
 
   if (!user) {
-    return new InvalidEmailError()
+    return new InvalidCredentialsError()
   }
 
   if (user.isLegacy) {

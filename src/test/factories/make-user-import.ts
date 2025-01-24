@@ -1,9 +1,9 @@
 import { insertUserImport } from '@/db/repositories/user-import-repository'
 import type { InsertUserImportWithItems } from '@/domain/entities/import'
 
-import { makeUserReturningId } from './make-user'
-import { makeManyRawImportSeries } from './make-import-series'
 import { makeManyRawImportMovies } from './make-import-movies'
+import { makeManyRawImportSeries } from './make-import-series'
+import { makeUserReturningId } from './make-user'
 
 type Overrides = Partial<InsertUserImportWithItems>
 

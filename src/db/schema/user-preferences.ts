@@ -1,6 +1,6 @@
 import { integer, pgTable, text, uuid } from 'drizzle-orm/pg-core'
-import { users } from './index'
 import { createInsertSchema } from 'drizzle-zod'
+import { users } from './index'
 
 export const userPreferences = pgTable('user_preferences', {
   id: uuid('id').primaryKey().defaultRandom(),

@@ -1,7 +1,7 @@
 import type { InsertSocialLink } from '@/domain/entities/social-link'
+import { and, eq, sql } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
-import { and, eq, sql } from 'drizzle-orm'
 
 export async function insertSocialLink({
   platform,

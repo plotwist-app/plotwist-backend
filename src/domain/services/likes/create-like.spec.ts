@@ -1,10 +1,10 @@
-import { describe, expect, it, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
 import { createLikeService } from './create-like'
 
+import { makeRawLike } from '@/test/factories/make-like'
 import { makeReview } from '@/test/factories/make-review'
 import { makeUser } from '@/test/factories/make-user'
-import { makeRawLike } from '@/test/factories/make-like'
 
 import type { User } from '@/domain/entities/user'
 import { makeList } from '@/test/factories/make-list'

@@ -1,6 +1,6 @@
+import { and, eq, sql } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
-import { eq, and, sql } from 'drizzle-orm'
 
 export async function selectUserStats(userId: string) {
   const result = await db.transaction(async tx => {

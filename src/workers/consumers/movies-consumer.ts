@@ -1,19 +1,19 @@
 import type { ProvidersEnum } from '@/@types/media-type-enum'
 import type { ImportMovie } from '@/domain/entities/import-movies'
-import type { ListResponse } from '@plotwist_app/tmdb/dist/utils/list-response'
 import type { MovieWithMediaType } from '@plotwist_app/tmdb'
+import type { ListResponse } from '@plotwist_app/tmdb/dist/utils/list-response'
 
 import { config } from '@/config'
-import { consumeMessages } from './consumer'
-import { searchTMDBMovie } from '@/domain/services/tmdb/search-tmdb-movie'
 import { updateImportMoviesStatus } from '@/db/repositories/import-movies-repository'
+import { searchTMDBMovie } from '@/domain/services/tmdb/search-tmdb-movie'
+import { consumeMessages } from './consumer'
 
-import { getImportMovieById } from '@/domain/services/imports/get-import-movie-by-id'
 import type { MALAnimes } from '@/@types/my-anime-list-import'
 import { searchAnimeById } from '@/adapters/my-anime-list'
+import { getImportMovieById } from '@/domain/services/imports/get-import-movie-by-id'
 import { upsertUserItemService } from '@/domain/services/user-items/upsert-user-item'
-import type { QueueService } from '@/ports/queue-service'
 import { queueServiceFactory } from '@/factories/queue-service-factory'
+import type { QueueService } from '@/ports/queue-service'
 
 type ImportMovieMessage = {
   id: string

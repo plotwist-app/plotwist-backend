@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeAll } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 
 import { makeUser } from '@/test/factories/make-user'
 import { deleteFollowService } from './delete-follow'

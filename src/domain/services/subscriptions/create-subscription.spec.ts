@@ -1,4 +1,4 @@
-import { describe, expect, it, } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import { UserNotFoundError } from '@/domain/errors/user-not-found'
 import { makeUser } from '@/test/factories/make-user'
