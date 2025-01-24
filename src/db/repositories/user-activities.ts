@@ -4,11 +4,11 @@ import type {
   InsertUserActivity,
   SelectUserActivities,
 } from '@/domain/entities/user-activity'
+import { trace } from '@opentelemetry/api'
 import { and, desc, eq, getTableColumns, inArray, lte, sql } from 'drizzle-orm'
+import { alias } from 'drizzle-orm/pg-core'
 import { db } from '..'
 import { schema } from '../schema'
-import { trace } from '@opentelemetry/api'
-import { alias } from 'drizzle-orm/pg-core'
 
 export async function insertUserActivity(values: InsertUserActivity) {
   const tracer = trace.getTracer('user-activities')
