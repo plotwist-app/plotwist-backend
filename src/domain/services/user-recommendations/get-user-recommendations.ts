@@ -24,7 +24,7 @@ type GetUserRecommendationsServiceParams = {
   userId: string
 }
 
-const MAX_RECOMMENDATIONS = 25
+const MAX_RECOMMENDATIONS = 6
 
 async function getRecommendations(
   params: Pick<

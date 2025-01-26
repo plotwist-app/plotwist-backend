@@ -72,7 +72,7 @@ export async function sendUserRecommendationsEmailService({
   const { greeting, subject, enjoy } = translations[language]
 
   const emailService = emailServiceFactory('Resend')
-  const emailMessage = {
+  const emailMessage: EmailMessage = {
     to: [email],
     subject,
     html: `
