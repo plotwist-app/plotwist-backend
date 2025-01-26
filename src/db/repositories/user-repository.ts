@@ -65,3 +65,31 @@ export async function updateUserPassword(userId: string, password: string) {
     })
     .where(eq(schema.users.id, userId))
 }
+
+export async function getProUsersDetails() {
+  return db
+    .select({
+      id: schema.users.id,
+      email: schema.users.email,
+      username: schema.users.username,
+      preferences: schema.userPreferences,
+      items: sql`COALESCE(
+        json_agg(
+          json_build_object(
+            'id', ${schema.userItems.id},
+            'tmdbId', ${schema.userItems.tmdbId},
+            'mediaType', ${schema.userItems.mediaType}
+          )
+        ) FILTER (WHERE ${schema.userItems.id} IS NOT NULL),
+        '[]'::json
+      )`,
+    })
+    .from(schema.users)
+    .where(eq(schema.users.subscriptionType, 'PRO'))
+    .leftJoin(
+      schema.userPreferences,
+      eq(schema.users.id, schema.userPreferences.userId)
+    )
+    .leftJoin(schema.userItems, eq(schema.users.id, schema.userItems.userId))
+    .groupBy(schema.users.id, schema.userPreferences.id)
+}
