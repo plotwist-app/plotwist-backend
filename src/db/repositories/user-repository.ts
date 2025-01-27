@@ -72,6 +72,7 @@ export async function getProUsersDetails() {
       id: schema.users.id,
       email: schema.users.email,
       username: schema.users.username,
+      avatarUrl: schema.users.avatarUrl,
       preferences: schema.userPreferences,
       items: sql`COALESCE(
         json_agg(

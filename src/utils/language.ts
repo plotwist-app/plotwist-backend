@@ -12,7 +12,7 @@ const languageByWatchRegion: Record<string, Language> = {
 
 const DEFAULT_LANGUAGE = 'en-US' as const
 
-export function getLanguageByWatchRegion(watchRegion: string | null) {
+export function getLanguageByWatchRegion(watchRegion?: string | null) {
   if (!watchRegion) return DEFAULT_LANGUAGE
 
   return languageByWatchRegion[watchRegion] || DEFAULT_LANGUAGE

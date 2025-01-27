@@ -16,8 +16,8 @@ export async function sendUserRecommendationsEmailController(
   const { users } = await getProUsersDetailsService()
 
   for (const user of users) {
-    console.log({ user })
-    if (user.email === '7henrique18@gmail.com') {
+    console.log(user.email)
+    if (user.email === 'garbasneto@gmail.com') {
       const [{ userPreferences }, { bestReviews }] = await Promise.all([
         getUserPreferencesService({ userId: user.id }),
         getUserBestReviewsService({
@@ -27,7 +27,7 @@ export async function sendUserRecommendationsEmailController(
         }),
       ])
 
-      const language = getLanguageByWatchRegion(userPreferences.watchRegion)
+      const language = getLanguageByWatchRegion(userPreferences?.watchRegion)
 
       const { recommendations } = await getUserRecommendationsService({
         redis,
