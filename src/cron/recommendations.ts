@@ -5,13 +5,13 @@ import { generateUserRecommendationsService } from '@/domain/services/user-recom
 import type { FastifyRedis } from '@fastify/redis'
 import { logger } from '@/adapters/logger'
 
-const EVERY_FRIDAY_AT_00_00 = '0 0 * * 5'
+const EVERY_FRIDAY_AT_12_00 = '0 12 * * 5'
 
 export function startRecommendationsCronJob() {
   const redis = new Redis(config.redis.REDIS_URL) as FastifyRedis
 
   cron.schedule(
-    EVERY_FRIDAY_AT_00_00,
+    EVERY_FRIDAY_AT_12_00,
     async () => {
       try {
         logger.info('Weekly recommendations job started')
