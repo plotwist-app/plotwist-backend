@@ -131,10 +131,10 @@ export const searchUsersByUsernameResponseSchema = {
   200: z.object({
     users: z.array(
       z.object({
-        id: z.string().optional(),
-        username: z.string().optional(),
+        id: z.string(),
+        username: z.string(),
         avatarUrl: z.string().nullable(),
-        isFollowed: z.boolean().optional(),
+        isFollowed: z.boolean(),
       })
     ),
   }),
