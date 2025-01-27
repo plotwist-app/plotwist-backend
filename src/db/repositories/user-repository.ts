@@ -72,17 +72,19 @@ export async function listUsersByUsernameLike(username: string) {
       id: schema.users.id,
       username: schema.users.username,
       avatarUrl: schema.users.avatarUrl,
-      isFollowed: sql<boolean>`CASE WHEN ${schema.followers.followedId} = ${schema.users.id} THEN true ELSE false END`,
+      isFollowed: sql<boolean>`EXISTS (
+        SELECT 1 FROM ${schema.followers}
+        WHERE ${schema.followers.followedId} = ${schema.users.id}
+      )`,
     })
     .from(schema.users)
-    .leftJoin(
-      schema.followers,
-      eq(schema.followers.followedId, schema.users.id)
-    )
     .where(like(schema.users.username, `%${username}%`))
     .orderBy(
       desc(
-        sql`CASE WHEN ${schema.followers.followedId} = ${schema.users.id} THEN 1 ELSE 0 END`
+        sql`CASE WHEN EXISTS (
+          SELECT 1 FROM ${schema.followers}
+          WHERE ${schema.followers.followedId} = ${schema.users.id}
+        ) THEN 1 ELSE 0 END`
       )
     )
     .limit(10)
