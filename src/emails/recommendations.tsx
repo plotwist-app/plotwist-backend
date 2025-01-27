@@ -31,49 +31,49 @@ export const recommendationsEmailTranslations: Record<
     subtitle:
       "Based on your streaming preferences, watch history, and trending content, we've curated these amazing picks just for you:",
     enjoy: 'Happy watching! 🍿',
-    subject: 'Plotwist: Your Personalized Weekly Picks Are Here! ✨',
+    subject: 'Your weekly movie picks ✨',
   },
   'es-ES': {
     greeting: '¡Hola, {username}! 👋',
     subtitle:
       'Basado en tus preferencias de streaming, historial de visualización y contenido popular, hemos seleccionado estas increíbles recomendaciones para ti:',
     enjoy: '¡Disfruta del contenido! 🍿',
-    subject: 'Plotwist: ¡Tus recomendaciones personalizadas están aquí! ✨',
+    subject: 'Tus películas de la semana ✨',
   },
   'fr-FR': {
     greeting: 'Salut, {username} ! 👋',
     subtitle:
       'En fonction de vos préférences de streaming, de votre historique de visionnage et du contenu tendance, nous avons sélectionné ces suggestions rien que pour vous :',
     enjoy: 'Bon visionnage ! 🍿',
-    subject: 'Plotwist : Vos recommandations personnalisées sont arrivées ! ✨',
+    subject: 'Vos films de la semaine ✨',
   },
   'it-IT': {
     greeting: 'Ciao, {username}! 👋',
     subtitle:
       'In base alle tue preferenze di streaming, alla cronologia di visualizzazione e ai contenuti di tendenza, abbiamo selezionato questi fantastici suggerimenti per te:',
     enjoy: 'Buona visione! 🍿',
-    subject: 'Plotwist: I tuoi consigli personalizzati sono qui! ✨',
+    subject: 'I tuoi film della settimana ✨',
   },
   'de-DE': {
     greeting: 'Hallo, {username}! 👋',
     subtitle:
       'Basierend auf deinen Streaming-Vorlieben, deinem Seeverlauf und beliebten Inhalten haben wir diese tollen Empfehlungen für dich zusammengestellt:',
     enjoy: 'Viel Spaß beim Schauen! 🍿',
-    subject: 'Plotwist: Deine persönlichen Empfehlungen sind da! ✨',
+    subject: 'Deine filmempfehlungen ✨',
   },
   'pt-BR': {
     greeting: 'Olá, {username}! 👋',
     subtitle:
       'Com base nas suas preferências de streaming, histórico de visualização e conteúdos populares, selecionamos estas recomendações especialmente para você:',
     enjoy: 'Bom entretenimento! 🍿',
-    subject: 'Plotwist: Suas recomendações personalizadas chegaram! ✨',
+    subject: 'Suas recomendações da semana ✨',
   },
   'ja-JP': {
     greeting: 'こんにちは、{username}さん！👋',
     subtitle:
       'ストリーミングの設定、視聴履歴、人気コンテンツに基づいて、あなたにぴったりのおすすめを厳選しました：',
     enjoy: '素敵な視聴体験を！🍿',
-    subject: 'Plotwist: あなた専用のおすすめが届きました！✨',
+    subject: '今週のおすすめ作品 ✨',
   },
 } as const
 

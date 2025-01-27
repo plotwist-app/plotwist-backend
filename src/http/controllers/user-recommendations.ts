@@ -16,13 +16,12 @@ export async function sendUserRecommendationsEmailController(
   const { users } = await getProUsersDetailsService()
 
   for (const user of users) {
-    console.log(user.email)
-    if (user.email === 'garbasneto@gmail.com') {
+    if (user.email === '7henrique18@gmail.com') {
       const [{ userPreferences }, { bestReviews }] = await Promise.all([
         getUserPreferencesService({ userId: user.id }),
         getUserBestReviewsService({
           userId: user.id,
-          language: 'en-US', // Tanto faz.
+          language: 'en-US', // It doesn't matter.
           redis,
         }),
       ])
