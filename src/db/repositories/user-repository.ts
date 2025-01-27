@@ -2,7 +2,7 @@ import { db } from '@/db'
 import { schema } from '@/db/schema'
 import type { InsertUserModel } from '@/domain/entities/user'
 import type { UpdateUserInput } from '@/domain/services/users/update-user'
-import { eq, sql } from 'drizzle-orm'
+import { desc, eq, like, sql } from 'drizzle-orm'
 
 export async function getUserByEmail(email: string) {
   return db
@@ -64,4 +64,26 @@ export async function updateUserPassword(userId: string, password: string) {
       isLegacy: false,
     })
     .where(eq(schema.users.id, userId))
+}
+
+export async function listUsersByUsernameLike(username: string) {
+  return db
+    .select({
+      id: schema.users.id,
+      username: schema.users.username,
+      avatarUrl: schema.users.avatarUrl,
+      isFollowed: sql<boolean>`CASE WHEN ${schema.followers.followedId} = ${schema.users.id} THEN true ELSE false END`,
+    })
+    .from(schema.users)
+    .leftJoin(
+      schema.followers,
+      eq(schema.followers.followedId, schema.users.id)
+    )
+    .where(like(schema.users.username, `%${username}%`))
+    .orderBy(
+      desc(
+        sql`CASE WHEN ${schema.followers.followedId} = ${schema.users.id} THEN 1 ELSE 0 END`
+      )
+    )
+    .limit(10)
 }
