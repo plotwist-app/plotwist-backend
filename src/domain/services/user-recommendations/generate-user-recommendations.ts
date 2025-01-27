@@ -12,37 +12,34 @@ export async function generateUserRecommendationsService(redis: FastifyRedis) {
     const { users } = await getProUsersDetailsService()
 
     for (const user of users) {
-      if (user.email === '7henrique18@gmail.com') {
-        const [{ userPreferences }, { bestReviews }] = await Promise.all([
-          getUserPreferencesService({ userId: user.id }),
-          getUserBestReviewsService({
-            userId: user.id,
-            language: 'en-US',
-            redis,
-          }),
-        ])
-
-        const language = getLanguageByWatchRegion(userPreferences?.watchRegion)
-
-        const { recommendations } = await getUserRecommendationsService({
-          redis,
-          language,
+      const [{ userPreferences }, { bestReviews }] = await Promise.all([
+        getUserPreferencesService({ userId: user.id }),
+        getUserBestReviewsService({
           userId: user.id,
-          bestReviews,
-          userPreferences,
-        })
+          language: 'en-US',
+          redis,
+        }),
+      ])
 
-        await sendUserRecommendationsEmailService({
-          recommendations,
-          user,
-          language,
-        })
+      const language = getLanguageByWatchRegion(userPreferences?.watchRegion)
 
-        logger.info(
-          `Successfully sent recommendations email to user ${user.id}`
-        )
-      }
+      const { recommendations } = await getUserRecommendationsService({
+        redis,
+        language,
+        userId: user.id,
+        bestReviews,
+        userPreferences,
+      })
+
+      await sendUserRecommendationsEmailService({
+        recommendations,
+        user,
+        language,
+      })
+
+      logger.info(`Successfully sent recommendations email to user ${user.id}`)
     }
+
     logger.info('Finished user recommendations generation process')
   } catch (error) {
     logger.error('Error generating user recommendations:', error)

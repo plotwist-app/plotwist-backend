@@ -14,6 +14,7 @@ import { ZodError } from 'zod'
 import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
+import { logger } from '@/adapters/logger'
 
 const app: FastifyInstance = buildFastifyInstance()
 
@@ -78,7 +79,7 @@ export function startServer() {
       host: '0.0.0.0',
     })
     .then(() => {
-      console.info(`HTTP server running at ${config.app.BASE_URL}`)
+      logger.info(`HTTP server running at ${config.app.BASE_URL}`)
     })
 }
 

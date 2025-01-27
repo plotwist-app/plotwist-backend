@@ -1,7 +1,8 @@
+import { logger } from '@/adapters/logger'
 import { client } from '.'
 
 async function main() {
-  console.info('🌱 Database seeded!')
+  logger.info('🌱 Database seeded!')
 }
 
 main()

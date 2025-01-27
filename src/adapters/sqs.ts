@@ -9,6 +9,7 @@ import {
   SQSClient,
   SendMessageBatchCommand,
 } from '@aws-sdk/client-sqs'
+import { logger } from './logger'
 
 export const createSqsClient = () => {
   return new SQSClient({
@@ -36,14 +37,14 @@ export async function initializeSQS(sqsClient: SQSClient) {
       const command = new CreateQueueCommand({ QueueName: queueName })
 
       const result = await sqsClient.send(command)
-      console.info(`Queue created or exists: ${result.QueueUrl}`)
+      logger.info(`Queue created or exists: ${result.QueueUrl}`)
     } catch (error) {
-      console.error(`Failed to create queue ${queueName}:`, error)
+      logger.error(`Failed to create queue ${queueName}:`, error)
       throw error
     }
   }
 
-  console.info('All queues have been created.')
+  logger.info('All queues have been created.')
 }
 
 async function publish({ messages, queueUrl }: QueueMessage) {
@@ -71,7 +72,7 @@ async function publish({ messages, queueUrl }: QueueMessage) {
       const { Successful = [], Failed = [] } = await sqsClient.send(command)
 
       if (Successful.length) {
-        console.info(
+        logger.info(
           'Batch sent successfully:',
           Successful.map(msg => msg.Id)
         )
