@@ -134,6 +134,7 @@ export const searchUsersByUsernameResponseSchema = {
         id: z.string().optional(),
         username: z.string().optional(),
         avatarUrl: z.string().nullable(),
+        isFollowed: z.boolean().optional(),
       })
     ),
   }),
