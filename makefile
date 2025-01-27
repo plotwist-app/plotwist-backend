@@ -34,3 +34,5 @@ compose-down:
 compose-up:
 	@echo "up docker compose"
 	docker compose up -d --scale app=0
+	
+	

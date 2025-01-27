@@ -5,7 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-## 1.10.5
+## 1.11.1
+
+### Fixed
+
+- Fix user network activities [(#103)](https://github.com/plotwist-app/plotwist-backend/pull/103)
+
+## 1.11.0
 
 ### Fixed
 
