@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Add search users by username endpoint [(#104)](https://github.com/plotwist-app/plotwist-backend/pull/104)
+
 ## 1.11.1
 
 ### Fixed
