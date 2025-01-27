@@ -89,7 +89,7 @@ function loadFeatureFlags() {
     ENABLE_IMPORT_MOVIES: z.string(),
     ENABLE_IMPORT_SERIES: z.string(),
     ENABLE_SQS: z.string(),
-    ENABLE_CRON_JOBS: z.string(),
+    ENABLE_CRON_JOBS: z.string().optional().default('false'),
   })
 
   return schema.parse(process.env)
