@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix user best reviews [(#107)](https://github.com/plotwist-app/plotwist-backend/pull/107)
+
 ## 1.12.1
 
 ### Fixed

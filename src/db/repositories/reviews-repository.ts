@@ -150,7 +150,14 @@ export async function selectBestReviews(userId: string) {
   return db
     .select()
     .from(schema.reviews)
-    .where(and(eq(schema.reviews.userId, userId), eq(schema.reviews.rating, 5)))
+    .where(
+      and(
+        eq(schema.reviews.userId, userId),
+        eq(schema.reviews.rating, 5),
+        sql`${schema.reviews.seasonNumber} IS NULL`,
+        sql`${schema.reviews.episodeNumber} IS NULL`
+      )
+    )
     .orderBy(desc(schema.reviews.rating), desc(schema.reviews.createdAt))
 }
 
