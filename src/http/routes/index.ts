@@ -64,7 +64,7 @@ export function routes(app: FastifyInstance) {
   app.register(followsRoutes)
   app.register(importRoutes)
   app.register(userActivitiesRoutes)
-  app.register(userRecommendationsRoutes)
+  // app.register(userRecommendationsRoutes)
 
   return
 }
