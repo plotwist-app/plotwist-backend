@@ -1,9 +1,6 @@
 import { redisClient } from '@/test/mocks/redis'
 import { generateUserRecommendationsService } from './generate-user-recommendations'
 import { getProUsersDetailsService } from '../users/get-pro-users'
-import { randomUUID } from 'node:crypto'
-
-const userId = randomUUID()
 
 vi.mock('../users/get-pro-users', () => ({
   getProUsersDetailsService: vi.fn().mockResolvedValue({
