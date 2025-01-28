@@ -38,4 +38,44 @@ describe('get user best reviews', () => {
       ]),
     })
   })
+
+  it('should not include reviews with season number', async () => {
+    const user = await makeUser()
+
+    await makeReview({
+      userId: user.id,
+      rating: 5,
+      mediaType: 'TV_SHOW',
+      tmdbId: 2316, // The Office
+      seasonNumber: 1,
+    })
+
+    const sut = await getUserBestReviewsService({
+      userId: user.id,
+      language: 'en-US',
+      redis: redisClient,
+    })
+
+    expect(sut.bestReviews.length).toBe(0)
+  })
+
+  it('should not include reviews with episode number', async () => {
+    const user = await makeUser()
+
+    await makeReview({
+      userId: user.id,
+      rating: 5,
+      mediaType: 'TV_SHOW',
+      tmdbId: 2316, // The Office
+      episodeNumber: 1,
+    })
+
+    const sut = await getUserBestReviewsService({
+      userId: user.id,
+      language: 'en-US',
+      redis: redisClient,
+    })
+
+    expect(sut.bestReviews.length).toBe(0)
+  })
 })
