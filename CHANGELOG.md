@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Add recommendations cron job [(#105)](https://github.com/plotwist-app/plotwist-backend/pull/105)
+
 ## 1.12.1
 
 ### Fixed

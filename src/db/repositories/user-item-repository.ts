@@ -90,7 +90,7 @@ export async function selectUserItemStatus(userId: string) {
     .groupBy(schema.userItems.status)
 }
 
-export async function selectAllUserItems({
+export async function selectAllUserItemsByStatus({
   status,
   userId,
 }: SelectAllUserItems) {
@@ -110,4 +110,15 @@ export async function selectAllUserItems({
       )
     )
     .orderBy(desc(schema.userItems.updatedAt))
+}
+
+export async function selectAllUserItems(userId: string) {
+  return db
+    .select({
+      id: schema.userItems.id,
+      tmdbId: schema.userItems.tmdbId,
+      mediaType: schema.userItems.mediaType,
+    })
+    .from(schema.userItems)
+    .where(eq(schema.userItems.userId, userId))
 }
