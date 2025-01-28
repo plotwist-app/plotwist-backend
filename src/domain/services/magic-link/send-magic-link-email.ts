@@ -16,7 +16,6 @@ export async function sendMagicLinkEmailService({
   const link = `${config.app.CLIENT_URL}/reset-password?token=${token}`
 
   const html = `Please use the following link to login and set your new password: <a href="${link}">Login</a>`
-
   const subject = 'Login to Your Account'
 
   const to = [email]

@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 ### Fixed
 
 - Fix user best reviews [(#107)](https://github.com/plotwist-app/plotwist-backend/pull/107)
+- Add recommendations cron job [(#105)](https://github.com/plotwist-app/plotwist-backend/pull/105)
 
 ## 1.12.1
 
