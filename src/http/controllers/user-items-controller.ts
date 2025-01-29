@@ -13,9 +13,9 @@ import type { FastifyRedis } from '@fastify/redis'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import {
   deleteUserItemParamsSchema,
-  getAllUserItemsQuerySchema,
   getUserItemQuerySchema,
   getUserItemsQuerySchema,
+  listAllUserItemsQuerySchema,
   upsertUserItemBodySchema,
 } from '../schemas/user-items'
 
@@ -132,7 +132,10 @@ export async function getAllUserItemsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { status, userId } = getAllUserItemsQuerySchema.parse(request.query)
+  const { status, userId } = listAllUserItemsQuerySchema.parse(request.query)
+
+  console.log(status, userId)
+
   const result = await getAllUserItemsService({ status, userId })
 
   return reply.status(200).send(result)

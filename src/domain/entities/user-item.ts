@@ -1,8 +1,7 @@
+import type { UserItemStatus } from '@/@types/item-status-enum'
 import type { schema } from '@/db/schema'
-import type {
-  getAllUserItemsQuerySchema,
-  getUserItemsQuerySchema,
-} from '@/http/schemas/user-items'
+import type { getUserItemsQuerySchema } from '@/http/schemas/user-items'
+import type { MediaType } from '@plotwist_app/tmdb/dist/utils/with_media_type'
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
 
 export type UserItem = InferSelectModel<typeof schema.userItems>
@@ -19,4 +18,11 @@ export type SelectUserItems = Pick<
   pageSize: number
 }
 
-export type SelectAllUserItems = typeof getAllUserItemsQuerySchema._type
+export type ListAllUserItems = {
+  status?: UserItemStatus | 'all'
+  userId: string
+  mediaType?: MediaType
+  position?: number
+  orderBy?: string
+  orderDirection?: string
+}

@@ -1,4 +1,4 @@
-import { schema } from '@/db/schema'
+import { mediaTypeEnum, schema, statusEnum } from '@/db/schema'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { languageQuerySchema, paginationQuerySchema } from './common'
@@ -49,6 +49,15 @@ export const getUserItemResponseSchema = {
     userItem: createSelectSchema(schema.userItems).optional(),
   }),
 }
+
+export const listAllUserItemsQuerySchema = z.object({
+  status: z.enum(statusEnum.enumValues).optional(),
+  userId: z.string(),
+  mediaType: z.enum(mediaTypeEnum.enumValues).optional(),
+  position: z.number().optional(),
+  orderBy: z.enum(['addedAt', 'updatedAt']).default('addedAt'),
+  orderDirection: z.enum(['asc', 'desc']).default('asc'),
+})
 
 export const getAllUserItemsQuerySchema = createInsertSchema(
   schema.userItems
