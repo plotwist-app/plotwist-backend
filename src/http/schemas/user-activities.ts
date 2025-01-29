@@ -92,25 +92,29 @@ export const getUserActivitiesResponseSchema = {
           activityType: z.enum(['LIKE_REPLY', 'CREATE_REPLY']),
           entityType: z.enum(['REPLY']),
           entityId: z.string(),
-          additionalInfo: z.object({
-            id: z.string(),
-            reply: z.string(),
-            review: z.object({
+          additionalInfo: z
+            .object({
               id: z.string(),
-              review: z.string(),
-              rating: z.number(),
-              tmdbId: z.number(),
-              mediaType: z.enum(['TV_SHOW', 'MOVIE']),
-              title: z.string(),
-              author: z.object({
-                id: z.string(),
-                username: z.string(),
-                avatarUrl: z.string().nullable(),
-              }),
-              seasonNumber: z.number().nullable(),
-              episodeNumber: z.number().nullable(),
-            }),
-          }),
+              reply: z.string(),
+              review: z
+                .object({
+                  id: z.string(),
+                  review: z.string(),
+                  rating: z.number(),
+                  tmdbId: z.number(),
+                  mediaType: z.enum(['TV_SHOW', 'MOVIE']),
+                  title: z.string(),
+                  author: z.object({
+                    id: z.string(),
+                    username: z.string(),
+                    avatarUrl: z.string().nullable(),
+                  }),
+                  seasonNumber: z.number().nullable(),
+                  episodeNumber: z.number().nullable(),
+                })
+                .strict(),
+            })
+            .strict(),
         }),
         z.object({
           ...getUserActivity,
