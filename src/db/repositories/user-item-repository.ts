@@ -90,11 +90,81 @@ export async function selectUserItemStatus(userId: string) {
     .groupBy(schema.userItems.status)
 }
 
-export async function selectAllUserItemsByStatus({
+function buildDynamicWhere({
   status,
   userId,
-}: SelectAllUserItems) {
+  rating,
+  mediaType,
+}: ListAllUserItems) {
+  const conditions = []
+
+  if (userId) {
+    conditions.push(eq(schema.userItems.userId, userId))
+  }
+
+  if (status && status !== 'all') {
+    conditions.push(eq(schema.userItems.status, status))
+  }
+
+  if (mediaType) {
+    const dbMediaType = mediaType === 'tv' ? 'TV_SHOW' : 'MOVIE'
+    conditions.push(eq(schema.userItems.mediaType, dbMediaType))
+  }
+
+  return conditions.length > 0 ? and(...conditions) : undefined
+}
+
+function buildDynamicOrderBy({
+  orderBy,
+  orderDirection = 'desc',
+}: ListAllUserItems) {
+  if (!orderBy) {
+    return [desc(schema.userItems.updatedAt)]
+  }
+
+  // Only allow specific columns for ordering
+  const validOrderColumns = {
+    id: schema.userItems.id,
+    tmdbId: schema.userItems.tmdbId,
+    mediaType: schema.userItems.mediaType,
+    status: schema.userItems.status,
+    addedAt: schema.userItems.addedAt,
+    updatedAt: schema.userItems.updatedAt,
+  } as const
+
+  const column = validOrderColumns[orderBy as keyof typeof validOrderColumns]
+  if (!column) {
+    return [desc(schema.userItems.updatedAt)]
+  }
+
+  return [orderDirection === 'desc' ? desc(column) : asc(column)]
+}
+
+export async function selectAllUserItemsByStatus(params: ListAllUserItems) {
   const { id, tmdbId, mediaType } = getTableColumns(schema.userItems)
+
+  if (params.rating) {
+    const userItemsWithRating = db
+      .select({
+        id: schema.userItems.id,
+        tmdbId: schema.userItems.tmdbId,
+        mediaType: schema.userItems.mediaType,
+      })
+      .from(schema.userItems)
+      .innerJoin(
+        schema.reviews,
+        and(
+          eq(schema.reviews.userId, params.userId),
+          eq(schema.reviews.tmdbId, schema.userItems.tmdbId),
+          eq(schema.reviews.mediaType, schema.userItems.mediaType),
+          eq(schema.reviews.rating, params.rating)
+        )
+      )
+      .where(buildDynamicWhere(params))
+      .orderBy(...buildDynamicOrderBy(params))
+
+    return userItemsWithRating
+  }
 
   return db
     .select({
@@ -103,13 +173,8 @@ export async function selectAllUserItemsByStatus({
       mediaType,
     })
     .from(schema.userItems)
-    .where(
-      and(
-        eq(schema.userItems.userId, userId),
-        eq(schema.userItems.status, status)
-      )
-    )
-    .orderBy(desc(schema.userItems.updatedAt))
+    .where(buildDynamicWhere(params))
+    .orderBy(...buildDynamicOrderBy(params))
 }
 
 export async function selectAllUserItems(userId: string) {
