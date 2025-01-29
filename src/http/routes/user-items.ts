@@ -3,12 +3,12 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { verifyJwt } from '../middlewares/verify-jwt'
 import {
   deleteUserItemParamsSchema,
+  getAllUserItemsQuerySchema,
   getAllUserItemsResponseSchema,
   getUserItemQuerySchema,
   getUserItemResponseSchema,
   getUserItemsQuerySchema,
   getUserItemsResponseSchema,
-  listAllUserItemsQuerySchema,
   upsertUserItemBodySchema,
   upsertUserItemResponseSchema,
 } from '../schemas/user-items'
@@ -107,7 +107,7 @@ export async function userItemsRoutes(app: FastifyInstance) {
       schema: {
         description: 'Get user items',
         tags: USER_ITEMS_TAGS,
-        querystring: listAllUserItemsQuerySchema,
+        querystring: getAllUserItemsQuerySchema,
         response: getAllUserItemsResponseSchema,
         operationId: 'getAllUserItems',
       },
