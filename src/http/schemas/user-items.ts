@@ -1,4 +1,4 @@
-import { schema } from '@/db/schema'
+import { mediaTypeEnum, schema, statusEnum } from '@/db/schema'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { languageQuerySchema, paginationQuerySchema } from './common'
@@ -16,15 +16,29 @@ export const upsertUserItemResponseSchema = {
   }),
 }
 
-export const getUserItemsQuerySchema = createInsertSchema(schema.userItems)
-  .pick({ status: true, userId: true })
+export const getUserItemsQuerySchema = z
+  .object({
+    status: z.enum(statusEnum.enumValues),
+    userId: z.string(),
+    rating: z.number().optional(),
+    mediaType: z.enum(mediaTypeEnum.enumValues).optional(),
+    orderBy: z.enum(['addedAt', 'updatedAt']).default('updatedAt'),
+    orderDirection: z.enum(['asc', 'desc']).default('desc'),
+  })
   .merge(languageQuerySchema)
   .merge(paginationQuerySchema)
 
 export const getUserItemsResponseSchema = {
   200: z.object({
     userItems: z.array(
-      createSelectSchema(schema.userItems).extend({
+      z.object({
+        status: z.enum(statusEnum.enumValues),
+        rating: z.number().nullable(),
+        addedAt: z.date(),
+        updatedAt: z.date(),
+        tmdbId: z.number(),
+        mediaType: z.enum(mediaTypeEnum.enumValues),
+        userId: z.string(),
         title: z.string(),
         posterPath: z.string().nullable(),
         backdropPath: z.string().nullable(),
