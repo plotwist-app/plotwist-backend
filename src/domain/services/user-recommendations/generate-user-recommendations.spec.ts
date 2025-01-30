@@ -1,6 +1,6 @@
 import { redisClient } from '@/test/mocks/redis'
-import { generateUserRecommendationsService } from './generate-user-recommendations'
 import { getProUsersDetailsService } from '../users/get-pro-users'
+import { generateUserRecommendationsService } from './generate-user-recommendations'
 
 vi.mock('../users/get-pro-users', () => ({
   getProUsersDetailsService: vi.fn().mockResolvedValue({

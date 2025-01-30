@@ -1,9 +1,9 @@
-import cron from 'node-cron'
-import { Redis } from 'ioredis'
+import { logger } from '@/adapters/logger'
 import { config } from '@/config'
 import { generateUserRecommendationsService } from '@/domain/services/user-recommendations/generate-user-recommendations'
 import type { FastifyRedis } from '@fastify/redis'
-import { logger } from '@/adapters/logger'
+import { Redis } from 'ioredis'
+import cron from 'node-cron'
 
 const EVERY_FRIDAY_AT_12_00 = '0 12 * * 5'
 

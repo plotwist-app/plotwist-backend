@@ -1,11 +1,11 @@
-import { getProUsersDetailsService } from '@/domain/services/users/get-pro-users'
+import { logger } from '@/adapters/logger'
 import { getUserPreferencesService } from '@/domain/services/user-preferences/get-user-preferences'
 import { getUserBestReviewsService } from '@/domain/services/user-stats/get-user-best-reviews'
+import { getProUsersDetailsService } from '@/domain/services/users/get-pro-users'
 import { getLanguageByWatchRegion } from '@/utils/language'
 import type { FastifyRedis } from '@fastify/redis'
 import { getUserRecommendationsService } from './get-user-recommendations'
 import { sendUserRecommendationsEmailService } from './send-user-recommendations-email'
-import { logger } from '@/adapters/logger'
 
 export async function generateUserRecommendationsService(redis: FastifyRedis) {
   try {

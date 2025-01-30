@@ -1,7 +1,7 @@
+import { DomainError } from '@/domain/errors/domain-error'
 import { loginService } from '@/domain/services/login/login'
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { loginBodySchema } from '../schemas/login'
-import { DomainError } from '@/domain/errors/domain-error'
 
 export async function loginController(
   request: FastifyRequest,

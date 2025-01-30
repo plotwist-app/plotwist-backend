@@ -2,12 +2,12 @@ import { makeUser } from '@/test/factories/make-user'
 import { makeUserItem } from '@/test/factories/make-user-item'
 import { describe, expect, it } from 'vitest'
 
-import { getUserItemsService } from './get-user-items'
-import { makeReview } from '@/test/factories/make-review'
 import { db } from '@/db'
 import { schema } from '@/db/schema'
-import { eq } from 'drizzle-orm'
 import type { UserItem } from '@/domain/entities/user-item'
+import { makeReview } from '@/test/factories/make-review'
+import { eq } from 'drizzle-orm'
+import { getUserItemsService } from './get-user-items'
 
 describe('get user items', () => {
   it('should be able to get user items', async () => {
