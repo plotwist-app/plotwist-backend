@@ -5,7 +5,7 @@ import type {
 } from '@/domain/entities/user-item'
 import type { GetUserItemInput } from '@/domain/services/user-items/get-user-item'
 
-import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, lte, sql, asc } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 
@@ -81,13 +81,14 @@ export async function selectUserItems({
     whereConditions.push(eq(schema.reviews.rating, rating))
   }
 
+  const orderColumn =
+    orderBy === 'updatedAt'
+      ? schema.userItems.updatedAt
+      : schema.userItems.addedAt
+
   return query
     .where(and(...whereConditions))
-    .orderBy(
-      orderDirection === 'asc'
-        ? sql`${schema.userItems.updatedAt} ASC`
-        : sql`${schema.userItems.updatedAt} DESC`
-    )
+    .orderBy(orderDirection === 'desc' ? desc(orderColumn) : asc(orderColumn))
     .limit(pageSize + 1)
 }
 
