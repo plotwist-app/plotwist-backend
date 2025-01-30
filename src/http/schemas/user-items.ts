@@ -22,7 +22,7 @@ export const getUserItemsQuerySchema = z
     userId: z.string(),
     rating: z.number().optional(),
     mediaType: z.enum(mediaTypeEnum.enumValues).optional(),
-    orderBy: z.enum(['addedAt', 'updatedAt']).default('updatedAt'),
+    orderBy: z.enum(['addedAt', 'updatedAt', 'rating']).default('updatedAt'),
     orderDirection: z.enum(['asc', 'desc']).default('desc'),
   })
   .merge(languageQuerySchema)

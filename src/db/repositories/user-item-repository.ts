@@ -81,14 +81,15 @@ export async function selectUserItems({
     whereConditions.push(eq(schema.reviews.rating, rating))
   }
 
-  const orderColumn =
-    orderBy === 'updatedAt'
-      ? schema.userItems.updatedAt
-      : schema.userItems.addedAt
+  const orderColumn = getOrderColumn(orderBy)
 
   return query
     .where(and(...whereConditions))
-    .orderBy(orderDirection === 'desc' ? desc(orderColumn) : asc(orderColumn))
+    .orderBy(
+      (orderColumn &&
+        (orderDirection === 'desc' ? desc(orderColumn) : asc(orderColumn))) ||
+        desc(schema.userItems.updatedAt)
+    )
     .limit(pageSize + 1)
 }
 
@@ -160,4 +161,15 @@ export async function selectAllUserItems(userId: string) {
     })
     .from(schema.userItems)
     .where(eq(schema.userItems.userId, userId))
+}
+
+function getOrderColumn(orderBy: string) {
+  switch (orderBy) {
+    case 'updatedAt':
+      return schema.userItems.updatedAt
+    case 'addedAt':
+      return schema.userItems.addedAt
+    case 'rating':
+      return schema.reviews.rating
+  }
 }

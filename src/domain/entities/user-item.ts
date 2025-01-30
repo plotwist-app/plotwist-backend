@@ -16,7 +16,7 @@ export type SelectUserItems = {
   mediaType?: 'TV_SHOW' | 'MOVIE'
   cursor?: string
   pageSize: number
-  orderBy: 'addedAt' | 'updatedAt'
+  orderBy: 'addedAt' | 'updatedAt' | 'rating'
   orderDirection: 'asc' | 'desc'
 }
 

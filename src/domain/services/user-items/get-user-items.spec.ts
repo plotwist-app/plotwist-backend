@@ -233,6 +233,80 @@ describe('get user items', () => {
       ])
     })
   }
+
+  it('should be able to order by rating descending', async () => {
+    const user = await makeUser()
+    const userItem = await makeUserItem({ userId: user.id, status: 'WATCHED' })
+
+    await makeReview({
+      userId: user.id,
+      tmdbId: userItem.tmdbId,
+      mediaType: userItem.mediaType,
+      rating: 5,
+    })
+
+    const lowerItem = await makeUserItem({
+      userId: user.id,
+      status: 'WATCHED',
+    })
+
+    await makeReview({
+      userId: user.id,
+      tmdbId: lowerItem.tmdbId,
+      mediaType: lowerItem.mediaType,
+      rating: 4,
+    })
+
+    const sut = await getUserItemsService({
+      status: 'WATCHED',
+      userId: user.id,
+      pageSize: 20,
+      orderBy: 'rating',
+      orderDirection: 'desc',
+    })
+
+    expect(sut.userItems).toEqual([
+      expect.objectContaining({ id: userItem.id }),
+      expect.objectContaining({ id: lowerItem.id }),
+    ])
+  })
+
+  it('should be able to order by rating ascending', async () => {
+    const user = await makeUser()
+    const userItem = await makeUserItem({ userId: user.id, status: 'WATCHED' })
+
+    await makeReview({
+      userId: user.id,
+      tmdbId: userItem.tmdbId,
+      mediaType: userItem.mediaType,
+      rating: 5,
+    })
+
+    const lowerItem = await makeUserItem({
+      userId: user.id,
+      status: 'WATCHED',
+    })
+
+    await makeReview({
+      userId: user.id,
+      tmdbId: lowerItem.tmdbId,
+      mediaType: lowerItem.mediaType,
+      rating: 4,
+    })
+
+    const sut = await getUserItemsService({
+      status: 'WATCHED',
+      userId: user.id,
+      pageSize: 20,
+      orderBy: 'rating',
+      orderDirection: 'asc',
+    })
+
+    expect(sut.userItems).toEqual([
+      expect.objectContaining({ id: lowerItem.id }),
+      expect.objectContaining({ id: userItem.id }),
+    ])
+  })
 })
 
 type UpdateUserItemParams = {
