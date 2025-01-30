@@ -3,6 +3,31 @@ import { createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { languageQuerySchema } from './common'
 
+const userSchema = z.object({
+  id: z.string(),
+  username: z.string(),
+  avatarUrl: z.string().nullable(),
+})
+
+const mediaSchema = z.object({
+  tmdbId: z.number(),
+  mediaType: z.enum(['TV_SHOW', 'MOVIE']),
+  title: z.string(),
+})
+
+const reviewBaseSchema = z
+  .object({
+    id: z.string(),
+    review: z.string(),
+    rating: z.number(),
+    seasonNumber: z.number().nullable(),
+    episodeNumber: z.number().nullable(),
+  })
+  .merge(mediaSchema)
+  .extend({
+    author: userSchema,
+  })
+
 export const getUserActivitiesParamsSchema = z.object({
   userId: z.string(),
 })
@@ -21,11 +46,7 @@ const getUserActivity = createSelectSchema(schema.userActivities)
     entityId: true,
   })
   .extend({
-    owner: z.object({
-      id: z.string(),
-      username: z.string(),
-      avatarUrl: z.string().nullable(),
-    }),
+    owner: userSchema,
   }).shape
 
 export const getUserActivitiesResponseSchema = {
@@ -50,11 +71,7 @@ export const getUserActivitiesResponseSchema = {
           activityType: z.enum(['FOLLOW_USER', 'UNFOLLOW_USER']),
           entityType: z.null(),
           entityId: z.null(),
-          additionalInfo: z.object({
-            id: z.string(),
-            username: z.string(),
-            avatarUrl: z.string().nullable(),
-          }),
+          additionalInfo: userSchema,
         }),
         z.object({
           ...getUserActivity,
@@ -71,21 +88,7 @@ export const getUserActivitiesResponseSchema = {
           activityType: z.enum(['LIKE_REVIEW', 'CREATE_REVIEW']),
           entityType: z.enum(['REVIEW']),
           entityId: z.string(),
-          additionalInfo: z.object({
-            id: z.string(),
-            review: z.string(),
-            rating: z.number(),
-            tmdbId: z.number(),
-            mediaType: z.enum(['TV_SHOW', 'MOVIE']),
-            title: z.string(),
-            author: z.object({
-              id: z.string(),
-              username: z.string(),
-              avatarUrl: z.string().nullable(),
-            }),
-            seasonNumber: z.number().nullable(),
-            episodeNumber: z.number().nullable(),
-          }),
+          additionalInfo: reviewBaseSchema,
         }),
         z.object({
           ...getUserActivity,
@@ -96,23 +99,7 @@ export const getUserActivitiesResponseSchema = {
             .object({
               id: z.string(),
               reply: z.string(),
-              review: z
-                .object({
-                  id: z.string(),
-                  review: z.string(),
-                  rating: z.number(),
-                  tmdbId: z.number(),
-                  mediaType: z.enum(['TV_SHOW', 'MOVIE']),
-                  title: z.string(),
-                  author: z.object({
-                    id: z.string(),
-                    username: z.string(),
-                    avatarUrl: z.string().nullable(),
-                  }),
-                  seasonNumber: z.number().nullable(),
-                  episodeNumber: z.number().nullable(),
-                })
-                .strict(),
+              review: reviewBaseSchema,
             })
             .strict(),
         }),
