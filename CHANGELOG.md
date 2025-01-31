@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+
+- Improve get user items service [(#109)](https://github.com/plotwist-app/plotwist-backend/pull/109)
+
 ### Fixed
 
 - Fix user best reviews [(#107)](https://github.com/plotwist-app/plotwist-backend/pull/107)

@@ -4,8 +4,8 @@ import {
   createUserBodySchema,
   getUserByIdParamsSchema,
   getUserByUsernameParamsSchema,
-  searchUsersByUsernameQuerySchema,
   isEmailAvailableQuerySchema,
+  searchUsersByUsernameQuerySchema,
   updateUserBodySchema,
   updateUserPasswordBodySchema,
   updateUserPreferencesBodySchema,
@@ -20,9 +20,9 @@ import { getUserById } from '@/domain/services/users/get-by-id'
 import { getUserByUsername } from '@/domain/services/users/get-user-by-username'
 import { isEmailAvailable } from '@/domain/services/users/is-email-available'
 import { checkAvailableUsername } from '@/domain/services/users/is-username-available'
+import { searchUsersByUsername } from '@/domain/services/users/search-users-by-username'
 import { updateUserService } from '@/domain/services/users/update-user'
 import { updatePasswordService } from '@/domain/services/users/update-user-password'
-import { searchUsersByUsername } from '@/domain/services/users/search-users-by-username'
 
 export async function createUserController(
   request: FastifyRequest,

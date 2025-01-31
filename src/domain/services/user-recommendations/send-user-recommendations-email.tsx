@@ -1,8 +1,8 @@
+import type { EmailMessage } from '@/domain/entities/email-message'
 import { emailServiceFactory } from '@/factories/resend-factory'
+import type { Language } from '@plotwist_app/tmdb'
 import type { getProUsersDetailsService } from '../users/get-pro-users'
 import type { getUserRecommendationsService } from './get-user-recommendations'
-import type { EmailMessage } from '@/domain/entities/email-message'
-import type { Language } from '@plotwist_app/tmdb'
 
 import {
   RecommendationsEmail,

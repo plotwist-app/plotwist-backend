@@ -1,12 +1,12 @@
+import { selectAllUserItems } from '@/db/repositories/user-item-repository'
 import type { FastifyRedis } from '@fastify/redis'
+import type { Language, WatchLocale } from '@plotwist_app/tmdb'
+import { getTMDBMovieRelated } from '../tmdb/get-tmdb-movie-related'
+import { getTMDBMovieWatchProviders } from '../tmdb/get-tmdb-movie-watch-providers'
+import { getTMDBTvRelated } from '../tmdb/get-tmdb-tv-related'
+import { getTMDBTvWatchProviders } from '../tmdb/get-tmdb-tv-watch-providers'
 import type { getUserPreferencesService } from '../user-preferences/get-user-preferences'
 import type { getUserBestReviewsService } from '../user-stats/get-user-best-reviews'
-import { getTMDBMovieRelated } from '../tmdb/get-tmdb-movie-related'
-import type { Language, WatchLocale } from '@plotwist_app/tmdb'
-import { getTMDBTvRelated } from '../tmdb/get-tmdb-tv-related'
-import { getTMDBMovieWatchProviders } from '../tmdb/get-tmdb-movie-watch-providers'
-import { getTMDBTvWatchProviders } from '../tmdb/get-tmdb-tv-watch-providers'
-import { selectAllUserItems } from '@/db/repositories/user-item-repository'
 
 type UserPreferences = Awaited<
   ReturnType<typeof getUserPreferencesService>

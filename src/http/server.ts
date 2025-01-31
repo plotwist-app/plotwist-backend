@@ -6,6 +6,7 @@ import * as fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { logger } from '@/adapters/logger'
 import {
   serializerCompiler,
   validatorCompiler,
@@ -14,7 +15,6 @@ import { ZodError } from 'zod'
 import { config } from '../config'
 import { routes } from './routes'
 import { transformSwaggerSchema } from './transform-schema'
-import { logger } from '@/adapters/logger'
 
 const app: FastifyInstance = buildFastifyInstance()
 

@@ -5,9 +5,9 @@ import type {
   SelectUserActivities,
 } from '@/domain/entities/user-activity'
 import { and, desc, eq, getTableColumns, inArray, lte, sql } from 'drizzle-orm'
+import { alias } from 'drizzle-orm/pg-core'
 import { db } from '..'
 import { schema } from '../schema'
-import { alias } from 'drizzle-orm/pg-core'
 
 export async function insertUserActivity(values: InsertUserActivity) {
   return db.insert(schema.userActivities).values(values)

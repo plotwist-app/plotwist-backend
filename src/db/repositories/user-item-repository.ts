@@ -5,7 +5,7 @@ import type {
 } from '@/domain/entities/user-item'
 import type { GetUserItemInput } from '@/domain/services/user-items/get-user-item'
 
-import { and, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 
@@ -33,23 +33,63 @@ export async function selectUserItems({
   status,
   pageSize,
   cursor,
+  orderBy,
+  orderDirection,
+  mediaType,
+  rating,
 }: SelectUserItems) {
-  return db
-    .select()
-    .from(schema.userItems)
-    .where(
-      and(
+  const whereConditions = [
+    eq(schema.userItems.userId, userId),
+    eq(schema.userItems.status, status),
+  ]
+
+  if (cursor) {
+    whereConditions.push(
+      lte(
+        sql`DATE_TRUNC('milliseconds', ${schema.userItems.updatedAt})`,
         cursor
-          ? lte(
-              sql`DATE_TRUNC('milliseconds', ${schema.userItems.updatedAt})`,
-              cursor
-            )
-          : undefined,
-        eq(schema.userItems.userId, userId),
-        eq(schema.userItems.status, status)
       )
     )
-    .orderBy(desc(schema.userItems.updatedAt))
+  }
+
+  if (mediaType) {
+    whereConditions.push(eq(schema.userItems.mediaType, mediaType))
+  }
+
+  const query = db
+    .select({
+      id: schema.userItems.id,
+      userId: schema.userItems.userId,
+      tmdbId: schema.userItems.tmdbId,
+      mediaType: schema.userItems.mediaType,
+      status: schema.userItems.status,
+      updatedAt: schema.userItems.updatedAt,
+      addedAt: schema.userItems.addedAt,
+      rating: schema.reviews.rating,
+    })
+    .from(schema.userItems)
+    .leftJoin(
+      schema.reviews,
+      and(
+        eq(schema.reviews.tmdbId, schema.userItems.tmdbId),
+        eq(schema.reviews.userId, schema.userItems.userId),
+        eq(schema.reviews.mediaType, schema.userItems.mediaType)
+      )
+    )
+
+  if (rating) {
+    whereConditions.push(eq(schema.reviews.rating, rating))
+  }
+
+  const orderColumn = getOrderColumn(orderBy)
+
+  return query
+    .where(and(...whereConditions))
+    .orderBy(
+      (orderColumn &&
+        (orderDirection === 'desc' ? desc(orderColumn) : asc(orderColumn))) ||
+        desc(schema.userItems.updatedAt)
+    )
     .limit(pageSize + 1)
 }
 
@@ -121,4 +161,15 @@ export async function selectAllUserItems(userId: string) {
     })
     .from(schema.userItems)
     .where(eq(schema.userItems.userId, userId))
+}
+
+function getOrderColumn(orderBy: string) {
+  switch (orderBy) {
+    case 'updatedAt':
+      return schema.userItems.updatedAt
+    case 'addedAt':
+      return schema.userItems.addedAt
+    case 'rating':
+      return schema.reviews.rating
+  }
 }

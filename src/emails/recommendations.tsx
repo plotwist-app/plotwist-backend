@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto'
 import type {
   Recommendations,
   User,
@@ -15,7 +16,6 @@ import {
   Section,
   Text,
 } from '@react-email/components'
-import { randomUUID } from 'node:crypto'
 
 export const recommendationsEmailTranslations: Record<
   Language,

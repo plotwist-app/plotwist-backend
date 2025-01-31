@@ -1,7 +1,7 @@
+import { randomUUID } from 'node:crypto'
 import { searchUsersByUsername } from '@/domain/services/users/search-users-by-username'
 import { makeFollow } from '@/test/factories/make-follow'
 import { makeUser } from '@/test/factories/make-user'
-import { randomUUID } from 'node:crypto'
 
 it('should search users by username', async () => {
   const user = await makeUser()
