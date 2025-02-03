@@ -5,7 +5,16 @@ import type {
 } from '@/domain/entities/user-item'
 import type { GetUserItemInput } from '@/domain/services/user-items/get-user-item'
 
-import { and, asc, desc, eq, getTableColumns, lte, sql } from 'drizzle-orm'
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  getTableColumns,
+  isNull,
+  lte,
+  sql,
+} from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 
@@ -73,7 +82,9 @@ export async function selectUserItems({
       and(
         eq(schema.reviews.tmdbId, schema.userItems.tmdbId),
         eq(schema.reviews.userId, schema.userItems.userId),
-        eq(schema.reviews.mediaType, schema.userItems.mediaType)
+        eq(schema.reviews.mediaType, schema.userItems.mediaType),
+        isNull(schema.reviews.seasonNumber),
+        isNull(schema.reviews.episodeNumber)
       )
     )
 
