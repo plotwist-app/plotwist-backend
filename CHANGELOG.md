@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Demove duplicated reviews from user items [(#111)](https://github.com/plotwist-app/plotwist-backend/pull/111)
+- Add cron jobs to prod environment [(#110)](https://github.com/plotwist-app/plotwist-backend/pull/110)
 
 ### Added
 
