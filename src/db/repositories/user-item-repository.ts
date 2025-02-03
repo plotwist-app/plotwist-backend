@@ -65,32 +65,63 @@ export async function selectUserItems({
       status: schema.userItems.status,
       updatedAt: schema.userItems.updatedAt,
       addedAt: schema.userItems.addedAt,
-      rating: schema.reviews.rating,
     })
     .from(schema.userItems)
-    .leftJoin(
-      schema.reviews,
+    .where(and(...whereConditions))
+
+  const orderColumn = getOrderColumn(orderBy)
+  const items = await query
+    .orderBy(
+      orderColumn !== schema.reviews.rating
+        ? (orderColumn &&
+            (orderDirection === 'desc'
+              ? desc(orderColumn)
+              : asc(orderColumn))) ||
+            desc(schema.userItems.updatedAt)
+        : desc(schema.userItems.updatedAt)
+    )
+    .limit(pageSize + 1)
+
+  if (items.length === 0) return items
+
+  const ratings = await db
+    .select({
+      tmdbId: schema.reviews.tmdbId,
+      mediaType: schema.reviews.mediaType,
+      rating: schema.reviews.rating,
+    })
+    .from(schema.reviews)
+    .where(
       and(
-        eq(schema.reviews.tmdbId, schema.userItems.tmdbId),
-        eq(schema.reviews.userId, schema.userItems.userId),
-        eq(schema.reviews.mediaType, schema.userItems.mediaType)
+        eq(schema.reviews.userId, userId),
+        rating ? eq(schema.reviews.rating, rating) : undefined
       )
     )
 
-  if (rating) {
-    whereConditions.push(eq(schema.reviews.rating, rating))
+  const itemsWithRatings = items.map(item => {
+    const itemRating = ratings.find(
+      r => r.tmdbId === item.tmdbId && r.mediaType === item.mediaType
+    )
+    return {
+      ...item,
+      rating: itemRating?.rating ?? null,
+    }
+  })
+
+  if (orderBy === 'rating') {
+    itemsWithRatings.sort((a, b) => {
+      if (a.rating === null && b.rating === null) return 0
+      if (a.rating === null) return 1
+      if (b.rating === null) return -1
+      return orderDirection === 'desc'
+        ? b.rating - a.rating
+        : a.rating - b.rating
+    })
   }
 
-  const orderColumn = getOrderColumn(orderBy)
-
-  return query
-    .where(and(...whereConditions))
-    .orderBy(
-      (orderColumn &&
-        (orderDirection === 'desc' ? desc(orderColumn) : asc(orderColumn))) ||
-        desc(schema.userItems.updatedAt)
-    )
-    .limit(pageSize + 1)
+  return rating
+    ? itemsWithRatings.filter(item => item.rating === rating)
+    : itemsWithRatings
 }
 
 export async function deleteUserItem(id: string) {
