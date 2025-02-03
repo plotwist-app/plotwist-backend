@@ -7,6 +7,9 @@ import { getTMDBTvRelated } from '../tmdb/get-tmdb-tv-related'
 import { getTMDBTvWatchProviders } from '../tmdb/get-tmdb-tv-watch-providers'
 import type { getUserPreferencesService } from '../user-preferences/get-user-preferences'
 import type { getUserBestReviewsService } from '../user-stats/get-user-best-reviews'
+import { delay } from '@/utils/delay'
+
+const DELAY_BETWEEN_REQUESTS = 1_000
 
 type UserPreferences = Awaited<
   ReturnType<typeof getUserPreferencesService>
@@ -35,7 +38,11 @@ async function getRecommendations(
   const { redis, bestReviews, language } = params
 
   return await Promise.all(
-    bestReviews.map(async ({ tmdbId, mediaType }) => {
+    bestReviews.map(async ({ tmdbId, mediaType }, index) => {
+      if (index > 0) {
+        await delay(DELAY_BETWEEN_REQUESTS)
+      }
+
       if (mediaType === 'MOVIE') {
         return await getTMDBMovieRelated(redis, {
           tmdbId,
@@ -77,6 +84,8 @@ async function verifyRecommendations(
 
   const verificationResults = await Promise.all(
     formattedRecommendations.map(async recommendation => {
+      await delay(DELAY_BETWEEN_REQUESTS)
+
       let watchProviders: WatchLocale | undefined
 
       if ('title' in recommendation) {
@@ -119,12 +128,18 @@ async function verifyRecommendations(
     return !userItems.some(item => item.tmdbId === recommendation.id)
   }
 
-  return verificationResults
-    .filter(
-      ({ isAvailable, recommendation }) =>
-        isAvailable && isNotWatchedByUser(recommendation)
-    )
-    .map(({ recommendation }) => recommendation)
+  const availableRecommendations = verificationResults.filter(
+    ({ isAvailable, recommendation }) =>
+      isAvailable && isNotWatchedByUser(recommendation)
+  )
+
+  if (availableRecommendations.length === 0) {
+    return verificationResults
+      .filter(({ recommendation }) => isNotWatchedByUser(recommendation))
+      .map(({ recommendation }) => recommendation)
+  }
+
+  return availableRecommendations.map(({ recommendation }) => recommendation)
 }
 
 export async function getUserRecommendationsService({
