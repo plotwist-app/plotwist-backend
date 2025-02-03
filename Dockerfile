@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN corepack enable && pnpm install --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 # ---------
 
@@ -17,7 +17,7 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN corepack enable && pnpm install --prod --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --prod --frozen-lockfile
 
 # ---------
 
@@ -27,7 +27,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN corepack enable pnpm && pnpm run build
+RUN npm install -g pnpm && pnpm run build
 
 # ---------
 

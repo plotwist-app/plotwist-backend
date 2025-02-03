@@ -5,11 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Add cron jobs to prod environment [(#110)](https://github.com/plotwist-app/plotwist-backend/pull/110)
+## 1.12.6
+
+### Fixed
+
+- Docker build [(#112)](https://github.com/plotwist-app/plotwist-backend/pull/112)
+- Fix user items pagination [(#111)](https://github.com/plotwist-app/plotwist-backend/pull/111)
 
 ### Added
 
 - Improve get user items service [(#109)](https://github.com/plotwist-app/plotwist-backend/pull/109)
+
+## 1.12.5
 
 ### Fixed
 
