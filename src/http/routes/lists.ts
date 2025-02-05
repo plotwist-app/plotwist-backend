@@ -4,6 +4,7 @@ import {
   createListController,
   deleteListController,
   getListController,
+  getListProgressController,
   getListsController,
   updateListBannerController,
   updateListController,
@@ -16,6 +17,7 @@ import {
   deleteListParamsSchema,
   deleteListResponseSchema,
   getListParamsSchema,
+  getListProgressResponseSchema,
   getListResponseSchema,
   getListsQuerySchema,
   getListsResponseSchema,
@@ -145,6 +147,27 @@ export async function listsRoute(app: FastifyInstance) {
         ],
       },
       handler: updateListBannerController,
+    })
+  )
+
+  app.after(() =>
+    app.withTypeProvider<ZodTypeProvider>().route({
+      method: 'GET',
+      url: '/list/:id/progress',
+      onRequest: [verifyJwt],
+      schema: {
+        description: 'Get list progress',
+        tags: ['List'],
+        params: getListParamsSchema,
+        response: getListProgressResponseSchema,
+        operationId: 'getListProgress',
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+      },
+      handler: getListProgressController,
     })
   )
 }
