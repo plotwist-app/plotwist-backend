@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Add list progress endpoint [(#115)](https://github.com/plotwist-app/plotwist-backend/pull/115)
+
 ### Added
 
 - Add hasBanner query param to get lists [(#114)](https://github.com/plotwist-app/plotwist-backend/pull/114)
