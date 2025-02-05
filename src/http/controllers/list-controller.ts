@@ -16,6 +16,7 @@ import {
   updateListBodySchema,
   updateListParamsSchema,
 } from '../schemas/lists'
+import { getListProgressService } from '@/domain/services/lists/get-list-progress'
 
 export async function createListController(
   request: FastifyRequest,
@@ -138,4 +139,22 @@ export async function updateListBannerController(
   }
 
   return reply.status(200).send({ list: result.list })
+}
+
+export async function getListProgressController(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const { id } = getListParamsSchema.parse(request.params)
+
+  const result = await getListProgressService({
+    id: id,
+    authenticatedUserId: request.user?.id,
+  })
+
+  if (result instanceof DomainError) {
+    return reply.status(result.status).send({ message: result.message })
+  }
+
+  return reply.status(200).send(result)
 }

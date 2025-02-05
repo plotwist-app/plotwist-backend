@@ -117,3 +117,11 @@ export const updateListBannerResponseSchema = {
     list: createSelectSchema(schema.lists),
   }),
 }
+
+export const getListProgressResponseSchema = {
+  200: z.object({
+    total: z.number(),
+    completed: z.number(),
+    percentage: z.number(),
+  }),
+}
