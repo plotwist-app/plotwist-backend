@@ -2,7 +2,7 @@ import type { InsertListModel } from '@/domain/entities/lists'
 import type { GetListsInput } from '@/domain/services/lists/get-lists'
 import type { UpdateListValues } from '@/domain/services/lists/update-list'
 import type { UpdateListBannerInput } from '@/domain/services/lists/update-list-banner'
-import { and, desc, eq, getTableColumns, sql } from 'drizzle-orm'
+import { and, desc, eq, getTableColumns, isNotNull, sql } from 'drizzle-orm'
 import { db } from '..'
 import { schema } from '../schema'
 
@@ -11,6 +11,7 @@ export function selectLists({
   limit = 5,
   authenticatedUserId,
   visibility,
+  hasBanner,
 }: GetListsInput) {
   return db
     .select({
@@ -47,7 +48,8 @@ export function selectLists({
     .where(
       and(
         userId ? eq(schema.lists.userId, userId) : undefined,
-        visibility ? eq(schema.lists.visibility, visibility) : undefined
+        visibility ? eq(schema.lists.visibility, visibility) : undefined,
+        hasBanner ? isNotNull(schema.lists.bannerUrl) : undefined
       )
     )
     .leftJoin(schema.users, eq(schema.lists.userId, schema.users.id))
