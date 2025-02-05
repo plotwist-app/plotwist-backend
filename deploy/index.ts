@@ -225,6 +225,10 @@ const app = new awsx.classic.ecs.FargateService('aws-host-app', {
           name: 'MAL_CLIENT_SECRET',
           valueFrom: '/plotwist/prod/MAL_CLIENT_SECRET',
         },
+        {
+          name: 'ENABLE_CRON_JOBS',
+          valueFrom: '/plotwist/prod/ENABLE_CRON_JOBS',
+        },
       ],
     },
   },
