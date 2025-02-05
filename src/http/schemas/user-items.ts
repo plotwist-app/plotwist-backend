@@ -31,14 +31,7 @@ export const getUserItemsQuerySchema = z
 export const getUserItemsResponseSchema = {
   200: z.object({
     userItems: z.array(
-      z.object({
-        status: z.enum(statusEnum.enumValues),
-        rating: z.number().nullable(),
-        addedAt: z.date(),
-        updatedAt: z.date(),
-        tmdbId: z.number(),
-        mediaType: z.enum(mediaTypeEnum.enumValues),
-        userId: z.string(),
+      createSelectSchema(schema.userItems).extend({
         title: z.string(),
         posterPath: z.string().nullable(),
         backdropPath: z.string().nullable(),

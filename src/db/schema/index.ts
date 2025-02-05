@@ -285,7 +285,6 @@ export const userItems = pgTable(
       .references(() => users.id, { onDelete: 'cascade' })
       .notNull(),
     tmdbId: integer('tmdb_id').notNull(),
-    position: integer('position'),
     mediaType: mediaTypeEnum('media_type').notNull(),
     status: statusEnum('status').notNull(),
     addedAt: timestamp('added_at').defaultNow().notNull(),
