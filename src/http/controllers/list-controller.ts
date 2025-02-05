@@ -54,8 +54,6 @@ export async function getListsController(
     request.query
   )
 
-  console.log({ limit, hasBanner })
-
   const result = await getListsServices({
     userId,
     authenticatedUserId: request.user?.id,
