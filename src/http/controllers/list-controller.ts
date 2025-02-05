@@ -50,13 +50,16 @@ export async function getListsController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { userId, limit, visibility } = getListsQuerySchema.parse(request.query)
+  const { userId, limit, visibility, hasBanner } = getListsQuerySchema.parse(
+    request.query
+  )
 
   const result = await getListsServices({
     userId,
     authenticatedUserId: request.user?.id,
-    limit: Number(limit),
+    limit: limit,
     visibility,
+    hasBanner,
   })
 
   if (result instanceof DomainError) {

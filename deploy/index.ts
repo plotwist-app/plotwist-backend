@@ -8,12 +8,12 @@ const zone = aws.route53.getZone({
   name: 'plotwist.app',
 })
 
-const cert = new aws.acm.Certificate('aws-workshop-acm-certificate', {
+const cert = new aws.acm.Certificate('aws-acm-certificate', {
   domainName: 'backend.plotwist.app',
   validationMethod: 'DNS',
 })
 
-const validationRecord = new aws.route53.Record('aws-workshop-domain-record', {
+const validationRecord = new aws.route53.Record('aws-domain-record', {
   zoneId: zone.then(zone => zone.zoneId),
   name: cert.domainValidationOptions[0].resourceRecordName,
   type: cert.domainValidationOptions[0].resourceRecordType,
@@ -21,13 +21,10 @@ const validationRecord = new aws.route53.Record('aws-workshop-domain-record', {
   ttl: 60,
 })
 
-const validatedCert = new aws.acm.CertificateValidation(
-  'aws-workshop-acm-validation',
-  {
-    certificateArn: cert.arn,
-    validationRecordFqdns: [validationRecord.fqdn],
-  }
-)
+const validatedCert = new aws.acm.CertificateValidation('aws-acm-validation', {
+  certificateArn: cert.arn,
+  validationRecordFqdns: [validationRecord.fqdn],
+})
 
 const repository = new awsx.ecr.Repository('aws-host-repository', {
   forceDelete: true,
@@ -98,7 +95,7 @@ const httpListener = loadBalancer.createListener('aws-host-http-listener', {
   certificateArn: validatedCert.certificateArn,
 })
 
-const executionRole = new aws.iam.Role('aws-workshop-execution-role', {
+const executionRole = new aws.iam.Role('aws-execution-role', {
   assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({
     Service: 'ecs-tasks.amazonaws.com',
   }),
@@ -118,7 +115,7 @@ const executionRole = new aws.iam.Role('aws-workshop-execution-role', {
               'ssm:GetParameterHistory',
             ],
             resources: [
-              'arn:aws:ssm:sa-east-1:972523082673:parameter/plotwist/prod/*',
+              'arn:aws:ssm:us-east-1:972523082673:parameter/plotwist/prod/*',
             ],
           },
         ],
