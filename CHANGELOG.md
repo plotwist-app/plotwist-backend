@@ -9,6 +9,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Add hasBanner query param to get lists [(#114)](https://github.com/plotwist-app/plotwist-backend/pull/114)
 
+## 1.12.7
+
+### Changed
+
+- Update deploy to use us-east-1 region [(#113)](https://github.com/plotwist-app/plotwist-backend/pull/113)
+
 ## 1.12.6
 
 ### Fixed
