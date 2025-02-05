@@ -30,6 +30,7 @@ export const getListsQuerySchema = createSelectSchema(schema.lists)
   .extend({
     userId: z.string().optional(),
     limit: z.coerce.number().default(5).optional(),
+    hasBanner: z.coerce.boolean().optional(),
   })
 
 export const getListsResponseSchema = {

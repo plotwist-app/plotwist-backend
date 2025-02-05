@@ -5,6 +5,7 @@ export type GetListsInput = {
   limit?: number
   authenticatedUserId?: string
   visibility?: 'PUBLIC' | 'PRIVATE' | 'NETWORK'
+  hasBanner?: boolean
 }
 
 export async function getListsServices(input: GetListsInput) {

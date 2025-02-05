@@ -8,10 +8,16 @@ const zone = aws.route53.getZone({
   name: 'plotwist.app',
 })
 
-const cert = new aws.acm.Certificate('aws-workshop-acm-certificate', {
-  domainName: 'backend.plotwist.app',
-  validationMethod: 'DNS',
-})
+const cert = new aws.acm.Certificate(
+  'aws-workshop-acm-certificate',
+  {
+    domainName: 'backend.plotwist.app',
+    validationMethod: 'DNS',
+  },
+  {
+    retainOnDelete: true,
+  }
+)
 
 const validationRecord = new aws.route53.Record('aws-workshop-domain-record', {
   zoneId: zone.then(zone => zone.zoneId),
